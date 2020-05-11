@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Logo from '../../images/new-logo.svg';
+import Logo from '../../images/jelly-butler.svg';
 
 import './style.scss';
 
