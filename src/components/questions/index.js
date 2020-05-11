@@ -17,6 +17,7 @@ import Emitter from '../../utils/emitter';
 import { generateConfig } from '../../utils/generateConfig';
 
 import ScrollToTop from '../../images/scroll-to-top.svg';
+import DownArrow from '../../images/down-arrow.svg';
 
 import Collapsible from 'react-collapsible';
 
@@ -28,6 +29,7 @@ const Questions = () => {
   const [isButlerStarted, setIsButlerStarted] = useState(false);
   const [isScrollToTopVisible, setIsScrollToTopVisible] = useState(false);
   const appWrapperRef = useRef();
+  const collapseRef = useRef();
 
   new Emitter().on('startButler', () => {
     setIsButlerStarted(true);
@@ -94,9 +96,24 @@ const Questions = () => {
         />
       </div>
       <Collapsible
-        trigger='Advanced options'
+        ref={collapseRef}
+        trigger={
+          <div className='advanced-options-wrapper'>
+            <span>Advanced options</span>
+            <img src={DownArrow} alt='advanced-options' />
+          </div>
+        }
         className='collapsible-style'
         triggerOpenedClassName='collapsible-style-opened'
+        onOpen={() => {
+          setTimeout(() => {
+            appWrapperRef.current.scrollTo({
+              left: 0,
+              top: appWrapperRef.current.scrollHeight,
+              behavior: 'smooth',
+            });
+          }, 100);
+        }}
       >
         <Database selectedDatabase={readConfig.DATABASE} isButlerStarted={isButlerStarted} getState={getState} />
         <ServerOptions

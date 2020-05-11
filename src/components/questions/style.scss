@@ -9,8 +9,8 @@
 
   .scroll-to-top-img {
     position: absolute;
-    top: 610px;
-    right: 222px;
+    top: 92.3%;
+    right: 20%;
     z-index: 9999;
     width: 20px;
     cursor: pointer;
@@ -22,6 +22,18 @@
     cursor: pointer;
     margin-bottom: 30px;
     text-align: center;
+
+    img {
+      width: 15px;
+      margin-left: 10px;
+    }
+  }
+
+  .advanced-options-wrapper {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
   }
 }
 
