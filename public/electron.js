@@ -39,6 +39,10 @@ app.on('activate', () => {
   }
 });
 
-electron.ipcMain.on('start-butler', () => {
-  fork('./src/butler/src/index.js');
+electron.ipcMain.on('start-butler', event => {
+  const butler = fork('./src/butler/src/index.js');
+
+  butler.on('message', msg => {
+    event.sender.send('data', msg);
+  });
 });
