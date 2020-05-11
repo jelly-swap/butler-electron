@@ -18,12 +18,8 @@ const getPairs = selectedPairs => {
   const pairs = {};
 
   Object.keys(selectedPairs).forEach(pair => {
-    const { provide, receive, fee, slippage } = selectedPairs[pair];
-
-    pairs[receive + '-' + provide] = {
-      FEE: fee,
-      SLIPPAGE: slippage,
-    };
+    const { provide, receive, fee } = selectedPairs[pair];
+    pairs[receive + '-' + provide] = { FEE: fee };
   });
 
   return { ...pairs };

@@ -14,7 +14,6 @@ const pairDefaultState = {
   provide: 'ETH',
   receive: 'BTC',
   fee: '',
-  slippage: '',
 };
 
 const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
@@ -38,7 +37,7 @@ const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
 
     Object.keys(selectedPairs).forEach((pair, idx) => {
       const [provide, receive] = pair.split('-').reverse();
-      const { FEE, SLIPPAGE } = selectedPairs[pair];
+      const { FEE } = selectedPairs[pair];
 
       const key = provide + '-' + receive;
 
@@ -58,7 +57,6 @@ const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
           provide,
           receive,
           fee: FEE,
-          slippage: SLIPPAGE,
         },
       }));
 
@@ -119,15 +117,6 @@ const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
     setPairs(allPairs => ({
       ...allPairs,
       [pairId]: { ...allPairs[pairId], fee: event.target.value },
-    }));
-  };
-
-  const handleSlippageOnChange = (pairId, event) => {
-    event.persist();
-
-    setPairs(allPairs => ({
-      ...allPairs,
-      [pairId]: { ...allPairs[pairId], slippage: event.target.value },
     }));
   };
 
@@ -198,7 +187,6 @@ const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
             handleProvideOnChange={handleProvideOnChange}
             handleReceiveOnChange={handleReceiveOnChange}
             handleFeeOnChange={handleFeeOnChange}
-            handleSlippageOnChange={handleSlippageOnChange}
             addNewPair={addNewPair}
             removePair={removePair}
             existingPairs={existingPairs}
