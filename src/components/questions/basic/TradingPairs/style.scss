@@ -1,0 +1,85 @@
+.pair-row {
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  .left-part {
+    width: 89%;
+    display: flex;
+    align-items: center;
+
+    .select-menus {
+      width: 38%;
+      margin-right: 4%;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+
+      .field-wrapper {
+        display: flex;
+        justify-content: space-between;
+
+        select {
+          width: 62px;
+          color: #4b539d;
+          text-align: center;
+        }
+      }
+
+      .more-than-one-pair {
+        color: red;
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    .fee-input {
+      margin-right: 33px;
+    }
+
+    .input-fields {
+      width: 55%;
+      display: flex;
+      justify-content: space-between;
+
+      input {
+        width: 100%;
+      }
+    }
+
+    .field-wrapper {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .form-control {
+      display: flex;
+      flex-direction: column;
+
+      .pair-span {
+        margin-top: 4.2%;
+        text-align: center;
+      }
+    }
+  }
+
+  .button-wrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 11%;
+    height: 54px;
+
+    button {
+      height: 50%;
+      border-radius: 50%;
+      width: 35%;
+      font-size: 1.2em;
+    }
+  }
+
+  .label {
+    margin-right: 10px;
+  }
+}

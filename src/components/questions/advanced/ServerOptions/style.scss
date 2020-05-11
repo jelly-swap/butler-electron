@@ -1,0 +1,25 @@
+.server-options-wrapper {
+  width: 98%;
+  margin: auto;
+  margin-bottom: 10px;
+
+  .server-options {
+    display: flex;
+    justify-content: space-between;
+
+    .aggregator-url-wrapper,
+    .port-wrapper {
+      width: 45%;
+
+      span {
+        margin-bottom: 30px;
+        display: block;
+        text-align: center;
+      }
+
+      input {
+        width: 100%;
+      }
+    }
+  }
+}

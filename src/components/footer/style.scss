@@ -1,0 +1,42 @@
+@import '../../css/constants.scss';
+
+.footer-wrapper {
+  background-color: #e4e4e4;
+  width: 70%;
+  padding: 0 20px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 79px;
+
+  button {
+    @include roboto500;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 0 19px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 287px;
+    height: 46px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 12px 0 rgba(0, 0, 0, 0.18);
+    background-image: linear-gradient(108deg, #e7323e -106%, #a7223f 100%);
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    img {
+      width: 82px;
+      height: 46px;
+      margin-right: 17px;
+    }
+  }
+}

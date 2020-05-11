@@ -1,0 +1,54 @@
+.notifications-wrapper {
+  height: 137px;
+
+  .email-wrapper,
+  .slack-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .email-label,
+  .slack-label {
+    cursor: pointer;
+    margin-right: 30px;
+    font-weight: bold;
+    font-size: 16px;
+    width: 40px;
+  }
+
+  .slack-wrapper {
+    height: 70px;
+
+    .slack-checkbox-wrapper {
+      width: 92px;
+    }
+
+    .hook-url {
+      margin-left: 0.6%;
+      width: 42.2%;
+    }
+  }
+
+  .email-wrapper {
+    height: 70px;
+
+    .email-checkbox-wrapper {
+      width: 14%;
+    }
+
+    input[type='text'] {
+      width: 22%;
+    }
+
+    input[type='checkbox'] {
+      &:checked {
+        font-weight: bold;
+      }
+    }
+
+    .email-info-wrapper {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}

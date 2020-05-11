@@ -1,0 +1,22 @@
+.rebalance-wrapper {
+  height: 116px;
+
+  .rebalance-checkbox-wrapper {
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: bold;
+
+    label {
+      cursor: pointer;
+    }
+  }
+
+  .rebalance-input-wrapper {
+    display: flex;
+    justify-content: space-between;
+
+    input {
+      width: 45%;
+    }
+  }
+}

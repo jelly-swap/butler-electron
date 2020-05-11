@@ -1,0 +1,27 @@
+.database-wrapper {
+  height: 113px;
+  width: 98%;
+  margin: auto;
+
+  .db-radio-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    > div {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+
+      > label {
+        cursor: pointer;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .mongo-db-wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+}
