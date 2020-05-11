@@ -16,7 +16,6 @@ const PairRow = ({
   handleProvideOnChange,
   handleReceiveOnChange,
   handleFeeOnChange,
-  handleSlippageOnChange,
   addNewPair,
   removePair,
   existingPairs,
@@ -53,18 +52,6 @@ const PairRow = ({
                 placeholder='Fee'
               />
               <span className={`pair-span ${!pair.fee ? 'invalid' : 'valid'}`}>Enter valid Fee</span>
-            </div>
-          </div>
-          <div className='field-wrapper'>
-            <div className='form-control'>
-              <Input
-                type='text'
-                value={pair.slippage}
-                onChange={value => handleSlippageOnChange(id, value)}
-                onKeyDown={validateCurrency}
-                placeholder='Slippage'
-              />
-              <span className={`pair-span ${!pair.slippage ? 'invalid' : 'valid'}`}>Enter valid Slippage</span>
             </div>
           </div>
         </div>
