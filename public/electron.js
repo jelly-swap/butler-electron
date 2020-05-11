@@ -1,4 +1,5 @@
 const electron = require('electron');
+const { fork } = require('child_process');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
@@ -36,4 +37,8 @@ app.on('activate', () => {
   if (mainWindow === null) {
     createWindow();
   }
+});
+
+electron.ipcMain.on('start-butler', () => {
+  fork('./src/butler/src/index.js');
 });

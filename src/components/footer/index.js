@@ -19,8 +19,11 @@ const Footer = () => {
           </>
         }
         onClick={() => {
-          console.log('emitted');
           new Emitter().emitAll('startButler');
+
+          const { ipcRenderer } = window.require('electron');
+
+          ipcRenderer.send('start-butler');
         }}
       />
     </div>
