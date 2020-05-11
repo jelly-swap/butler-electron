@@ -1,0 +1,1 @@
+{"version":3,"file":"validators.js","sourceRoot":"","sources":["../../../src/blockchain/validators.ts"],"names":[],"mappings":";;AAAA,wDAAwD;AACxD,0DAA0D;AAC1D,4DAA4D;AAC5D,oDAAoD;AAEpD,kBAAe;IACX,GAAG,EAAE,gBAAgB;IACrB,GAAG,EAAE,iBAAiB;IACtB,EAAE,EAAE,kBAAkB;IACtB,GAAG,EAAE,cAAc;IACnB,IAAI,EAAE,cAAc;IACpB,IAAI,EAAE,cAAc;CACvB,CAAC"}
