@@ -48,6 +48,7 @@ const WalletsSetup = ({ selectedWallets, isButlerStarted, getState }) => {
         [value]: { address: '', secret: '' },
       });
     } else {
+      /*eslint no-empty-pattern: "off"*/
       const {
         [value]: {},
         ...rest

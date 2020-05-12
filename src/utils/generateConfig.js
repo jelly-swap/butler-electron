@@ -117,7 +117,10 @@ const getDatabase = selectedDatabase => {
       database.SQLITE = {
         database: 'butler.sqlite',
       };
+      break;
     }
+    default:
+      break;
   }
 
   return database;

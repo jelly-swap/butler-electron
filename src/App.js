@@ -14,8 +14,8 @@ function App() {
   return (
     <Router>
       <div className='App'>
-        <img className='bg-bitcoin-image' src={BitcoinImage} alt='bitcoin-image' />
-        <img className='bg-ether-image' src={EtherImage} alt='ethereum-image' />
+        <img className='bg-bitcoin-image' src={BitcoinImage} alt='bitcoin' />
+        <img className='bg-ether-image' src={EtherImage} alt='ethereum' />
         <Header />
         <ReactRouter />
         <Footer />

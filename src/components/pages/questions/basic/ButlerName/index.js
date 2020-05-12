@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import Input from '../../../../common/Input';
 import QuestionTitle from '../../../../common/QuestionTitle';
@@ -9,7 +9,7 @@ import './style.scss';
 
 const ButlerName = ({ selectedName, isButlerStarted, getState }) => {
   const [butlerName, setButlerName] = useState('');
-  const [errorMessage, setErrorMessage] = useState('Name is required');
+  const errorMessage = useRef('Username is required');
 
   useEffect(() => {
     if (!selectedName) return;
@@ -28,7 +28,7 @@ const ButlerName = ({ selectedName, isButlerStarted, getState }) => {
       <QuestionTitle title='Butler name' />
       <div className='butler-name-wrapper'>
         <Input type='text' value={butlerName} onChange={handleOnChange} placeholder='Butler_Username' />
-        <span className={!butlerName ? 'invalid' : 'valid'}>{errorMessage}</span>
+        <span className={!butlerName ? 'invalid' : 'valid'}>{errorMessage.current}</span>
       </div>
     </>
   );

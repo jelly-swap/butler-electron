@@ -23,7 +23,7 @@ const Footer = () => {
         btnText={
           <>
             <span>{statusText[history.location.pathname]}</span>
-            <img src={CoinImage} alt='coin-image' />
+            <img src={CoinImage} alt='coin' />
           </>
         }
         onClick={() => {

@@ -29,7 +29,10 @@ const Database = ({ selectedDatabase, isButlerStarted, getState }) => {
       }
       case 'sqlite': {
         db = selectedDatabase.SQLITE;
+        break;
       }
+      default:
+        break;
     }
 
     setDatabase({
