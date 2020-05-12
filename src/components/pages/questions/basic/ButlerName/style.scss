@@ -1,0 +1,14 @@
+@import "../../../../../css/constants.scss";
+
+.butler-name-wrapper {
+  display: flex;
+  flex-direction: column;
+
+  input {
+    margin-bottom: 10px;
+  }
+
+  span {
+    text-align: center;
+  }
+}

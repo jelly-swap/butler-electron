@@ -100,8 +100,6 @@ const getServerPort = serverOptions => {
 const getDatabase = selectedDatabase => {
   if (!selectedDatabase || !Object.keys(selectedDatabase).length) return;
 
-  console.log('run');
-
   const dbName = selectedDatabase.active.toUpperCase();
 
   const database = { ACTIVE: dbName };
