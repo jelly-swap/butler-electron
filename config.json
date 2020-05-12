@@ -1,9 +1,0 @@
-{
-  "NAME": "",
-  "PAIRS": { "DAI-BTC": { "FEE": 0 } },
-  "WALLETS": { "ETH": { "ADDRESS": "321321", "SECRET": "321321321" } },
-  "PRICE": { "PROVIDER": "Binance", "API_KEY": "ewqe", "SECRET_KEY": "wqewqewq" },
-  "EXCHANGE": { "NAME": "Binance", "API_KEY": "dsad", "SECRET_KEY": "dssds" },
-  "NOTIFICATIONS": {},
-  "DATABASE": { "ACTIVE": "SQLITE", "SQLITE": { "database": "butler.sqlite" } }
-}

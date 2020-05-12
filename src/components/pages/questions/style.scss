@@ -1,0 +1,117 @@
+@import "../../../css/constants.scss";
+
+.app-wrapper {
+  background-color: #e4e4e4;
+  padding: 20px;
+  height: 500px;
+  width: 70%;
+  overflow: auto;
+
+  .scroll-to-top-img {
+    position: absolute;
+    top: 92.3%;
+    right: 20%;
+    z-index: 9999;
+    width: 20px;
+    cursor: pointer;
+  }
+
+  .collapsible-style,
+  .collapsible-style-opened {
+    color: #4b539d;
+    cursor: pointer;
+    margin-bottom: 30px;
+    text-align: center;
+
+    img {
+      width: 15px;
+      margin-left: 10px;
+    }
+  }
+
+  .advanced-options-wrapper {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.app-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.app-wrapper::-webkit-scrollbar-track-piece {
+  background-color: lightgray;
+}
+
+.app-wrapper::-webkit-scrollbar-thumb {
+  background-color: #4b539d;
+  border-radius: 15px;
+}
+
+h3 {
+  @include roboto500;
+  margin: 10px 0;
+  font-weight: bold;
+  border-bottom: 1px solid rgba(75, 83, 157, 0.5);
+  color: #4b539d;
+}
+
+span {
+  @include roboto500;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.butler-name-wrapper,
+.notifications-wrapper,
+.price-provider,
+.rebalance-wrapper,
+.trading-pairs-wrapper,
+.wallets-wrapper {
+  margin-bottom: 30px;
+}
+
+.invalid {
+  color: red;
+}
+
+.valid {
+  color: green;
+}
+
+input[type="text"] {
+  border: none;
+  box-shadow: 5px 5px 10px #c0c1c7, -5px -5px 10px #fff;
+  outline: none;
+  text-align: left;
+  font-family: Roboto;
+  font-weight: 500;
+  z-index: 7;
+  height: 40px;
+  border-radius: 13px;
+  border: none;
+  padding-left: 13px;
+  font-size: 16px;
+  line-height: 1.14;
+  padding-right: 2%;
+  background-color: inherit;
+  color: #4b539d;
+
+  &:focus {
+    box-shadow: inset 5px 5px 4px #c9cad1, inset -5px -5px 4px #ffffff;
+  }
+}
+
+button {
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+
+  box-shadow: 5px 5px 10px #c0c1c7, -5px -5px 10px #fff;
+
+  &:hover {
+    box-shadow: inset 5px 5px 4px #c9cad1, inset -5px -5px 4px #ffffff;
+  }
+}

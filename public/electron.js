@@ -1,12 +1,13 @@
 const electron = require('electron');
 const { fork } = require('child_process');
-const app = electron.app;
+
+const { app, ipcMain, ipcRenderer } = electron;
 const BrowserWindow = electron.BrowserWindow;
 
 const path = require('path');
 const isDev = require('electron-is-dev');
 
-let mainWindow;
+let mainWindow, butler;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -39,10 +40,31 @@ app.on('activate', () => {
   }
 });
 
-electron.ipcMain.on('start-butler', event => {
-  const butler = fork('./src/butler/src/index.js');
+const BUTLER_EVENTS = {
+  START: 'start-butler',
+  STOP: 'stop-butler',
+};
+
+const { START, STOP } = BUTLER_EVENTS;
+
+ipcMain.on(START, event => {
+  butler = fork('./src/butler/src/index.js');
 
   butler.on('message', msg => {
     event.sender.send('data', msg);
   });
+});
+
+ipcMain.on(STOP, event => {
+  if (butler.killed) return;
+
+  butler.kill();
+
+  const listeners = Object.values(BUTLER_EVENTS);
+
+  ipcMain.removeAllListeners(listeners);
+
+  const homePath = '/';
+
+  event.sender.send('butlerHasBeenKilled', homePath);
 });

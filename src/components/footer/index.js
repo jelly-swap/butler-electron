@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Button from '../common/Button';
 
@@ -8,22 +9,35 @@ import CoinImage from '../../css/background-coins/Coins-button.svg';
 
 import './style.scss';
 
+const statusText = {
+  '/': 'Start',
+  '/terminal': 'Stop',
+};
+
 const Footer = () => {
+  const history = useHistory();
+
   return (
     <div className='footer-wrapper'>
       <Button
         btnText={
           <>
-            <span>Start</span>
+            <span>{statusText[history.location.pathname]}</span>
             <img src={CoinImage} alt='coin-image' />
           </>
         }
         onClick={() => {
-          new Emitter().emitAll('startButler');
-
           const { ipcRenderer } = window.require('electron');
 
-          ipcRenderer.send('start-butler');
+          if (history.location.pathname === '/') {
+            new Emitter().emitAll('startButler');
+          } else {
+            ipcRenderer.send('stop-butler');
+
+            ipcRenderer.on('butlerHasBeenKilled', (message, pathname) => {
+              history.push(pathname);
+            });
+          }
         }}
       />
     </div>
