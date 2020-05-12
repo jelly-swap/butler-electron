@@ -16,6 +16,7 @@ import ServerOptions from './advanced/ServerOptions';
 import Emitter from '../../../utils/emitter';
 
 import { generateConfig } from '../../../utils/generateConfig';
+import { getConfigPath } from '../../../utils/resolvePath';
 
 import ScrollToTop from '../../../images/scroll-to-top.svg';
 import DownArrow from '../../../images/down-arrow.svg';
@@ -51,7 +52,8 @@ const Questions = () => {
     if (history.location.pathname === '/' && isButlerStarted && Object.keys(writeConfig).length) {
       const config = generateConfig(writeConfig);
 
-      window.require('fs').writeFile('config.json', JSON.stringify(config), err => {
+      const configFile = getConfigPath();
+      window.require('fs').writeFile(configFile, JSON.stringify(config), err => {
         if (err) {
           console.log('Error creating config');
         }
@@ -70,7 +72,8 @@ const Questions = () => {
   // Read from the config when app is started
   useEffect(() => {
     try {
-      const file = window.require('fs').readFileSync('config.json', '');
+      const configFile = getConfigPath();
+      const file = window.require('fs').readFileSync(configFile, '');
       setReadConfig(JSON.parse(file || {}));
     } catch (error) {
       console.log(error);

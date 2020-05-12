@@ -1,7 +1,8 @@
 const electron = require('electron');
+
 const { fork } = require('child_process');
 
-const { app, ipcMain, ipcRenderer } = electron;
+const { app, ipcMain } = electron;
 const BrowserWindow = electron.BrowserWindow;
 
 const path = require('path');
@@ -48,7 +49,13 @@ const BUTLER_EVENTS = {
 const { START, STOP } = BUTLER_EVENTS;
 
 ipcMain.on(START, event => {
-  butler = fork('./src/butler/src/index.js');
+  if (isDev) {
+    butler = fork('./src/butler/src/index.js');
+  } else {
+    const dataPath = path.join(process.resourcesPath, 'data');
+    const butlerPath = path.join(dataPath, 'butler');
+    butler = fork(`${butlerPath}/src/index.js`);
+  }
 
   butler.on('message', msg => {
     event.sender.send('data', msg);

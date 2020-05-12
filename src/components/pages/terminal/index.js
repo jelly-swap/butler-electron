@@ -17,10 +17,12 @@ const JellyTerminal = () => {
   return (
     <div className='terminal-wrapper'>
       <Terminal
-        watchConsoleLogging
+        allowTabs={false}
+        hideTopBar={true}
+        watchConsoleLogging={true}
         color='green'
-        backgroundColor='black'
-        barColor='black'
+        backgroundColor='#e4e4e4'
+        barColor='#e4e4e4'
         style={{ fontWeight: 'bold', fontSize: '1em', height: '500px' }}
       />
     </div>
