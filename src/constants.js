@@ -25,7 +25,14 @@ export const PAIRS = {
   },
 };
 
-export const WALLETS = ['ETH', 'BTC', 'AE', 'AES', 'DAI', 'USDC', 'WBTC'];
+export const ASSETS_TO_NETWORK = {
+  ETH: 'ETH',
+  DAI: 'ETH',
+  USDC: 'ETH',
+  WBTC: 'ETH',
+  AE: 'AE',
+  BTC: 'BTC',
+};
 
 export const DATABASES = ['mongodb', 'sqlite'];
 

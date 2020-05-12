@@ -21,15 +21,16 @@ const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
     0: { ...pairDefaultState },
   });
   const [existingPairs, setExistingPairs] = useState({});
-  const [selectedReceiveNetworks, setSelectedReceiveNetworks] = useState({});
   const [isInitialState, setIsInitialState] = useState(true);
   const [rowId, setRowId] = useState(0);
 
   useGetStateFromCP(isButlerStarted, getState, { PAIRS: pairs });
 
   useEffect(() => {
-    new Emitter().emitAll('onReceiveChange', selectedReceiveNetworks);
-  }, [selectedReceiveNetworks]);
+    const relevantPairsToWallets = Object.entries(existingPairs).filter(([pair, value]) => value > 0);
+
+    new Emitter().emitAll('onReceiveChange', Object.fromEntries(relevantPairsToWallets));
+  }, [existingPairs]);
 
   // Fill the state when is coming from config
   useEffect(() => {
@@ -44,11 +45,6 @@ const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
       setExistingPairs(prevExisting => ({
         ...prevExisting,
         [key]: 1,
-      }));
-
-      setSelectedReceiveNetworks(prevSelectedNetworks => ({
-        ...prevSelectedNetworks,
-        [receive]: 1,
       }));
 
       setPairs(prevPairs => ({
@@ -78,11 +74,6 @@ const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
       'ETH-BTC': existingPairs['ETH-BTC'] ? existingPairs['ETH-BTC']++ : 1,
     }));
 
-    setSelectedReceiveNetworks(selectedReceiveNetworks => ({
-      ...selectedReceiveNetworks,
-      BTC: selectedReceiveNetworks['BTC'] ? selectedReceiveNetworks['BTC']++ : 1,
-    }));
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rowId]);
 
@@ -98,7 +89,6 @@ const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
     }));
 
     handleExistingPair(prevSelectedProvideNetwork, prevSelectedReceiveNetwork, selectedNetwork, receive);
-    handleReceiveCounter(prevSelectedReceiveNetwork, receive);
   };
 
   const handleReceiveOnChange = (pairId, selectedNetwork) => {
@@ -110,7 +100,6 @@ const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
     }));
 
     handleExistingPair(pairs[pairId].provide, prevSelectedReceiveNetwork, pairs[pairId].provide, selectedNetwork);
-    handleReceiveCounter(prevSelectedReceiveNetwork, selectedNetwork);
   };
 
   const handleFeeOnChange = (pairId, event) => {
@@ -145,11 +134,6 @@ const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
         removedPair.provide + '-' + removedPair.receive
       ]--,
     }));
-
-    setSelectedReceiveNetworks(selectedReceiveNetworks => ({
-      ...selectedReceiveNetworks,
-      [removedPair.receive]: selectedReceiveNetworks[removedPair.receive]--,
-    }));
   };
 
   // Decrement previous pair and increment the new one
@@ -161,14 +145,6 @@ const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
       ...existingPairs,
       [prevPairKey]: (existingPairs[prevPairKey] -= 1),
       [currentPairKey]: existingPairs[currentPairKey] ? (existingPairs[currentPairKey] += 1) : 1,
-    });
-  };
-
-  const handleReceiveCounter = (prevSelectedReceiveNetwork, receive) => {
-    setSelectedReceiveNetworks({
-      ...selectedReceiveNetworks,
-      [prevSelectedReceiveNetwork]: (selectedReceiveNetworks[prevSelectedReceiveNetwork] -= 1),
-      [receive]: selectedReceiveNetworks[receive] ? (selectedReceiveNetworks[receive] += 1) : 1,
     });
   };
 

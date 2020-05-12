@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Input from '../../../../common/Input';
 import QuestionTitle from '../../../../common/QuestionTitle';
 
-import { WALLETS } from '../../../../../constants';
+import { ASSETS_TO_NETWORK } from '../../../../../constants';
 
 import Emitter from '../../../../../utils/emitter';
 import { getNetworkRegex } from '../../../../../utils/addressValidation';
@@ -14,9 +14,34 @@ import './style.scss';
 
 const WalletsSetup = ({ selectedWallets, isButlerStarted, getState }) => {
   const [wallets, setWallets] = useState({});
-  const [receiveCounter, setReceiveCounter] = useState({});
+  const [walletsToShow, setWalletsToShow] = useState([]);
 
-  new Emitter().on('onReceiveChange', payload => setReceiveCounter(payload));
+  new Emitter().on('onReceiveChange', payload => {
+    const uniqueWallets = new Set();
+
+    Object.keys(payload).forEach(key => {
+      const [provide, receive] = key.split('-');
+
+      uniqueWallets.add(ASSETS_TO_NETWORK[provide]);
+      uniqueWallets.add(ASSETS_TO_NETWORK[receive]);
+    });
+
+    setWalletsToShow([...uniqueWallets]);
+  });
+
+  useEffect(() => {
+    walletsToShow.forEach(wallet => {
+      setWallets(wallets => ({
+        ...wallets,
+        ...{
+          [wallet]: {
+            address: wallets[wallet]?.address || '',
+            secret: wallets[wallet]?.secret || '',
+          },
+        },
+      }));
+    });
+  }, [walletsToShow]);
 
   useGetStateFromCP(isButlerStarted, getState, { WALLETS: wallets });
 
@@ -35,28 +60,6 @@ const WalletsSetup = ({ selectedWallets, isButlerStarted, getState }) => {
       }));
     });
   }, [selectedWallets]);
-
-  const onWalletSelected = event => {
-    event.persist();
-    const {
-      target: { value, checked },
-    } = event;
-
-    if (checked) {
-      setWallets({
-        ...wallets,
-        [value]: { address: '', secret: '' },
-      });
-    } else {
-      /*eslint no-empty-pattern: "off"*/
-      const {
-        [value]: {},
-        ...rest
-      } = wallets;
-
-      setWallets(rest);
-    }
-  };
 
   const handleAddressOnChange = (wallet, event) => {
     event.persist();
@@ -79,65 +82,58 @@ const WalletsSetup = ({ selectedWallets, isButlerStarted, getState }) => {
   return (
     <div className='wallets-wrapper'>
       <QuestionTitle title='Wallet Setup' />
-      {WALLETS.map(wallet => {
-        return (
-          <div className='wallet-row' key={wallet}>
-            <div className='wallet'>
-              <Input
-                id={wallet}
-                type='checkbox'
-                value={wallet}
-                onChange={onWalletSelected}
-                checked={wallets[wallet] ? wallets[wallet] : false}
-              />
-              <label
-                htmlFor={wallet}
-                className={
-                  !receiveCounter[wallet]
-                    ? 'default'
-                    : (!wallets[wallet] && receiveCounter[wallet] >= 1) ||
-                      (wallets[wallet] && !new RegExp(getNetworkRegex(wallet)).test(wallets[wallet].address)) ||
-                      (wallets[wallet] && !wallets[wallet].secret)
-                    ? 'invalid'
-                    : 'valid'
-                }
-              >
-                {wallet}
-              </label>
-            </div>
-            {wallets[wallet] && (
-              <div className='wallet-info-wrapper'>
-                <div className='wallet-address'>
-                  <Input
-                    type='text'
-                    placeholder='Address'
-                    value={wallets[wallet].address}
-                    onChange={event => handleAddressOnChange(wallet, event)}
-                    name='address'
-                  />
-                  <span
-                    className={`wallet-address-span ${
-                      new RegExp(getNetworkRegex(wallet)).test(wallets[wallet].address) ? 'valid' : 'invalid'
-                    }`}
-                  >
-                    Enter valid {wallet} address
-                  </span>
-                </div>
-                <div className='wallet-private-key'>
-                  <Input
-                    type='text'
-                    placeholder='Private Key'
-                    value={wallets[wallet].secret}
-                    onChange={event => handleSecretOnChange(wallet, event)}
-                    name='privateKey'
-                    wrapperClassName='wallet-input-wrapper'
-                  />
-                </div>
+      {walletsToShow &&
+        walletsToShow.map((wallet, idx) => {
+          return (
+            <div className='wallet-row' key={idx}>
+              <div className='wallet'>
+                <label
+                  className={`${
+                    !wallets[wallet].address ||
+                    !wallets[wallet].secret ||
+                    !new RegExp(getNetworkRegex(wallet)).test(wallets[wallet].address)
+                      ? 'invalid'
+                      : 'valid'
+                  }`}
+                  htmlFor={ASSETS_TO_NETWORK[wallet]}
+                >
+                  {ASSETS_TO_NETWORK[wallet]}
+                </label>
               </div>
-            )}
-          </div>
-        );
-      })}
+
+              {wallets[wallet] && (
+                <div className='wallet-info-wrapper'>
+                  <div className='wallet-address'>
+                    <Input
+                      type='text'
+                      placeholder='Address'
+                      value={wallets[wallet]?.address}
+                      onChange={event => handleAddressOnChange(wallet, event)}
+                      name='address'
+                    />
+                    <span
+                      className={`wallet-address-span ${
+                        new RegExp(getNetworkRegex(wallet)).test(wallets[wallet]?.address) ? 'valid' : 'invalid'
+                      }`}
+                    >
+                      Enter valid {wallet} address
+                    </span>
+                  </div>
+                  <div className='wallet-private-key'>
+                    <Input
+                      type='text'
+                      placeholder='Private Key'
+                      value={wallets[wallet]?.secret}
+                      onChange={event => handleSecretOnChange(wallet, event)}
+                      name='privateKey'
+                      wrapperClassName='wallet-input-wrapper'
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
     </div>
   );
 };
