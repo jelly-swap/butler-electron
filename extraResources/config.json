@@ -1,1 +1,1 @@
-{"NAME":"","PAIRS":{"BTC-ETH":{"FEE":""}},"NOTIFICATIONS":{},"DATABASE":{"ACTIVE":"SQLITE","SQLITE":{"database":"butler.sqlite"}}}
+{"NAME":"","PAIRS":{"BTC-ETH":{"FEE":""}},"PRICE":{"PROVIDER":"Binance","API_KEY":"43434343","INTERVAL":30,"SECRET_KEY":"4343434343"},"EXCHANGE":{"NAME":"Binance","API_KEY":"43434343","SECRET_KEY":"4343434343"},"NOTIFICATIONS":{},"DATABASE":{"ACTIVE":"SQLITE","SQLITE":{"database":"butler.sqlite"}}}

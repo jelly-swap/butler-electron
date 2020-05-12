@@ -6,10 +6,14 @@ import Input from '../../../../common/Input';
 import { useGetStateFromCP } from '../../../../../hooks/useGetStateFromCP';
 
 import './style.scss';
+import Emitter from '../../../../../utils/emitter';
 
 const Rebalance = ({ selectedRebalance, isButlerStarted, getState }) => {
   const [rebalance, setRebalance] = useState();
   const [isChecked, setIsChecked] = useState(false);
+  const [selectedPriceProvider, setSelectedPriceProvider] = useState('');
+  const [apiFromPriceProvider, setApiFromPriceProvider] = useState('');
+  const [secretFromPriceProvider, setSecretFromPriceProvider] = useState('');
 
   useGetStateFromCP(isButlerStarted, getState, { REBALANCE: rebalance });
 
@@ -27,6 +31,42 @@ const Rebalance = ({ selectedRebalance, isButlerStarted, getState }) => {
     setIsChecked(true);
   }, [selectedRebalance]);
 
+  useEffect(() => {
+    new Emitter().emitAll('onRebalanceChange', rebalance);
+
+    new Emitter().on('onPriceProviderChange', priceProvider => {
+      const _selectedPriceProvider = Object.keys(priceProvider)[0];
+
+      setSelectedPriceProvider(_selectedPriceProvider);
+
+      if (_selectedPriceProvider === 'Binance') {
+        const { apiKey, secretKey } = priceProvider.Binance;
+
+        setApiFromPriceProvider(apiKey);
+        setSecretFromPriceProvider(secretKey);
+      }
+    });
+  }, [rebalance]);
+
+  useEffect(() => {
+    if (selectedPriceProvider !== 'Binance' && rebalance && !Object.keys(rebalance).length) {
+      setApiFromPriceProvider('');
+      setSecretFromPriceProvider('');
+    }
+  }, [selectedPriceProvider, rebalance]);
+
+  useEffect(() => {
+    if (rebalance) {
+      setRebalance({
+        Binance: {
+          apiKey: apiFromPriceProvider,
+          secretKey: secretFromPriceProvider,
+        },
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [apiFromPriceProvider, secretFromPriceProvider]);
+
   const handleOnChange = event => {
     event.persist();
 
@@ -34,7 +74,9 @@ const Rebalance = ({ selectedRebalance, isButlerStarted, getState }) => {
       target: { checked, value },
     } = event;
 
-    checked ? setRebalance({ [value]: { apiKey: '', secretKey: '' } }) : setRebalance({});
+    checked
+      ? setRebalance({ [value]: { apiKey: apiFromPriceProvider, secretKey: secretFromPriceProvider } })
+      : setRebalance({});
     setIsChecked(checked);
   };
 

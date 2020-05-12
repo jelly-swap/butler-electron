@@ -8,11 +8,14 @@ import { PRICE_PROVIERS } from '../../../../../constants';
 import { useGetStateFromCP } from '../../../../../hooks/useGetStateFromCP';
 
 import './style.scss';
+import Emitter from '../../../../../utils/emitter';
 
 /*eslint no-useless-concat: "off"*/
 
 const PriceProvider = ({ selectedPriceProvider, isButlerStarted, getState }) => {
   const [priceProvider, setPriceProvider] = useState({});
+  const [apiFromRebalance, setApiFromRebalance] = useState('');
+  const [secretFromRebalance, setSecretFromRebalance] = useState('');
 
   const getSelectedPriceProvider = () => {
     return Object.keys(priceProvider)[0];
@@ -32,15 +35,53 @@ const PriceProvider = ({ selectedPriceProvider, isButlerStarted, getState }) => 
     });
   }, [selectedPriceProvider]);
 
+  useEffect(() => {
+    new Emitter().on('onRebalanceChange', rebalance => {
+      if (rebalance && Object.keys(rebalance).length) {
+        const { apiKey, secretKey } = rebalance.Binance;
+
+        setApiFromRebalance(apiKey);
+        setSecretFromRebalance(secretKey);
+      } else if (!rebalance && getSelectedPriceProvider() !== 'Binance') {
+        setApiFromRebalance('');
+        setSecretFromRebalance('');
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const keys = priceProvider && Object.keys(priceProvider);
+
+    if (keys.length && keys[0] === 'Binance') {
+      setPriceProvider({
+        Binance: {
+          interval: priceProvider.Binance.interval,
+          apiKey: apiFromRebalance,
+          secretKey: secretFromRebalance,
+        },
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [apiFromRebalance, secretFromRebalance]);
+
+  useEffect(() => {
+    new Emitter().emitAll('onPriceProviderChange', priceProvider);
+  }, [priceProvider]);
+
   useGetStateFromCP(isButlerStarted, getState, { PRICE_PROVIDER: priceProvider });
 
   const handleProviderOnChange = event => {
     event.persist();
 
+    const {
+      target: { value },
+    } = event;
+
     setPriceProvider({
-      [event.target.value]: {
-        apiKey: '',
-        secretKey: '',
+      [value]: {
+        apiKey: value === 'Binance' ? apiFromRebalance : '',
+        secretKey: value === 'Binance' ? secretFromRebalance : '',
         interval: 30,
       },
     });
