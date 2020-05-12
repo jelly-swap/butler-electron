@@ -50,6 +50,7 @@ const getPrice = selectedPriceProvider => {
   return {
     PROVIDER: nameOfPriceProvider,
     API_KEY: selectedPriceProvider[nameOfPriceProvider].apiKey,
+    INTERVAL: selectedPriceProvider[nameOfPriceProvider].interval,
     ...(nameOfPriceProvider === 'Binance' && { SECRET_KEY: selectedPriceProvider[nameOfPriceProvider].secretKey }),
   };
 };
