@@ -19,12 +19,13 @@ const PriceProvider = ({ selectedPriceProvider, isButlerStarted, getState }) => 
   useEffect(() => {
     if (!selectedPriceProvider) return;
 
-    const { PROVIDER, API_KEY, SECRET_KEY } = selectedPriceProvider;
+    const { PROVIDER, API_KEY, SECRET_KEY, INTERVAL } = selectedPriceProvider;
 
     setPriceProvider({
       [PROVIDER]: {
         apiKey: API_KEY,
         secretKey: SECRET_KEY,
+        interval: INTERVAL,
       },
     });
   }, [selectedPriceProvider]);
@@ -38,36 +39,24 @@ const PriceProvider = ({ selectedPriceProvider, isButlerStarted, getState }) => 
       [event.target.value]: {
         apiKey: '',
         secretKey: '',
+        interval: 30,
       },
     });
   };
 
-  const handleApiKeyOnChange = event => {
+  const handleInputOnChange = event => {
     event.persist();
 
     const {
       target: { name, value },
     } = event;
 
-    setPriceProvider({
-      [name]: {
-        ...priceProvider[name],
-        apiKey: value,
-      },
-    });
-  };
-
-  const handleSecretKeyOnChange = event => {
-    event.persist();
-
-    const {
-      target: { name, value },
-    } = event;
+    const [priceProviderName, prop] = name.split(' - ');
 
     setPriceProvider({
-      [name]: {
-        ...priceProvider[name],
-        secretKey: value,
+      [priceProviderName]: {
+        ...priceProvider[priceProviderName],
+        [prop]: value,
       },
     });
   };
@@ -91,13 +80,13 @@ const PriceProvider = ({ selectedPriceProvider, isButlerStarted, getState }) => 
           );
         })}
       </div>
-      {getSelectedPriceProvider() === 'CryptoCompare' && (
+      {getSelectedPriceProvider() && (
         <div className='price-provider-input-wrapper'>
           <Input
             type='text'
             value={priceProvider[getSelectedPriceProvider()].apiKey}
-            onChange={handleApiKeyOnChange}
-            name={getSelectedPriceProvider()}
+            onChange={handleInputOnChange}
+            name={getSelectedPriceProvider() + ' - ' + 'apiKey'}
             placeholder='API KEY'
             className='price-provider-api'
           />
@@ -107,18 +96,22 @@ const PriceProvider = ({ selectedPriceProvider, isButlerStarted, getState }) => 
         <div className='price-provider-input-wrapper'>
           <Input
             type='text'
-            value={priceProvider[getSelectedPriceProvider()].apiKey}
-            onChange={handleApiKeyOnChange}
-            name={getSelectedPriceProvider()}
-            placeholder='API KEY'
-            className='price-provider-api'
-          />
-          <Input
-            type='text'
             value={priceProvider[getSelectedPriceProvider()].secretKey}
-            onChange={handleSecretKeyOnChange}
-            name={getSelectedPriceProvider()}
+            onChange={handleInputOnChange}
+            name={getSelectedPriceProvider() + ' - ' + 'secretKey'}
             placeholder='SECRET KEY'
+            className='price-provider-secret'
+          />
+        </div>
+      )}
+      {getSelectedPriceProvider() && (
+        <div className='price-provider-input-wrapper'>
+          <Input
+            type='number'
+            value={priceProvider[getSelectedPriceProvider()].interval}
+            onChange={handleInputOnChange}
+            name={getSelectedPriceProvider() + ' - ' + 'interval'}
+            placeholder='Interval'
             className='price-provider-secret'
           />
         </div>
