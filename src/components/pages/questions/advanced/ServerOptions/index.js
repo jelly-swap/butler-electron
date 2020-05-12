@@ -18,17 +18,17 @@ const ServerOptions = ({ selectedAggregatorURL, selectedPort, isButlerStarted, g
 
   useEffect(() => {
     if (selectedAggregatorURL) {
-      setServerOptions({
-        ...serverOptions,
+      setServerOptions(s => ({
+        ...s,
         aggregatorUrl: selectedAggregatorURL,
-      });
+      }));
     }
 
     if (selectedPort) {
-      setServerOptions({
-        ...serverOptions,
+      setServerOptions(s => ({
+        ...s,
         port: selectedPort,
-      });
+      }));
     }
   }, [selectedAggregatorURL, selectedPort]);
 

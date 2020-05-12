@@ -82,6 +82,8 @@ const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
       ...selectedReceiveNetworks,
       BTC: selectedReceiveNetworks['BTC'] ? selectedReceiveNetworks['BTC']++ : 1,
     }));
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rowId]);
 
   const handleProvideOnChange = (pairId, selectedNetwork) => {
@@ -129,6 +131,7 @@ const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
   const removePair = id => {
     const removedPair = pairs[id];
 
+    /*eslint no-empty-pattern: "off"*/
     const {
       [id]: {},
       ...rest

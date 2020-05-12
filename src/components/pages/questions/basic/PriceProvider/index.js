@@ -9,6 +9,8 @@ import { useGetStateFromCP } from '../../../../../hooks/useGetStateFromCP';
 
 import './style.scss';
 
+/*eslint no-useless-concat: "off"*/
+
 const PriceProvider = ({ selectedPriceProvider, isButlerStarted, getState }) => {
   const [priceProvider, setPriceProvider] = useState({});
 

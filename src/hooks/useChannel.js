@@ -9,7 +9,6 @@ export const useChannel = (channel, setState) => {
     renderedRef.current = true;
 
     ipcRenderer.on(channel, (message, args) => {
-      console.log(renderedRef.current);
       if (renderedRef.current) {
         const now = new Date().toISOString().substring(0, 19).replace('T', ' ');
 
@@ -20,5 +19,7 @@ export const useChannel = (channel, setState) => {
     return () => {
       renderedRef.current = false;
     };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };

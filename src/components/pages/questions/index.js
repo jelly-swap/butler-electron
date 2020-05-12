@@ -48,7 +48,6 @@ const Questions = () => {
 
   // Write the config when butler button is pressed and config is not empty object
   useEffect(() => {
-    console.log(isButlerStarted);
     if (history.location.pathname === '/' && isButlerStarted && Object.keys(writeConfig).length) {
       const config = generateConfig(writeConfig);
 
@@ -67,6 +66,7 @@ const Questions = () => {
 
       history.push('/terminal');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [writeConfig, isButlerStarted]);
 
   // Read from the config when app is started
@@ -134,7 +134,9 @@ const Questions = () => {
           getState={getState}
         />
       </Collapsible>
-      {isScrollToTopVisible && <img className='scroll-to-top-img' onClick={scrollToTop} src={ScrollToTop}></img>}
+      {isScrollToTopVisible && (
+        <img className='scroll-to-top-img' alt='scroll-to-top' onClick={scrollToTop} src={ScrollToTop}></img>
+      )}
     </div>
   );
 };
