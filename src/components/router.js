@@ -7,8 +7,8 @@ import Terminal from './pages/terminal';
 const ReactRouter = () => (
   <HashRouter>
     <Switch>
-      <Route exact path='/' component={Questions} />
-      <Route path='/terminal' component={Terminal} />
+      <Route exact path='/' component={() => <Questions />} />
+      <Route path='/terminal' component={() => <Terminal />} />
     </Switch>
   </HashRouter>
 );

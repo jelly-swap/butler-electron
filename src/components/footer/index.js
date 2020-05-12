@@ -18,19 +18,16 @@ const Footer = () => {
   const history = useHistory();
   const location = history.location.hash;
 
-  console.log(location);
-  const buttonHandler = {
-    '#/': () => {
-      new Emitter().emitAll('startButler');
-    },
-    '#/terminal': () => {
-      const { ipcRenderer } = window.require('electron');
-      ipcRenderer.send('stop-butler');
-
-      ipcRenderer.on('butlerHasBeenKilled', (message, pathname) => {
-        history.push(pathname);
-      });
-    },
+  const buttonHandler = () => {
+    return {
+      '#/': () => {
+        new Emitter().emitAll('startButler');
+      },
+      '#/terminal': () => {
+        const { ipcRenderer } = window.require('electron');
+        ipcRenderer.send('stop-butler');
+      },
+    };
   };
 
   return (
@@ -43,7 +40,7 @@ const Footer = () => {
           </>
         }
         onClick={() => {
-          buttonHandler[location]();
+          buttonHandler()[location]();
         }}
       />
     </div>

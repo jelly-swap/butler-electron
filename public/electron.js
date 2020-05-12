@@ -63,7 +63,7 @@ ipcMain.on(START, event => {
 });
 
 ipcMain.on(STOP, event => {
-  if (butler.killed) return;
+  if (butler?.killed) return;
 
   butler.kill();
 
