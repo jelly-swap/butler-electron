@@ -92,6 +92,22 @@
     ],
     "directories": {
       "buildResources": "assets"
-    }
+    },
+    "extraResources": [
+      {
+        "from": "./extraResources/",
+        "to": "data",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "./src/butler",
+        "to": "data/butler",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ]
   }
 }
