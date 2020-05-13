@@ -46,6 +46,15 @@ const Questions = () => {
     }));
   };
 
+  useEffect(() => {
+    const { ipcRenderer } = window.require('electron');
+
+    ipcRenderer.on('butlerHasBeenKilled', (message, pathname) => {
+      history.push(pathname);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Write the config when butler button is pressed and config is not empty object
   useEffect(() => {
     if (history.location.pathname === '/' && isButlerStarted && Object.keys(writeConfig).length) {
@@ -79,10 +88,6 @@ const Questions = () => {
       console.log(error);
     }
   }, []);
-
-  useEffect(() => {
-    console.log('read config', readConfig);
-  }, [readConfig]);
 
   const handleOnScroll = () => {
     appWrapperRef.current.scrollTop > 100 ? setIsScrollToTopVisible(true) : setIsScrollToTopVisible(false);
