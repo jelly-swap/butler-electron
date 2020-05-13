@@ -10,34 +10,37 @@ import CoinImage from '../../css/background-coins/Coins-button.svg';
 import './style.scss';
 
 const statusText = {
-  '/': 'Start',
-  '/terminal': 'Stop',
+  '#/': 'Start',
+  '#/terminal': 'Stop',
 };
 
 const Footer = () => {
   const history = useHistory();
+  const location = history.location.hash;
+
+  const buttonHandler = () => {
+    return {
+      '#/': () => {
+        new Emitter().emitAll('startButler');
+      },
+      '#/terminal': () => {
+        const { ipcRenderer } = window.require('electron');
+        ipcRenderer.send('stop-butler');
+      },
+    };
+  };
 
   return (
     <div className='footer-wrapper'>
       <Button
         btnText={
           <>
-            <span>{statusText[history.location.pathname]}</span>
+            <span>{statusText[location]}</span>
             <img src={CoinImage} alt='coin' />
           </>
         }
         onClick={() => {
-          const { ipcRenderer } = window.require('electron');
-
-          if (history.location.pathname === '/') {
-            new Emitter().emitAll('startButler');
-          } else {
-            ipcRenderer.send('stop-butler');
-
-            ipcRenderer.on('butlerHasBeenKilled', (message, pathname) => {
-              history.push(pathname);
-            });
-          }
+          buttonHandler()[location]();
         }}
       />
     </div>

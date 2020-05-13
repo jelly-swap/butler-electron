@@ -1,16 +1,16 @@
-import React, { lazy, Suspense } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React from 'react';
+import { HashRouter, Switch, Route } from 'react-router-dom';
 
-const Questions = lazy(() => import('./pages/questions'));
-const Terminal = lazy(() => import('./pages/terminal'));
+import Questions from './pages/questions';
+import Terminal from './pages/terminal';
 
 const ReactRouter = () => (
-  <Suspense fallback={<h2>Loading...</h2>}>
+  <HashRouter>
     <Switch>
-      <Route exact path='/' component={Questions} />
-      <Route path='/terminal' component={Terminal} />
+      <Route exact path='/' component={() => <Questions />} />
+      <Route path='/terminal' component={() => <Terminal />} />
     </Switch>
-  </Suspense>
+  </HashRouter>
 );
 
 export default ReactRouter;
