@@ -116,6 +116,7 @@ dist
 
 # production
 /build
+/extraResources/config.json
 
 # misc
 .DS_Store
@@ -129,3 +130,5 @@ yarn-debug.log*
 yarn-error.log*
 
 src/butler
+
+butler.sqlite

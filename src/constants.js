@@ -25,8 +25,6 @@ export const PAIRS = {
   },
 };
 
-export const WALLETS = ['ETH', 'BTC', 'AE', 'AES', 'DAI', 'USDC', 'WBTC'];
-
 export const DATABASES = ['mongodb', 'sqlite'];
 
 export const UI_DB_NAMES = {
