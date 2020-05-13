@@ -71,7 +71,7 @@ const Questions = () => {
 
       const electron = require('electron');
 
-      electron.ipcRenderer.send('start-butler');
+      electron.ipcRenderer.send('start-butler', JSON.stringify(config));
 
       history.push('/terminal');
     }
