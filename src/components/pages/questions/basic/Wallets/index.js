@@ -3,8 +3,6 @@ import React, { useState, useEffect } from 'react';
 import Input from '../../../../common/Input';
 import QuestionTitle from '../../../../common/QuestionTitle';
 
-import { ASSETS_TO_NETWORK } from '../../../../../constants';
-
 import Emitter from '../../../../../utils/emitter';
 import { getNetworkRegex } from '../../../../../utils/addressValidation';
 
@@ -22,9 +20,11 @@ const WalletsSetup = ({ selectedWallets, isButlerStarted, getState }) => {
     Object.keys(payload).forEach(key => {
       const [provide, receive] = key.split('-');
 
-      uniqueWallets.add(ASSETS_TO_NETWORK[provide]);
-      uniqueWallets.add(ASSETS_TO_NETWORK[receive]);
+      uniqueWallets.add(provide);
+      uniqueWallets.add(receive);
     });
+
+    console.log(uniqueWallets);
 
     setWalletsToShow([...uniqueWallets]);
   });
@@ -89,15 +89,16 @@ const WalletsSetup = ({ selectedWallets, isButlerStarted, getState }) => {
               <div className='wallet'>
                 <label
                   className={`${
-                    !wallets[wallet].address ||
+                    wallets[wallet] &&
+                    (!wallets[wallet].address ||
                     !wallets[wallet].secret ||
                     !new RegExp(getNetworkRegex(wallet)).test(wallets[wallet].address)
                       ? 'invalid'
-                      : 'valid'
+                      : 'valid')
                   }`}
-                  htmlFor={ASSETS_TO_NETWORK[wallet]}
+                  htmlFor={wallet}
                 >
-                  {ASSETS_TO_NETWORK[wallet]}
+                  {wallet}
                 </label>
               </div>
 
