@@ -48,13 +48,13 @@ const BUTLER_EVENTS = {
 
 const { START, STOP } = BUTLER_EVENTS;
 
-ipcMain.on(START, event => {
+ipcMain.on(START, (event, config) => {
   if (isDev) {
-    butler = fork('./src/butler/src/index.js');
+    butler = fork('./src/butler/src/index.js', [config]);
   } else {
     const dataPath = path.join(process.resourcesPath, 'data');
     const butlerPath = path.join(dataPath, 'butler');
-    butler = fork(`${butlerPath}/src/index.js`);
+    butler = fork(`${butlerPath}/src/index.js`, [config]);
   }
 
   butler.on('message', msg => {
