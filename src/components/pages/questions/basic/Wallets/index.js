@@ -24,8 +24,6 @@ const WalletsSetup = ({ selectedWallets, isButlerStarted, getState }) => {
       uniqueWallets.add(receive);
     });
 
-    console.log(uniqueWallets);
-
     setWalletsToShow([...uniqueWallets]);
   });
 
