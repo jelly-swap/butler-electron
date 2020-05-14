@@ -52,42 +52,33 @@ const Questions = () => {
     ipcRenderer.on('butlerHasBeenKilled', (message, pathname) => {
       history.push(pathname);
     });
+
+    ipcRenderer.send('loadConfig');
+
+    ipcRenderer.on('configLoaded', (message, config) => {
+      setReadConfig(config);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Write the config when butler button is pressed and config is not empty object
   useEffect(() => {
     if (history.location.pathname === '/' && isButlerStarted && Object.keys(writeConfig).length) {
-      const config = generateConfig(writeConfig);
-
-      const configFile = getConfigPath();
-      window.require('fs').writeFile(configFile, JSON.stringify(config), err => {
-        if (err) {
-          console.log('Error creating config');
-        }
-      });
-
       setIsButlerStarted(false);
 
-      const electron = require('electron');
+      const { ipcRenderer } = require('electron');
 
-      electron.ipcRenderer.send('start-butler', JSON.stringify(config));
+      const config = generateConfig(writeConfig);
 
-      history.push('/terminal');
+      ipcRenderer.send('saveConfig', config);
+
+      ipcRenderer.on('configSaved', event => {
+        ipcRenderer.send('start-butler', JSON.stringify(config));
+
+        history.push('/terminal');
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [writeConfig, isButlerStarted]);
-
-  // Read from the config when app is started
-  useEffect(() => {
-    try {
-      const configFile = getConfigPath();
-      const file = window.require('fs').readFileSync(configFile, '');
-      setReadConfig(JSON.parse(file || {}));
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
 
   const handleOnScroll = () => {
     appWrapperRef.current.scrollTop > 100 ? setIsScrollToTopVisible(true) : setIsScrollToTopVisible(false);
