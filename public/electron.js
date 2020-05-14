@@ -1,5 +1,7 @@
 const electron = require('electron');
 
+const log = require('electron-log');
+
 const { fork } = require('child_process');
 
 const { app, ipcMain } = electron;
@@ -7,6 +9,13 @@ const BrowserWindow = electron.BrowserWindow;
 
 const path = require('path');
 const isDev = require('electron-is-dev');
+
+const { autoUpdater } = require('electron-updater');
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'info';
+
+log.transports.file.level = 'info';
+log.transports.file.file = 'butler-electron.log';
 
 let mainWindow, butler;
 
@@ -18,16 +27,20 @@ function createWindow() {
       nodeIntegration: true,
     },
   });
+
   mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
-  if (isDev) {
-    // Open the DevTools.
-    //BrowserWindow.addDevToolsExtension('<location to your react chrome extension>');
-    mainWindow.webContents.openDevTools();
-  }
+
   mainWindow.on('closed', () => (mainWindow = null));
+
+  if (!isDev) {
+    autoUpdater.checkForUpdates();
+  }
 }
 
-app.on('ready', createWindow);
+app.on('ready', () => {
+  autoUpdater.checkForUpdatesAndNotify();
+  createWindow();
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -41,6 +54,9 @@ app.on('activate', () => {
   }
 });
 
+//-------------------------------------------------------------------
+// Butler
+//-------------------------------------------------------------------
 const BUTLER_EVENTS = {
   START: 'start-butler',
   STOP: 'stop-butler',
@@ -74,4 +90,49 @@ ipcMain.on(STOP, event => {
   const homePath = '/';
 
   event.sender.send('butlerHasBeenKilled', homePath);
+});
+
+//-------------------------------------------------------------------
+// Auto updates
+//-------------------------------------------------------------------
+const sendStatusToWindow = text => {
+  log.info(text);
+  if (mainWindow) {
+    mainWindow.webContents.send('message', text);
+  }
+};
+
+autoUpdater.on('checking-for-update', () => {
+  sendStatusToWindow('Checking for update...');
+});
+
+autoUpdater.on('update-available', info => {
+  sendStatusToWindow('Update available.');
+});
+
+autoUpdater.on('update-not-available', info => {
+  log.info('update-not-available');
+
+  sendStatusToWindow('Update not available.');
+});
+
+autoUpdater.on('error', err => {
+  sendStatusToWindow(`Error in auto-updater: ${err.toString()}`);
+});
+
+autoUpdater.on('download-progress', progressObj => {
+  sendStatusToWindow(
+    `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred} + '/' + ${progressObj.total} + )`,
+  );
+});
+
+autoUpdater.on('update-downloaded', info => {
+  sendStatusToWindow('Update downloaded; will install now');
+});
+
+autoUpdater.on('update-downloaded', info => {
+  // Wait 5 seconds, then quit and install
+  // In your application, you don't need to wait 500 ms.
+  // You could call autoUpdater.quitAndInstall(); immediately
+  autoUpdater.quitAndInstall();
 });
