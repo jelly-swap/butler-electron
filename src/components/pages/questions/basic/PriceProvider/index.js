@@ -13,7 +13,12 @@ import Emitter from '../../../../../utils/emitter';
 /*eslint no-useless-concat: "off"*/
 
 const PriceProvider = ({ selectedPriceProvider, isButlerStarted, getState }) => {
-  const [priceProvider, setPriceProvider] = useState({});
+  const [priceProvider, setPriceProvider] = useState({
+    CryptoCompare: {
+      apiKey: '',
+      interval: 30,
+    },
+  });
   const [apiFromRebalance, setApiFromRebalance] = useState('');
   const [secretFromRebalance, setSecretFromRebalance] = useState('');
 

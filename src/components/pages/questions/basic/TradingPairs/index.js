@@ -13,7 +13,7 @@ import Emitter from '../../../../../utils/emitter';
 const pairDefaultState = {
   provide: 'ETH',
   receive: 'BTC',
-  fee: '',
+  fee: 0,
 };
 
 const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
@@ -35,6 +35,8 @@ const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
   // Fill the state when is coming from config
   useEffect(() => {
     if (!selectedPairs) return;
+
+    setExistingPairs({});
 
     Object.keys(selectedPairs).forEach((pair, idx) => {
       const [provide, receive] = pair.split('-').reverse();

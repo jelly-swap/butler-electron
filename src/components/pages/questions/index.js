@@ -15,6 +15,7 @@ import ServerOptions from './advanced/ServerOptions';
 
 import Emitter from '../../../utils/emitter';
 
+import { validateConfig, checkForInvalid } from '../../../utils/validateConfig';
 import { generateConfig } from '../../../utils/generateConfig';
 import { getConfigPath } from '../../../utils/resolvePath';
 
@@ -30,6 +31,7 @@ const Questions = () => {
   const [readConfig, setReadConfig] = useState({});
   const [isButlerStarted, setIsButlerStarted] = useState(false);
   const [isScrollToTopVisible, setIsScrollToTopVisible] = useState(false);
+  const [invalidQuestions, setInvalidQuestions] = useState({});
   const appWrapperRef = useRef();
   const collapseRef = useRef();
 
@@ -58,7 +60,21 @@ const Questions = () => {
   // Write the config when butler button is pressed and config is not empty object
   useEffect(() => {
     if (history.location.pathname === '/' && isButlerStarted && Object.keys(writeConfig).length) {
+      console.log('w', writeConfig);
       const config = generateConfig(writeConfig);
+
+      console.log('before valid', config);
+
+      const validated = validateConfig(config);
+
+      setInvalidQuestions(validated);
+
+      const areInvalidQuestions = checkForInvalid(validated);
+
+      if (!areInvalidQuestions) {
+        setIsButlerStarted(false);
+        return;
+      }
 
       const configFile = getConfigPath();
       window.require('fs').writeFile(configFile, JSON.stringify(config), err => {
@@ -97,15 +113,43 @@ const Questions = () => {
     appWrapperRef.current.scrollTop = 0;
   };
 
+  console.log('inv', invalidQuestions.NAME);
+
   return (
     <div ref={appWrapperRef} className='app-wrapper' onScroll={handleOnScroll}>
       <div>
-        <ButlerName selectedName={readConfig.NAME} isButlerStarted={isButlerStarted} getState={getState} />
-        <TradingPairs selectedPairs={readConfig.PAIRS} isButlerStarted={isButlerStarted} getState={getState} />
-        <WalletsSetup selectedWallets={readConfig.WALLETS} isButlerStarted={isButlerStarted} getState={getState} />
-        <PriceProvider selectedPriceProvider={readConfig.PRICE} isButlerStarted={isButlerStarted} getState={getState} />
-        <Rebalance selectedRebalance={readConfig.EXCHANGE} isButlerStarted={isButlerStarted} getState={getState} />
+        <ButlerName
+          invalid={invalidQuestions.NAME}
+          selectedName={readConfig.NAME}
+          isButlerStarted={isButlerStarted}
+          getState={getState}
+        />
+        <TradingPairs
+          invalid={invalidQuestions.PAIRS}
+          selectedPairs={readConfig.PAIRS}
+          isButlerStarted={isButlerStarted}
+          getState={getState}
+        />
+        <WalletsSetup
+          invalid={invalidQuestions.WALLETS}
+          selectedWallets={readConfig.WALLETS}
+          isButlerStarted={isButlerStarted}
+          getState={getState}
+        />
+        <PriceProvider
+          invalid={invalidQuestions.PRICE}
+          selectedPriceProvider={readConfig.PRICE}
+          isButlerStarted={isButlerStarted}
+          getState={getState}
+        />
+        <Rebalance
+          invalid={invalidQuestions.REBALANCE}
+          selectedRebalance={readConfig.EXCHANGE}
+          isButlerStarted={isButlerStarted}
+          getState={getState}
+        />
         <Notifications
+          invalid={invalidQuestions.NOTIFICATIONS}
           selectedNotifications={readConfig.NOTIFICATIONS}
           isButlerStarted={isButlerStarted}
           getState={getState}

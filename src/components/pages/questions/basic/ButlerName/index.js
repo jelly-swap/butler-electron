@@ -7,7 +7,8 @@ import { useGetStateFromCP } from '../../../../../hooks/useGetStateFromCP';
 
 import './style.scss';
 
-const ButlerName = ({ selectedName, isButlerStarted, getState }) => {
+const ButlerName = ({ invalid, selectedName, isButlerStarted, getState }) => {
+  console.log(invalid);
   const [butlerName, setButlerName] = useState('');
   const errorMessage = useRef('Username is required');
 
@@ -23,12 +24,17 @@ const ButlerName = ({ selectedName, isButlerStarted, getState }) => {
     setButlerName(value);
   };
 
+  console.log(invalid);
+
   return (
     <>
       <QuestionTitle title='Butler name' />
       <div className='butler-name-wrapper'>
+        <span className={!butlerName && invalid === undefined ? 'default' : invalid ? 'invalid' : 'valid'}>
+          Username
+        </span>
         <Input type='text' value={butlerName} onChange={handleOnChange} placeholder='Butler_Username' />
-        <span className={!butlerName ? 'invalid' : 'valid'}>{errorMessage.current}</span>
+        {invalid && <span className={invalid ? 'invalid' : 'valid'}>{errorMessage.current}</span>}
       </div>
     </>
   );

@@ -24,19 +24,19 @@ const WalletsSetup = ({ selectedWallets, isButlerStarted, getState }) => {
       uniqueWallets.add(receive);
     });
 
-    console.log(uniqueWallets);
-
     setWalletsToShow([...uniqueWallets]);
   });
 
   useEffect(() => {
+    setWallets({});
+
     walletsToShow.forEach(wallet => {
       setWallets(wallets => ({
         ...wallets,
         ...{
           [wallet]: {
-            address: wallets[wallet]?.address || '',
-            secret: wallets[wallet]?.secret || '',
+            address: wallets[wallet]?.address || selectedWallets?.[wallet]?.ADDRESS || '',
+            secret: wallets[wallet]?.secret || selectedWallets?.[wallet]?.SECRET || '',
           },
         },
       }));
