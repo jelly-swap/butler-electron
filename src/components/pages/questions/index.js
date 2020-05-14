@@ -80,17 +80,6 @@ const Questions = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [writeConfig, isButlerStarted]);
 
-  // Read from the config when app is started
-  useEffect(() => {
-    try {
-      const configFile = getConfigPath();
-      const file = window.require('fs').readFileSync(configFile, '');
-      setReadConfig(JSON.parse(file || {}));
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
-
   const handleOnScroll = () => {
     appWrapperRef.current.scrollTop > 100 ? setIsScrollToTopVisible(true) : setIsScrollToTopVisible(false);
   };

@@ -110,8 +110,6 @@ ipcMain.on('loadConfig', event => {
 ipcMain.on('saveConfig', (event, file) => {
   const configPath = getConfigPath();
 
-  console.log(configPath);
-
   fs.writeFile(configPath, JSON.stringify(file), err => {
     if (err) {
       console.log('Error writing config', err);
