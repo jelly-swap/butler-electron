@@ -56,7 +56,6 @@ const Questions = () => {
     ipcRenderer.send('loadConfig');
 
     ipcRenderer.on('configLoaded', (message, config) => {
-      console.log('inside');
       setReadConfig(config);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
