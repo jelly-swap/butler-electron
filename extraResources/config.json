@@ -1,1 +1,1 @@
-{"NAME":"ewqewq","PAIRS":{"BTC-ETH":{"FEE":0}},"WALLETS":{"ETH":{"ADDRESS":"","SECRET":""},"BTC":{"ADDRESS":"","SECRET":""}},"PRICE":{"PROVIDER":"CryptoCompare","API_KEY":"","INTERVAL":30},"NOTIFICATIONS":{},"DATABASE":{"ACTIVE":"SQLITE","SQLITE":{"database":"butler.sqlite"}}}
+{"NAME":"","PAIRS":{"BTC-ETH":{"FEE":0}},"WALLETS":{"ETH":{"ADDRESS":"","SECRET":""},"BTC":{"ADDRESS":"","SECRET":""}},"PRICE":{"PROVIDER":"CryptoCompare","API_KEY":"","INTERVAL":30},"NOTIFICATIONS":{},"DATABASE":{"ACTIVE":"SQLITE","SQLITE":{"database":"butler.sqlite"}}}

@@ -29,6 +29,7 @@ import './style.scss';
 const Questions = () => {
   const [writeConfig, setWriteConfig] = useState({});
   const [readConfig, setReadConfig] = useState({});
+  const [generatedConfig, setGeneratedConfig] = useState({});
   const [isButlerStarted, setIsButlerStarted] = useState(false);
   const [isScrollToTopVisible, setIsScrollToTopVisible] = useState(false);
   const [invalidQuestions, setInvalidQuestions] = useState({});
@@ -49,6 +50,10 @@ const Questions = () => {
   };
 
   useEffect(() => {
+    console.log('writeeeeee', writeConfig);
+  }, [writeConfig]);
+
+  useEffect(() => {
     const { ipcRenderer } = window.require('electron');
 
     ipcRenderer.on('butlerHasBeenKilled', (message, pathname) => {
@@ -57,41 +62,55 @@ const Questions = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    console.log('gene', generatedConfig);
+
+    if (!Object.keys(generatedConfig).length) return;
+
+    console.log(generatedConfig);
+
+    // const validated = validateConfig(generatedConfig);
+
+    // setInvalidQuestions(validated);
+
+    // const areInvalidQuestions = checkForInvalid(validated);
+
+    // if (!areInvalidQuestions) {
+    //   setIsButlerStarted(false);
+    //   return;
+    // }
+
+    // console.log('before valid', generatedConfig);
+
+    // const configFile = getConfigPath();
+    // window.require('fs').writeFile(configFile, JSON.stringify(generatedConfig), err => {
+    //   if (err) {
+    //     console.log('Error creating config');
+    //   }
+    // });
+
+    // setIsButlerStarted(false);
+
+    // const electron = require('electron');
+
+    // electron.ipcRenderer.send('start-butler', JSON.stringify(generatedConfig));
+
+    // history.push('/terminal');
+  }, [generatedConfig]);
+
   // Write the config when butler button is pressed and config is not empty object
   useEffect(() => {
     if (history.location.pathname === '/' && isButlerStarted && Object.keys(writeConfig).length) {
-      console.log('w', writeConfig);
-      const config = generateConfig(writeConfig);
-
-      console.log('before valid', config);
-
-      const validated = validateConfig(config);
-
-      setInvalidQuestions(validated);
-
-      const areInvalidQuestions = checkForInvalid(validated);
-
-      if (!areInvalidQuestions) {
-        setIsButlerStarted(false);
-        return;
-      }
-
-      const configFile = getConfigPath();
-      window.require('fs').writeFile(configFile, JSON.stringify(config), err => {
-        if (err) {
-          console.log('Error creating config');
-        }
-      });
-
       setIsButlerStarted(false);
 
-      const electron = require('electron');
+      console.log('write', writeConfig);
 
-      electron.ipcRenderer.send('start-butler', JSON.stringify(config));
+      const config = generateConfig(writeConfig);
 
-      history.push('/terminal');
+      console.log('confi', config);
+
+      setGeneratedConfig(config);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [writeConfig, isButlerStarted]);
 
   // Read from the config when app is started

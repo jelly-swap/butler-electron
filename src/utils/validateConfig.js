@@ -13,6 +13,8 @@ export const validateConfig = Config => {
 };
 
 const validateName = name => {
+  console.log('name', name, Boolean(name));
+
   return Boolean(name);
 };
 
