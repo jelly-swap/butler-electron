@@ -27,13 +27,15 @@ function createWindow() {
 
   mainWindow.removeMenu();
 
-  mainWindow.on('focus', () => {
-    globalShortcut.registerAll(['CommandOrControl+R', 'F5', 'Control+F5'], () => {});
-  });
+  if (!isDev) {
+    mainWindow.on('focus', () => {
+      globalShortcut.registerAll(['CommandOrControl+R', 'F5', 'Control+F5'], () => {});
+    });
 
-  mainWindow.on('blur', () => {
-    globalShortcut.unregisterAll();
-  });
+    mainWindow.on('blur', () => {
+      globalShortcut.unregisterAll();
+    });
+  }
 
   mainWindow.on('closed', () => (mainWindow = null));
 }
