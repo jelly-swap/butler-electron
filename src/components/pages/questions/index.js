@@ -72,7 +72,7 @@ const Questions = () => {
       ipcRenderer.send('saveConfig', config);
 
       ipcRenderer.on('configSaved', event => {
-        ipcRenderer.send('start-butler');
+        ipcRenderer.send('start-butler', JSON.stringify(config));
 
         history.push('/terminal');
       });
