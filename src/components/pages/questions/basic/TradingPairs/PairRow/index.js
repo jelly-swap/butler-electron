@@ -38,7 +38,7 @@ const PairRow = ({
             />
           </div>
           {existingPairs[pair.provide + '-' + pair.receive] > 1 ? (
-            <span className='more-than-one-pair'> Pair already exists</span>
+            <span className='invalid'>Pair already exists</span>
           ) : null}
         </div>
         <div className='input-fields'>
@@ -51,7 +51,6 @@ const PairRow = ({
                 onKeyDown={validateCurrency}
                 placeholder='Fee'
               />
-              <span className={`pair-span ${!pair.fee ? 'invalid' : 'valid'}`}>Enter valid Fee</span>
             </div>
           </div>
         </div>

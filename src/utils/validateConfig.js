@@ -13,8 +13,6 @@ export const validateConfig = Config => {
 };
 
 const validateName = name => {
-  console.log('name', name, Boolean(name));
-
   return Boolean(name);
 };
 
@@ -108,7 +106,7 @@ const validateWalletState = (wallets, network) => {
   return true;
 };
 
-export const checkForInvalid = questions => {
+export const areAllValid = questions => {
   for (const key in questions) {
     // Notifications is nested OBJECT covering EMAIL and SLACK inside
     if (key === 'NOTIFICATIONS') {

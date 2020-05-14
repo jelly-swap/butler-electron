@@ -8,9 +8,10 @@ import { useGetStateFromCP } from '../../../../../hooks/useGetStateFromCP';
 import './style.scss';
 import Emitter from '../../../../../utils/emitter';
 
-const Rebalance = ({ selectedRebalance, isButlerStarted, getState }) => {
+const Rebalance = ({ valid, selectedRebalance, isButlerStarted, getState }) => {
   const [rebalance, setRebalance] = useState();
   const [isChecked, setIsChecked] = useState(false);
+  const [isValid, setIsValid] = useState(true);
   const [selectedPriceProvider, setSelectedPriceProvider] = useState('');
   const [apiFromPriceProvider, setApiFromPriceProvider] = useState('');
   const [secretFromPriceProvider, setSecretFromPriceProvider] = useState('');
@@ -32,6 +33,12 @@ const Rebalance = ({ selectedRebalance, isButlerStarted, getState }) => {
   }, [selectedRebalance]);
 
   useEffect(() => {
+    if (valid) {
+      setIsValid(valid);
+    }
+  }, [valid]);
+
+  useEffect(() => {
     new Emitter().emitAll('onRebalanceChange', rebalance);
 
     new Emitter().on('onPriceProviderChange', priceProvider => {
@@ -46,6 +53,13 @@ const Rebalance = ({ selectedRebalance, isButlerStarted, getState }) => {
         setSecretFromPriceProvider(secretKey);
       }
     });
+
+    if (rebalance && Object.keys(rebalance).length && (!rebalance.Binance.apiKey || !rebalance.Binance.secretKey)) {
+      setIsValid(false);
+      return;
+    }
+
+    setIsValid(true);
   }, [rebalance]);
 
   useEffect(() => {
@@ -74,9 +88,14 @@ const Rebalance = ({ selectedRebalance, isButlerStarted, getState }) => {
       target: { checked, value },
     } = event;
 
-    checked
-      ? setRebalance({ [value]: { apiKey: apiFromPriceProvider, secretKey: secretFromPriceProvider } })
-      : setRebalance({});
+    if (checked) {
+      setRebalance({ [value]: { apiKey: apiFromPriceProvider, secretKey: secretFromPriceProvider } });
+      setIsValid(false);
+    } else {
+      setRebalance({});
+      setIsValid(true);
+    }
+
     setIsChecked(checked);
   };
 
@@ -97,7 +116,7 @@ const Rebalance = ({ selectedRebalance, isButlerStarted, getState }) => {
 
   return (
     <div className='rebalance-wrapper'>
-      <QuestionTitle title='Rebalance' />
+      <QuestionTitle title='Rebalance' isValid={isValid} />
       <div className='rebalance-checkbox-wrapper'>
         <Input type='checkbox' id='binance' value='Binance' onChange={handleOnChange} checked={isChecked} />
         <label htmlFor='binance'>Binance</label>

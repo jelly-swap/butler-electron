@@ -16,15 +16,20 @@ const pairDefaultState = {
   fee: 0,
 };
 
-const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
+const TradingPairs = ({ valid, selectedPairs, isButlerStarted, getState }) => {
   const [pairs, setPairs] = useState({
     0: { ...pairDefaultState },
   });
   const [existingPairs, setExistingPairs] = useState({});
   const [isInitialState, setIsInitialState] = useState(true);
   const [rowId, setRowId] = useState(0);
+  const [isValid, setIsValid] = useState();
 
   useGetStateFromCP(isButlerStarted, getState, { PAIRS: pairs });
+
+  useEffect(() => {
+    setIsValid(valid);
+  }, [valid]);
 
   useEffect(() => {
     const relevantPairsToWallets = Object.entries(existingPairs).filter(([pair, value]) => value > 0);
@@ -59,6 +64,8 @@ const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
       }));
 
       setRowId(rowId => rowId + 1);
+
+      setIsValid(true);
     });
   }, [selectedPairs]);
 
@@ -78,6 +85,12 @@ const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rowId]);
+
+  useEffect(() => {
+    const hasRepeatingPairs = Object.values(existingPairs).some(e => e >= 2);
+
+    hasRepeatingPairs ? setIsValid(false) : setIsValid(true);
+  }, [existingPairs]);
 
   const handleProvideOnChange = (pairId, selectedNetwork) => {
     const receive = Object.keys(PAIRS[selectedNetwork])[0];
@@ -106,6 +119,12 @@ const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
 
   const handleFeeOnChange = (pairId, event) => {
     event.persist();
+
+    if (!event.target.value) {
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
 
     setPairs(allPairs => ({
       ...allPairs,
@@ -152,7 +171,7 @@ const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
 
   return (
     <div className='trading-pairs-wrapper'>
-      <QuestionTitle title='Traiding Pairs' />
+      <QuestionTitle title='Traiding Pairs' isValid={isValid} />
       {Object.keys(pairs).map((id, idx) => {
         return (
           <PairRow
