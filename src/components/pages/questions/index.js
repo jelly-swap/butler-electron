@@ -50,7 +50,24 @@ const Questions = () => {
   };
 
   useEffect(() => {
-    console.log('writeeeeee', writeConfig);
+    if (!Object.keys(writeConfig).length) return;
+
+    const config = generateConfig(writeConfig);
+
+    console.log('conf', config);
+
+    const validated = validateConfig(config);
+
+    console.log('validated', validated);
+
+    setInvalidQuestions(validated);
+
+    const areInvalidQuestions = checkForInvalid(validated);
+
+    if (!areInvalidQuestions) {
+      setIsButlerStarted(false);
+      return;
+    }
   }, [writeConfig]);
 
   useEffect(() => {
@@ -68,17 +85,6 @@ const Questions = () => {
     if (!Object.keys(generatedConfig).length) return;
 
     console.log(generatedConfig);
-
-    // const validated = validateConfig(generatedConfig);
-
-    // setInvalidQuestions(validated);
-
-    // const areInvalidQuestions = checkForInvalid(validated);
-
-    // if (!areInvalidQuestions) {
-    //   setIsButlerStarted(false);
-    //   return;
-    // }
 
     // console.log('before valid', generatedConfig);
 
