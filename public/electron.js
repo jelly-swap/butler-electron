@@ -3,7 +3,7 @@ const fs = require('fs');
 
 const { fork } = require('child_process');
 
-const { app, ipcMain } = electron;
+const { app, ipcMain, globalShortcut } = electron;
 const BrowserWindow = electron.BrowserWindow;
 
 const path = require('path');
@@ -25,6 +25,19 @@ function createWindow() {
     //BrowserWindow.addDevToolsExtension('<location to your react chrome extension>');
     mainWindow.webContents.openDevTools();
   }
+
+  mainWindow.removeMenu();
+
+  if (!isDev) {
+    mainWindow.on('focus', () => {
+      globalShortcut.registerAll(['CommandOrControl+R', 'F5', 'Control+F5'], () => {});
+    });
+
+    mainWindow.on('blur', () => {
+      globalShortcut.unregisterAll();
+    });
+  }
+
   mainWindow.on('closed', () => (mainWindow = null));
 }
 
