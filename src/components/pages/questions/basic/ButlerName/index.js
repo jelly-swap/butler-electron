@@ -24,7 +24,9 @@ const ButlerName = ({ invalid, selectedName, isButlerStarted, getState }) => {
     setButlerName(value);
   };
 
-  console.log(invalid);
+  useEffect(() => {
+    console.log('v', invalid);
+  }, [invalid]);
 
   return (
     <>
