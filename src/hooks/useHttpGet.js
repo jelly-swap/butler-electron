@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
 
-const BASE_URL = 'localhost:9000';
+const BASE_URL = 'http://localhost:9000';
 
 export const useHttpGet = endPoint => {
   const isRendered = useRef();
@@ -14,11 +14,24 @@ export const useHttpGet = endPoint => {
     const getData = async () => {
       try {
         console.log();
-        // const response = await axios.get(BASE_URL + endPoint);
-        const response = await fetch(BASE_URL + endPoint);
-        const data = await response.json();
+        const response = await axios.get(BASE_URL + endPoint, {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          },
+        });
+        // const response = await fetch(BASE_URL + endPoint, {
+        //   headers: {
+        //     'Access-Control-Allow-Origin': '*',
+        //   },
+        // });
 
-        console.log(data);
+        // axios.get(BASE_URL + endPoint, {
+        //   headers: {
+        //     'Access-Control-Allow-Origin': '*',
+        //   }
+        // })
+
+        console.log(response);
 
         setIsLoading(false);
 
