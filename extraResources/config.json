@@ -1,13 +1,1 @@
-{
-  "NAME": "",
-  "PAIRS": { "DAI-ETH": { "FEE": "" }, "AE-ETH": { "FEE": "" }, "USDC-ETH": { "FEE": "" }, "BTC-ETH": { "FEE": "" } },
-  "WALLETS": {
-    "ETH": { "ADDRESS": "", "SECRET": "" },
-    "BTC": { "ADDRESS": "", "SECRET": "" },
-    "DAI": { "ADDRESS": "", "SECRET": "" },
-    "AE": { "ADDRESS": "", "SECRET": "" },
-    "USDC": { "ADDRESS": "", "SECRET": "" }
-  },
-  "NOTIFICATIONS": {},
-  "DATABASE": { "ACTIVE": "SQLITE", "SQLITE": { "database": "butler.sqlite" } }
-}
+{"NAME":"ewqewqewqe","PAIRS":{"DAI-ETH":{"FEE":"3"}},"WALLETS":{"ETH":{"ADDRESS":"0xfCd50a1620f21A46Ddf39B526DCA17c59D94e323","SECRET":"3232"},"BTC":{"ADDRESS":"","SECRET":""},"DAI":{"ADDRESS":"0xfCd50a1620f21A46Ddf39B526DCA17c59D94e323","SECRET":"32"},"AE":{"ADDRESS":"","SECRET":""},"USDC":{"ADDRESS":"","SECRET":""}},"NOTIFICATIONS":{},"DATABASE":{"ACTIVE":"SQLITE","SQLITE":{"database":"butler.sqlite"}}}

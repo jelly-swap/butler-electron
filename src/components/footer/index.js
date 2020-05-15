@@ -10,20 +10,24 @@ import CoinImage from '../../css/background-coins/Coins-button.svg';
 import './style.scss';
 
 const statusText = {
-  '#/': 'Start',
-  '#/terminal': 'Stop',
+  '/': 'Start',
+  '/terminal': 'Stop',
 };
 
 const Footer = () => {
   const history = useHistory();
-  const location = history.location.hash;
+  const location = history.location;
 
   const buttonHandler = () => {
     return {
-      '#/': () => {
+      '/': () => {
         new Emitter().emitAll('startButler');
       },
-      '#/terminal': () => {
+      '/terminal': () => {
+        const { ipcRenderer } = window.require('electron');
+        ipcRenderer.send('stop-butler');
+      },
+      '/balanceOf': () => {
         const { ipcRenderer } = window.require('electron');
         ipcRenderer.send('stop-butler');
       },
@@ -40,7 +44,9 @@ const Footer = () => {
           </>
         }
         onClick={() => {
-          buttonHandler()[location]();
+          console.log(location, buttonHandler()[location]);
+
+          buttonHandler()[location.pathname]();
         }}
       />
     </div>
