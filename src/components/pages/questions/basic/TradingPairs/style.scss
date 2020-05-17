@@ -31,17 +31,25 @@
     }
 
     .left-part {
-      width: 90%;
+      width: 100%;
       display: flex;
       justify-content: space-between;
+      height: 60px;
 
       .select-menus {
-        width: 58%;
+        width: 57%;
         display: flex;
         justify-content: space-between;
+        flex-wrap: wrap;
+
+        p {
+          margin: auto;
+          // position: relative;
+          // top: 10%;
+        }
 
         .field-wrapper {
-          width: 40%;
+          width: 45%;
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -53,7 +61,7 @@
             justify-content: center;
             box-shadow: $notFocusedShadow;
             height: 40px;
-            width: 81px;
+            width: 50%;
             border-radius: 13px;
             cursor: pointer;
 
@@ -66,7 +74,7 @@
             }
 
             .selected-asset {
-              width: 70px;
+              width: 10%;
               display: flex;
               align-items: center;
               position: absolute;
@@ -121,18 +129,22 @@
 
       .input-fields {
         width: 28%;
-
-        .field-wrapper {
-          width: 100%;
-        }
+        display: flex;
+        justify-content: center;
 
         .fee-input {
           display: flex;
           align-items: center;
-          justify-content: space-between;
+          justify-content: center;
+
+          span {
+            margin-right: 17%;
+          }
 
           input {
-            width: 89%;
+            width: 46%;
+            margin-right: 3%;
+            margin-left: 3%;
           }
         }
       }
@@ -140,8 +152,8 @@
 
     .remove-row-wrapper {
       position: relative;
-      bottom: 20px;
-      right: 10px;
+
+      left: 0%;
       box-shadow: $notFocusedShadow;
       cursor: pointer;
       width: 30px;
@@ -153,11 +165,6 @@
         font-size: 18px;
         color: $rogue;
       }
-    }
-
-    .right-part {
-      width: 38%;
-      padding: 0 20px;
     }
   }
 
@@ -171,6 +178,12 @@
       background-color: $grass;
     }
   }
+}
+
+.errorMsg {
+  position: relative;
+  top: 16px;
+  text-align: center;
 }
 
 .trading-pairs-wrapper::-webkit-scrollbar {

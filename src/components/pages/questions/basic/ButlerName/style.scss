@@ -1,11 +1,16 @@
-@import "../../../../../css/constants.scss";
+@import '../../../../../css/constants.scss';
 
 .butler-name-wrapper {
   display: flex;
   flex-direction: column;
-  height: 105px;
+  height: 120px;
 
   span {
     text-align: center;
+  }
+
+  .errorMsg {
+    position: relative;
+    top: 20%;
   }
 }

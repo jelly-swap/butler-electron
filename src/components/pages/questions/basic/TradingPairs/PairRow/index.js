@@ -45,48 +45,46 @@ const PairRow = ({
   // useListenForClickOutsideElement(handleClickOutside);
 
   return (
-    <div className={`pair-row ${isOpenLeftMenu || isOpenRightMenu ? 'row-focused' : null}`} id={id}>
-      <div className='left-part'>
-        <div className='select-menus'>
-          <div className='field-wrapper'>
-            <span className='label'>Provide</span>
-            <div onClick={openLeftMenu} className={`left-select-menu ${isOpenLeftMenu ? 'opened' : null}`}>
-              <div className='selected-asset'>
-                <img src={require(`../../../../../../images/tokens/${pair.provide}.svg`)} />
-                <span>{pair.provide}</span>
+    <>
+      <div className={`pair-row ${isOpenLeftMenu || isOpenRightMenu ? 'row-focused' : null}`} id={id}>
+        <div className='left-part'>
+          <div className='select-menus'>
+            <div className='field-wrapper'>
+              <span className='label'>Provide</span>
+              <div onClick={openLeftMenu} className={`left-select-menu ${isOpenLeftMenu ? 'opened' : null}`}>
+                <div className='selected-asset'>
+                  <img src={require(`../../../../../../images/tokens/${pair.provide}.svg`)} />
+                  <span>{pair.provide}</span>
+                </div>
+                <SelectMenu
+                  options={Object.keys(PAIRS)}
+                  onChange={handleProvideOnChange}
+                  id={id}
+                  value={pair.provide}
+                  isOpen={isOpenLeftMenu}
+                />
               </div>
-              <SelectMenu
-                options={Object.keys(PAIRS)}
-                onChange={handleProvideOnChange}
-                id={id}
-                value={pair.provide}
-                isOpen={isOpenLeftMenu}
-              />
+            </div>
+            <div className='field-wrapper'>
+              <span className='label'>Receive</span>
+              <div onClick={openRightMenu} className={`right-select-menu ${isOpenRightMenu ? 'opened' : null}`}>
+                <div className='selected-asset'>
+                  <img src={require(`../../../../../../images/tokens/${pair.receive}.svg`)} />
+                  <span>{pair.receive}</span>
+                </div>
+                <SelectMenu
+                  options={Object.keys(PAIRS[pair.provide])}
+                  onChange={handleReceiveOnChange}
+                  id={id}
+                  value={pair.receive}
+                  isOpen={isOpenRightMenu}
+                />
+              </div>
             </div>
           </div>
-          <div className='field-wrapper'>
-            <span className='label'>Receive</span>
-            <div onClick={openRightMenu} className={`right-select-menu ${isOpenRightMenu ? 'opened' : null}`}>
-              <div className='selected-asset'>
-                <img src={require(`../../../../../../images/tokens/${pair.receive}.svg`)} />
-                <span>{pair.receive}</span>
-              </div>
-              <SelectMenu
-                options={Object.keys(PAIRS[pair.provide])}
-                onChange={handleReceiveOnChange}
-                id={id}
-                value={pair.receive}
-                isOpen={isOpenRightMenu}
-              />
-            </div>
-          </div>
-          {existingPairs[pair.provide + '-' + pair.receive] > 1 ? (
-            <span className='more-than-one-pair'> Pair already exists</span>
-          ) : null}
-        </div>
-        <div className='input-fields'>
-          <div className='field-wrapper'>
+          <div className='input-fields'>
             <div className='form-control fee-input'>
+              <span>Fee</span>
               <Input
                 type='text'
                 value={pair.fee}
@@ -98,14 +96,15 @@ const PairRow = ({
               {/* <span className={`pair-span ${!pair.fee ? 'invalid' : 'valid'}`}>Enter valid Fee</span> */}
             </div>
           </div>
+          {((row >= 0 && row < numberOfRows - 1) || (row > 0 && row === numberOfRows - 1)) && (
+            <div onClick={() => removePair(id)} className='remove-row-wrapper'>
+              <span className='remove-row-btn'>x</span>
+            </div>
+          )}
         </div>
       </div>
-      {((row >= 0 && row < numberOfRows - 1) || (row > 0 && row === numberOfRows - 1)) && (
-        <div onClick={() => removePair(id)} className='remove-row-wrapper'>
-          <span className='remove-row-btn'>x</span>
-        </div>
-      )}
-    </div>
+      {existingPairs[pair.provide + '-' + pair.receive] > 1 ? <p className='errorMsg'>Pair already exists</p> : null}
+    </>
   );
 };
 
