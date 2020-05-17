@@ -1,18 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Input from '../../../../../common/Input';
+import Button from '../../../../../common/Button';
 
 const CHANNEL = 'EMAIL';
 
 const Email = ({ emailInfo, setChannelData }) => {
-  const handleEmailEnabledOnChange = event => {
-    event.persist();
+  const [isEmailOpened, setIsEmailOpened] = useState(false);
 
-    const {
-      target: { checked },
-    } = event;
+  const handleEmailEnabledOnChange = () => {
+    const { username, password, from, to } = emailInfo;
 
-    setChannelData(CHANNEL, 'enabled', checked);
+    if (!username || !password || !from || !to) {
+      setChannelData(CHANNEL, 'enabled', false);
+    } else if (username && password && from && to) {
+      setChannelData(CHANNEL, 'enabled', true);
+    }
+
+    setIsEmailOpened(false);
   };
 
   const handleEmailDataOnChange = event => {
@@ -27,13 +32,14 @@ const Email = ({ emailInfo, setChannelData }) => {
 
   return (
     <div className='email-wrapper'>
-      <div className='email-checkbox-wrapper'>
-        <Input type='checkbox' id='email' checked={emailInfo.enabled} onChange={handleEmailEnabledOnChange} />
-        <label htmlFor='email' className='email-label'>
-          Email
-        </label>
+      <div
+        className={`${!isEmailOpened ? 'notification-not-opened' : null} email-checkbox-wrapper`}
+        onClick={() => setIsEmailOpened(isEmailOpened => !isEmailOpened)}
+      >
+        <p>Email</p>
+        <span className={isEmailOpened ? 'email-opened' : 'email-closed'}>{isEmailOpened ? '-' : '+'}</span>
       </div>
-      {emailInfo.enabled && (
+      {isEmailOpened && (
         <div className='email-info-wrapper'>
           <Input
             type='text'
@@ -49,8 +55,27 @@ const Email = ({ emailInfo, setChannelData }) => {
             value={emailInfo.password}
             onChange={handleEmailDataOnChange}
           />
-          <Input type='text' placeholder='From' name='from' value={emailInfo.from} onChange={handleEmailDataOnChange} />
-          <Input type='text' placeholder='To' name='to' value={emailInfo.to} onChange={handleEmailDataOnChange} />
+          <div className='from-to-wrapper'>
+            <Input
+              type='text'
+              className='from-field'
+              placeholder='From'
+              name='from'
+              value={emailInfo.from}
+              onChange={handleEmailDataOnChange}
+            />
+            <div className='to-wrapper'>
+              <Input
+                type='text'
+                className='to-field'
+                placeholder='To'
+                name='to'
+                value={emailInfo.to}
+                onChange={handleEmailDataOnChange}
+              />
+              <Button btnText='Add' onClick={handleEmailEnabledOnChange} />
+            </div>
+          </div>
         </div>
       )}
     </div>

@@ -1,18 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Input from '../../../../../common/Input';
+import Button from '../../../../../common/Button';
 
 const CHANNEL = 'SLACK';
 
 const Slack = ({ slackInfo, setChannelData }) => {
+  const [isSlackOpened, setIsSlackOpened] = useState(false);
+
   const handleSlackEnabledOnChange = event => {
-    event.persist();
+    const { webhookUrl } = slackInfo;
 
-    const {
-      target: { checked },
-    } = event;
+    if (!webhookUrl) {
+      setChannelData(CHANNEL, 'enabled', false);
+    } else {
+      setChannelData(CHANNEL, 'enabled', true);
+    }
 
-    setChannelData(CHANNEL, 'enabled', checked);
+    setIsSlackOpened(false);
   };
 
   const handleUrlOnChange = event => {
@@ -27,21 +32,25 @@ const Slack = ({ slackInfo, setChannelData }) => {
 
   return (
     <div className='slack-wrapper'>
-      <div className='slack-checkbox-wrapper'>
-        <Input id='slack' type='checkbox' checked={slackInfo.enabled} onChange={handleSlackEnabledOnChange} />
-        <label className='slack-label' htmlFor='slack'>
-          Slack
-        </label>
+      <div
+        onClick={() => setIsSlackOpened(isSlackOpened => !isSlackOpened)}
+        className={`slack-checkbox-wrapper ${!isSlackOpened ? 'notification-not-opened' : null}`}
+      >
+        <p>Slack</p>
+        <span>{isSlackOpened ? '-' : '+'}</span>
       </div>
-      {slackInfo.enabled && (
-        <Input
-          className='hook-url'
-          type='text'
-          placeholder='Hook URL'
-          name='webhookUrl'
-          onChange={handleUrlOnChange}
-          value={slackInfo.webhookUrl}
-        />
+      {isSlackOpened && (
+        <div className='slack-info-wrapper'>
+          <Input
+            className='hook-url'
+            type='text'
+            placeholder='Hook URL'
+            name='webhookUrl'
+            onChange={handleUrlOnChange}
+            value={slackInfo.webhookUrl}
+          />
+          <Button btnText='Add' onClick={handleSlackEnabledOnChange} />
+        </div>
       )}
     </div>
   );

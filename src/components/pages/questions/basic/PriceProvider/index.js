@@ -106,59 +106,64 @@ const PriceProvider = ({ selectedPriceProvider, isButlerStarted, getState }) => 
 
   return (
     <div className='price-provider'>
-      <QuestionTitle title='Price Provider' />
-      <div className='price-provider-wrapper'>
-        {PRICE_PROVIERS.map((provider, idx) => {
-          return (
-            <div key={provider}>
-              <Input
-                id={provider}
-                value={provider}
-                type='radio'
-                onChange={handleProviderOnChange}
-                checked={getSelectedPriceProvider() === provider}
-              />
-              <label htmlFor={provider}>{provider}</label>
-            </div>
-          );
-        })}
+      <div className='title-and-provider-wrapper'>
+        <QuestionTitle title='Price Provider' />
+        <div className='price-provider-wrapper'>
+          {PRICE_PROVIERS.map((provider, idx) => {
+            return (
+              <div className='current-provider' key={provider}>
+                <Input
+                  id={provider}
+                  value={provider}
+                  type='radio'
+                  onChange={handleProviderOnChange}
+                  checked={getSelectedPriceProvider() === provider}
+                />
+                <label htmlFor={provider}>{provider}</label>
+                <div className={`check`}></div>
+              </div>
+            );
+          })}
+        </div>
       </div>
-      {getSelectedPriceProvider() && (
-        <div className='price-provider-input-wrapper'>
-          <Input
-            type='text'
-            value={priceProvider[getSelectedPriceProvider()].apiKey}
-            onChange={handleInputOnChange}
-            name={getSelectedPriceProvider() + ' - ' + 'apiKey'}
-            placeholder='API KEY'
-            className='price-provider-api'
-          />
-        </div>
-      )}
-      {getSelectedPriceProvider() === 'Binance' && (
-        <div className='price-provider-input-wrapper'>
-          <Input
-            type='text'
-            value={priceProvider[getSelectedPriceProvider()].secretKey}
-            onChange={handleInputOnChange}
-            name={getSelectedPriceProvider() + ' - ' + 'secretKey'}
-            placeholder='SECRET KEY'
-            className='price-provider-secret'
-          />
-        </div>
-      )}
-      {getSelectedPriceProvider() && (
-        <div className='price-provider-input-wrapper'>
-          <Input
-            type='number'
-            value={priceProvider[getSelectedPriceProvider()].interval}
-            onChange={handleInputOnChange}
-            name={getSelectedPriceProvider() + ' - ' + 'interval'}
-            placeholder='Interval'
-            className='price-provider-secret'
-          />
-        </div>
-      )}
+      <div className='price-provider-inputs-wrapper'>
+        {getSelectedPriceProvider() && (
+          <div className='price-provider-input-wrapper'>
+            <Input
+              type='text'
+              value={priceProvider[getSelectedPriceProvider()].apiKey}
+              onChange={handleInputOnChange}
+              name={getSelectedPriceProvider() + ' - ' + 'apiKey'}
+              placeholder='API KEY'
+              className='price-provider-api'
+            />
+          </div>
+        )}
+        {getSelectedPriceProvider() === 'Binance' && (
+          <div className='price-provider-input-wrapper'>
+            <Input
+              type='text'
+              value={priceProvider[getSelectedPriceProvider()].secretKey}
+              onChange={handleInputOnChange}
+              name={getSelectedPriceProvider() + ' - ' + 'secretKey'}
+              placeholder='SECRET KEY'
+              className='price-provider-secret'
+            />
+          </div>
+        )}
+        {getSelectedPriceProvider() && (
+          <div className='price-provider-input-wrapper'>
+            <Input
+              type='number'
+              value={priceProvider[getSelectedPriceProvider()].interval}
+              onChange={handleInputOnChange}
+              name={getSelectedPriceProvider() + ' - ' + 'interval'}
+              placeholder='Interval'
+              className='price-provider-secret'
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

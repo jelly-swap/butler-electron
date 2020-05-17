@@ -1,13 +1,1 @@
-{
-  "NAME": "",
-  "PAIRS": { "DAI-ETH": { "FEE": "" }, "AE-ETH": { "FEE": "" }, "USDC-ETH": { "FEE": "" }, "BTC-ETH": { "FEE": "" } },
-  "WALLETS": {
-    "ETH": { "ADDRESS": "", "SECRET": "" },
-    "BTC": { "ADDRESS": "", "SECRET": "" },
-    "DAI": { "ADDRESS": "", "SECRET": "" },
-    "AE": { "ADDRESS": "", "SECRET": "" },
-    "USDC": { "ADDRESS": "", "SECRET": "" }
-  },
-  "NOTIFICATIONS": {},
-  "DATABASE": { "ACTIVE": "SQLITE", "SQLITE": { "database": "butler.sqlite" } }
-}
+{"NAME":"ewqewqeq","PAIRS":{"DAI-ETH":{"FEE":"22"}},"WALLETS":{"ETH":{"ADDRESS":"ewqew","SECRET":"ewqewq"},"DAI":{"ADDRESS":"weqewq","SECRET":"ewqewq"}},"PRICE":{"PROVIDER":"CryptoCompare","API_KEY":"3232","INTERVAL":"3232"},"EXCHANGE":{"NAME":"Binance","API_KEY":"321321","SECRET_KEY":"321321321"},"NOTIFICATIONS":{"EMAIL":{"enabled":true,"username":"ewqewqwq","password":"ewqewqe","from":"wqewq","to":"ewq"}},"DATABASE":{"ACTIVE":"SQLITE","SQLITE":{"database":"butler.sqlite"}}}

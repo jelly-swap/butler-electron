@@ -69,6 +69,8 @@ const Questions = () => {
 
       const config = generateConfig(writeConfig);
 
+      console.log('confi', config);
+
       ipcRenderer.send('saveConfig', config);
 
       ipcRenderer.on('configSaved', event => {
@@ -90,7 +92,7 @@ const Questions = () => {
 
   return (
     <div ref={appWrapperRef} className='app-wrapper' onScroll={handleOnScroll}>
-      <div>
+      <div className='questions-wrapper'>
         <ButlerName selectedName={readConfig.NAME} isButlerStarted={isButlerStarted} getState={getState} />
         <TradingPairs selectedPairs={readConfig.PAIRS} isButlerStarted={isButlerStarted} getState={getState} />
         <WalletsSetup selectedWallets={readConfig.WALLETS} isButlerStarted={isButlerStarted} getState={getState} />

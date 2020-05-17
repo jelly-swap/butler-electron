@@ -85,6 +85,7 @@ const WalletsSetup = ({ selectedWallets, isButlerStarted, getState }) => {
           return (
             <div className='wallet-row' key={idx}>
               <div className='wallet'>
+                <img src={require(`../../../../../images/tokens/${wallet}.svg`)} alt={wallet} />
                 <label
                   className={`${
                     wallets[wallet] &&
@@ -110,13 +111,13 @@ const WalletsSetup = ({ selectedWallets, isButlerStarted, getState }) => {
                       onChange={event => handleAddressOnChange(wallet, event)}
                       name='address'
                     />
-                    <span
+                    {/* <span
                       className={`wallet-address-span ${
                         new RegExp(getNetworkRegex(wallet)).test(wallets[wallet]?.address) ? 'valid' : 'invalid'
                       }`}
                     >
                       Enter valid {wallet} address
-                    </span>
+                    </span> */}
                   </div>
                   <div className='wallet-private-key'>
                     <Input

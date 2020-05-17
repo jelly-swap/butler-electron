@@ -97,16 +97,21 @@ const Rebalance = ({ selectedRebalance, isButlerStarted, getState }) => {
 
   return (
     <div className='rebalance-wrapper'>
-      <QuestionTitle title='Rebalance' />
-      <div className='rebalance-checkbox-wrapper'>
-        <Input type='checkbox' id='binance' value='Binance' onChange={handleOnChange} checked={isChecked} />
-        <label htmlFor='binance'>Binance</label>
+      <div className='title-and-rebalance-wrapper'>
+        <QuestionTitle title='Rebalance' />
+        <div className='rebalance-checkbox-wrapper'>
+          <label className={isChecked ? 'mark-label' : null} htmlFor='binance'>
+            <Input type='checkbox' id='binance' value='Binance' onChange={handleOnChange} checked={isChecked} />
+            Binance
+            <span className='checkmark'></span>
+          </label>
+        </div>
       </div>
       {isChecked && (
         <div className='rebalance-input-wrapper'>
           <Input
             type='text'
-            placeholder='API_KEY'
+            placeholder='API KEY'
             name='apiKey'
             value={rebalance['Binance'].apiKey}
             onChange={handleKeyOnChange}

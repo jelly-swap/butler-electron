@@ -83,6 +83,7 @@ const Database = ({ selectedDatabase, isButlerStarted, getState }) => {
           <div key={db}>
             <Input id={db} type='radio' value={db} onChange={handleDbOnChange} checked={db === database.active} />
             <label htmlFor={db}>{UI_DB_NAMES[db]}</label>
+            <div className={`check`}></div>
           </div>
         ))}
       </div>

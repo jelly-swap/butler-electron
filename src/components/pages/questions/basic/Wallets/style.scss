@@ -1,18 +1,32 @@
-@import "../../../../../css/constants.scss";
+@import '../../../../../css/constants.scss';
 
 .wallets-wrapper {
   .wallet-row {
     display: flex;
     align-items: center;
-    height: 70px;
+    height: 80px;
     margin-bottom: 10px;
+    box-shadow: $notFocusedShadow;
+    border-radius: $questionRadius;
+    padding: 0 15px;
+    margin-top: 30px;
+
+    &:focus-within {
+      box-shadow: $focusedShadow;
+    }
 
     .wallet {
       display: flex;
       align-items: center;
+      margin-right: 40px;
+      width: 12%;
+      display: flex;
+      justify-content: space-evenly;
 
-      margin-right: 50px;
-      width: 10%;
+      img {
+        width: 20px;
+        height: 20px;
+      }
     }
 
     .wallet-info-wrapper {
@@ -25,7 +39,10 @@
         width: 45%;
         input {
           margin-bottom: 10px;
-          width: 100%;
+          width: 80%;
+          box-shadow: none;
+          border-bottom: 1px solid #a9a9a9;
+          border-radius: 0;
         }
       }
     }

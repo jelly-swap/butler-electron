@@ -7,7 +7,11 @@ import './style.scss';
 const Header = () => {
   return (
     <div className='header-wrapper'>
-      <img className='logo' src={Logo} alt='logo' />
+      <header>
+        <div className='logo-wrapper'>
+          <img className='logo' src={Logo} alt='logo' />
+        </div>
+      </header>
     </div>
   );
 };

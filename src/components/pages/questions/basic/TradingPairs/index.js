@@ -9,6 +9,7 @@ import { PAIRS } from '../../../../../constants';
 
 import './style.scss';
 import Emitter from '../../../../../utils/emitter';
+import Button from '../../../../common/Button';
 
 const pairDefaultState = {
   provide: 'ETH',
@@ -168,6 +169,9 @@ const TradingPairs = ({ selectedPairs, isButlerStarted, getState }) => {
           />
         );
       })}
+      <div className='add-new-pair-btn'>
+        <Button onClick={addNewPair} btnText={'Add new pair +'} />
+      </div>
     </div>
   );
 };

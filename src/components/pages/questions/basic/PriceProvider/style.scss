@@ -1,31 +1,83 @@
-@import "../../../../../css/constants.scss";
+@import '../../../../../css/constants.scss';
 
-.price-provider-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
+.price-provider {
+  height: 121px;
 
-  div {
+  .title-and-provider-wrapper {
     display: flex;
-    align-items: center;
-    margin-right: 15px;
+    height: 51px;
+    h3 {
+      margin: 0;
+      width: 20%;
+    }
   }
 
-  label {
-    cursor: pointer;
-    font-weight: bold;
+  .price-provider-wrapper {
+    margin-left: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    width: 29%;
+
+    justify-content: space-around;
+
+    .current-provider {
+      position: relative;
+      width: 55%;
+      bottom: 9px;
+      margin-right: 32px;
+
+      @include styleRadioButton;
+    }
+  }
+
+  .price-provider-inputs-wrapper {
+    display: flex;
+    justify-content: space-between;
+
+    .price-provider-input-wrapper {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 }
 
-.price-provider-api {
-  margin-right: 50px;
-}
+// input[type='radio'] {
+//   -webkit-appearance: none;
+//   -moz-appearance: none;
+//   appearance: none;
+// }
 
-.price-provider-input-wrapper {
-  display: flex;
-  justify-content: space-between;
+// input[type='radio']:before {
+//   &:before {
+//     content: ' ';
+//     display: inline-block;
+//     position: relative;
+//     top: 5px;
+//     margin: 0 5px 0 0;
+//     width: 20px;
+//     height: 20px;
+//     border-radius: 11px;
+//     border: 2px solid #004c97;
+//     background-color: transparent;
+//   }
+// }
 
-  input {
-    width: 45%;
-  }
-}
+// input[type='radio']:checked + label:after {
+//   border-radius: 11px;
+//   width: 5px;
+//   height: 5px;
+//   position: relative;
+//   right: 10px;
+//   bottom: 10px;
+//   content: ' ';
+//   display: block;
+//   background: #004c97;
+// }
+
+// label {
+//   cursor: pointer;
+//   font-weight: bold;
+//   height: 19px;
+// }
