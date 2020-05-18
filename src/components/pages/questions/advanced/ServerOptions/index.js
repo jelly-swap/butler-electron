@@ -10,8 +10,8 @@ import './style.scss';
 
 const ServerOptions = ({ selectedAggregatorURL, selectedPort, isButlerStarted, getState }) => {
   const [serverOptions, setServerOptions] = useState({
-    port: '',
-    aggregatorUrl: '',
+    port: '9000',
+    aggregatorUrl: 'https://network.jelly.market/api/v1/info/update',
   });
 
   useGetStateFromCP(isButlerStarted, getState, { SERVER_OPTIONS: serverOptions });

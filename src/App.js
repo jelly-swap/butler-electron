@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 
 import Header from './components/header';
 import Footer from './components/footer';
@@ -12,7 +12,7 @@ import ReactRouter from './components/router';
 
 function App() {
   return (
-    <Router>
+    <HashRouter>
       <div className='App'>
         <img className='bg-bitcoin-image' src={BitcoinImage} alt='bitcoin' />
         <img className='bg-ether-image' src={EtherImage} alt='ethereum' />
@@ -20,7 +20,7 @@ function App() {
         <ReactRouter />
         <Footer />
       </div>
-    </Router>
+    </HashRouter>
   );
 }
 
