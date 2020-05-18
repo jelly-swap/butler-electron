@@ -52,8 +52,11 @@ const Questions = () => {
     const { ipcRenderer } = window.require('electron');
 
     ipcRenderer.on('butlerHasBeenKilled', (message, pathname) => {
-      history.push(pathname);
+      console.log('pathaa', pathname);
+      history.push('/');
     });
+
+    // console.log('load', lo)
 
     ipcRenderer.send('loadConfig');
 

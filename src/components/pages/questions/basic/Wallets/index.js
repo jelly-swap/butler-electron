@@ -26,8 +26,6 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
   }, [valid]);
 
   useEffect(() => {
-    console.log(wallets);
-
     for (const wallet in wallets) {
       if (!new RegExp(getNetworkRegex(wallet)).test(wallets[wallet].address) || !wallets[wallet].secret) {
         setIsValid(false);
@@ -125,7 +123,6 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
                       onChange={event => handleAddressOnChange(wallet, event)}
                       name='address'
                     />
-                    {console.log()}
                     {!new RegExp(getNetworkRegex(wallet)).test(wallets[wallet]?.address) && (
                       <p className='errorMsg'>Enter valid {wallet} address</p>
                     )}
