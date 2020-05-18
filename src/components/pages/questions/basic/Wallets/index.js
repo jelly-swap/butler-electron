@@ -13,7 +13,7 @@ import { WALLETS } from '../../../../../constants';
 import {
   checkIfETHAddressMatchERC20Address,
   checkIfETHSecretMatchERC20Secret,
-  checkIfAddressessMatchRegex,
+  checkIfAddressessDoNotMatchRegex,
   checkIfSecretIsMissing,
 } from '../../../../../utils/validateWalletData';
 
@@ -38,7 +38,7 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
     if (
       checkIfETHAddressMatchERC20Address(wallets, setERC20InvalidAddress) ||
       checkIfETHSecretMatchERC20Secret(wallets, setERC20InvalidSecret) ||
-      checkIfAddressessMatchRegex(wallets) ||
+      checkIfAddressessDoNotMatchRegex(wallets) ||
       checkIfSecretIsMissing(wallets)
     ) {
       setIsValid(false);

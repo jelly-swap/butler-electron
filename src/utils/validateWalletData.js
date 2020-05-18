@@ -9,7 +9,7 @@ export const checkIfSecretIsMissing = wallets => {
   }
 };
 
-export const checkIfAddressessMatchRegex = wallets => {
+export const checkIfAddressessDoNotMatchRegex = wallets => {
   for (const wallet in wallets) {
     if (!new RegExp(getNetworkRegex(wallet)).test(wallets[wallet].address)) {
       return true;
