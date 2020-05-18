@@ -1,8 +1,1 @@
-{
-    "version": 3,
-    "file": "index.js",
-    "sourceRoot": "",
-    "sources": ["../../../../src/entity/sql/index.ts"],
-    "names": [],
-    "mappings": ";;AAAA,uCAAgC;AAChC,qCAA8B;AAC9B,iCAA0B;AAC1B,yCAAkC;AAElC,kBAAe,CAAC,iBAAO,EAAE,gBAAM,EAAE,cAAI,EAAE,kBAAQ,CAAC,CAAC"
-}
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../../src/entity/sql/index.ts"],"names":[],"mappings":";;AAAA,uCAAgC;AAChC,qCAA8B;AAC9B,iCAA0B;AAC1B,yCAAkC;AAElC,kBAAe,CAAC,iBAAO,EAAE,gBAAM,EAAE,cAAI,EAAE,kBAAQ,CAAC,CAAC"}

@@ -32,8 +32,9 @@ class EmailService {
         EmailService.Instance = this;
     }
     send(topic, data) {
+        var _a, _b;
         return __awaiter(this, void 0, void 0, function* () {
-            if (this.userConfig.NOTIFICATIONS.EMAIL.ENABLED) {
+            if ((_b = (_a = this.userConfig.NOTIFICATIONS) === null || _a === void 0 ? void 0 : _a.EMAIL) === null || _b === void 0 ? void 0 : _b.ENABLED) {
                 let result;
                 switch (topic) {
                     case 'SWAP': {

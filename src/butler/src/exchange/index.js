@@ -14,11 +14,12 @@ const logger_1 = require("../logger");
 const config_1 = require("../config");
 class Exchange {
     constructor() {
+        var _a, _b;
         if (Exchange.Instance) {
             return Exchange.Instance;
         }
         this.userConfig = new config_1.default().getUserConfig();
-        if (exchanges_1.default[this.userConfig.EXCHANGE.NAME]) {
+        if (exchanges_1.default[(_b = (_a = this.userConfig) === null || _a === void 0 ? void 0 : _a.EXCHANGE) === null || _b === void 0 ? void 0 : _b.NAME]) {
             this.exchange = new exchanges_1.default[this.userConfig.EXCHANGE.NAME]();
         }
         else {
