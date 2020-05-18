@@ -1,15 +1,1 @@
-{
-  "NAME": "ewqewq",
-  "PAIRS": { "DAI-ETH": { "FEE": 0 }, "USDC-ETH": { "FEE": 0 } },
-  "WALLETS": {
-    "ETH": { "ADDRESS": "0xfCd50a1620f21A46Ddf39B526DCA17c59D94e323", "SECRET": "323" },
-    "DAI": { "ADDRESS": "0xfCd50a1620f21A46Ddf39B526DCA17c59D94e323", "SECRET": "232" },
-    "USDC": { "ADDRESS": "0xfCd50a1620f21A46Ddf39B526DCA17c59D94e323", "SECRET": "32" }
-  },
-  "PRICE": { "PROVIDER": "Binance", "API_KEY": "ewqew", "INTERVAL": 30, "SECRET_KEY": "qewq" },
-  "NOTIFICATIONS": {
-    "EMAIL": { "enabled": true, "username": "a@a.ds", "password": "ds", "from": "a@ads.ds", "to": "a@ds.ds" },
-    "SLACK": { "enabled": true, "webhookUrl": "ds" }
-  },
-  "DATABASE": { "ACTIVE": "SQLITE", "SQLITE": { "database": "butler.sqlite" } }
-}
+{"NAME":"ewqewq","PAIRS":{"DAI-ETH":{"FEE":0},"USDC-ETH":{"FEE":0}},"WALLETS":{"ETH":{"ADDRESS":"0xfCd50a1620f21A46Ddf39B526DCA17c59D94e323","SECRET":"323"},"ERC20":{"ADDRESS":"0xfCd50a1620f21A46Ddf39B526DCA17c59D94e323","SECRET":"32"}},"PRICE":{"PROVIDER":"Binance","API_KEY":"ewqew","INTERVAL":"60","SECRET_KEY":"qewq"},"NOTIFICATIONS":{"EMAIL":{"enabled":true,"username":"a@a.ds","password":"ds","from":"a@ads.ds","to":"a@ds.ds"},"SLACK":{"enabled":true,"webhookUrl":"ds"}},"DATABASE":{"ACTIVE":"SQLITE","SQLITE":{"database":"butler.sqlite"}}}

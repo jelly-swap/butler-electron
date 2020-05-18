@@ -1,4 +1,4 @@
-@import "../../../../../css/constants.scss";
+@import '../../../../../css/constants.scss';
 
 .database-wrapper {
   height: 130px;
@@ -29,9 +29,9 @@
 
         &:before {
           position: relative;
-          left: 0;
+          left: -0.8px;
           bottom: 0;
-          top: 1px;
+          top: 2px;
         }
       }
     }
@@ -40,5 +40,9 @@
   .mongo-db-wrapper {
     display: flex;
     justify-content: space-between;
+
+    input {
+      width: 30%;
+    }
   }
 }

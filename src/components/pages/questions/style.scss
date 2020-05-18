@@ -11,13 +11,33 @@
     margin: auto;
   }
 
-  .scroll-to-top-img {
+  .scroll-to-top-img-wrapper {
+    width: 60px;
+    height: 60px;
     position: absolute;
-    top: 92.3%;
-    right: 20%;
+    top: 89%;
+    left: 5%;
     z-index: 9999;
-    width: 20px;
-    cursor: pointer;
+    text-align: center;
+    border-radius: 50px;
+    box-shadow: $notFocusedShadow;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      box-shadow: $notFocusedShadow;
+
+      &:before {
+        content: '\f077';
+        font-family: 'FontAwesome';
+        color: $strawberry;
+      }
+    }
   }
 
   .collapsible-style,

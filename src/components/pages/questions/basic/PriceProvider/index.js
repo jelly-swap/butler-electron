@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Input from '../../../../common/Input';
 import QuestionTitle from '../../../../common/QuestionTitle';
 
-import { PRICE_PROVIERS } from '../../../../../constants';
+import { PRICE_PROVIERS, PRICE_PROVIDER_INTERVALS } from '../../../../../constants';
 
 import { useGetStateFromCP } from '../../../../../hooks/useGetStateFromCP';
 
@@ -21,6 +21,7 @@ const PriceProvider = ({ valid, selectedPriceProvider, isButlerStarted, getState
   });
   const [apiFromRebalance, setApiFromRebalance] = useState('');
   const [secretFromRebalance, setSecretFromRebalance] = useState('');
+  const [isIntervalOpen, setIsIntervalOpen] = useState(false);
   const [isValid, setIsValid] = useState();
 
   useEffect(() => {
@@ -134,10 +135,21 @@ const PriceProvider = ({ valid, selectedPriceProvider, isButlerStarted, getState
     });
   };
 
+  const handleIntervalOnChange = interval => {
+    setPriceProvider({
+      [getSelectedPriceProvider()]: {
+        ...priceProvider[getSelectedPriceProvider()],
+        interval,
+      },
+    });
+
+    setIsIntervalOpen(false);
+  };
+
   return (
     <div className='price-provider'>
       <div className='title-and-provider-wrapper'>
-        <QuestionTitle title='Price Provider' />
+        <QuestionTitle isValid={isValid} title='Price Provider' />
         <div className='price-provider-wrapper'>
           {PRICE_PROVIERS.map((provider, idx) => {
             return (
@@ -183,14 +195,28 @@ const PriceProvider = ({ valid, selectedPriceProvider, isButlerStarted, getState
         )}
         {getSelectedPriceProvider() && (
           <div className='price-provider-input-wrapper'>
-            <Input
-              type='number'
-              value={priceProvider[getSelectedPriceProvider()].interval}
-              onChange={handleInputOnChange}
-              name={getSelectedPriceProvider() + ' - ' + 'interval'}
-              placeholder='Interval'
-              className='price-provider-secret'
-            />
+            <p
+              className={`selected-interval ${isIntervalOpen ? 'menu-open' : null}`}
+              onClick={() => setIsIntervalOpen(isIntervalOpen => !isIntervalOpen)}
+            >
+              {priceProvider[getSelectedPriceProvider()].interval}
+            </p>
+          </div>
+        )}
+      </div>
+      <div>
+        {isIntervalOpen && (
+          <div className='interval-menu'>
+            {Object.keys(PRICE_PROVIDER_INTERVALS).map(interval => (
+              <div
+                onClick={() => handleIntervalOnChange(interval)}
+                name={interval}
+                key={interval}
+                className='interval-wrapper'
+              >
+                <p>{interval}</p>
+              </div>
+            ))}
           </div>
         )}
       </div>

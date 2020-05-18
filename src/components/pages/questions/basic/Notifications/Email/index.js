@@ -43,14 +43,22 @@ const Email = ({ emailInfo, setChannelData }) => {
       </div>
       {isEmailOpened && (
         <div className='email-info-wrapper'>
-          <Input
-            type='text'
-            placeholder='Username'
-            name='username'
-            value={emailInfo.username}
-            onChange={handleEmailDataOnChange}
-          />
-          {emailInfo.username && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.username) ? 'Invalid email' : null}
+          <div className='username-wrapper'>
+            <Input
+              type='text'
+              placeholder='Username'
+              name='username'
+              value={emailInfo.username}
+              onChange={handleEmailDataOnChange}
+            />
+            <span
+              className={
+                emailInfo.username && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.username)
+                  ? 'invalid-email'
+                  : 'valid-email'
+              }
+            ></span>
+          </div>
           <Input
             type='text'
             placeholder='Password'
@@ -59,15 +67,24 @@ const Email = ({ emailInfo, setChannelData }) => {
             onChange={handleEmailDataOnChange}
           />
           <div className='from-to-wrapper'>
-            <Input
-              type='text'
-              className='from-field'
-              placeholder='From'
-              name='from'
-              value={emailInfo.from}
-              onChange={handleEmailDataOnChange}
-            />
-            {emailInfo.from && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.from) ? 'Invalid email' : null}
+            <div className='from-wrapper'>
+              <Input
+                type='text'
+                className='from-field'
+                placeholder='From'
+                name='from'
+                value={emailInfo.from}
+                onChange={handleEmailDataOnChange}
+                className={
+                  emailInfo.from && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.from) ? 'invalid-email' : 'valid-email'
+                }
+              />
+              <span
+                className={
+                  emailInfo.from && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.from) ? 'invalid-email' : 'valid-email'
+                }
+              ></span>
+            </div>
             <div className='to-wrapper'>
               <Input
                 type='text'
@@ -76,8 +93,15 @@ const Email = ({ emailInfo, setChannelData }) => {
                 name='to'
                 value={emailInfo.to}
                 onChange={handleEmailDataOnChange}
+                className={
+                  emailInfo.to && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.to) ? 'invalid-email' : 'valid-email'
+                }
               />
-              {emailInfo.to && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.to) ? 'Invalid email' : null}
+              <span
+                className={
+                  emailInfo.to && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.to) ? 'invalid-email' : 'valid-email'
+                }
+              ></span>
               <Button btnText='Add' onClick={handleEmailEnabledOnChange} />
             </div>
           </div>

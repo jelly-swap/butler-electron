@@ -117,7 +117,7 @@ const Rebalance = ({ valid, selectedRebalance, isButlerStarted, getState }) => {
   return (
     <div className='rebalance-wrapper'>
       <div className='title-and-rebalance-wrapper'>
-        <QuestionTitle title='Rebalance' />
+        <QuestionTitle isValid={isValid} title='Rebalance' />
         <div className='rebalance-checkbox-wrapper'>
           <label className={isChecked ? 'mark-label' : null} htmlFor='binance'>
             <Input type='checkbox' id='binance' value='Binance' onChange={handleOnChange} checked={isChecked} />

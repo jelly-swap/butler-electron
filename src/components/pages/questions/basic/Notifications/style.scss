@@ -1,4 +1,4 @@
-@import "../../../../../css/constants.scss";
+@import '../../../../../css/constants.scss';
 
 .notifications-wrapper {
   height: 188px;
@@ -47,15 +47,6 @@
 
     .email-wrapper,
     .slack-wrapper {
-      .email-info-wrapper {
-        height: 185px;
-        margin-bottom: 10px;
-
-        .from-to-wrapper {
-          width: 60%;
-        }
-      }
-
       .email-info-wrapper,
       .slack-info-wrapper {
         width: 90%;
@@ -90,6 +81,62 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
+          }
+        }
+      }
+
+      .email-info-wrapper {
+        height: 185px;
+        margin-bottom: 10px;
+
+        .username-wrapper,
+        .to-wrapper,
+        .from-wrapper {
+          display: flex;
+
+          .invalid-email {
+            &:after {
+              content: '\2715';
+              color: red;
+              width: 20px;
+
+              position: relative;
+              top: 14px;
+              right: 14px;
+            }
+          }
+
+          .valid-email {
+            &:after {
+              content: '\2713';
+              color: green;
+              position: relative;
+              top: 14px;
+              right: 14px;
+            }
+          }
+
+          &:last-child {
+            .invalid-email {
+              &:after {
+                top: -12px;
+                left: -28px;
+              }
+            }
+
+            .valid-email {
+              &:after {
+                top: -12px;
+                left: -28px;
+              }
+            }
+          }
+        }
+
+        .to-wrapper {
+          span {
+            position: relative;
+            right: 5%;
           }
         }
       }
