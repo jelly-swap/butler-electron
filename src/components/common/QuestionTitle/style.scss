@@ -1,0 +1,15 @@
+.valid-q {
+  &::after {
+    content: "Y";
+    color: green;
+    opacity: 0.8;
+  }
+}
+
+.invalid-q {
+  &::after {
+    content: "X";
+    color: red;
+    opacity: 0.8;
+  }
+}

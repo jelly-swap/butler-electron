@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Input from '../../../../../common/Input';
+import { REGEX_FOR_EMAIL } from '../../../../../../constants';
 
 const CHANNEL = 'EMAIL';
 
@@ -42,6 +43,7 @@ const Email = ({ emailInfo, setChannelData }) => {
             value={emailInfo.username}
             onChange={handleEmailDataOnChange}
           />
+          {emailInfo.username && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.username) ? 'Invalid email' : null}
           <Input
             type='text'
             placeholder='Password'
@@ -50,7 +52,9 @@ const Email = ({ emailInfo, setChannelData }) => {
             onChange={handleEmailDataOnChange}
           />
           <Input type='text' placeholder='From' name='from' value={emailInfo.from} onChange={handleEmailDataOnChange} />
+          {emailInfo.from && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.from) ? 'Invalid email' : null}
           <Input type='text' placeholder='To' name='to' value={emailInfo.to} onChange={handleEmailDataOnChange} />
+          {emailInfo.to && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.to) ? 'Invalid email' : null}
         </div>
       )}
     </div>

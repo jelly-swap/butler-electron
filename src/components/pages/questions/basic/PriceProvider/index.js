@@ -12,10 +12,22 @@ import Emitter from '../../../../../utils/emitter';
 
 /*eslint no-useless-concat: "off"*/
 
-const PriceProvider = ({ selectedPriceProvider, isButlerStarted, getState }) => {
-  const [priceProvider, setPriceProvider] = useState({});
+const PriceProvider = ({ valid, selectedPriceProvider, isButlerStarted, getState }) => {
+  const [priceProvider, setPriceProvider] = useState({
+    CryptoCompare: {
+      apiKey: '',
+      interval: 30,
+    },
+  });
   const [apiFromRebalance, setApiFromRebalance] = useState('');
   const [secretFromRebalance, setSecretFromRebalance] = useState('');
+  const [isValid, setIsValid] = useState();
+
+  useEffect(() => {
+    if (valid) {
+      setIsValid(valid);
+    }
+  }, [valid]);
 
   const getSelectedPriceProvider = () => {
     return Object.keys(priceProvider)[0];
@@ -67,6 +79,24 @@ const PriceProvider = ({ selectedPriceProvider, isButlerStarted, getState }) => 
 
   useEffect(() => {
     new Emitter().emitAll('onPriceProviderChange', priceProvider);
+
+    if (
+      getSelectedPriceProvider() === 'Binance' &&
+      (!priceProvider.Binance.secretKey || !priceProvider.Binance.apiKey || !priceProvider.Binance.interval)
+    ) {
+      setIsValid(false);
+      return;
+    }
+
+    if (
+      getSelectedPriceProvider() &&
+      (!priceProvider[getSelectedPriceProvider()].apiKey || !priceProvider[getSelectedPriceProvider()].interval)
+    ) {
+      setIsValid(false);
+      return;
+    }
+
+    setIsValid(true);
   }, [priceProvider]);
 
   useGetStateFromCP(isButlerStarted, getState, { PRICE_PROVIDER: priceProvider });
@@ -106,7 +136,7 @@ const PriceProvider = ({ selectedPriceProvider, isButlerStarted, getState }) => 
 
   return (
     <div className='price-provider'>
-      <QuestionTitle title='Price Provider' />
+      <QuestionTitle title='Price Provider' isValid={isValid} />
       <div className='price-provider-wrapper'>
         {PRICE_PROVIERS.map((provider, idx) => {
           return (

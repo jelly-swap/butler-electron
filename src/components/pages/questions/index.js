@@ -15,6 +15,7 @@ import ServerOptions from './advanced/ServerOptions';
 
 import Emitter from '../../../utils/emitter';
 
+import { validateConfig, areAllValid } from '../../../utils/validateConfig';
 import { generateConfig } from '../../../utils/generateConfig';
 
 import ScrollToTop from '../../../images/scroll-to-top.svg';
@@ -27,6 +28,7 @@ import './style.scss';
 const Questions = () => {
   const [writeConfig, setWriteConfig] = useState({});
   const [readConfig, setReadConfig] = useState({});
+  const [validatedConfig, setValidatedConfig] = useState({});
   const [isButlerStarted, setIsButlerStarted] = useState(false);
   const [isScrollToTopVisible, setIsScrollToTopVisible] = useState(false);
   const appWrapperRef = useRef();
@@ -61,12 +63,22 @@ const Questions = () => {
   }, []);
 
   useEffect(() => {
-    if (history.location.pathname === '/' && isButlerStarted && Object.keys(writeConfig).length) {
+    if (history.location.pathname === '/' && Object.keys(writeConfig).length) {
       setIsButlerStarted(false);
 
       const { ipcRenderer } = require('electron');
 
       const config = generateConfig(writeConfig);
+
+      const validatedConfig = validateConfig(config);
+
+      setValidatedConfig(validatedConfig);
+
+      const allQuestionsAreValid = areAllValid(validatedConfig);
+
+      if (!allQuestionsAreValid) {
+        return;
+      }
 
       ipcRenderer.send('saveConfig', config);
 
@@ -76,8 +88,7 @@ const Questions = () => {
         history.push('/terminal');
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [writeConfig, isButlerStarted]);
+  }, [writeConfig]);
 
   const handleOnScroll = () => {
     appWrapperRef.current.scrollTop > 100 ? setIsScrollToTopVisible(true) : setIsScrollToTopVisible(false);
@@ -90,12 +101,38 @@ const Questions = () => {
   return (
     <div ref={appWrapperRef} className='app-wrapper' onScroll={handleOnScroll}>
       <div>
-        <ButlerName selectedName={readConfig.NAME} isButlerStarted={isButlerStarted} getState={getState} />
-        <TradingPairs selectedPairs={readConfig.PAIRS} isButlerStarted={isButlerStarted} getState={getState} />
-        <WalletsSetup selectedWallets={readConfig.WALLETS} isButlerStarted={isButlerStarted} getState={getState} />
-        <PriceProvider selectedPriceProvider={readConfig.PRICE} isButlerStarted={isButlerStarted} getState={getState} />
-        <Rebalance selectedRebalance={readConfig.EXCHANGE} isButlerStarted={isButlerStarted} getState={getState} />
+        <ButlerName
+          valid={validatedConfig.NAME}
+          selectedName={readConfig.NAME}
+          isButlerStarted={isButlerStarted}
+          getState={getState}
+        />
+        <TradingPairs
+          valid={validatedConfig.PAIRS}
+          selectedPairs={readConfig.PAIRS}
+          isButlerStarted={isButlerStarted}
+          getState={getState}
+        />
+        <WalletsSetup
+          valid={validatedConfig.WALLETS}
+          selectedWallets={readConfig.WALLETS}
+          isButlerStarted={isButlerStarted}
+          getState={getState}
+        />
+        <PriceProvider
+          valid={validatedConfig.PRICE}
+          selectedPriceProvider={readConfig.PRICE}
+          isButlerStarted={isButlerStarted}
+          getState={getState}
+        />
+        <Rebalance
+          valid={validatedConfig.REBALANCE}
+          selectedRebalance={readConfig.EXCHANGE}
+          isButlerStarted={isButlerStarted}
+          getState={getState}
+        />
         <Notifications
+          valid={validatedConfig.NOTIFICATIONS}
           selectedNotifications={readConfig.NOTIFICATIONS}
           isButlerStarted={isButlerStarted}
           getState={getState}
