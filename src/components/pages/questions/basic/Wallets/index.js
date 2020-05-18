@@ -72,7 +72,7 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
     });
   }, [selectedWallets]);
 
-  new Emitter().on('onReceiveChange', payload => {
+  new Emitter().on('onPairAdded', payload => {
     const uniqueWallets = new Set();
 
     Object.keys(payload).forEach(key => {

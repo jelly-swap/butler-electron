@@ -59,13 +59,22 @@ const Email = ({ emailInfo, setChannelData }) => {
               }
             ></span>
           </div>
-          <Input
-            type='text'
-            placeholder='Password'
-            name='password'
-            value={emailInfo.password}
-            onChange={handleEmailDataOnChange}
-          />
+          <div className='password-wrapper'>
+            <Input
+              type='password'
+              placeholder='Password'
+              name='password'
+              value={emailInfo.password}
+              onChange={handleEmailDataOnChange}
+            />
+            <span
+              className={
+                !emailInfo.password && (emailInfo.username || emailInfo.from || emailInfo.to)
+                  ? 'invalid-email'
+                  : 'valid-email'
+              }
+            ></span>
+          </div>
           <div className='from-to-wrapper'>
             <div className='from-wrapper'>
               <Input

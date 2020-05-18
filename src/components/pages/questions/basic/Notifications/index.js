@@ -62,7 +62,9 @@ const Notifications = ({ valid, selectedNotifications, isButlerStarted, getState
   useEffect(() => {
     const { EMAIL, SLACK } = notifications;
 
-    if (!EMAIL.enabled) {
+    if (!EMAIL.enabled && (EMAIL.username || EMAIL.from || EMAIL.to)) {
+      setIsEmailValid(false);
+    } else if (!EMAIL.enabled) {
       setIsEmailValid(true);
     }
 
@@ -114,6 +116,8 @@ const Notifications = ({ valid, selectedNotifications, isButlerStarted, getState
       },
     });
   };
+
+  console.log(isEmailValid);
 
   return (
     <div className='notifications-wrapper'>

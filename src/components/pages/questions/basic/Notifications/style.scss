@@ -68,6 +68,11 @@
           border-radius: 0;
         }
 
+        // input[type='password'] {
+        //   width: 96%;
+        //   float: left;
+        // }
+
         .from-to-wrapper {
           width: 100%;
           display: flex;
@@ -91,7 +96,8 @@
 
         .username-wrapper,
         .to-wrapper,
-        .from-wrapper {
+        .from-wrapper,
+        .password-wrapper {
           display: flex;
 
           .invalid-email {

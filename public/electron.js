@@ -110,7 +110,7 @@ ipcMain.on('loadConfig', event => {
 
     let fileToUse = file;
 
-    const fileAsStr = file.toString();
+    const fileAsStr = file && file.toString();
 
     if (!fileAsStr) {
       fileToUse = JSON.stringify({});

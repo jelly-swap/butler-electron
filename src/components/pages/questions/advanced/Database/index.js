@@ -11,6 +11,7 @@ import './style.scss';
 
 const Database = ({ selectedDatabase, isButlerStarted, getState }) => {
   const [database, setDatabase] = useState({ active: 'sqlite' });
+  const [isValid, setIsValid] = useState(true);
 
   useGetStateFromCP(isButlerStarted, getState, { DATABASE: database });
 
@@ -43,7 +44,19 @@ const Database = ({ selectedDatabase, isButlerStarted, getState }) => {
         password: db.MONGO_PASSWORD,
       }),
     });
+
+    setIsValid(true);
   }, [selectedDatabase]);
+
+  useEffect(() => {
+    const { active, url, auth, password } = database;
+
+    if (active === 'mongodb' && (!url || !auth || !password)) {
+      setIsValid(false);
+    } else if (active === 'mongodb') {
+      setIsValid(true);
+    }
+  }, [database]);
 
   const handleDbOnChange = event => {
     event.persist();
@@ -60,6 +73,8 @@ const Database = ({ selectedDatabase, isButlerStarted, getState }) => {
         password: '',
       }),
     });
+
+    value === 'mongodb' ? setIsValid(false) : setIsValid(true);
   };
 
   const handleDbDataOnChange = event => {
@@ -77,7 +92,7 @@ const Database = ({ selectedDatabase, isButlerStarted, getState }) => {
 
   return (
     <div className='database-wrapper'>
-      <QuestionTitle title='Database' />
+      <QuestionTitle isValid={isValid} title='Database' />
       <div className='db-radio-wrapper'>
         {DATABASES.map(db => (
           <div key={db}>
