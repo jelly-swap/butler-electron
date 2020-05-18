@@ -15,7 +15,7 @@ const Rebalance = ({ selectedRebalance, isButlerStarted, getState }) => {
   const [apiFromPriceProvider, setApiFromPriceProvider] = useState('');
   const [secretFromPriceProvider, setSecretFromPriceProvider] = useState('');
 
-  useGetStateFromCP(isButlerStarted, getState, { REBALANCE: rebalance });
+  useGetStateFromCP(isButlerStarted, getState, { EXCHANGE: rebalance });
 
   useEffect(() => {
     if (!selectedRebalance) return;
