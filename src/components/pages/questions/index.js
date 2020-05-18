@@ -16,7 +16,6 @@ import ServerOptions from './advanced/ServerOptions';
 import Emitter from '../../../utils/emitter';
 
 import { generateConfig } from '../../../utils/generateConfig';
-import { getConfigPath } from '../../../utils/resolvePath';
 
 import ScrollToTop from '../../../images/scroll-to-top.svg';
 import DownArrow from '../../../images/down-arrow.svg';
