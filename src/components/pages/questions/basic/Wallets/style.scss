@@ -51,6 +51,18 @@
         top: 0;
         bottom: 4%;
         right: 10%;
+
+        &.address {
+          right: 17%;
+          text-align: left;
+          width: 325px;
+        }
+
+        &.secret {
+          right: 17%;
+          text-align: left;
+          width: 325px;
+        }
       }
     }
   }

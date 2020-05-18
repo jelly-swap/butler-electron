@@ -8,7 +8,14 @@ import { getNetworkRegex } from '../../../../../utils/addressValidation';
 
 import { useGetStateFromCP } from '../../../../../hooks/useGetStateFromCP';
 
-import { REGEX_FOR_EMAIL, ERC20, WALLETS } from '../../../../../constants';
+import { WALLETS } from '../../../../../constants';
+
+import {
+  checkIfETHAddressMatchERC20Address,
+  checkIfETHSecretMatchERC20Secret,
+  checkIfAddressessDoNotMatchRegex,
+  checkIfSecretIsMissing,
+} from '../../../../../utils/validateWalletData';
 
 import './style.scss';
 
@@ -16,6 +23,8 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
   const [wallets, setWallets] = useState({});
   const [walletsToShow, setWalletsToShow] = useState([]);
   const [isValid, setIsValid] = useState();
+  const [ERC20InvalidAddress, setERC20InvalidAddress] = useState({});
+  const [ERC20InvalidSecret, setERC20InvalidSecret] = useState({});
 
   useGetStateFromCP(isButlerStarted, getState, { WALLETS: wallets });
 
@@ -26,11 +35,14 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
   }, [valid]);
 
   useEffect(() => {
-    for (const wallet in wallets) {
-      if (!new RegExp(getNetworkRegex(wallet)).test(wallets[wallet].address) || !wallets[wallet].secret) {
-        setIsValid(false);
-        return;
-      }
+    if (
+      checkIfETHAddressMatchERC20Address(wallets, setERC20InvalidAddress) ||
+      checkIfETHSecretMatchERC20Secret(wallets, setERC20InvalidSecret) ||
+      checkIfAddressessDoNotMatchRegex(wallets) ||
+      checkIfSecretIsMissing(wallets)
+    ) {
+      setIsValid(false);
+      return;
     }
 
     setIsValid(true);
@@ -101,6 +113,10 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
     }));
   };
 
+  useEffect(() => {
+    console.log(isValid);
+  }, [isValid]);
+
   return (
     <div className='wallets-wrapper'>
       <QuestionTitle isValid={isValid} title='Wallet Setup' />
@@ -109,7 +125,7 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
           return (
             <div className='wallet-row' key={idx}>
               <div className='wallet'>
-                {/* <img src={require(`../../../../../images/tokens/${wallet}.svg`)} alt={wallet} /> */}
+                <img src={require(`../../../../../images/tokens/${wallet}.svg`)} alt={wallet} />
                 <label htmlFor={wallet}>{wallet}</label>
               </div>
 
@@ -126,6 +142,9 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
                     {!new RegExp(getNetworkRegex(wallet)).test(wallets[wallet]?.address) && (
                       <p className='errorMsg'>Enter valid {wallet} address</p>
                     )}
+                    {ERC20InvalidAddress[wallet] && (
+                      <p className='errorMsg address'>Your {wallet} address cannot match ETH address</p>
+                    )}
                   </div>
                   <div className='wallet-private-key'>
                     <Input
@@ -136,6 +155,9 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
                       name='privateKey'
                       wrapperClassName='wallet-input-wrapper'
                     />
+                    {ERC20InvalidSecret[wallet] && (
+                      <p className='errorMsg secret'>Your {wallet} secret cannot match ETH secret</p>
+                    )}
                   </div>
                 </div>
               )}
