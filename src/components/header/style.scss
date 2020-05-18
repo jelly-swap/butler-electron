@@ -7,10 +7,15 @@
   padding: 0 20px;
   border-top-left-radius: 50px;
   border-top-right-radius: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   .img-wrapper {
-    width: 150px;
-    height: 70px;
+    width: 130px;
+    img {
+      height: 60px;
+    }
   }
 
   header {
@@ -30,9 +35,18 @@
     width: 250px;
     display: flex;
     justify-content: space-around;
+    align-items: center;
 
-    .active-nav-link {
-      color: cyan;
+    button {
+      @include roboto500;
+      padding: 0;
+      color: $duskyBlue;
+      font-size: 1em;
+      background-color: inherit;
+
+      &.active {
+        color: purple;
+      }
     }
   }
 }

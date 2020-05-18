@@ -1,0 +1,55 @@
+@import '../../../css/constants.scss';
+
+.balance-of-wrapper {
+  background-color: $bgColor;
+  height: 500px;
+  width: 100%;
+  padding: 1% 2.5%;
+
+  h2 {
+    @include roboto500;
+    font-weight: bold;
+    font-size: 25px;
+    color: $titleColor;
+  }
+
+  .row-balance-of {
+    height: 100px;
+    display: flex;
+    align-items: center;
+
+    .address-wrapper {
+      display: flex;
+      align-items: center;
+      width: 30%;
+      height: 50px;
+    }
+
+    .balance-wrapper {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      width: 40%;
+      p {
+        width: 100%;
+      }
+    }
+
+    .img-wrapper {
+      width: 30px;
+      height: 30px;
+
+      img {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    p,
+    span {
+      height: 22px;
+      font-size: 1em;
+      margin-right: 6%;
+    }
+  }
+}

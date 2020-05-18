@@ -27,9 +27,9 @@ export const PAIRS = {
 
 export const WALLETS = {
   ETH: 'ETH',
-  DAI: 'ERC20',
-  USDC: 'ERC20',
-  WBTC: 'ERC20',
+  DAI: 'DAI',
+  USDC: 'USDC',
+  WBTC: 'WBTC',
   BTC: 'BTC',
   AE: 'AE',
 };
