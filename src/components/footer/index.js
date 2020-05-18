@@ -23,10 +23,12 @@ const Footer = () => {
       '/': () => {
         new Emitter().emitAll('startButler');
       },
+
       '/terminal': () => {
         const { ipcRenderer } = window.require('electron');
         ipcRenderer.send('stop-butler');
       },
+
       '/balanceOf': () => {
         const { ipcRenderer } = window.require('electron');
         ipcRenderer.send('stop-butler');
@@ -39,7 +41,7 @@ const Footer = () => {
       <Button
         btnText={
           <>
-            <span>{statusText[location]}</span>
+            <span>{statusText[location.pathname]}</span>
             <img src={CoinImage} alt='coin' />
           </>
         }
