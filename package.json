@@ -124,8 +124,7 @@
     },
     "files": [
       "build/**/*",
-      "node_modules/**/*",
-      "src/butler/**/*"
+      "node_modules/**/*"
     ],
     "directories": {
       "buildResources": "assets"

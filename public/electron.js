@@ -86,14 +86,15 @@ const { START, STOP, SAVE, LOAD } = BUTLER_EVENTS;
 
 ipcMain.on(START, (event, config) => {
   if (isDev) {
-    butler = fork('./src/butler/src/index.js', [config]);
+    butler = fork('./public/butler/src/index.js', [config]);
   } else {
-    const dataPath = path.join(process.resourcesPath, 'data');
-    const butlerPath = path.join(dataPath, 'butler');
+    const asarPath = app.getAppPath();
+    const butlerPath = `${asarPath}/build/butler/src/index.js`;
+
     log.info('Trying to start...', butlerPath);
     log.info('Config: ', config);
     log.info('Executable: ', process.execPath);
-    butler = fork(`${butlerPath}/src/index.js`, [config]);
+    butler = fork(butlerPath, [config]);
   }
 
   butler.on('message', msg => {
