@@ -14,12 +14,8 @@ const Header = () => {
       target: { name },
     } = event;
 
-    console.log(name);
-
     history.push(name);
   };
-
-  console.log(location);
 
   return (
     <div className='header-wrapper'>

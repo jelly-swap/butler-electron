@@ -7,7 +7,7 @@ import BalanceOf from './pages/balanceOf';
 
 const ReactRouter = () => (
   <Switch>
-    <Route exact path='/' component={() => <Questions />} />
+    <Route exact path='/' component={Questions} />
     <Route exact path='/terminal' component={() => <Terminal />} />
     <Route exact path='/balanceOf' component={() => <BalanceOf />} />
   </Switch>

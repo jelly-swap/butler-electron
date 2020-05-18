@@ -1,24 +1,48 @@
 @import '../../../css/constants.scss';
 
 .app-wrapper {
-  background-color: #e4e4e4;
+  background-color: $bgColor;
   padding: 20px;
   height: 500px;
-  width: 70%;
+  width: 100%;
   overflow: auto;
 
-  .scroll-to-top-img {
+  .questions-wrapper {
+    margin: auto;
+  }
+
+  .scroll-to-top-img-wrapper {
+    width: 60px;
+    height: 60px;
     position: absolute;
-    top: 92.3%;
-    right: 20%;
+    top: 89%;
+    left: 5%;
     z-index: 9999;
-    width: 20px;
-    cursor: pointer;
+    text-align: center;
+    border-radius: 50px;
+    box-shadow: $notFocusedShadow;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      box-shadow: $notFocusedShadow;
+
+      &:before {
+        content: '\f077';
+        font-family: 'FontAwesome';
+        color: $strawberry;
+      }
+    }
   }
 
   .collapsible-style,
   .collapsible-style-opened {
-    color: #4b539d;
+    color: $duskyBlue;
     cursor: pointer;
     margin-bottom: 30px;
     text-align: center;
@@ -42,26 +66,20 @@
 }
 
 .app-wrapper::-webkit-scrollbar-track-piece {
-  background-color: lightgray;
+  // background-color: lightgray;
 }
 
 .app-wrapper::-webkit-scrollbar-thumb {
-  background-color: #4b539d;
+  background-color: $duskyBlue;
   border-radius: 15px;
 }
 
-h3 {
-  @include roboto500;
-  margin: 10px 0;
-  font-weight: bold;
-  border-bottom: 1px solid rgba(75, 83, 157, 0.5);
-  color: #4b539d;
-}
-
-span {
+span,
+label {
   @include roboto500;
   font-size: 14px;
   font-weight: bold;
+  color: $duskyBlue;
 }
 
 .butler-name-wrapper,
@@ -69,49 +87,24 @@ span {
 .price-provider,
 .rebalance-wrapper,
 .trading-pairs-wrapper,
-.wallets-wrapper {
-  margin-bottom: 30px;
+.wallets-wrapper,
+.database-wrapper,
+.server-options-wrapper {
+  margin-bottom: 20px;
+  padding: 0 20px;
+  position: relative;
+
+  &:after {
+    display: block;
+    content: '';
+    border-bottom: 1px solid #a9a9a9;
+    margin-top: 30px;
+  }
 }
 
-.invalid {
+.errorMsg {
+  @include roboto500;
+  font-size: 14px;
+  font-weight: bold;
   color: red;
-}
-
-.valid {
-  color: green;
-}
-
-input[type='text'] {
-  border: none;
-  box-shadow: 5px 5px 10px #c0c1c7, -5px -5px 10px #fff;
-  outline: none;
-  text-align: left;
-  font-family: Roboto;
-  font-weight: 500;
-  z-index: 7;
-  height: 40px;
-  border-radius: 13px;
-  border: none;
-  padding-left: 13px;
-  font-size: 16px;
-  line-height: 1.14;
-  padding-right: 2%;
-  background-color: inherit;
-  color: #4b539d;
-
-  &:focus {
-    box-shadow: inset 5px 5px 4px #c9cad1, inset -5px -5px 4px #ffffff;
-  }
-}
-
-button {
-  border: none;
-  background-color: inherit;
-  cursor: pointer;
-
-  box-shadow: 5px 5px 10px #c0c1c7, -5px -5px 10px #fff;
-
-  &:hover {
-    box-shadow: inset 5px 5px 4px #c9cad1, inset -5px -5px 4px #ffffff;
-  }
 }

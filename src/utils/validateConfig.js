@@ -1,5 +1,5 @@
 import { getNetworkRegex } from './addressValidation';
-import { REGEX_FOR_EMAIL } from '../constants';
+import { REGEX_FOR_EMAIL, WALLETS } from '../constants';
 
 export const validateConfig = Config => {
   return {
@@ -99,7 +99,10 @@ const validateNotifications = notifications => {
 };
 
 const validateWalletState = (wallets, network) => {
-  if (!new RegExp(getNetworkRegex(network)).test(wallets[network].ADDRESS) || !wallets[network].SECRET) {
+  if (
+    !new RegExp(getNetworkRegex(network)).test(wallets[WALLETS[network]].ADDRESS) ||
+    !wallets[WALLETS[network]].SECRET
+  ) {
     return false;
   }
 

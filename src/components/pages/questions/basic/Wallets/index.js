@@ -8,6 +8,8 @@ import { getNetworkRegex } from '../../../../../utils/addressValidation';
 
 import { useGetStateFromCP } from '../../../../../hooks/useGetStateFromCP';
 
+import { REGEX_FOR_EMAIL, ERC20, WALLETS } from '../../../../../constants';
+
 import './style.scss';
 
 const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => {
@@ -68,14 +70,14 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
     });
   }, [selectedWallets]);
 
-  new Emitter().on('onReceiveChange', payload => {
+  new Emitter().on('onPairAdded', payload => {
     const uniqueWallets = new Set();
 
     Object.keys(payload).forEach(key => {
       const [provide, receive] = key.split('-');
 
-      uniqueWallets.add(provide);
-      uniqueWallets.add(receive);
+      uniqueWallets.add(WALLETS[provide]);
+      uniqueWallets.add(WALLETS[receive]);
     });
 
     setWalletsToShow([...uniqueWallets]);
@@ -107,19 +109,8 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
           return (
             <div className='wallet-row' key={idx}>
               <div className='wallet'>
-                <label
-                  className={`${
-                    wallets[wallet] &&
-                    (!wallets[wallet].address ||
-                    !wallets[wallet].secret ||
-                    !new RegExp(getNetworkRegex(wallet)).test(wallets[wallet].address)
-                      ? 'invalid'
-                      : 'valid')
-                  }`}
-                  htmlFor={wallet}
-                >
-                  {wallet}
-                </label>
+                {/* <img src={require(`../../../../../images/tokens/${wallet}.svg`)} alt={wallet} /> */}
+                <label htmlFor={wallet}>{wallet}</label>
               </div>
 
               {wallets[wallet] && (
@@ -132,13 +123,9 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
                       onChange={event => handleAddressOnChange(wallet, event)}
                       name='address'
                     />
-                    <span
-                      className={`wallet-address-span ${
-                        new RegExp(getNetworkRegex(wallet)).test(wallets[wallet]?.address) ? 'valid' : 'invalid'
-                      }`}
-                    >
-                      Enter valid {wallet} address
-                    </span>
+                    {!new RegExp(getNetworkRegex(wallet)).test(wallets[wallet]?.address) && (
+                      <p className='errorMsg'>Enter valid {wallet} address</p>
+                    )}
                   </div>
                   <div className='wallet-private-key'>
                     <Input

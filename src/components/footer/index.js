@@ -44,8 +44,6 @@ const Footer = () => {
           </>
         }
         onClick={() => {
-          console.log(location, buttonHandler()[location]);
-
           buttonHandler()[location.pathname]();
         }}
       />

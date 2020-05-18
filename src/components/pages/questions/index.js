@@ -24,6 +24,7 @@ import DownArrow from '../../../images/down-arrow.svg';
 import Collapsible from 'react-collapsible';
 
 import './style.scss';
+import Button from '../../common/Button';
 
 const Questions = () => {
   const [writeConfig, setWriteConfig] = useState({});
@@ -51,7 +52,7 @@ const Questions = () => {
     const { ipcRenderer } = window.require('electron');
 
     ipcRenderer.on('butlerHasBeenKilled', (message, pathname) => {
-      history.push(pathname);
+      history.push('/');
     });
 
     ipcRenderer.send('loadConfig');
@@ -100,7 +101,7 @@ const Questions = () => {
 
   return (
     <div ref={appWrapperRef} className='app-wrapper' onScroll={handleOnScroll}>
-      <div>
+      <div className='questions-wrapper'>
         <ButlerName
           valid={validatedConfig.NAME}
           selectedName={readConfig.NAME}
@@ -167,10 +168,14 @@ const Questions = () => {
         />
       </Collapsible>
       {isScrollToTopVisible && (
-        <img className='scroll-to-top-img' alt='scroll-to-top' onClick={scrollToTop} src={ScrollToTop}></img>
+        <div className='scroll-to-top-img-wrapper'>
+          <Button onClick={scrollToTop} />
+        </div>
       )}
     </div>
   );
 };
+
+// <img className='scroll-to-top-img' alt='scroll-to-top' onClick={scrollToTop} src={ScrollToTop}></img>
 
 export default Questions;

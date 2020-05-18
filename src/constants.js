@@ -25,6 +25,23 @@ export const PAIRS = {
   },
 };
 
+export const WALLETS = {
+  ETH: 'ETH',
+  DAI: 'ERC20',
+  USDC: 'ERC20',
+  WBTC: 'ERC20',
+  BTC: 'BTC',
+  AE: 'AE',
+};
+
+export const PRICE_PROVIDER_INTERVALS = {
+  10: '0:10',
+  15: '0:15',
+  30: '0:30',
+  60: '1:00',
+  90: '1:30',
+};
+
 export const DATABASES = ['mongodb', 'sqlite'];
 
 export const UI_DB_NAMES = {

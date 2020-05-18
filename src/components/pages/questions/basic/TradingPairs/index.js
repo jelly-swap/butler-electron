@@ -9,6 +9,7 @@ import { PAIRS } from '../../../../../constants';
 
 import './style.scss';
 import Emitter from '../../../../../utils/emitter';
+import Button from '../../../../common/Button';
 
 const pairDefaultState = {
   provide: 'ETH',
@@ -34,12 +35,15 @@ const TradingPairs = ({ valid, selectedPairs, isButlerStarted, getState }) => {
   useEffect(() => {
     const relevantPairsToWallets = Object.entries(existingPairs).filter(([pair, value]) => value > 0);
 
-    new Emitter().emitAll('onReceiveChange', Object.fromEntries(relevantPairsToWallets));
+    new Emitter().emitAll('onPairAdded', Object.fromEntries(relevantPairsToWallets));
   }, [existingPairs]);
 
   // Fill the state when is coming from config
   useEffect(() => {
-    if (!selectedPairs) return;
+    if (!selectedPairs) {
+      new Emitter().emitAll('onPairAdded', { 'ETH-BTC': 1 });
+      return;
+    }
 
     setExistingPairs({});
 
@@ -189,6 +193,9 @@ const TradingPairs = ({ valid, selectedPairs, isButlerStarted, getState }) => {
           />
         );
       })}
+      <div className='add-new-pair-btn'>
+        <Button onClick={addNewPair} btnText={'Add new pair +'} />
+      </div>
     </div>
   );
 };

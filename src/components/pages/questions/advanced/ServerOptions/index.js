@@ -48,7 +48,7 @@ const ServerOptions = ({ selectedAggregatorURL, selectedPort, isButlerStarted, g
 
   return (
     <div className='server-options-wrapper'>
-      <QuestionTitle title='Server options' />
+      <QuestionTitle isValid={true} title='Server options' />
       <div className='server-options'>
         <Port port={serverOptions.port} getPort={getPort} />
         <AggregatorURL aggregatorUrl={serverOptions.aggregatorUrl} getAggregatorUrl={getAggregatorUrl} />

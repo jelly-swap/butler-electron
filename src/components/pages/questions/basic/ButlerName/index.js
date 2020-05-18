@@ -33,13 +33,13 @@ const ButlerName = ({ valid, selectedName, isButlerStarted, getState }) => {
   };
 
   return (
-    <>
-      <QuestionTitle title='Butler name' isValid={isValid} />
-      <div className='butler-name-wrapper'>
-        <span className={isValid === undefined ? 'default' : isValid ? 'valid' : 'invalid'}>Username</span>
+    <div className='butler-name-wrapper'>
+      <QuestionTitle isValid={isValid} title='Butler name' />
+      <div className='name-wrapper'>
         <Input type='text' value={butlerName} onChange={handleOnChange} placeholder='Butler_Username' />
+        {!isValid ? <p className={`${!butlerName ? 'invalid' : 'valid'} errorMsg`}>Username is required</p> : null}
       </div>
-    </>
+    </div>
   );
 };
 

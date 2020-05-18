@@ -38,15 +38,6 @@ const Notifications = ({ valid, selectedNotifications, isButlerStarted, getState
   useGetStateFromCP(isButlerStarted, getState, { NOTIFICATIONS: notifications });
 
   useEffect(() => {
-    console.log(valid);
-  }, [valid]);
-
-  useEffect(() => {
-    console.log('email valid', isEmailValid);
-    console.log('slack valid', isSlackValid);
-  }, [isEmailValid, isSlackValid]);
-
-  useEffect(() => {
     if (!selectedNotifications) return;
 
     Object.keys(selectedNotifications).forEach(channel => {
@@ -62,7 +53,9 @@ const Notifications = ({ valid, selectedNotifications, isButlerStarted, getState
   useEffect(() => {
     const { EMAIL, SLACK } = notifications;
 
-    if (!EMAIL.enabled) {
+    if (!EMAIL.enabled && (EMAIL.username || EMAIL.from || EMAIL.to)) {
+      setIsEmailValid(false);
+    } else if (!EMAIL.enabled) {
       setIsEmailValid(true);
     }
 

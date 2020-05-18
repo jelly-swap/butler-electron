@@ -1,16 +1,29 @@
-.header-wrapper {
-  background-color: #e4e4e4;
-  width: 70%;
-  padding: 0 20px;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+@import '../../css/constants.scss';
 
-  .logo {
-    width: 140px;
-    margin-top: 15px;
+.header-wrapper {
+  background-color: $bgColor;
+  width: 100%;
+  height: 102px;
+  padding: 0 20px;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+
+  .img-wrapper {
+    width: 150px;
+    height: 70px;
+  }
+
+  header {
+    width: 95%;
+    margin: auto;
+    border-bottom: 1px solid #a9a9a9;
+
+    .logo-wrapper {
+      .logo {
+        width: 140px;
+        margin-top: 15px;
+      }
+    }
   }
 
   .nav-links-wrapper {

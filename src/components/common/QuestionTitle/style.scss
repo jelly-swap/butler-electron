@@ -1,15 +1,17 @@
 .valid-q {
   &::after {
-    content: "Y";
+    content: '\2713';
     color: green;
     opacity: 0.8;
+    margin-left: 5%;
   }
 }
 
 .invalid-q {
   &::after {
-    content: "X";
+    content: '\2715';
     color: red;
     opacity: 0.8;
+    margin-left: 5%;
   }
 }

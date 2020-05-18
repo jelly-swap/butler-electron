@@ -1,9 +1,11 @@
+@import './css/constants.scss';
+
 .App {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  width: 80%;
+  width: 55%;
   margin: auto;
   position: relative;
   top: 20%;
@@ -12,7 +14,7 @@
     position: absolute;
     width: 143px;
     height: 136px;
-    left: -135px;
+    left: -272px;
     top: 350px;
   }
 
@@ -20,7 +22,57 @@
     position: absolute;
     width: 203;
     height: 99px;
-    right: -70px;
+    right: -272px;
     top: 144px;
+  }
+}
+
+h3 {
+  @include roboto500;
+  width: 150px;
+  height: 20px;
+  font-size: 17px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.18;
+  letter-spacing: 0.34px;
+  text-align: left;
+  color: $titleColor;
+  margin-bottom: 2.3%;
+}
+
+input[type='text'],
+input[type='password'] {
+  border: none;
+  box-shadow: 5px 5px 10px #c0c1c7, -5px -5px 10px #fff;
+  outline: none;
+  text-align: left;
+  font-family: Roboto;
+  font-weight: 500;
+  z-index: 7;
+  height: 40px;
+  border-radius: 13px;
+  border: none;
+  padding-left: 13px;
+  font-size: 16px;
+  line-height: 1.14;
+  padding-right: 2%;
+  background-color: inherit;
+  color: $duskyBlue;
+
+  &:focus {
+    box-shadow: inset 5px 5px 4px #c9cad1, inset -5px -5px 4px #ffffff;
+  }
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  color: $white;
+
+  &:hover {
+    opacity: 0.8;
   }
 }

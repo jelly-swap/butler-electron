@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Input from '../../../../common/Input';
 import QuestionTitle from '../../../../common/QuestionTitle';
 
-import { PRICE_PROVIERS } from '../../../../../constants';
+import { PRICE_PROVIERS, PRICE_PROVIDER_INTERVALS } from '../../../../../constants';
 
 import { useGetStateFromCP } from '../../../../../hooks/useGetStateFromCP';
 
@@ -21,6 +21,7 @@ const PriceProvider = ({ valid, selectedPriceProvider, isButlerStarted, getState
   });
   const [apiFromRebalance, setApiFromRebalance] = useState('');
   const [secretFromRebalance, setSecretFromRebalance] = useState('');
+  const [isIntervalOpen, setIsIntervalOpen] = useState(false);
   const [isValid, setIsValid] = useState();
 
   useEffect(() => {
@@ -134,61 +135,91 @@ const PriceProvider = ({ valid, selectedPriceProvider, isButlerStarted, getState
     });
   };
 
+  const handleIntervalOnChange = interval => {
+    setPriceProvider({
+      [getSelectedPriceProvider()]: {
+        ...priceProvider[getSelectedPriceProvider()],
+        interval,
+      },
+    });
+
+    setIsIntervalOpen(false);
+  };
+
   return (
     <div className='price-provider'>
-      <QuestionTitle title='Price Provider' isValid={isValid} />
-      <div className='price-provider-wrapper'>
-        {PRICE_PROVIERS.map((provider, idx) => {
-          return (
-            <div key={provider}>
-              <Input
-                id={provider}
-                value={provider}
-                type='radio'
-                onChange={handleProviderOnChange}
-                checked={getSelectedPriceProvider() === provider}
-              />
-              <label htmlFor={provider}>{provider}</label>
-            </div>
-          );
-        })}
+      <div className='title-and-provider-wrapper'>
+        <QuestionTitle isValid={isValid} title='Price Provider' />
+        <div className='price-provider-wrapper'>
+          {PRICE_PROVIERS.map((provider, idx) => {
+            return (
+              <div className='current-provider' key={provider}>
+                <Input
+                  id={provider}
+                  value={provider}
+                  type='radio'
+                  onChange={handleProviderOnChange}
+                  checked={getSelectedPriceProvider() === provider}
+                />
+                <label htmlFor={provider}>{provider}</label>
+                <div className={`check`}></div>
+              </div>
+            );
+          })}
+        </div>
       </div>
-      {getSelectedPriceProvider() && (
-        <div className='price-provider-input-wrapper'>
-          <Input
-            type='text'
-            value={priceProvider[getSelectedPriceProvider()].apiKey}
-            onChange={handleInputOnChange}
-            name={getSelectedPriceProvider() + ' - ' + 'apiKey'}
-            placeholder='API KEY'
-            className='price-provider-api'
-          />
-        </div>
-      )}
-      {getSelectedPriceProvider() === 'Binance' && (
-        <div className='price-provider-input-wrapper'>
-          <Input
-            type='text'
-            value={priceProvider[getSelectedPriceProvider()].secretKey}
-            onChange={handleInputOnChange}
-            name={getSelectedPriceProvider() + ' - ' + 'secretKey'}
-            placeholder='SECRET KEY'
-            className='price-provider-secret'
-          />
-        </div>
-      )}
-      {getSelectedPriceProvider() && (
-        <div className='price-provider-input-wrapper'>
-          <Input
-            type='number'
-            value={priceProvider[getSelectedPriceProvider()].interval}
-            onChange={handleInputOnChange}
-            name={getSelectedPriceProvider() + ' - ' + 'interval'}
-            placeholder='Interval'
-            className='price-provider-secret'
-          />
-        </div>
-      )}
+      <div className='price-provider-inputs-wrapper'>
+        {getSelectedPriceProvider() && (
+          <div className='price-provider-input-wrapper'>
+            <Input
+              type='text'
+              value={priceProvider[getSelectedPriceProvider()].apiKey}
+              onChange={handleInputOnChange}
+              name={getSelectedPriceProvider() + ' - ' + 'apiKey'}
+              placeholder='API KEY'
+              className='price-provider-api'
+            />
+          </div>
+        )}
+        {getSelectedPriceProvider() === 'Binance' && (
+          <div className='price-provider-input-wrapper'>
+            <Input
+              type='text'
+              value={priceProvider[getSelectedPriceProvider()].secretKey}
+              onChange={handleInputOnChange}
+              name={getSelectedPriceProvider() + ' - ' + 'secretKey'}
+              placeholder='SECRET KEY'
+              className='price-provider-secret'
+            />
+          </div>
+        )}
+        {getSelectedPriceProvider() && (
+          <div className='price-provider-input-wrapper'>
+            <p
+              className={`selected-interval ${isIntervalOpen ? 'menu-open' : null}`}
+              onClick={() => setIsIntervalOpen(isIntervalOpen => !isIntervalOpen)}
+            >
+              {priceProvider[getSelectedPriceProvider()].interval}
+            </p>
+          </div>
+        )}
+      </div>
+      <div>
+        {isIntervalOpen && (
+          <div className='interval-menu'>
+            {Object.keys(PRICE_PROVIDER_INTERVALS).map(interval => (
+              <div
+                onClick={() => handleIntervalOnChange(interval)}
+                name={interval}
+                key={interval}
+                className='interval-wrapper'
+              >
+                <p>{interval}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

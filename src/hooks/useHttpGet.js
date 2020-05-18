@@ -13,7 +13,6 @@ export const useHttpGet = endPoint => {
 
     const getData = async () => {
       try {
-        console.log();
         const response = await axios.get(BASE_URL + endPoint, {
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -31,11 +30,7 @@ export const useHttpGet = endPoint => {
         //   }
         // })
 
-        console.log(response);
-
         setIsLoading(false);
-
-        console.log(response);
       } catch (err) {
         console.log(`error getting data, endpoint: ${endPoint}`, err);
       }

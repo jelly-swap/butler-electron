@@ -1,21 +1,45 @@
 import React from 'react';
 
-const SelectMenu = ({ options, onChange, id, value }) => {
+const SelectMenu = ({ isOpen, options, onChange, id, value }) => {
   return (
-    <select
-      onChange={event => {
-        event.persist();
-        onChange(id, event.target.value);
-      }}
-      value={value}
-    >
-      {options.map(key => (
-        <option key={key} value={key}>
-          {key}
-        </option>
-      ))}
-    </select>
+    <div className='menu-wrapper'>
+      {isOpen ? (
+        <div className='assets-list'>
+          {options.map((option, idx) =>
+            option !== value ? (
+              <div
+                onClick={event => {
+                  event.persist();
+                  onChange(id, option);
+                }}
+                className='current-asset'
+                key={idx}
+              >
+                <img src={require(`../../../images/tokens/${option}.svg`)} />
+                <span>{option}</span>
+              </div>
+            ) : null,
+          )}
+        </div>
+      ) : null}
+    </div>
   );
 };
 
 export default SelectMenu;
+
+{
+  /* <select
+onChange={event => {
+  event.persist();
+  onChange(id, event.target.value);
+}}
+value={value}
+>
+{options.map(key => (
+  <option key={key} value={key}>
+    {key}
+  </option>
+))}
+</select> */
+}
