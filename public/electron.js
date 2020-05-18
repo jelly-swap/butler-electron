@@ -86,25 +86,25 @@ const BUTLER_EVENTS = {
 const { START, STOP, SAVE, LOAD } = BUTLER_EVENTS;
 
 ipcMain.on(START, (event, config) => {
-  if (isDev) {
-    butler = fork('./public/butler/src/index.js', [config]);
-  } else {
-    const asarPath = app.getAppPath();
-    const butlerPath = `${asarPath}/build/butler/src/index.js`;
+  const butlerPath = `${app.getAppPath()}/build/butler/src/index.js`;
 
-    log.info('Trying to start...', butlerPath);
-    log.info('Config: ', config);
-    log.info('Executable: ', process.execPath);
-    butler = fork(butlerPath, [config]);
-  }
+  log.info('Trying to start...', butlerPath);
+  log.info('Config: ', config);
+  log.info('Executable: ', process.execPath);
+
+  butler = fork(butlerPath, [config]);
 
   butler.on('message', msg => {
     event.sender.send('data', msg);
   });
+
+  event.preventDefault();
 });
 
 ipcMain.on(STOP, event => {
-  if (butler?.killed) return;
+  if (butler?.killed) {
+    return;
+  }
 
   butler.kill();
 
@@ -112,9 +112,9 @@ ipcMain.on(STOP, event => {
 
   ipcMain.removeAllListeners(listeners);
 
-  const homePath = '/';
+  event.sender.send('butlerHasBeenKilled', '/');
 
-  event.sender.send('butlerHasBeenKilled', homePath);
+  event.preventDefault();
 });
 
 ipcMain.on(LOAD, event => {
@@ -135,6 +135,8 @@ ipcMain.on(LOAD, event => {
 
     event.sender.send('configLoaded', JSON.parse(fileToUse));
   });
+
+  event.preventDefault();
 });
 
 ipcMain.on(SAVE, (event, file) => {
@@ -152,6 +154,8 @@ ipcMain.on(SAVE, (event, file) => {
       event.sender.send('configSaved', JSON.parse(file));
     });
   });
+
+  event.preventDefault();
 });
 
 //-------------------------------------------------------------------

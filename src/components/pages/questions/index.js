@@ -51,13 +51,13 @@ const Questions = () => {
   useEffect(() => {
     const { ipcRenderer } = window.require('electron');
 
-    ipcRenderer.on('butlerHasBeenKilled', (message, pathname) => {
-      history.push('/');
+    ipcRenderer.on('butlerHasBeenKilled', (__message, pathname) => {
+      history.push(pathname);
     });
 
     ipcRenderer.send('loadConfig');
 
-    ipcRenderer.on('configLoaded', (message, config) => {
+    ipcRenderer.on('configLoaded', (__message, config) => {
       setReadConfig(config);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -83,7 +83,7 @@ const Questions = () => {
 
       ipcRenderer.send('saveConfig', config);
 
-      ipcRenderer.on('configSaved', event => {
+      ipcRenderer.on('configSaved', () => {
         ipcRenderer.send('start-butler', JSON.stringify(config));
 
         history.push('/terminal');
