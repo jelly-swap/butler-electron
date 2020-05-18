@@ -1,7 +1,41 @@
 {
   "name": "butler-electron",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "start": "rescripts start",
+    "build": "rescripts build",
+    "test": "rescripts test",
+    "eject": "react-scripts eject",
+    "electron-start": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "postinstall": "electron-builder install-app-deps",
+    "preelectron-pack": "yarn build",
+    "electron-pack": "electron-builder build -w",
+    "release": "cross-env GH_TOKEN=ac3d9198276da8ef7b5d4271d08a98eb4f92c03c electron-builder"
+  },
+  "main": "public/electron.js",
+  "homepage": "./",
+  "author": {
+    "name": "Jelly Swap",
+    "email": "raykov@weichain.tech",
+    "url": "https://jelly.market"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jelly-swap/butler-electron.git"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "devDependencies": {
+    "@rescripts/cli": "^0.0.14",
+    "@rescripts/rescript-env": "^0.0.12",
+    "concurrently": "^5.2.0",
+    "cross-env": "^7.0.2",
+    "electron": "^8.2.5",
+    "electron-builder": "^22.6.0",
+    "wait-on": "^5.0.0"
+  },
   "dependencies": {
     "@jelly-swap/aeternity": "0.1.37-node",
     "@jelly-swap/bitcoin": "0.1.40",
@@ -21,6 +55,8 @@
     "cors": "^2.8.5",
     "cryptocompare": "^1.0.0",
     "electron-is-dev": "^1.2.0",
+    "electron-log": "^4.1.2",
+    "electron-updater": "^4.3.1",
     "express": "^4.17.1",
     "moment": "2.24.0",
     "mongodb": "^3.5.4",
@@ -40,53 +76,51 @@
     "winston": "^3.2.1",
     "winston-slack-webhook-transport": "^1.2.1"
   },
-  "scripts": {
-    "start": "rescripts start",
-    "build": "rescripts build",
-    "test": "rescripts test",
-    "eject": "react-scripts eject",
-    "electron-start": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
-    "postinstall": "electron-builder install-app-deps",
-    "preelectron-pack": "yarn build",
-    "electron-pack": "electron-builder build -w"
-  },
-  "main": "public/electron.js",
-  "homepage": "./",
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "@rescripts/cli": "^0.0.14",
-    "@rescripts/rescript-env": "^0.0.12",
-    "concurrently": "^5.2.0",
-    "cross-env": "^7.0.2",
-    "electron": "^8.2.5",
-    "electron-builder": "^22.6.0",
-    "wait-on": "^5.0.0"
-  },
-  "author": {
-    "name": "Your Name",
-    "email": "your.email@domain.com",
-    "url": "https://your-website.com"
-  },
   "build": {
-    "appId": "com.my-website.my-app",
-    "productName": "MyApp",
+    "appId": "app.jelly.market",
+    "productName": "Jelly Butler",
     "copyright": "Copyright © 2019 ${author}",
     "mac": {
-      "category": "public.app-category.utilities"
+      "icon": "./public/icons/jelly-butler.icns",
+      "category": "public.app-category.finance",
+      "publish": [
+        "github"
+      ]
+    },
+    "win": {
+      "icon": "./public/icons/jelly-butler.png",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "7z",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "publish": [
+        "github"
+      ]
+    },
+    "linux": {
+      "icon": "./public/icons/jelly-butler.png",
+      "category": "Finance",
+      "target": [
+        "AppImage",
+        "snap"
+      ],
+      "publish": [
+        "github"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
     },
     "files": [
       "build/**/*",
@@ -110,6 +144,18 @@
           "**/*"
         ]
       }
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
     ]
   }
 }

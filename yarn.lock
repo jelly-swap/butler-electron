@@ -1841,6 +1841,13 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
+"@types/semver@^7.1.0":
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/@types/semver/-/semver-7.1.0.tgz#c8c630d4c18cd326beff77404887596f96408408"
+  integrity sha512-pOKLaubrAEMUItGNpgwl0HMFPrSAFic8oSVIvfu1UwcgGNmNyK9gyhBHKmBnUTwwVvpZfkzUC0GaMgnL6P86uA==
+  dependencies:
+    "@types/node" "*"
+
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
@@ -4798,6 +4805,11 @@ electron-is-dev@^1.2.0:
   resolved "https://registry.yarnpkg.com/electron-is-dev/-/electron-is-dev-1.2.0.tgz#2e5cea0a1b3ccf1c86f577cee77363ef55deb05e"
   integrity sha512-R1oD5gMBPS7PVU8gJwH6CtT0e6VSoD0+SzSnYpNm+dBkcijgA+K7VAMHDfnRq/lkKPZArpzplTW6jfiMYosdzw==
 
+electron-log@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/electron-log/-/electron-log-4.1.2.tgz#da1fdf1950965ec0cf3a04803054e4202083251d"
+  integrity sha512-MGPjGBEj6p0JdJmbqxbGud7kkHdV+T+D7gq1U+mfsnUM+o0bd4nPsQjVdgqQPsj0epoKdGbNIZ4FPpTQKhRfZA==
+
 electron-publish@22.6.0:
   version "22.6.0"
   resolved "https://registry.yarnpkg.com/electron-publish/-/electron-publish-22.6.0.tgz#11dca595cfe3c0fdbc364c28dbb8838a1c6ec799"
@@ -4821,6 +4833,19 @@ electron-to-chromium@^1.3.378:
   version "1.3.379"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.379.tgz#81dc5e82a3e72bbb830d93e15bc35eda2bbc910e"
   integrity sha512-NK9DBBYEBb5f9D7zXI0hiE941gq3wkBeQmXs1ingigA/jnTg5mhwY2Z5egwA+ZI8OLGKCx0h1Cl8/xeuIBuLlg==
+
+electron-updater@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/electron-updater/-/electron-updater-4.3.1.tgz#9d485b6262bc56fcf7ee62b1dc1b3b105a3e96a7"
+  integrity sha512-UDC5AHCgeiHJYDYWZG/rsl1vdAFKqI/Lm7whN57LKAk8EfhTewhcEHzheRcncLgikMcQL8gFo1KeX51tf5a5Wg==
+  dependencies:
+    "@types/semver" "^7.1.0"
+    builder-util-runtime "8.7.0"
+    fs-extra "^9.0.0"
+    js-yaml "^3.13.1"
+    lazy-val "^1.0.4"
+    lodash.isequal "^4.5.0"
+    semver "^7.1.3"
 
 electron@^8.2.5:
   version "8.2.5"
@@ -11570,7 +11595,7 @@ semver@7.0.0:
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.0.0.tgz#5f3ca35761e47e05b206c6daff2cf814f0316b8e"
   integrity sha512-+GB6zVA9LWh6zovYQLALHwv5rb2PHGlJi3lfiqIHxR0uuwCgefcOJc59v9fv1w8GbStwxuuqqAjI9NMAOOgq1A==
 
-semver@^7.1.2, semver@^7.3.2:
+semver@^7.1.2, semver@^7.1.3, semver@^7.3.2:
   version "7.3.2"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.3.2.tgz#604962b052b81ed0786aae84389ffba70ffd3938"
   integrity sha512-OrOb32TeeambH6UrhtShmF7CRDqhL6/5XpPNp2DuRH6+9QLw/orhp72j87v8Qa1ScDkvrrBNpZcDejAirJmfXQ==
