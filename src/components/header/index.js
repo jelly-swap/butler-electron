@@ -24,10 +24,18 @@ const Header = () => {
       </div>
       {location.pathname !== '/' && (
         <div className='nav-links-wrapper'>
-          <button onClick={navigateTo} name='/terminal'>
+          <button
+            className={`${location.pathname === '/terminal' ? 'active' : null}`}
+            onClick={navigateTo}
+            name='/terminal'
+          >
             Terminal
           </button>
-          <button onClick={navigateTo} name='/balanceOf'>
+          <button
+            className={`${location.pathname === '/balanceOf' ? 'active' : null}`}
+            onClick={navigateTo}
+            name='/balanceOf'
+          >
             Balance Of
           </button>
         </div>

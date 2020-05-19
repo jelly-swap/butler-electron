@@ -18,17 +18,8 @@ export const useHttpGet = endPoint => {
             'Access-Control-Allow-Origin': '*',
           },
         });
-        // const response = await fetch(BASE_URL + endPoint, {
-        //   headers: {
-        //     'Access-Control-Allow-Origin': '*',
-        //   },
-        // });
 
-        // axios.get(BASE_URL + endPoint, {
-        //   headers: {
-        //     'Access-Control-Allow-Origin': '*',
-        //   }
-        // })
+        setData(response.data);
 
         setIsLoading(false);
       } catch (err) {
@@ -44,6 +35,7 @@ export const useHttpGet = endPoint => {
   }, [endPoint]);
 
   return {
+    isLoading,
     data,
   };
 };

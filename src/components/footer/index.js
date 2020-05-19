@@ -12,6 +12,7 @@ import './style.scss';
 const statusText = {
   '/': 'Start',
   '/terminal': 'Stop',
+  '/balanceOf': 'Stop',
 };
 
 const Footer = () => {
