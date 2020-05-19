@@ -64,7 +64,7 @@ const Questions = () => {
   }, []);
 
   useEffect(() => {
-    if (history.location.pathname === '/' && Object.keys(writeConfig).length) {
+    if (isButlerStarted && history.location.pathname === '/' && Object.keys(writeConfig).length) {
       setIsButlerStarted(false);
 
       const { ipcRenderer } = require('electron');

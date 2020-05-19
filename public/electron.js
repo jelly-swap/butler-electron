@@ -86,19 +86,21 @@ const BUTLER_EVENTS = {
 const { START, STOP, SAVE, LOAD } = BUTLER_EVENTS;
 
 ipcMain.on(START, (event, config) => {
-  const butlerPath = `${app.getAppPath()}/build/butler/src/index.js`;
+  if (!butler) {
+    const butlerPath = `${app.getAppPath()}/build/butler/src/index.js`;
 
-  log.info('Trying to start...', butlerPath);
-  log.info('Config: ', config);
-  log.info('Executable: ', process.execPath);
+    log.info('Trying to start...', butlerPath);
+    log.info('Config: ', config);
+    log.info('Executable: ', process.execPath);
 
-  butler = fork(butlerPath, [config]);
+    butler = fork(butlerPath, [config]);
 
-  butler.on('message', msg => {
-    event.sender.send('data', msg);
-  });
+    butler.on('message', msg => {
+      event.sender.send('data', msg);
+    });
 
-  event.preventDefault();
+    event.preventDefault();
+  }
 });
 
 ipcMain.on(STOP, event => {
@@ -107,6 +109,8 @@ ipcMain.on(STOP, event => {
   }
 
   butler.kill();
+
+  butler = null;
 
   const listeners = Object.values(BUTLER_EVENTS);
 
