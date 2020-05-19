@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { useHttpGet } from '../../../hooks/useHttpGet';
+import { useHttpGet } from '../../../../hooks/useHttpGet';
 
 import './style.scss';
-import { formatAddress } from '../../../utils/formatter';
+import { formatAddress } from '../../../../utils/formatter';
 
 const balanceEndpoint = '/api/v1/balance';
 
@@ -22,7 +22,7 @@ const BalanceOf = () => {
             <div className='balance-wrapper'>
               <p>Balance:</p> <span>{data[key].balance}</span>
               <div className='img-wrapper'>
-                <img className='token-img' src={require(`../../../images/tokens/${key}.svg`)} alt={key} />
+                <img className='token-img' src={require(`../../../../images/tokens/${key}.svg`)} alt={key} />
               </div>
             </div>
           </div>
