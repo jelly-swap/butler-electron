@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Route } from 'react-router-dom';
 
-import Terminal from '../terminal';
-import BalanceOf from '../balanceOf';
+import Terminal from './terminal';
+import BalanceOf from './balanceOf';
 
 import { useChannel } from '../../../hooks/useChannel';
 
