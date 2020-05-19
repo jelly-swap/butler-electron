@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Terminal from 'terminal-in-react';
-
-import { useChannel } from '../../../hooks/useChannel';
 
 import './style.scss';
 
-const JellyTerminal = () => {
-  const [data, setData] = useState('');
-
-  useChannel('data', setData);
-
+const JellyTerminal = ({ terminalData }) => {
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+    for (const info of terminalData) {
+      if (info) {
+        const now = new Date().toISOString().substring(0, 19).replace('T', ' ');
+
+        console.log(`${now} ${info}`);
+      }
+    }
+  }, [terminalData]);
 
   return (
     <div className='terminal-wrapper'>

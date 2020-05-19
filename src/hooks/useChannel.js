@@ -1,18 +1,17 @@
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const { ipcRenderer } = window.require('electron');
 
-export const useChannel = (channel, setState) => {
+export const useChannel = channel => {
   const renderedRef = useRef();
+  const [data, setData] = useState();
 
   useEffect(() => {
     renderedRef.current = true;
 
     ipcRenderer.on(channel, (message, args) => {
       if (renderedRef.current) {
-        const now = new Date().toISOString().substring(0, 19).replace('T', ' ');
-
-        setState(`${now} ${args} \n`);
+        setData(args);
       }
     });
 
@@ -22,4 +21,6 @@ export const useChannel = (channel, setState) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  return { data };
 };
