@@ -18,7 +18,6 @@ import Emitter from '../../../utils/emitter';
 import { validateConfig, areAllValid } from '../../../utils/validateConfig';
 import { generateConfig } from '../../../utils/generateConfig';
 
-import ScrollToTop from '../../../images/scroll-to-top.svg';
 import DownArrow from '../../../images/down-arrow.svg';
 
 import Collapsible from 'react-collapsible';
@@ -89,6 +88,7 @@ const Questions = () => {
         history.push('/terminal');
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [writeConfig]);
 
   const handleOnScroll = () => {

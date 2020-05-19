@@ -30,7 +30,8 @@ const validateWallets = (wallets, pairs) => {
   for (const pair in pairs) {
     const [provide, receive] = pair.split('-').reverse();
 
-    for (const wallet in wallets) {
+    /*eslint no-unused-vars: "off"*/
+    for (const _ in wallets) {
       const isValidProvide = validateWalletState(wallets, provide);
       const isValidReceive = validateWalletState(wallets, receive);
 

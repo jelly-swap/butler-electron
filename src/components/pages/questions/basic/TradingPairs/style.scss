@@ -1,4 +1,4 @@
-@import '../../../../../css/constants.scss';
+@import "../../../../../css/constants.scss";
 
 .trading-pairs-wrapper {
   width: 100%;
@@ -44,8 +44,6 @@
 
         p {
           margin: auto;
-          // position: relative;
-          // top: 10%;
         }
 
         .field-wrapper {
@@ -188,10 +186,6 @@
 
 .trading-pairs-wrapper::-webkit-scrollbar {
   width: 6px;
-}
-
-.trading-pairs-wrapper::-webkit-scrollbar-track-piece {
-  // background-color: lightgray;
 }
 
 .trading-pairs-wrapper::-webkit-scrollbar-thumb {

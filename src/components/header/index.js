@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 
 import Logo from '../../images/jelly-butler.svg';
 

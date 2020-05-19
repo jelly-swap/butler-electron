@@ -98,6 +98,7 @@ const PriceProvider = ({ valid, selectedPriceProvider, isButlerStarted, getState
     }
 
     setIsValid(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [priceProvider]);
 
   useGetStateFromCP(isButlerStarted, getState, { PRICE_PROVIDER: priceProvider });
