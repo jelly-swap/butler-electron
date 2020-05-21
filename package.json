@@ -11,7 +11,7 @@
     "postinstall": "electron-builder install-app-deps",
     "preelectron-pack": "yarn build",
     "electron-pack": "electron-builder build -w",
-    "release": "cross-env GH_TOKEN=ac3d9198276da8ef7b5d4271d08a98eb4f92c03c electron-builder"
+    "release": "electron-builder -mwl"
   },
   "main": "public/electron.js",
   "homepage": "./",
