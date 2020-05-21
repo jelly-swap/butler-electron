@@ -63,7 +63,7 @@ const TradingPairs = ({ valid, selectedPairs, isButlerStarted, getState }) => {
         [idx]: {
           provide,
           receive,
-          fee: FEE,
+          fee: FEE * 100,
         },
       }));
 
