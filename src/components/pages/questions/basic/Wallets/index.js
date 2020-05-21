@@ -145,7 +145,7 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
                   </div>
                   <div className='wallet-private-key'>
                     <Input
-                      type='text'
+                      type='password'
                       placeholder='Private Key'
                       value={wallets[wallet]?.secret}
                       onChange={event => handleSecretOnChange(wallet, event)}

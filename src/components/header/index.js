@@ -29,14 +29,14 @@ const Header = () => {
             onClick={navigateTo}
             name='/terminal'
           >
-            Terminal
+            Logs
           </button>
           <button
             className={`${location.pathname === '/balanceOf' ? 'active' : null}`}
             onClick={navigateTo}
             name='/balanceOf'
           >
-            Balance Of
+            Wallets
           </button>
         </div>
       )}
