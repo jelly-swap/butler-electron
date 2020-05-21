@@ -104,11 +104,12 @@ ipcMain.on(START, (event, config) => {
 });
 
 ipcMain.on(STOP, event => {
-  if (butler?.killed) {
+  if (!butler || butler?.killed) {
     return;
   }
 
   butler.kill();
+  butler = null;
 
   butler = null;
 
