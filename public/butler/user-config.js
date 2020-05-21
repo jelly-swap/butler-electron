@@ -5,10 +5,10 @@ exports.default = {
     NAME: 'NODE_NAME',
     // Traiding pairs
     PAIRS: {
-        'ETH-USDC': {
+        'BTC-ETH': {
             FEE: 0.01,
         },
-        'ETH-DAI': {
+        'ETH-BTC': {
             FEE: 0.01,
         },
     },
@@ -17,36 +17,36 @@ exports.default = {
         //ETH provider wallet
         //Should be different than your ERC20 provider wallet
         ETH: {
-            ADDRESS: '0xfCd50a1620f21A46Ddf39B526DCA17c59D94e323',
+            ADDRESS: '',
             // Ethereum Private Key
-            SECRET: 'F877C159A076F27D989E506F11AB4FADBE6694F9857E43107F049B4D9901A6A0',
+            SECRET: '',
         },
         BTC: {
-            ADDRESS: 'bc1qg8farg3ysttwqrt2mqpwwrqdw8mfc48ydtzhug',
+            ADDRESS: '',
             // BIP39 mnemonic
-            SECRET: 'time eternal kiwi final school betray embark cruel face torch neglect food',
+            SECRET: '',
         },
         AE: {
-            ADDRESS: 'ak_2DwBMPvRkBHj2vZqjCKhupgqYg5Do9oTUMfhM57bkAoauzxKm',
+            ADDRESS: '',
             // Aeternity Private key
-            SECRET: 'b5ad4632e6a6bd8d166132b915f39e15ad4044fe8a4f02ec61cec775470c334aa1108831159d060953f3b7d679fe1173c2731f0dff60b76db8bcf00e2e235ba8',
+            SECRET: '',
         },
         //Use one common ETH address for all ERC20 tokens!
         //Should be different than your ETH provider wallet!
         DAI: {
-            ADDRESS: '0xfCd50a1620f21A46Ddf39B526DCA17c59D94e322',
+            ADDRESS: '',
             // Ethereum Private Key
-            SECRET: 'F877C159A076F27D989E506F11AB4FADBE6694F9857E43107F049B4D9901A6A0',
+            SECRET: '',
         },
         USDC: {
-            ADDRESS: '0xfCd50a1620f21A46Ddf39B526DCA17c59D94e323',
+            ADDRESS: '',
             // Ethereum Private Key
-            SECRET: 'F877C159A076F27D989E506F11AB4FADBE6694F9857E43107F049B4D9901A6A0',
+            SECRET: '',
         },
         WBTC: {
-            ADDRESS: '0xfCd50a1620f21A46Ddf39B526DCA17c59D94e323',
+            ADDRESS: '',
             // Ethereum Private Key
-            SECRET: 'F877C159A076F27D989E506F11AB4FADBE6694F9857E43107F049B4D9901A6A0',
+            SECRET: '',
         },
     },
     // PRICE PROVIDER
@@ -79,7 +79,7 @@ exports.default = {
         },
     },
     // ================== ADVANCED ==================
-    AGGREGATOR_URL: 'http://localhost:9005/api/v1/info',
+    AGGREGATOR_URL: 'https://network.jelly.market/api/v1/info/update',
     SERVER: { PORT: 9000 },
     // ================== Database configuration ==================
     //options: mongodb or sqlite

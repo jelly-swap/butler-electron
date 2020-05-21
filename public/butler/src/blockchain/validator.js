@@ -19,6 +19,7 @@ const config_2 = require("../config");
 const utils_1 = require("../utils");
 const config_3 = require("./config");
 const utils_2 = require("./utils");
+const supportedNetworks_1 = require("../config/supportedNetworks");
 exports.isInputSwapExpirationValid = (swap) => {
     const blockchainConfig = config_3.default();
     const now = getCurrentDate(blockchainConfig[swap.network].unix);
@@ -38,10 +39,17 @@ exports.isOutputSwapExpirationValid = (swap) => {
     return result;
 };
 exports.isInputSwapValid = (swap) => __awaiter(void 0, void 0, void 0, function* () {
-    const userConfig = new config_2.default().getUserConfig();
+    const userConfigInstance = new config_2.default();
+    const userConfig = userConfigInstance.getUserConfig();
     const blockchainConfig = config_3.default();
     const inputNetworkValidation = utils_1.safeAccess(blockchainConfig, [swap.network]);
     const outputNetworkValidation = utils_1.safeAccess(blockchainConfig, [swap.outputNetwork]);
+    const supportedNetworks = supportedNetworks_1.default();
+    const receivers = userConfigInstance.getReceivers(Object.keys(supportedNetworks));
+    if (receivers.findIndex((item) => utils_2.compareAddress(swap.sender, item)) !== -1) {
+        logger_1.logError(`INPUT_SENDER_EQUAL_BUTLER_RECEIVER`, swap);
+        return false;
+    }
     if (!exports.isInputSwapExpirationValid(swap)) {
         logger_1.logError(`INPUT_INVALID_EXPIRATION`, swap);
         return false;
