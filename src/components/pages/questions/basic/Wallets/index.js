@@ -62,6 +62,7 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
         },
       }));
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [walletsToShow]);
 
   useEffect(() => {
@@ -112,10 +113,6 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
       [wallet]: { ...wallets[wallet], secret: event.target.value },
     }));
   };
-
-  useEffect(() => {
-    console.log(isValid);
-  }, [isValid]);
 
   return (
     <div className='wallets-wrapper'>

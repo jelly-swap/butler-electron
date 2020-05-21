@@ -15,7 +15,7 @@ const SelectMenu = ({ isOpen, options, onChange, id, value }) => {
                 className='current-asset'
                 key={idx}
               >
-                <img src={require(`../../../images/tokens/${option}.svg`)} />
+                <img src={require(`../../../images/tokens/${option}.svg`)} alt={option} />
                 <span>{option}</span>
               </div>
             ) : null,
@@ -27,19 +27,3 @@ const SelectMenu = ({ isOpen, options, onChange, id, value }) => {
 };
 
 export default SelectMenu;
-
-{
-  /* <select
-onChange={event => {
-  event.persist();
-  onChange(id, event.target.value);
-}}
-value={value}
->
-{options.map(key => (
-  <option key={key} value={key}>
-    {key}
-  </option>
-))}
-</select> */
-}

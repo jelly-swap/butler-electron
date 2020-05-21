@@ -1,14 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 
 import Input from '../../../../../common/Input';
 import SelectMenu from '../../../../../common/SelectMenu';
-import Button from '../../../../../common/Button';
 
 import { PAIRS } from '../../../../../../constants';
 
 import { validateCurrency } from '../../../../../../utils/enterNumbersOnly';
-
-import { useListenForClickOutsideElement } from '../../../../../../hooks/useListenForClickOutsideElement';
 
 const PairRow = ({
   id,
@@ -24,8 +21,6 @@ const PairRow = ({
 }) => {
   const [isOpenLeftMenu, setIsOpenLeftMenu] = useState(false);
   const [isOpenRightMenu, setIsOpenRightMenu] = useState(false);
-  // const leftSelectMenuRef = useRef(null);
-  // const rightSelectMenuRef = useRef(null);
 
   const openLeftMenu = () => {
     setIsOpenRightMenu(false);
@@ -37,13 +32,6 @@ const PairRow = ({
     setIsOpenRightMenu(isOpen => !isOpen);
   };
 
-  const handleClickOutside = () => {
-    setIsOpenLeftMenu(false);
-    setIsOpenRightMenu(false);
-  };
-
-  // useListenForClickOutsideElement(handleClickOutside);
-
   return (
     <>
       <div className={`pair-row ${isOpenLeftMenu || isOpenRightMenu ? 'row-focused' : null}`} id={id}>
@@ -53,7 +41,7 @@ const PairRow = ({
               <span className='label'>Provide</span>
               <div onClick={openLeftMenu} className={`left-select-menu ${isOpenLeftMenu ? 'opened' : null}`}>
                 <div className='selected-asset'>
-                  <img src={require(`../../../../../../images/tokens/${pair.provide}.svg`)} />
+                  <img src={require(`../../../../../../images/tokens/${pair.provide}.svg`)} alt={pair.provide} />
                   <span>{pair.provide}</span>
                 </div>
                 <SelectMenu
@@ -69,7 +57,7 @@ const PairRow = ({
               <span className='label'>Receive</span>
               <div onClick={openRightMenu} className={`right-select-menu ${isOpenRightMenu ? 'opened' : null}`}>
                 <div className='selected-asset'>
-                  <img src={require(`../../../../../../images/tokens/${pair.receive}.svg`)} />
+                  <img src={require(`../../../../../../images/tokens/${pair.receive}.svg`)} alt={pair.receive} />
                   <span>{pair.receive}</span>
                 </div>
                 <SelectMenu

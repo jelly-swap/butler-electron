@@ -79,14 +79,13 @@ const Email = ({ emailInfo, setChannelData }) => {
             <div className='from-wrapper'>
               <Input
                 type='text'
-                className='from-field'
+                className={`from-field ${
+                  emailInfo.from && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.from) ? 'invalid-email' : 'valid-email'
+                }`}
                 placeholder='From'
                 name='from'
                 value={emailInfo.from}
                 onChange={handleEmailDataOnChange}
-                className={
-                  emailInfo.from && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.from) ? 'invalid-email' : 'valid-email'
-                }
               />
               <span
                 className={
@@ -97,14 +96,13 @@ const Email = ({ emailInfo, setChannelData }) => {
             <div className='to-wrapper'>
               <Input
                 type='text'
-                className='to-field'
+                className={`to-field ${
+                  emailInfo.to && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.to) ? 'invalid-email' : 'valid-email'
+                }`}
                 placeholder='To'
                 name='to'
                 value={emailInfo.to}
                 onChange={handleEmailDataOnChange}
-                className={
-                  emailInfo.to && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.to) ? 'invalid-email' : 'valid-email'
-                }
               />
               <span
                 className={
