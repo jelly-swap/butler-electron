@@ -195,6 +195,7 @@ const PriceProvider = ({ valid, selectedPriceProvider, isButlerStarted, getState
         )}
         {getSelectedPriceProvider() && (
           <div className='price-provider-input-wrapper'>
+            <p>Price interval update</p>
             <p
               className={`selected-interval ${isIntervalOpen ? 'menu-open' : null}`}
               onClick={() => setIsIntervalOpen(isIntervalOpen => !isIntervalOpen)}
