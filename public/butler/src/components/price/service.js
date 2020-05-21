@@ -19,6 +19,7 @@ const utils_2 = require("../../blockchain/utils");
 class PriceService {
     constructor() {
         this.prices = {};
+        this.allPrices = {};
         this.pricesWithSpreadAndFee = {};
         if (PriceService.instance) {
             return PriceService.instance;
@@ -47,6 +48,7 @@ class PriceService {
                     }
                 }
                 if (Object.values(prices).length > 0) {
+                    this.setAllPrices(prices);
                     this.setPrices(supportedPrices);
                     this.setPricesWithSpreadAndFee(supportedPrices);
                 }
@@ -69,11 +71,14 @@ class PriceService {
     getPrices() {
         return this.prices;
     }
+    getAllPrices() {
+        return this.allPrices;
+    }
     getPricesWithSpreadAndFee() {
         return this.pricesWithSpreadAndFee;
     }
     getPairPrice(base, quote) {
-        const prices = this.getPrices();
+        const prices = this.getAllPrices();
         const price = prices[`${base}-${quote}`];
         if (price) {
             return math_1.toBigNumber(price).toString();
@@ -94,6 +99,9 @@ class PriceService {
     }
     setPrices(prices) {
         this.prices = prices;
+    }
+    setAllPrices(prices) {
+        this.allPrices = prices;
     }
     setPricesWithSpreadAndFee(prices) {
         const pricesWithSpread = {};
