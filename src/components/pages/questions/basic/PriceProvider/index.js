@@ -37,13 +37,13 @@ const PriceProvider = ({ valid, selectedPriceProvider, isButlerStarted, getState
   useEffect(() => {
     if (!selectedPriceProvider) return;
 
-    const { PROVIDER, API_KEY, SECRET_KEY, INTERVAL } = selectedPriceProvider;
+    const { PROVIDER, API_KEY, SECRET_KEY, UPDATE_INTERVAL } = selectedPriceProvider;
 
     setPriceProvider({
       [PROVIDER]: {
         apiKey: API_KEY,
         secretKey: SECRET_KEY,
-        interval: INTERVAL,
+        interval: UPDATE_INTERVAL,
       },
     });
   }, [selectedPriceProvider]);

@@ -47,10 +47,10 @@ const validateWallets = (wallets, pairs) => {
 const validatePriceProvider = priceProvider => {
   if (
     priceProvider.PROVIDER === 'Binance' &&
-    (!priceProvider.API_KEY || !priceProvider.SECRET_KEY || !priceProvider.INTERVAL)
+    (!priceProvider.API_KEY || !priceProvider.SECRET_KEY || !priceProvider.UPDATE_INTERVAL)
   ) {
     return false;
-  } else if (!priceProvider.API_KEY || !priceProvider.INTERVAL) {
+  } else if (!priceProvider.API_KEY || !priceProvider.UPDATE_INTERVAL) {
     return false;
   }
 
