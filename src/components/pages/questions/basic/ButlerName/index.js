@@ -36,8 +36,8 @@ const ButlerName = ({ valid, selectedName, isButlerStarted, getState }) => {
     <div className='butler-name-wrapper'>
       <QuestionTitle isValid={isValid} title='Butler name' />
       <div className='name-wrapper'>
-        <Input type='text' value={butlerName} onChange={handleOnChange} placeholder='Butler_Username' />
-        {!isValid ? <p className={`${!butlerName ? 'invalid' : 'valid'} errorMsg`}>Username is required</p> : null}
+        <Input type='text' value={butlerName} onChange={handleOnChange} placeholder='Butler Name' />
+        {!isValid ? <p className={`${!butlerName ? 'invalid' : 'valid'} errorMsg`}>Butler Name is required</p> : null}
       </div>
     </div>
   );
