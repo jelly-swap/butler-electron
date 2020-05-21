@@ -82,9 +82,8 @@ const Questions = () => {
 
       ipcRenderer.send('saveConfig', config);
 
-      ipcRenderer.on('configSaved', () => {
-        ipcRenderer.send('start-butler', JSON.stringify(config));
-
+      ipcRenderer.on('configSaved', (__event, savedConfig) => {
+        ipcRenderer.send('start-butler', JSON.stringify(savedConfig));
         history.push('/terminal');
       });
     }
