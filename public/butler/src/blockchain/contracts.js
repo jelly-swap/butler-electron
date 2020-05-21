@@ -15,7 +15,8 @@ const ethereum_1 = require("./ethereum");
 const aeternity_1 = require("./aeternity");
 const erc20_1 = require("./erc20");
 let Contracts;
-exports.default = () => {
+let NetworkContracts;
+const getContracts = () => {
     if (!Contracts) {
         const Config = config_1.default();
         const AllContracts = {
@@ -30,11 +31,26 @@ exports.default = () => {
     }
     return Contracts;
 };
+exports.getNetworkContracts = () => {
+    if (!NetworkContracts) {
+        NetworkContracts = Object.entries(Contracts).reduce((a, [k, v]) => {
+            if (config_1.SECONDARY_NETWORKS[k]) {
+                a['ERC20'] = v;
+            }
+            else {
+                a[k] = v;
+            }
+            return a;
+        }, {});
+    }
+    return NetworkContracts;
+};
 exports.startEventListener = () => __awaiter(void 0, void 0, void 0, function* () {
-    for (const network of Object.keys(Contracts)) {
-        if (!config_1.SECONDARY_NETWORKS[network]) {
-            yield Contracts[network].subscribe();
-        }
+    getContracts();
+    exports.getNetworkContracts();
+    for (const network in NetworkContracts) {
+        yield NetworkContracts[network].subscribe();
     }
 });
+exports.default = getContracts;
 //# sourceMappingURL=contracts.js.map

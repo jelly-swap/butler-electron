@@ -12,9 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const config_1 = require("../../../config");
 const provider_1 = require("./provider");
 const logger_1 = require("../../logger");
-const config_2 = require("../../blockchain/config");
 const math_1 = require("../../utils/math");
-const config_3 = require("../../config");
+const config_2 = require("../../config");
 const utils_1 = require("../../utils");
 const utils_2 = require("../../blockchain/utils");
 class PriceService {
@@ -24,12 +23,11 @@ class PriceService {
         if (PriceService.instance) {
             return PriceService.instance;
         }
-        this.blockchainConfig = config_2.default();
-        this.userConfig = new config_3.default().getUserConfig();
+        this.userConfig = new config_2.default().getUserConfig();
         this.priceProvider = new provider_1.default[this.userConfig.PRICE.PROVIDER]();
         PriceService.instance = this;
     }
-    update(provider, maxTries = 5) {
+    update(provider, maxTries = 40) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 let prices = {};
@@ -55,34 +53,18 @@ class PriceService {
             }
             catch (err) {
                 if (maxTries > 0) {
-                    yield utils_2.sleep(2000);
+                    yield utils_2.sleep(15000);
                     logger_1.logError('PRICE_SERVICE_DOWN', err);
                     logger_1.logInfo(`Starting new price service: ${this.userConfig.PRICE.PROVIDER}`);
                     this.priceProvider = new provider_1.default[this.userConfig.PRICE.PROVIDER]();
                     yield this.update(this.priceProvider, maxTries - 1);
                 }
                 else {
-                    logger_1.logInfo(`Shutting down the application.`);
+                    logger_1.logInfo(`Shutting down the application after 10 minutes without price provider.`);
                     process.exit(-1);
                 }
             }
         });
-    }
-    isInputPriceValid(swap) {
-        try {
-            const pairPrice = this.getPairPrice(swap.network, swap.outputNetwork);
-            const inputDecimals = this.blockchainConfig[swap.network].decimals;
-            const outputDecimals = this.blockchainConfig[swap.outputNetwork].decimals;
-            const priceInBig = math_1.mulDecimals(pairPrice, outputDecimals);
-            const outputAmount = math_1.mul(priceInBig, math_1.divDecimals(swap.inputAmount, inputDecimals));
-            const pairSlippage = this.userConfig.PAIRS[`${swap.network}-${swap.outputNetwork}`].SLIPPAGE || 0;
-            const requestedAmount = math_1.mul(outputAmount, math_1.add(1, pairSlippage));
-            const outputAmountWithoutFee = math_1.sub(swap.outputAmount, math_1.mul(swap.outputAmount, config_1.default.FEE));
-            return math_1.greaterThan(outputAmountWithoutFee, requestedAmount);
-        }
-        catch (err) {
-            return false;
-        }
     }
     getPrices() {
         return this.prices;
@@ -92,6 +74,16 @@ class PriceService {
     }
     getPairPrice(base, quote) {
         const prices = this.getPrices();
+        const price = prices[`${base}-${quote}`];
+        if (price) {
+            return math_1.toBigNumber(price).toString();
+        }
+        else {
+            throw new Error('INVALID_PAIR');
+        }
+    }
+    getPairPriceWithSpreadAndFee(base, quote) {
+        const prices = this.getPricesWithSpreadAndFee();
         const price = prices[`${base}-${quote}`];
         if (price) {
             return math_1.toBigNumber(price).toString();

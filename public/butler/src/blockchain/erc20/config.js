@@ -31,7 +31,7 @@ exports.default = (token) => {
     const address = utils_1.safeAccess(userConfig, ['WALLETS', token, 'ADDRESS']);
     const secret = utils_1.safeAccess(userConfig, ['WALLETS', token, 'SECRET']);
     const tokenConfig = erc20_1.Config(token, TokenConfig, AddressToToken, 7200);
-    const config = Object.assign(Object.assign({}, tokenConfig), { providerUrl: 'https://mainnet.infura.io/v3/02cf6338c88b42f595f8fd946134fa4b', contractAddress: '0x133DbFdf74f565838A2f9413Fb53761a19f06ADF', explorer: 'https://etherscan.io/tx/', REFUND_PERIOD: 10, VALID_EXPIRATION: 72000, gasMultiplier: 3 });
+    const config = Object.assign(Object.assign({}, tokenConfig), { providerUrl: 'https://mainnet.infura.io/v3/02cf6338c88b42f595f8fd946134fa4b', contractAddress: '0x133DbFdf74f565838A2f9413Fb53761a19f06ADF', explorer: 'https://etherscan.io/tx/', REFUND_PERIOD: 10, VALID_EXPIRATION: 72000, gasMultiplier: 2 });
     if (address && secret) {
         return Object.assign(Object.assign({}, config), { receiverAddress: address, PRIVATE_KEY: secret });
     }

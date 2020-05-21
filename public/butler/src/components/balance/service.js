@@ -75,7 +75,7 @@ class BalanceService {
                         portfolioInUsdcTotal = math_1.addBig(portfolioInUsdcTotal, valueInUsdc);
                     }
                     catch (err) {
-                        logger_1.logInfo(`Balance History Service Warning - price missing ${err}`);
+                        logger_1.logInfo(`Balance History Service Warning - price missing ${network}-USDC  ${err}`);
                     }
                 }
                 balances.push({

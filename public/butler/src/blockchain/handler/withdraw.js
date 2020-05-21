@@ -73,8 +73,9 @@ class WithdrawHandler {
             try {
                 logger_1.logInfo(`TRACK_OLD_WITHDRAWS`);
                 const emitter = new emitter_1.default();
-                for (const network in this.contracts) {
-                    const contract = this.contracts[network];
+                const networkContracts = contracts_1.getNetworkContracts();
+                for (const network in networkContracts) {
+                    const contract = networkContracts[network];
                     const withdraws = yield contract.getPast('withdraw');
                     const ids = withdraws.map((w) => w.id);
                     try {

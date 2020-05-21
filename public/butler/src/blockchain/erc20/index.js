@@ -14,16 +14,19 @@ const emitter_1 = require("../../emitter");
 const email_1 = require("../../email");
 const math_1 = require("../../utils/math");
 const logger_1 = require("../../logger");
+const config_1 = require("../config");
+const config_2 = require("../../config");
 class Erc20Contract extends erc20_1.Contract {
     constructor(config) {
         super(new erc20_1.Providers.WalletProvider(config.PRIVATE_KEY, config.providerUrl), config);
         this.emailService = new email_1.default();
+        this.receivers = new config_2.default().getReceivers(Object.keys(config_1.SECONDARY_NETWORKS));
         this.filter = {
             new: {
-                receiver: this.config.receiverAddress,
+                receiver: this.receivers,
             },
             withdraw: {
-                sender: this.config.receiverAddress,
+                sender: this.receivers,
             },
         };
     }
@@ -70,7 +73,7 @@ class Erc20Contract extends erc20_1.Contract {
                 logger_1.logInfo('START ERC20 REFUNDS');
                 try {
                     let transactionHash;
-                    const events = yield this.getPast('new', { new: { sender: this.config.receiverAddress } });
+                    const events = yield this.getPast('new', { new: { sender: this.receivers } });
                     for (const event of events) {
                         try {
                             if (event.status === 4) {

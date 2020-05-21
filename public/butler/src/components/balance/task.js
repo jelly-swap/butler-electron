@@ -11,10 +11,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const service_1 = require("./service");
 const config_1 = require("../../../config");
+const config_2 = require("../../config");
 class BalanceTask {
     constructor() {
         this.name = 'Balance Task';
         this.balanceService = new service_1.BalanceService();
+        this.userConfig = new config_2.default().getUserConfig();
     }
     start() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -22,7 +24,7 @@ class BalanceTask {
             yield this.balanceService.saveBalanceHistory();
             setInterval(() => __awaiter(this, void 0, void 0, function* () {
                 yield this.balanceService.update();
-            }), config_1.default.PRICE.UPDATE_INTERVAL * 1000);
+            }), this.userConfig.PRICE.UPDATE_INTERVAL * 1000);
             setInterval(() => __awaiter(this, void 0, void 0, function* () {
                 yield this.balanceService.saveBalanceHistory();
             }), config_1.default.BALANCE_SNAPSHOT_INTERVAL * 1000);

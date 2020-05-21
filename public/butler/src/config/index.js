@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_config_1 = require("../../user-config");
+const utils_1 = require("../utils");
 class UserConfig {
     constructor() {
         if (UserConfig.instance) {
@@ -14,6 +15,16 @@ class UserConfig {
     }
     getUserConfig() {
         return this.config;
+    }
+    getReceivers(assets) {
+        const wallets = utils_1.safeAccess(this.config, ['WALLETS']);
+        return assets.reduce((p, c) => {
+            const receiver = wallets[c].ADDRESS;
+            if (receiver) {
+                p.push(receiver);
+            }
+            return p;
+        }, []);
     }
 }
 exports.default = UserConfig;

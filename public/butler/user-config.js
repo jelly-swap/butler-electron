@@ -5,37 +5,11 @@ exports.default = {
     NAME: 'NODE_NAME',
     // Traiding pairs
     PAIRS: {
-        'BTC-USDC': {
-            FEE: 0.01,
-            SLIPPAGE: 0.01,
-        },
-        'BTC-WBTC': {
-            FEE: 0.01,
-            SLIPPAGE: 0.01,
-        },
         'ETH-USDC': {
             FEE: 0.01,
-            SLIPPAGE: 0.01,
-        },
-        'BTC-DAI': {
-            FEE: 0.01,
-            SLIPPAGE: 0.01,
         },
         'ETH-DAI': {
             FEE: 0.01,
-            SLIPPAGE: 0.01,
-        },
-        'DAI-ETH': {
-            FEE: 0.01,
-            SLIPPAGE: 0.01,
-        },
-        'USDC-ETH': {
-            FEE: 0.01,
-            SLIPPAGE: 0.01,
-        },
-        'BTC-ETH': {
-            FEE: 0.01,
-            SLIPPAGE: 0.01,
         },
     },
     // WALLET SETUP
@@ -43,43 +17,44 @@ exports.default = {
         //ETH provider wallet
         //Should be different than your ERC20 provider wallet
         ETH: {
-            ADDRESS: '',
+            ADDRESS: '0xfCd50a1620f21A46Ddf39B526DCA17c59D94e323',
             // Ethereum Private Key
-            SECRET: '',
+            SECRET: 'F877C159A076F27D989E506F11AB4FADBE6694F9857E43107F049B4D9901A6A0',
         },
         BTC: {
-            ADDRESS: '',
+            ADDRESS: 'bc1qg8farg3ysttwqrt2mqpwwrqdw8mfc48ydtzhug',
             // BIP39 mnemonic
-            SECRET: '',
+            SECRET: 'time eternal kiwi final school betray embark cruel face torch neglect food',
         },
         AE: {
-            ADDRESS: '',
+            ADDRESS: 'ak_2DwBMPvRkBHj2vZqjCKhupgqYg5Do9oTUMfhM57bkAoauzxKm',
             // Aeternity Private key
-            SECRET: '',
+            SECRET: 'b5ad4632e6a6bd8d166132b915f39e15ad4044fe8a4f02ec61cec775470c334aa1108831159d060953f3b7d679fe1173c2731f0dff60b76db8bcf00e2e235ba8',
         },
-        //Use one common ETH address for all ERC20 tokens
-        //Should be different than your ETH provider wallet
+        //Use one common ETH address for all ERC20 tokens!
+        //Should be different than your ETH provider wallet!
         DAI: {
-            ADDRESS: '',
+            ADDRESS: '0xfCd50a1620f21A46Ddf39B526DCA17c59D94e322',
             // Ethereum Private Key
-            SECRET: '',
+            SECRET: 'F877C159A076F27D989E506F11AB4FADBE6694F9857E43107F049B4D9901A6A0',
         },
         USDC: {
-            ADDRESS: '',
+            ADDRESS: '0xfCd50a1620f21A46Ddf39B526DCA17c59D94e323',
             // Ethereum Private Key
-            SECRET: '',
+            SECRET: 'F877C159A076F27D989E506F11AB4FADBE6694F9857E43107F049B4D9901A6A0',
         },
         WBTC: {
-            ADDRESS: '',
+            ADDRESS: '0xfCd50a1620f21A46Ddf39B526DCA17c59D94e323',
             // Ethereum Private Key
-            SECRET: '',
+            SECRET: 'F877C159A076F27D989E506F11AB4FADBE6694F9857E43107F049B4D9901A6A0',
         },
     },
     // PRICE PROVIDER
     PRICE: {
-        PROVIDER: 'cryptocompare',
+        PROVIDER: 'CryptoCompare',
         API_KEY: '',
         SECRET_KEY: '',
+        UPDATE_INTERVAL: 30,
     },
     // REBALANCE
     EXCHANGE: {
@@ -104,7 +79,7 @@ exports.default = {
         },
     },
     // ================== ADVANCED ==================
-    AGGREGATOR_URL: 'https://network.jelly.market/api/v1/info/update',
+    AGGREGATOR_URL: 'http://localhost:9005/api/v1/info',
     SERVER: { PORT: 9000 },
     // ================== Database configuration ==================
     //options: mongodb or sqlite

@@ -6,6 +6,7 @@ let Config;
 exports.SECONDARY_NETWORKS = {
     WBTC: 'WBTC',
     USDC: 'USDC',
+    DAI: 'DAI',
 };
 exports.default = () => {
     if (!Config) {

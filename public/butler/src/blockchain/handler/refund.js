@@ -10,15 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const contracts_1 = require("../contracts");
-const config_1 = require("../config");
 class RefundHandler {
     processRefunds() {
         return __awaiter(this, void 0, void 0, function* () {
-            const contracts = contracts_1.default();
+            const contracts = contracts_1.getNetworkContracts();
             for (const network in contracts) {
-                if (!config_1.SECONDARY_NETWORKS[network]) {
-                    yield contracts[network].processRefunds();
-                }
+                yield contracts[network].processRefunds();
             }
         });
     }

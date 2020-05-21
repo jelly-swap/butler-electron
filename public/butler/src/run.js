@@ -22,19 +22,40 @@ const contracts_1 = require("./blockchain/contracts");
 const user_config_1 = require("../user-config");
 const database_1 = require("./config/database");
 const config_1 = require("./config");
+const utils_2 = require("./blockchain/utils");
 exports.run = (config = user_config_1.default) => {
     new config_1.default().setUserConfig(config);
     const dbConfig = database_1.default(Object.assign({ name: config.DATABASE.ACTIVE }, config.DATABASE[config.DATABASE.ACTIVE]));
-    typeorm_1.createConnection(dbConfig)
-        .then(() => __awaiter(void 0, void 0, void 0, function* () {
-        contracts_1.default();
-        yield utils_1.startTasks([new task_1.default(), new task_2.default(), new task_3.default()]);
-        yield server_1.default(config.SERVER.PORT);
-        yield handler_1.startHandlers();
-        yield contracts_1.startEventListener();
-    }))
-        .catch((error) => {
-        logger_1.logError(`ERROR: ${error}`);
+    validateAddresses(config).then((result) => {
+        if (result) {
+            typeorm_1.createConnection(dbConfig)
+                .then(() => __awaiter(void 0, void 0, void 0, function* () {
+                contracts_1.default();
+                yield utils_1.startTasks([new task_1.default(), new task_2.default(), new task_3.default()]);
+                yield server_1.default(config.SERVER.PORT);
+                yield handler_1.startHandlers();
+                yield contracts_1.startEventListener();
+            }))
+                .catch((error) => {
+                logger_1.logError(`ERROR: ${error}`);
+            });
+        }
     });
 };
+const validateAddresses = (config) => __awaiter(void 0, void 0, void 0, function* () {
+    logger_1.logInfo('Validating...');
+    for (const network in config.WALLETS) {
+        const { ADDRESS, SECRET } = config.WALLETS[network];
+        if (ADDRESS && SECRET) {
+            const result = yield utils_2.PK_MATCH_ADDRESS[network](SECRET, ADDRESS);
+            if (!result) {
+                logger_1.logError(`The SECRET you have provided for ${network} network does not match the ADDRESS.
+                    \r\n${SECRET} does not match ${ADDRESS}.
+                    \r\nFix the problem and start Butler again.`);
+                return false;
+            }
+        }
+    }
+    return true;
+});
 //# sourceMappingURL=run.js.map

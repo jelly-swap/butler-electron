@@ -10,18 +10,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const service_1 = require("./service");
-const config_1 = require("../../../config");
+const config_1 = require("../../config");
 class PriceTask {
     constructor() {
         this.name = 'Price Task';
         this.priceService = new service_1.PriceService();
+        this.userConfig = new config_1.default().getUserConfig();
     }
     start() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.priceService.update();
             setInterval(() => __awaiter(this, void 0, void 0, function* () {
                 yield this.priceService.update();
-            }), config_1.default.PRICE.UPDATE_INTERVAL * 1000);
+            }), this.userConfig.PRICE.UPDATE_INTERVAL * 1000);
         });
     }
 }

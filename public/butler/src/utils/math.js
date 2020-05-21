@@ -31,6 +31,9 @@ exports.round = (a, precision) => {
 exports.greaterThan = (a, b) => {
     return big_js_1.default(a).gt(b);
 };
+exports.lessThanOrEqual = (a, b) => {
+    return big_js_1.default(a).lte(b);
+};
 exports.equal = (a, b) => {
     return big_js_1.default(a).eq(b);
 };
