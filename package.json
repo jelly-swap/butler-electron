@@ -88,7 +88,7 @@
       ]
     },
     "win": {
-      "icon": "./public/icons/jelly-butler.png",
+      "icon": "./public/icons/win/jelly-butler.png",
       "target": [
         {
           "target": "nsis",
@@ -133,13 +133,6 @@
       {
         "from": "./extraResources/",
         "to": "data",
-        "filter": [
-          "**/*"
-        ]
-      },
-      {
-        "from": "./src/butler",
-        "to": "data/butler",
         "filter": [
           "**/*"
         ]
