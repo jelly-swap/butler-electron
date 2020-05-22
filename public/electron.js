@@ -87,7 +87,7 @@ const { START, STOP, SAVE, LOAD } = BUTLER_EVENTS;
 
 ipcMain.on(START, (event, config) => {
   if (!butler) {
-    const butlerPath = `${app.getAppPath()}/build/butler/src/index.js`;
+    const butlerPath = `${path.join(app.getAppPath(), 'build/butler/src/index.js')}`;
 
     log.info('Trying to start...', butlerPath);
     log.info('Config: ', config);
