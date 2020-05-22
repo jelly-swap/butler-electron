@@ -25,6 +25,8 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
   const [isValid, setIsValid] = useState();
   const [ERC20InvalidAddress, setERC20InvalidAddress] = useState({});
   const [ERC20InvalidSecret, setERC20InvalidSecret] = useState({});
+  const [isPrivateKeyShown, setIsPrivateKeyShown] = useState(false);
+  const [privateKeyValue, setPrivateKeyValue] = useState('');
 
   useGetStateFromCP(isButlerStarted, getState, { WALLETS: wallets });
 
@@ -114,6 +116,16 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
     }));
   };
 
+  const showPrivateKey = privateKey => {
+    setIsPrivateKeyShown(true);
+    setPrivateKeyValue(privateKey);
+
+    setTimeout(() => {
+      setIsPrivateKeyShown(false);
+      setPrivateKeyValue('');
+    }, 4000);
+  };
+
   return (
     <div className='wallets-wrapper'>
       <QuestionTitle isValid={isValid} title='Wallet Setup' />
@@ -145,13 +157,22 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
                   </div>
                   <div className='wallet-private-key'>
                     <Input
-                      type='password'
+                      type={isPrivateKeyShown && privateKeyValue === wallets[wallet]?.secret ? 'text' : 'password'}
                       placeholder='Private Key'
                       value={wallets[wallet]?.secret}
                       onChange={event => handleSecretOnChange(wallet, event)}
                       name='privateKey'
                       wrapperClassName='wallet-input-wrapper'
                     />
+                    {isPrivateKeyShown && privateKeyValue === wallets[wallet]?.secret ? (
+                      <span>
+                        <i className='fas fa-eye-slash' />
+                      </span>
+                    ) : (
+                      <span title='Reveal secret key' onClick={() => showPrivateKey(wallets[wallet]?.secret)}>
+                        <i className='fas fa-eye' />
+                      </span>
+                    )}
                     {ERC20InvalidSecret[wallet] && (
                       <p className='errorMsg secret'>Your {wallet} secret cannot match ETH secret</p>
                     )}
