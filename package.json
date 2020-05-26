@@ -45,9 +45,6 @@
     "@jelly-swap/erc20": "0.1.41",
     "@jelly-swap/ethereum": "0.1.41",
     "@jelly-swap/utils": "0.1.41",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
     "big.js": "^5.2.2",
     "body-parser": "^1.19.0",
@@ -72,7 +69,6 @@
     "sqlite3": "^4.1.1",
     "terminal-in-react": "^4.3.1",
     "typeorm": "^0.2.24",
-    "websocket": "^1.0.31",
     "winston": "^3.2.1",
     "winston-slack-webhook-transport": "^1.2.1"
   },
