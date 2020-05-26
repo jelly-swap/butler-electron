@@ -1,12 +1,10 @@
-const electron = require('electron');
 const fs = require('fs');
 
 const log = require('electron-log');
 
-const { fork } = require('child_process');
+const { BrowserWindow, dialog, app, ipcMain, globalShortcut } = require('electron');
 
-const { app, ipcMain, globalShortcut } = electron;
-const BrowserWindow = electron.BrowserWindow;
+const { fork } = require('child_process');
 
 const path = require('path');
 const isDev = require('electron-is-dev');
@@ -93,7 +91,7 @@ ipcMain.on(START, (event, config) => {
     log.info('Config: ', config);
     log.info('Executable: ', process.execPath);
 
-    butler = fork(butlerPath, [config]);
+    butler = fork(butlerPath, [config], { execPath: process.execPath });
 
     butler.on('message', msg => {
       event.sender.send('data', msg);
@@ -108,16 +106,22 @@ ipcMain.on(STOP, event => {
     return;
   }
 
-  butler.kill();
-  butler = null;
+  dialog
+    .showMessageBox(mainWindow, {
+      buttons: ['Yes', 'No', 'Cancel'],
+      message: 'Do you really want to stop Butler?',
+    })
+    .then(result => {
+      if (result.response === 0) {
+        butler.kill();
+        butler = null;
 
-  butler = null;
+        const listeners = Object.values(BUTLER_EVENTS);
+        ipcMain.removeAllListeners(listeners);
 
-  const listeners = Object.values(BUTLER_EVENTS);
-
-  ipcMain.removeAllListeners(listeners);
-
-  event.sender.send('butlerHasBeenKilled', '/');
+        event.sender.send('butlerHasBeenKilled', '/');
+      }
+    });
 
   event.preventDefault();
 });
