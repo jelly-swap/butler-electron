@@ -17,13 +17,11 @@ class InfoTask {
     }
     start() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.infoService.update();
+            yield this.infoService.register();
             setInterval(() => __awaiter(this, void 0, void 0, function* () {
                 yield this.infoService.update();
-            }), 10 * 1000);
-            setInterval(() => __awaiter(this, void 0, void 0, function* () {
                 yield this.infoService.iAmAlive();
-            }), 5 * 1000);
+            }), 10 * 1000);
         });
     }
 }

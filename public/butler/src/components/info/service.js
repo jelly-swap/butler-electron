@@ -30,6 +30,23 @@ class InfoService {
         this.priceService = new service_2.PriceService();
         InfoService.instance = this;
     }
+    register() {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                this.update();
+                const info = this.getInfo();
+                const result = yield axios_1.default.post(`${this.userConfig.AGGREGATOR_URL}/register`, info);
+                const { valid, message } = (_a = result) === null || _a === void 0 ? void 0 : _a.data;
+                if (!valid) {
+                    logger_1.logError(`CANNOT_CONNECT_TO_NETWORK: ${message}`);
+                }
+            }
+            catch (err) {
+                logger_1.logError(`REGISTER_ERROR: ${err}`);
+            }
+        });
+    }
     update() {
         return __awaiter(this, void 0, void 0, function* () {
             this.prices = this.priceService.getPricesWithSpreadAndFee();
@@ -42,10 +59,13 @@ class InfoService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const info = this.getInfo();
-                const result = yield axios_1.default.post(this.userConfig.AGGREGATOR_URL, info);
+                const result = yield axios_1.default.post(`${this.userConfig.AGGREGATOR_URL}/update`, info);
                 const { valid, message } = (_a = result) === null || _a === void 0 ? void 0 : _a.data;
                 if (!valid) {
                     logger_1.logError(`CANNOT_CONNECT_TO_NETWORK: ${message}`);
+                    if (message === 'NOT_REGISTERED') {
+                        yield this.register();
+                    }
                 }
             }
             catch (err) {
