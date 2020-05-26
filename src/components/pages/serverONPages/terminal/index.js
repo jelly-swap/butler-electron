@@ -3,13 +3,24 @@ import Terminal from 'terminal-in-react';
 
 import './style.scss';
 
+// 📕: error message
+// 📙: warning message
+// 📗: ok status message
+// 📘: action message
+// 📓: canceled status message
+// 📔: Or anything you like and want to recognize immediately by color
+
 const JellyTerminal = ({ terminalData }) => {
   useEffect(() => {
     for (const info of terminalData) {
       if (info) {
         const now = new Date().toISOString().substring(0, 19).replace('T', ' ');
 
-        console.log(`${now} ${info}`);
+        if (info.indexOf('INFO') !== -1) {
+          console.log(`📗 ${now} ${info.replace('INFO:', '')}`);
+        } else if (info.indexOf('ERROR') !== -1) {
+          console.log(`📕 ${now} ${info.replace('ERROR:', '')}`);
+        }
       }
     }
   }, [terminalData]);
