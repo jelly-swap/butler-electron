@@ -116,14 +116,9 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
     }));
   };
 
-  const showPrivateKey = privateKey => {
-    setIsPrivateKeyShown(true);
+  const toggePrivateKey = privateKey => {
+    setIsPrivateKeyShown(!isPrivateKeyShown);
     setPrivateKeyValue(privateKey);
-
-    setTimeout(() => {
-      setIsPrivateKeyShown(false);
-      setPrivateKeyValue('');
-    }, 4000);
   };
 
   return (
@@ -166,10 +161,10 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
                     />
                     {isPrivateKeyShown && privateKeyValue === wallets[wallet]?.secret ? (
                       <span>
-                        <i className='fas fa-eye-slash' />
+                        <i className='fas fa-eye-slash' onClick={() => toggePrivateKey(wallets[wallet]?.secret)} />
                       </span>
                     ) : (
-                      <span title='Reveal secret key' onClick={() => showPrivateKey(wallets[wallet]?.secret)}>
+                      <span title='Reveal secret key' onClick={() => toggePrivateKey(wallets[wallet]?.secret)}>
                         <i className='fas fa-eye' />
                       </span>
                     )}

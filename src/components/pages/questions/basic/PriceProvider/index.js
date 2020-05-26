@@ -10,6 +10,11 @@ import { useGetStateFromCP } from '../../../../../hooks/useGetStateFromCP';
 import './style.scss';
 import Emitter from '../../../../../utils/emitter';
 
+const GENERATE_KEY_URL = {
+  CryptoCompare: 'https://www.cryptocompare.com/cryptopian/api-keys',
+  Binance: 'https://binance.zendesk.com/hc/en-us/articles/360002502072-How-to-create-API',
+};
+
 /*eslint no-useless-concat: "off"*/
 
 const PriceProvider = ({ valid, selectedPriceProvider, isButlerStarted, getState }) => {
@@ -147,6 +152,8 @@ const PriceProvider = ({ valid, selectedPriceProvider, isButlerStarted, getState
     setIsIntervalOpen(false);
   };
 
+  const selectedProvider = getSelectedPriceProvider();
+
   return (
     <div className='price-provider'>
       <div className='title-and-provider-wrapper'>
@@ -160,51 +167,61 @@ const PriceProvider = ({ valid, selectedPriceProvider, isButlerStarted, getState
                   value={provider}
                   type='radio'
                   onChange={handleProviderOnChange}
-                  checked={getSelectedPriceProvider() === provider}
+                  checked={selectedProvider === provider}
                 />
                 <label htmlFor={provider}>{provider}</label>
-                <div className={`check`}></div>
+                <div className={`check`} />
               </div>
             );
           })}
         </div>
       </div>
       <div className='price-provider-inputs-wrapper'>
-        {getSelectedPriceProvider() && (
+        {selectedProvider && (
           <div className='price-provider-input-wrapper'>
             <Input
               type='text'
-              value={priceProvider[getSelectedPriceProvider()].apiKey}
+              value={priceProvider[selectedProvider].apiKey}
               onChange={handleInputOnChange}
-              name={getSelectedPriceProvider() + ' - ' + 'apiKey'}
+              name={selectedProvider + ' - ' + 'apiKey'}
               placeholder='API KEY'
               className='price-provider-api'
             />
           </div>
         )}
-        {getSelectedPriceProvider() === 'Binance' && (
+        {selectedProvider === 'Binance' && (
           <div className='price-provider-input-wrapper'>
             <Input
               type='text'
-              value={priceProvider[getSelectedPriceProvider()].secretKey}
+              value={priceProvider[selectedProvider].secretKey}
               onChange={handleInputOnChange}
-              name={getSelectedPriceProvider() + ' - ' + 'secretKey'}
+              name={selectedProvider + ' - ' + 'secretKey'}
               placeholder='SECRET KEY'
               className='price-provider-secret'
             />
           </div>
         )}
-        {getSelectedPriceProvider() && (
+        {selectedProvider && (
           <div className='price-provider-input-wrapper'>
             <p>Price interval update</p>
             <p
               className={`selected-interval ${isIntervalOpen ? 'menu-open' : null}`}
               onClick={() => setIsIntervalOpen(isIntervalOpen => !isIntervalOpen)}
             >
-              {priceProvider[getSelectedPriceProvider()].interval}
+              {priceProvider[selectedProvider].interval}
             </p>
           </div>
         )}
+      </div>
+      <div className='generate-url'>
+        <button
+          onClick={() => {
+            const { shell } = window.require('electron');
+            shell.openExternal(GENERATE_KEY_URL[selectedProvider]);
+          }}
+        >
+          {`Generate key for ${selectedProvider}`}
+        </button>
       </div>
       <div>
         {isIntervalOpen && (
