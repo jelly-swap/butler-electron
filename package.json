@@ -10,7 +10,7 @@
     "electron-start": "concurrently \"yarn build && cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "postinstall": "electron-builder install-app-deps",
     "preelectron-pack": "yarn build",
-    "electron-pack": "electron-builder build -w",
+    "electron-pack": "electron-builder build -l",
     "release": "electron-builder -mwl"
   },
   "main": "public/electron.js",
@@ -73,6 +73,7 @@
     "winston-slack-webhook-transport": "^1.2.1"
   },
   "build": {
+    "asar": false,
     "appId": "app.jelly.market",
     "productName": "Jelly Butler",
     "copyright": "Copyright © 2019 ${author}",
@@ -132,7 +133,8 @@
         "filter": [
           "**/*"
         ]
-      }
+      },
+      "butler.sqlite"
     ]
   },
   "browserslist": {

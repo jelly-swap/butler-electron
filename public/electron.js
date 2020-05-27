@@ -91,7 +91,9 @@ ipcMain.on(START, (event, config) => {
     log.info('Config: ', config);
     log.info('Executable: ', process.execPath);
 
-    butler = fork(butlerPath, [config], { execPath: process.execPath });
+    const modConfig = JSON.parse(config);
+    modConfig.DATABASE.SQLITE.database = `${path.join(app.getPath('userData'), 'butler.sqlite')}`;
+    butler = fork(butlerPath, [JSON.stringify(modConfig)], { execPath: process.execPath });
 
     butler.on('message', msg => {
       event.sender.send('data', msg);
