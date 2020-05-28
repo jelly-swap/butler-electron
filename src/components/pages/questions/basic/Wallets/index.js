@@ -38,10 +38,10 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
 
   useEffect(() => {
     if (
-      checkIfETHAddressMatchERC20Address(wallets, setERC20InvalidAddress) ||
-      checkIfETHSecretMatchERC20Secret(wallets, setERC20InvalidSecret) ||
       checkIfAddressessDoNotMatchRegex(wallets) ||
-      checkIfSecretIsMissing(wallets)
+      checkIfSecretIsMissing(wallets) ||
+      checkIfETHAddressMatchERC20Address(wallets, setERC20InvalidAddress) ||
+      checkIfETHSecretMatchERC20Secret(wallets, setERC20InvalidSecret)
     ) {
       setIsValid(false);
       return;

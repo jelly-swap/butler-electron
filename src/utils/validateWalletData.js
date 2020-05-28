@@ -24,7 +24,7 @@ export const checkIfETHSecretMatchERC20Secret = (wallets, setERC20InvalidSecret)
     const { secret } = ethWallet;
 
     for (const token in ERC20_TOKENS) {
-      if (wallets[token]?.secret === secret) {
+      if (wallets[token]?.secret?.length && wallets[token].secret === secret) {
         setERC20InvalidSecret(tokens => ({
           ...tokens,
           [token]: true,
@@ -47,7 +47,7 @@ export const checkIfETHAddressMatchERC20Address = (wallets, setERC20InvalidAddre
     const { address } = ethWallet;
 
     for (const token in ERC20_TOKENS) {
-      if (wallets[token]?.address === address) {
+      if (wallets[token]?.address?.length && wallets[token].address === address) {
         setERC20InvalidAddress(tokens => ({
           ...tokens,
           [token]: true,
