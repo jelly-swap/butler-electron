@@ -47,6 +47,7 @@ const TradingPairs = ({ valid, selectedPairs, isButlerStarted, getState }) => {
     if (!selectedPairs) {
       new Emitter().emitAll('onPairAdded', { 'ETH-BTC': 1 });
       new Emitter().emitAll('updateBlockchainProvider', { 'ETH-BTC': 1 });
+      setExistingPairs({ 'ETH-BTC': 1 });
       return;
     }
 
