@@ -5,7 +5,7 @@ import { useHttpGet } from '../../../../hooks/useHttpGet';
 import './style.scss';
 import { formatAddress } from '../../../../utils/formatter';
 
-const balanceEndpoint = '/api/v1/balance';
+const balanceEndpoint = '/api/v1/balanceAll';
 
 const BalanceOf = () => {
   const { data, isLoading } = useHttpGet(balanceEndpoint);
