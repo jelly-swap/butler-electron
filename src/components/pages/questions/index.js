@@ -8,10 +8,13 @@ import WalletsSetup from './basic/Wallets';
 import PriceProvider from './basic/PriceProvider';
 import Rebalance from './basic/Rebalance';
 import Notifications from './basic/Notifications';
+import BlockchainProvider from './basic/BlockchainProvider';
 
 // Advanced
 import Database from './advanced/Database';
 import ServerOptions from './advanced/ServerOptions';
+
+import Button from '../../common/Button';
 
 import Emitter from '../../../utils/emitter';
 
@@ -23,7 +26,6 @@ import DownArrow from '../../../images/down-arrow.svg';
 import Collapsible from 'react-collapsible';
 
 import './style.scss';
-import Button from '../../common/Button';
 
 const Questions = () => {
   const [writeConfig, setWriteConfig] = useState({});
@@ -116,6 +118,12 @@ const Questions = () => {
         <WalletsSetup
           valid={validatedConfig.WALLETS}
           selectedWallets={readConfig.WALLETS}
+          isButlerStarted={isButlerStarted}
+          getState={getState}
+        />
+        <BlockchainProvider
+          valid={validatedConfig.BLOCKCHAIN_PROVIDER}
+          selectedBlockchainProviders={readConfig.BLOCKCHAIN_PROVIDER}
           isButlerStarted={isButlerStarted}
           getState={getState}
         />

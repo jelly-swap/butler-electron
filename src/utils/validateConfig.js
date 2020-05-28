@@ -6,6 +6,10 @@ export const validateConfig = Config => {
     NAME: validateName(Config.NAME),
     PAIRS: validateTraidingPairs(Config.PAIRS),
     WALLETS: validateWallets(Config.WALLETS, Config.PAIRS),
+    ...(Config.BLOCKCHAIN_PROVIDER &&
+      Object.keys(Config.BLOCKCHAIN_PROVIDER) && {
+        BLOCKCHAIN_PROVIDER: validateBlockchainProviders(Config.BLOCKCHAIN_PROVIDER),
+      }),
     PRICE: validatePriceProvider(Config.PRICE),
     EXCHANGE: validateExchange(Config.EXCHANGE),
     NOTIFICATIONS: validateNotifications(Config.NOTIFICATIONS),
@@ -38,6 +42,16 @@ const validateWallets = (wallets, pairs) => {
       if (!isValidProvide || !isValidReceive) {
         return false;
       }
+    }
+  }
+
+  return true;
+};
+
+const validateBlockchainProviders = providers => {
+  for (const provider in providers) {
+    if (!providers[provider]) {
+      return false;
     }
   }
 
@@ -100,10 +114,9 @@ const validateNotifications = notifications => {
 };
 
 const validateWalletState = (wallets, network) => {
-  if (
-    !new RegExp(getNetworkRegex(network)).test(wallets[WALLETS[network]].ADDRESS) ||
-    !wallets[WALLETS[network]].SECRET
-  ) {
+  //     !new RegExp(getNetworkRegex(network)).test(wallets[WALLETS[network]].ADDRESS) ||
+
+  if (!wallets[WALLETS[network]].SECRET) {
     return false;
   }
 

@@ -35,13 +35,18 @@ const TradingPairs = ({ valid, selectedPairs, isButlerStarted, getState }) => {
   useEffect(() => {
     const relevantPairsToWallets = Object.entries(existingPairs).filter(([pair, value]) => value > 0);
 
-    new Emitter().emitAll('onPairAdded', Object.fromEntries(relevantPairsToWallets));
+    const relevantProvidersObj = Object.fromEntries(relevantPairsToWallets);
+
+    new Emitter().emitAll('onPairAdded', relevantProvidersObj);
+
+    new Emitter().emitAll('updateBlockchainProvider', relevantProvidersObj);
   }, [existingPairs]);
 
   // Fill the state when is coming from config
   useEffect(() => {
     if (!selectedPairs) {
       new Emitter().emitAll('onPairAdded', { 'ETH-BTC': 1 });
+      new Emitter().emitAll('updateBlockchainProvider', { 'ETH-BTC': 1 });
       return;
     }
 

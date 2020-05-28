@@ -3,6 +3,10 @@ export const generateConfig = config => {
     NAME: config.NAME,
     PAIRS: getPairs(config.PAIRS),
     WALLETS: getWallets(config.WALLETS),
+    ...(config.BLOCKCHAIN_PROVIDER &&
+      Object.keys(config.BLOCKCHAIN_PROVIDER).length && {
+        BLOCKCHAIN_PROVIDER: getBlockchainProvider(config.BLOCKCHAIN_PROVIDER),
+      }),
     PRICE: getPrice(config.PRICE_PROVIDER),
     EXCHANGE: getExchange(config.REBALANCE),
     NOTIFICATIONS: getNotifications(config.NOTIFICATIONS),
@@ -40,6 +44,10 @@ const getWallets = selectedWallets => {
   });
 
   return { ...wallets };
+};
+
+const getBlockchainProvider = blockchainProvider => {
+  return blockchainProvider;
 };
 
 const getPrice = selectedPriceProvider => {
