@@ -84,10 +84,9 @@ const Questions = () => {
 
       ipcRenderer.send('saveConfig', config);
 
-      ipcRenderer.on('configSaved', (__event, savedConfig) => {
-        ipcRenderer.send('start-butler', JSON.stringify(savedConfig));
-        history.push('/terminal');
-      });
+      ipcRenderer.send('start-butler', JSON.stringify(config));
+
+      history.push('/terminal');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [writeConfig]);
