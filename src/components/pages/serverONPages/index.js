@@ -7,7 +7,7 @@ import BalanceOf from './balanceOf';
 import { useChannel } from '../../../hooks/useChannel';
 
 const ServerONPages = () => {
-  const [terminalData, setTerminalData] = useState([]);
+  const [terminalData, setTerminalData] = useState(['Loading...']);
 
   const { data } = useChannel('data');
 

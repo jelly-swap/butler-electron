@@ -20,6 +20,8 @@ const JellyTerminal = ({ terminalData }) => {
           console.log(`📗 ${now} ${info.replace('INFO:', '')}`);
         } else if (info.indexOf('ERROR') !== -1) {
           console.log(`📕 ${now} ${info.replace('ERROR:', '')}`);
+        } else {
+          console.log(`📔 ${now} ${info}`);
         }
       }
     }
