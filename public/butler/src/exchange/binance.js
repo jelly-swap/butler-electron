@@ -24,8 +24,8 @@ class BinanceExchange {
         const userConfig = new config_3.default().getUserConfig();
         utils_1.safeAccess;
         this.binance = Binance().options({
-            APIKEY: utils_1.safeAccess(userConfig, ['EXCHANGE', 'API_KEY']),
-            APISECRET: utils_1.safeAccess(userConfig, ['EXCHANGE', 'SECRET_KEY']),
+            APIKEY: utils_1.safeAccess(userConfig, ['EXCHANGE', 'API_KEY']) || utils_1.safeAccess(userConfig, ['PRICE', 'API_KEY']),
+            APISECRET: utils_1.safeAccess(userConfig, ['EXCHANGE', 'SECRET_KEY']) || utils_1.safeAccess(userConfig, ['PRICE', 'SECRET_KEY']),
             useServerTime: true,
         });
         BinanceExchange.Instance = this;
