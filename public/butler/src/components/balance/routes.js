@@ -8,5 +8,11 @@ exports.default = [
         controller: controller_1.BalanceController,
         action: 'getBalances',
     },
+    {
+        method: 'get',
+        route: '/api/v1/balanceAll',
+        controller: controller_1.BalanceController,
+        action: 'getAllBalances',
+    },
 ];
 //# sourceMappingURL=routes.js.map

@@ -14,7 +14,7 @@ autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 
 log.transports.file.level = 'info';
-log.transports.file.file = 'butler-electron.log';
+log.transports.file.file = `${path.join(app.getPath('userData'), 'butler-electron.log')}`;
 
 let mainWindow, butler;
 
@@ -91,7 +91,12 @@ ipcMain.on(START, (event, config) => {
     log.info('Config: ', config);
     log.info('Executable: ', process.execPath);
 
-    butler = fork(butlerPath, [config], { execPath: process.execPath });
+    const _config = JSON.parse(config);
+    if (_config?.DATABASE?.SQLITE?.database) {
+      _config.DATABASE.SQLITE.database = `${path.join(app.getPath('userData'), 'butler.sqlite')}`;
+    }
+
+    butler = fork(butlerPath, [JSON.stringify(_config)], { execPath: process.execPath });
 
     butler.on('message', msg => {
       event.sender.send('data', msg);
@@ -132,6 +137,7 @@ ipcMain.on(LOAD, event => {
   fs.readFile(configPath, (err, file) => {
     if (err) {
       log.info('Error reading config', err);
+      return;
     }
 
     let fileToUse = file;
@@ -213,11 +219,5 @@ autoUpdater.on('update-downloaded', info => {
 });
 
 const getConfigPath = () => {
-  if (isDev) {
-    return './extraResources/config.json';
-  } else {
-    const dataPath = path.join(process.resourcesPath, 'data');
-    const configFile = path.join(dataPath, 'config.json');
-    return configFile;
-  }
+  return `${path.join(app.getPath('userData'), 'config.json')}`;
 };

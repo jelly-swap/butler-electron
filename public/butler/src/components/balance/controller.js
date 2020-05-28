@@ -19,6 +19,11 @@ class BalanceController {
             return this.balanceService.getBalances();
         });
     }
+    getAllBalances(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.balanceService.getAllBalances();
+        });
+    }
 }
 exports.BalanceController = BalanceController;
 //# sourceMappingURL=controller.js.map

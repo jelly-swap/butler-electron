@@ -12,7 +12,7 @@ import './style.scss';
 import Button from '../../../../common/Button';
 
 const GENERATE_KEY_URL = {
-  INFURA: 'https://infura.io/dashboard/ethereum',
+  INFURA: 'https://medium.com/jelly-market/how-to-get-infura-api-key-e7d552dd396f',
 };
 
 const BlockchainProvider = ({ valid, selectedBlockchainProviders, isButlerStarted, getState }) => {

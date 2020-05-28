@@ -73,6 +73,7 @@
     "winston-slack-webhook-transport": "^1.2.1"
   },
   "build": {
+    "asar": false,
     "appId": "app.jelly.market",
     "productName": "Jelly Butler",
     "copyright": "Copyright © 2019 ${author}",
@@ -124,16 +125,7 @@
     ],
     "directories": {
       "buildResources": "assets"
-    },
-    "extraResources": [
-      {
-        "from": "./extraResources/",
-        "to": "data",
-        "filter": [
-          "**/*"
-        ]
-      }
-    ]
+    }
   },
   "browserslist": {
     "production": [
