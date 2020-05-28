@@ -114,10 +114,9 @@ const validateNotifications = notifications => {
 };
 
 const validateWalletState = (wallets, network) => {
-  if (
-    !new RegExp(getNetworkRegex(network)).test(wallets[WALLETS[network]].ADDRESS) ||
-    !wallets[WALLETS[network]].SECRET
-  ) {
+  //     !new RegExp(getNetworkRegex(network)).test(wallets[WALLETS[network]].ADDRESS) ||
+
+  if (!wallets[WALLETS[network]].SECRET) {
     return false;
   }
 
