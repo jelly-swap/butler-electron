@@ -6,7 +6,10 @@ export const validateConfig = Config => {
     NAME: validateName(Config.NAME),
     PAIRS: validateTraidingPairs(Config.PAIRS),
     WALLETS: validateWallets(Config.WALLETS, Config.PAIRS),
-    BLOCKCHAIN_PROVIDER: validateBlockchainProviders(Config.BLOCKCHAIN_PROVIDER),
+    ...(Config.BLOCKCHAIN_PROVIDER &&
+      Object.keys(Config.BLOCKCHAIN_PROVIDER) && {
+        BLOCKCHAIN_PROVIDER: validateBlockchainProviders(Config.BLOCKCHAIN_PROVIDER),
+      }),
     PRICE: validatePriceProvider(Config.PRICE),
     EXCHANGE: validateExchange(Config.EXCHANGE),
     NOTIFICATIONS: validateNotifications(Config.NOTIFICATIONS),
@@ -46,10 +49,6 @@ const validateWallets = (wallets, pairs) => {
 };
 
 const validateBlockchainProviders = providers => {
-  if (!providers || !Object.keys(providers).length) {
-    return false;
-  }
-
   for (const provider in providers) {
     if (!providers[provider]) {
       return false;
