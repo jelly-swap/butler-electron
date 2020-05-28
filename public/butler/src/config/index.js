@@ -19,9 +19,11 @@ class UserConfig {
     getReceivers(assets) {
         const wallets = utils_1.safeAccess(this.config, ['WALLETS']);
         return assets.reduce((p, c) => {
-            const receiver = wallets[c].ADDRESS;
-            if (receiver) {
-                p.push(receiver);
+            if (wallets[c]) {
+                const receiver = wallets[c].ADDRESS;
+                if (receiver) {
+                    p.push(receiver);
+                }
             }
             return p;
         }, []);
