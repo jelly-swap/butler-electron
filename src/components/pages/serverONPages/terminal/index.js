@@ -10,21 +10,28 @@ import './style.scss';
 // 📓: canceled status message
 // 📔: Or anything you like and want to recognize immediately by color
 
+const MESSAGE_COLORS = {
+  ERROR: '📕',
+  WARNING: '📙',
+  INFO: '📗',
+  ACTION: '📘',
+  CANCELED: '📓',
+  DEFAULT: '📔',
+};
+
 const JellyTerminal = ({ terminalData }) => {
   useEffect(() => {
-    for (const info of terminalData) {
-      if (info) {
-        const now = new Date().toISOString().substring(0, 19).replace('T', ' ');
+    terminalData.forEach(log => {
+      const { now, info } = log;
 
-        if (info.indexOf('INFO') !== -1) {
-          console.log(`📗 ${now} ${info.replace('INFO:', '')}`);
-        } else if (info.indexOf('ERROR') !== -1) {
-          console.log(`📕 ${now} ${info.replace('ERROR:', '')}`);
-        } else {
-          console.log(`📔 ${now} ${info}`);
-        }
-      }
-    }
+      if (!info) return;
+
+      const idxOfDblDots = info.indexOf(':');
+
+      const color = idxOfDblDots !== -1 ? info.split(':')[0] : 'DEFAULT';
+
+      console.log(`${MESSAGE_COLORS[color]} ${now} ${info.replace(/INFO|ERROR/, '')}`);
+    });
   }, [terminalData]);
 
   return (
