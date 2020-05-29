@@ -19,7 +19,6 @@ const utils_2 = require("../../blockchain/utils");
 class PriceService {
     constructor() {
         this.prices = {};
-        this.allPrices = {};
         this.pricesWithSpreadAndFee = {};
         if (PriceService.instance) {
             return PriceService.instance;
@@ -38,19 +37,14 @@ class PriceService {
                 else {
                     prices = yield this.priceProvider.getPrices(config_1.default.PRICE.COINS);
                 }
-                let supportedPrices = {};
                 for (const pair in this.userConfig.PAIRS) {
-                    if (prices[pair]) {
-                        supportedPrices[pair] = prices[pair];
-                    }
-                    else {
+                    if (!prices[pair]) {
                         logger_1.logError(`SUPPORTED_PAIR_MISSING_PRICE: ${pair}`);
                     }
                 }
                 if (Object.values(prices).length > 0) {
-                    this.setAllPrices(prices);
-                    this.setPrices(supportedPrices);
-                    this.setPricesWithSpreadAndFee(supportedPrices);
+                    this.setPrices(prices);
+                    this.setPricesWithSpreadAndFee(prices);
                 }
             }
             catch (err) {
@@ -71,14 +65,11 @@ class PriceService {
     getPrices() {
         return this.prices;
     }
-    getAllPrices() {
-        return this.allPrices;
-    }
     getPricesWithSpreadAndFee() {
         return this.pricesWithSpreadAndFee;
     }
     getPairPrice(base, quote) {
-        const prices = this.getAllPrices();
+        const prices = this.getPrices();
         const price = prices[`${base}-${quote}`];
         if (price) {
             return math_1.toBigNumber(price).toString();
@@ -99,9 +90,6 @@ class PriceService {
     }
     setPrices(prices) {
         this.prices = prices;
-    }
-    setAllPrices(prices) {
-        this.allPrices = prices;
     }
     setPricesWithSpreadAndFee(prices) {
         const pricesWithSpread = {};
