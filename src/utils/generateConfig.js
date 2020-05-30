@@ -81,7 +81,7 @@ const getNotifications = notifications => {
   const selectedChannels = {};
 
   Object.keys(notifications).forEach(channel => {
-    if (notifications[channel].enabled) {
+    if (notifications[channel].ENABLED) {
       selectedChannels[channel] = {
         ...notifications[channel],
       };

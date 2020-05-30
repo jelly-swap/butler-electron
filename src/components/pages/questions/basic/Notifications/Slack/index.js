@@ -9,12 +9,12 @@ const Slack = ({ slackInfo, setChannelData }) => {
   const [isSlackOpened, setIsSlackOpened] = useState(false);
 
   const handleSlackEnabledOnChange = event => {
-    const { webhookUrl } = slackInfo;
+    const { WEBHOOK_URL } = slackInfo;
 
-    if (!webhookUrl) {
-      setChannelData(CHANNEL, 'enabled', false);
+    if (!WEBHOOK_URL) {
+      setChannelData(CHANNEL, 'ENABLED', false);
     } else {
-      setChannelData(CHANNEL, 'enabled', true);
+      setChannelData(CHANNEL, 'ENABLED', true);
     }
 
     setIsSlackOpened(false);
@@ -27,7 +27,7 @@ const Slack = ({ slackInfo, setChannelData }) => {
       target: { value },
     } = event;
 
-    setChannelData(CHANNEL, 'webhookUrl', value);
+    setChannelData(CHANNEL, 'WEBHOOK_URL', value);
   };
 
   return (
@@ -45,9 +45,9 @@ const Slack = ({ slackInfo, setChannelData }) => {
             className='hook-url'
             type='text'
             placeholder='Hook URL'
-            name='webhookUrl'
+            name='WEBHOOK_URL'
             onChange={handleUrlOnChange}
-            value={slackInfo.webhookUrl}
+            value={slackInfo.WEBHOOK_URL}
           />
           <Button btnText='Add' onClick={handleSlackEnabledOnChange} />
         </div>
