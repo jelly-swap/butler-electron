@@ -46,6 +46,12 @@ const validateAddresses = (config) => __awaiter(void 0, void 0, void 0, function
     logger_1.logInfo('Validating...');
     for (const network in config.WALLETS) {
         const { ADDRESS, SECRET } = config.WALLETS[network];
+
+        if (network != 'ETH' && config.WALLETS['ETH'].ADDRESS && utils_2.compareAddress(config.WALLETS['ETH'].ADDRESS, ADDRESS)) {
+            logger_1.logError('It is not allowed to have the same wallet for ETH and any ERC20');
+            return false;
+        }
+
         if (ADDRESS && SECRET) {
             const result = yield utils_2.PK_MATCH_ADDRESS[network](SECRET, ADDRESS);
             if (!result) {
