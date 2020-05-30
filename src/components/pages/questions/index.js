@@ -14,6 +14,9 @@ import BlockchainProvider from './basic/BlockchainProvider';
 import Database from './advanced/Database';
 import ServerOptions from './advanced/ServerOptions';
 
+// Context
+import { useUpdateServerPort } from '../../../context/ServerPortContext';
+
 import Button from '../../common/Button';
 
 import Emitter from '../../../utils/emitter';
@@ -24,6 +27,8 @@ import { generateConfig } from '../../../utils/generateConfig';
 import DownArrow from '../../../images/down-arrow.svg';
 
 import Collapsible from 'react-collapsible';
+
+import { PORT_ACTION_TYPES } from '../../../constants';
 
 import './style.scss';
 
@@ -37,6 +42,8 @@ const Questions = () => {
   const collapseRef = useRef();
 
   const history = useHistory();
+
+  const updateServerPort = useUpdateServerPort();
 
   new Emitter().on('startButler', () => {
     setIsButlerStarted(true);
@@ -81,6 +88,10 @@ const Questions = () => {
       if (!allQuestionsAreValid) {
         return;
       }
+
+      console.log(updateServerPort);
+
+      updateServerPort({ type: PORT_ACTION_TYPES.UPDATE_PORT, payload: { PORT: config.SERVER.PORT } });
 
       ipcRenderer.send('saveConfig', config);
 

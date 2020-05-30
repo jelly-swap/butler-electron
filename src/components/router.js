@@ -4,11 +4,17 @@ import { Switch, Route } from 'react-router-dom';
 import Questions from './pages/questions';
 import ServerONPages from './pages/serverONPages';
 
-const ReactRouter = () => (
-  <Switch>
-    <Route exact path='/' component={() => <Questions />} />
-    <ServerONPages />
-  </Switch>
-);
+import { Provider as ServerPortContext } from '../context/ServerPortContext';
+
+const ReactRouter = () => {
+  return (
+    <ServerPortContext>
+      <Switch>
+        <Route exact path='/' component={() => <Questions />} />
+        <ServerONPages />
+      </Switch>
+    </ServerPortContext>
+  );
+};
 
 export default ReactRouter;

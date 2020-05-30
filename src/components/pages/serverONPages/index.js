@@ -6,9 +6,8 @@ import BalanceOf from './balanceOf';
 
 import { useChannel } from '../../../hooks/useChannel';
 
-const ServerONPages = () => {
+const ServerONPages = ({ serverPort }) => {
   const [terminalData, setTerminalData] = useState(['Loading...']);
-
   const { data } = useChannel('data');
 
   useEffect(() => {
