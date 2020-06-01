@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.run = void 0;
 require("reflect-metadata");
 const typeorm_1 = require("typeorm");
 const server_1 = require("./server");
@@ -30,28 +31,27 @@ exports.run = (config = user_config_1.default) => {
         if (result) {
             typeorm_1.createConnection(dbConfig)
                 .then(() => __awaiter(void 0, void 0, void 0, function* () {
-                contracts_1.default();
-                yield utils_1.startTasks([new task_1.default(), new task_2.default(), new task_3.default()]);
-                yield server_1.default(config.SERVER.PORT);
-                yield handler_1.startHandlers();
-                yield contracts_1.startEventListener();
-            }))
+                    contracts_1.default();
+                    yield utils_1.startTasks([new task_1.default(), new task_2.default(), new task_3.default()]);
+                    yield server_1.default(config.SERVER.PORT);
+                    yield handler_1.startHandlers();
+                    yield contracts_1.startEventListener();
+                }))
                 .catch((error) => {
-                logger_1.logError(`ERROR: ${error}`);
-            });
+                    logger_1.logError(`ERROR: ${error}`);
+                });
         }
     });
 };
 const validateAddresses = (config) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     logger_1.logInfo('Validating...');
     for (const network in config.WALLETS) {
         const { ADDRESS, SECRET } = config.WALLETS[network];
-
-        if (network != 'ETH' && config.WALLETS['ETH']?.ADDRESS && utils_2.compareAddress(config.WALLETS['ETH']?.ADDRESS, ADDRESS)) {
+        if (network != 'ETH' && ((_a = config.WALLETS['ETH']) === null || _a === void 0 ? void 0 : _a.ADDRESS) && utils_2.compareAddress((_b = config.WALLETS['ETH']) === null || _b === void 0 ? void 0 : _b.ADDRESS, ADDRESS)) {
             logger_1.logError('It is not allowed to have the same wallet for ETH and any ERC20');
             return false;
         }
-
         if (ADDRESS && SECRET) {
             const result = yield utils_2.PK_MATCH_ADDRESS[network](SECRET, ADDRESS);
             if (!result) {
