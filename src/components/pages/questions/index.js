@@ -28,8 +28,6 @@ import DownArrow from '../../../images/down-arrow.svg';
 
 import Collapsible from 'react-collapsible';
 
-import { PORT_ACTION_TYPES } from '../../../constants';
-
 import './style.scss';
 
 const Questions = () => {
@@ -44,6 +42,8 @@ const Questions = () => {
   const history = useHistory();
 
   const updateServerPort = useUpdateServerPort();
+
+  console.log(updateServerPort);
 
   new Emitter().on('startButler', () => {
     setIsButlerStarted(true);
@@ -89,9 +89,7 @@ const Questions = () => {
         return;
       }
 
-      console.log(updateServerPort);
-
-      updateServerPort({ type: PORT_ACTION_TYPES.UPDATE_PORT, payload: { PORT: config.SERVER.PORT } });
+      updateServerPort(config.SERVER.PORT);
 
       ipcRenderer.send('saveConfig', config);
 

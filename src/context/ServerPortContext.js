@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer, useCallback } from 'react';
 import { PORT_ACTION_TYPES } from '../constants';
 
 const ServerPortStateContext = createContext();
@@ -26,9 +26,13 @@ export const Provider = ({ children }) => {
     PORT: 9000,
   });
 
+  const updatePort = useCallback(serverPort => {
+    dispatch({ type: PORT_ACTION_TYPES.UPDATE_PORT, payload: { PORT: serverPort } });
+  }, []);
+
   return (
     <ServerPortStateContext.Provider value={state}>
-      <ServerPortDispatchContext.Provider value={dispatch}>{children}</ServerPortDispatchContext.Provider>
+      <ServerPortDispatchContext.Provider value={updatePort}>{children}</ServerPortDispatchContext.Provider>
     </ServerPortStateContext.Provider>
   );
 };
