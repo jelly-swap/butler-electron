@@ -90,7 +90,7 @@ const TradingPairs = ({ valid, selectedPairs, isButlerStarted, getState }) => {
 
     setExistingPairs(existingPairs => ({
       ...existingPairs,
-      'ETH-BTC': existingPairs['ETH-BTC'] ? existingPairs['ETH-BTC']++ : 1,
+      'ETH-BTC': existingPairs['ETH-BTC'] ? existingPairs['ETH-BTC'] + 1 : 1,
     }));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -159,11 +159,11 @@ const TradingPairs = ({ valid, selectedPairs, isButlerStarted, getState }) => {
 
     setPairs(rest);
 
+    const pairToDecrement = `${removedPair.provide}-${removedPair.receive}`;
+
     setExistingPairs(existingPairs => ({
       ...existingPairs,
-      [removedPair.provide + '-' + removedPair.receive]: existingPairs[
-        removedPair.provide + '-' + removedPair.receive
-      ]--,
+      [pairToDecrement]: existingPairs[pairToDecrement] - 1,
     }));
   };
 
@@ -174,8 +174,8 @@ const TradingPairs = ({ valid, selectedPairs, isButlerStarted, getState }) => {
 
     setExistingPairs({
       ...existingPairs,
-      [prevPairKey]: (existingPairs[prevPairKey] -= 1),
-      [currentPairKey]: existingPairs[currentPairKey] ? (existingPairs[currentPairKey] += 1) : 1,
+      [prevPairKey]: existingPairs[prevPairKey] - 1,
+      [currentPairKey]: existingPairs[currentPairKey] ? existingPairs[currentPairKey] + 1 : 1,
     });
   };
 

@@ -11,12 +11,12 @@ const Email = ({ emailInfo, setChannelData }) => {
   const [isEmailOpened, setIsEmailOpened] = useState(false);
 
   const handleEmailEnabledOnChange = () => {
-    const { username, password, from, to } = emailInfo;
+    const { USERNAME, PASSWORD, FROM, TO } = emailInfo;
 
-    if (!username || !password || !from || !to) {
-      setChannelData(CHANNEL, 'enabled', false);
-    } else if (username && password && from && to) {
-      setChannelData(CHANNEL, 'enabled', true);
+    if (!USERNAME || !PASSWORD || !FROM || !TO) {
+      setChannelData(CHANNEL, 'ENABLED', false);
+    } else if (USERNAME && PASSWORD && FROM && TO) {
+      setChannelData(CHANNEL, 'ENABLED', true);
     }
 
     setIsEmailOpened(false);
@@ -47,13 +47,13 @@ const Email = ({ emailInfo, setChannelData }) => {
             <Input
               type='text'
               placeholder='Username'
-              name='username'
-              value={emailInfo.username}
+              name='USERNAME'
+              value={emailInfo.USERNAME}
               onChange={handleEmailDataOnChange}
             />
             <span
               className={
-                emailInfo.username && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.username)
+                emailInfo.USERNAME && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.USERNAME)
                   ? 'invalid-email'
                   : 'valid-email'
               }
@@ -63,13 +63,13 @@ const Email = ({ emailInfo, setChannelData }) => {
             <Input
               type='password'
               placeholder='Password'
-              name='password'
-              value={emailInfo.password}
+              name='PASSWORD'
+              value={emailInfo.PASSWORD}
               onChange={handleEmailDataOnChange}
             />
             <span
               className={
-                !emailInfo.password && (emailInfo.username || emailInfo.from || emailInfo.to)
+                !emailInfo.PASSWORD && (emailInfo.USERNAME || emailInfo.FROM || emailInfo.TO)
                   ? 'invalid-email'
                   : 'valid-email'
               }
@@ -80,16 +80,16 @@ const Email = ({ emailInfo, setChannelData }) => {
               <Input
                 type='text'
                 className={`from-field ${
-                  emailInfo.from && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.from) ? 'invalid-email' : 'valid-email'
+                  emailInfo.FROM && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.FROM) ? 'invalid-email' : 'valid-email'
                 }`}
                 placeholder='From'
-                name='from'
-                value={emailInfo.from}
+                name='FROM'
+                value={emailInfo.FROM}
                 onChange={handleEmailDataOnChange}
               />
               <span
                 className={
-                  emailInfo.from && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.from) ? 'invalid-email' : 'valid-email'
+                  emailInfo.FROM && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.FROM) ? 'invalid-email' : 'valid-email'
                 }
               ></span>
             </div>
@@ -97,16 +97,16 @@ const Email = ({ emailInfo, setChannelData }) => {
               <Input
                 type='text'
                 className={`to-field ${
-                  emailInfo.to && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.to) ? 'invalid-email' : 'valid-email'
+                  emailInfo.TO && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.TO) ? 'invalid-email' : 'valid-email'
                 }`}
                 placeholder='To'
-                name='to'
-                value={emailInfo.to}
+                name='TO'
+                value={emailInfo.TO}
                 onChange={handleEmailDataOnChange}
               />
               <span
                 className={
-                  emailInfo.to && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.to) ? 'invalid-email' : 'valid-email'
+                  emailInfo.TO && !new RegExp(REGEX_FOR_EMAIL).test(emailInfo.TO) ? 'invalid-email' : 'valid-email'
                 }
               ></span>
               <Button btnText='Add' onClick={handleEmailEnabledOnChange} />

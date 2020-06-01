@@ -2,8 +2,9 @@ import React from 'react';
 
 import { useHttpGet } from '../../../../hooks/useHttpGet';
 
-import './style.scss';
 import { formatAddress } from '../../../../utils/formatter';
+
+import './style.scss';
 
 const balanceEndpoint = '/api/v1/balanceAll';
 
