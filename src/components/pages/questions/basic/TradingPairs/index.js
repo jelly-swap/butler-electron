@@ -159,7 +159,7 @@ const TradingPairs = ({ valid, selectedPairs, isButlerStarted, getState }) => {
 
     setPairs(rest);
 
-    const pairToDecrement = removedPair.provide + '-' + removedPair.receive;
+    const pairToDecrement = `${removedPair.provide}-${removedPair.receive}`;
 
     setExistingPairs(existingPairs => ({
       ...existingPairs,
