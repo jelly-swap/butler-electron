@@ -14,6 +14,9 @@ import BlockchainProvider from './basic/BlockchainProvider';
 import Database from './advanced/Database';
 import ServerOptions from './advanced/ServerOptions';
 
+// Context
+import { useUpdateServerPort } from '../../../context/ServerPortContext';
+
 import Button from '../../common/Button';
 
 import Emitter from '../../../utils/emitter';
@@ -37,6 +40,8 @@ const Questions = () => {
   const collapseRef = useRef();
 
   const history = useHistory();
+
+  const updateServerPort = useUpdateServerPort();
 
   new Emitter().on('startButler', () => {
     setIsButlerStarted(true);
@@ -81,6 +86,8 @@ const Questions = () => {
       if (!allQuestionsAreValid) {
         return;
       }
+
+      updateServerPort(config.SERVER.PORT);
 
       ipcRenderer.send('saveConfig', config);
 
