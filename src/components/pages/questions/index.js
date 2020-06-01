@@ -43,8 +43,6 @@ const Questions = () => {
 
   const updateServerPort = useUpdateServerPort();
 
-  console.log(updateServerPort);
-
   new Emitter().on('startButler', () => {
     setIsButlerStarted(true);
   });
