@@ -6,12 +6,25 @@ import BalanceOf from './balanceOf';
 
 import { useChannel } from '../../../hooks/useChannel';
 
-const ServerONPages = ({ serverPort }) => {
-  const [terminalData, setTerminalData] = useState(['Loading...']);
+const ServerONPages = () => {
+  const [terminalData, setTerminalData] = useState([
+    {
+      now: new Date().toISOString().substring(0, 19).replace('T', ' '),
+      info: 'Loading...',
+    },
+  ]);
+
   const { data } = useChannel('data');
 
   useEffect(() => {
-    setTerminalData(terminalData => [...terminalData, data]);
+    const now = new Date().toISOString().substring(0, 19).replace('T', ' ');
+
+    const log = {
+      now,
+      info: data,
+    };
+
+    setTerminalData(terminalData => [...terminalData, log]);
   }, [data]);
 
   return (
