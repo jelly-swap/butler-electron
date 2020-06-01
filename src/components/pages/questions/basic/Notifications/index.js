@@ -10,16 +10,18 @@ import './style.scss';
 import { REGEX_FOR_EMAIL } from '../../../../../constants';
 
 const EMAIL_DEFAULT = {
-  enabled: false,
-  username: '',
-  password: '',
-  from: '',
-  to: '',
+  ENABLED: false,
+  USERNAME: '',
+  PASSWORD: '',
+  FROM: '',
+  TO: '',
+  SERVICE: 'gmail',
+  SUBJECT: 'JELLY',
 };
 
 const SLACK_DEFAULT = {
-  enabled: false,
-  webhookUrl: '',
+  ENABLED: false,
+  WEBHOOK_URL: '',
 };
 
 const NOTIFICATIONS = {
@@ -53,39 +55,39 @@ const Notifications = ({ valid, selectedNotifications, isButlerStarted, getState
   useEffect(() => {
     const { EMAIL, SLACK } = notifications;
 
-    if (!EMAIL.enabled && (EMAIL.username || EMAIL.from || EMAIL.to)) {
+    if (!EMAIL.ENALBED && (EMAIL.USERNAME || EMAIL.FROM || EMAIL.TO)) {
       setIsEmailValid(false);
-    } else if (!EMAIL.enabled) {
+    } else if (!EMAIL.ENABLED) {
       setIsEmailValid(true);
     }
 
-    if (!SLACK.enabled) {
+    if (!SLACK.ENABLED) {
       setIsSlackValid(true);
     }
 
     const emailRegex = new RegExp(REGEX_FOR_EMAIL);
 
     if (
-      EMAIL.enabled &&
-      (!emailRegex.test(EMAIL.username) ||
-        !EMAIL.password ||
-        !emailRegex.test(EMAIL.to) ||
-        !emailRegex.test(EMAIL.from))
+      EMAIL.ENABLED &&
+      (!emailRegex.test(EMAIL.USERNAME) ||
+        !EMAIL.PASSWORD ||
+        !emailRegex.test(EMAIL.FROM) ||
+        !emailRegex.test(EMAIL.TO))
     ) {
       setIsEmailValid(false);
-    } else if (EMAIL.enabled && EMAIL.username && EMAIL.password && EMAIL.to && EMAIL.from) {
+    } else if (EMAIL.ENABLED && EMAIL.USERNAME && EMAIL.PASSWORD && EMAIL.TO && EMAIL.FROM) {
       setIsEmailValid(true);
     }
 
-    if (SLACK.enabled && !SLACK.webhookUrl) {
+    if (SLACK.ENABLED && !SLACK.WEBHOOK_URL) {
       setIsSlackValid(false);
-    } else if (SLACK.enabled && SLACK.webhookUrl) {
+    } else if (SLACK.ENABLED && SLACK.WEBHOOK_URL) {
       setIsSlackValid(true);
     }
   }, [notifications]);
 
   const setChannelData = (channel, prop, value) => {
-    if (prop === 'enabled' && !value) {
+    if (prop === 'ENABLED' && !value) {
       resetStateForChannel(channel);
       return;
     }

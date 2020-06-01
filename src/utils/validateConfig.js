@@ -88,20 +88,20 @@ const validateNotifications = notifications => {
 
   selectedNotifications.forEach(notification => {
     if (notification === 'SLACK') {
-      if (!notifications.SLACK.enabled) {
+      if (!notifications.SLACK.ENABLED) {
         validatedNotificaitons.SLACK = true;
-      } else if (notifications.SLACK.enabled && !notifications.SLACK.webhookUrl) {
+      } else if (notifications.SLACK.ENABLED && !notifications.SLACK.WEBHOOK_URL) {
         validatedNotificaitons.SLACK = false;
       } else {
         validatedNotificaitons.SLACK = true;
       }
     } else if (notification === 'EMAIL') {
       if (
-        notifications.EMAIL.enabled &&
-        (!REGEX_FOR_EMAIL.test(notifications.EMAIL.username) ||
-          !REGEX_FOR_EMAIL.test(notifications.EMAIL.from) ||
-          !REGEX_FOR_EMAIL.test(notifications.EMAIL.to) ||
-          !notifications.EMAIL.password)
+        notifications.EMAIL.ENABLED &&
+        (!REGEX_FOR_EMAIL.test(notifications.EMAIL.USERNAME) ||
+          !REGEX_FOR_EMAIL.test(notifications.EMAIL.FROM) ||
+          !REGEX_FOR_EMAIL.test(notifications.EMAIL.TO) ||
+          !notifications.EMAIL.PASSWORD)
       ) {
         validatedNotificaitons.EMAIL = false;
       } else {
