@@ -69,7 +69,7 @@ export const checkIfSeedPhraseIsInvalid = btcWallet => {
 
   const seedPhrase = btcWallet.secret;
 
-  const seedPhraseAsArray = seedPhrase.split(' ');
+  const seedPhraseAsArray = seedPhrase.split(' ').filter(word => Boolean(word));
 
   return seedPhraseAsArray.length !== WORDS_IN_SEED_PHRASE;
 };

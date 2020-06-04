@@ -124,7 +124,7 @@ const validateWalletState = (wallets, network) => {
   if (network === 'BTC') {
     const seedPhrase = wallets.BTC.SECRET;
 
-    if (seedPhrase.split(' ').length < WORDS_IN_SEED_PHRASE) {
+    if (seedPhrase.split(' ').filter(w => Boolean(w)).length < WORDS_IN_SEED_PHRASE) {
       return false;
     }
   }

@@ -174,15 +174,18 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
                       name='privateKey'
                       wrapperClassName='wallet-input-wrapper'
                     />
-                    {isPrivateKeyShown && privateKeyValue === wallets[wallet]?.secret ? (
-                      <span>
-                        <i className='fas fa-eye-slash' onClick={() => toggePrivateKey(wallets[wallet]?.secret)} />
-                      </span>
-                    ) : (
-                      <span title='Reveal secret key' onClick={() => toggePrivateKey(wallets[wallet]?.secret)}>
-                        <i className='fas fa-eye' />
-                      </span>
-                    )}
+                    {!isBTCWallet(wallet) ? (
+                      isPrivateKeyShown && privateKeyValue === wallets[wallet]?.secret ? (
+                        <span>
+                          <i className='fas fa-eye-slash' onClick={() => toggePrivateKey(wallets[wallet]?.secret)} />
+                        </span>
+                      ) : (
+                        <span title='Reveal secret key' onClick={() => toggePrivateKey(wallets[wallet]?.secret)}>
+                          <i className='fas fa-eye' />
+                        </span>
+                      )
+                    ) : null}
+
                     {ERC20InvalidSecret[wallet] && (
                       <p className='errorMsg secret'>Your {wallet} secret cannot match ETH secret</p>
                     )}
