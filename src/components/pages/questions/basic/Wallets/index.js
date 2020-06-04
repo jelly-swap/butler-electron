@@ -190,7 +190,7 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
                       <p className='errorMsg secret'>Your {wallet} secret cannot match ETH secret</p>
                     )}
                     {isBTCWallet(wallet) && isSeedPhraseInvalid && (
-                      <p className='errorMsg btc-secret'>Please enter 12 words</p>
+                      <p className='errorMsg btc-secret'>Please enter 12 or 24 words</p>
                     )}
                   </div>
                 </div>

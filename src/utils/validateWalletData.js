@@ -1,5 +1,5 @@
 import { getNetworkRegex } from './addressValidation';
-import { ERC20_TOKENS, WORDS_IN_SEED_PHRASE } from '../constants';
+import { ERC20_TOKENS, MIN_WORDS_FOR_VALID_SEED, MAX_WORDS_FOR_VALID_SEED } from '../constants';
 
 export const checkIfSecretIsMissing = wallets => {
   for (const wallet in wallets) {
@@ -71,5 +71,10 @@ export const checkIfSeedPhraseIsInvalid = btcWallet => {
 
   const seedPhraseAsArray = seedPhrase.split(/\s+/).filter(word => Boolean(word));
 
-  return seedPhraseAsArray.length !== WORDS_IN_SEED_PHRASE;
+  const currentLengthOfSeedPhrase = seedPhraseAsArray.length;
+
+  return seedPhraseValidation(currentLengthOfSeedPhrase);
 };
+
+export const seedPhraseValidation = seedPhraseLength =>
+  seedPhraseLength !== MIN_WORDS_FOR_VALID_SEED && seedPhraseLength !== MAX_WORDS_FOR_VALID_SEED;
