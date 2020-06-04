@@ -26,7 +26,8 @@ const utils_2 = require("./blockchain/utils");
 exports.run = (config = user_config_1.default) => {
     new config_1.default().setUserConfig(config);
     const dbConfig = database_1.default(Object.assign({ name: config.DATABASE.ACTIVE }, config.DATABASE[config.DATABASE.ACTIVE]));
-    validateAddresses(config).then((result) => {
+    validateAddresses(config)
+        .then((result) => {
         if (result) {
             typeorm_1.createConnection(dbConfig)
                 .then(() => __awaiter(void 0, void 0, void 0, function* () {
@@ -40,6 +41,9 @@ exports.run = (config = user_config_1.default) => {
                 logger_1.logError(`ERROR: ${error}`);
             });
         }
+    })
+        .catch((error) => {
+        logger_1.logError(`ERROR: ${error}`);
     });
 };
 const validateAddresses = (config) => __awaiter(void 0, void 0, void 0, function* () {
