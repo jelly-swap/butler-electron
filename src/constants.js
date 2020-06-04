@@ -10,6 +10,7 @@ export const PAIRS = {
     DAI: 'DAI',
     AE: 'AE',
     USDC: 'USDC',
+    WBTC: 'WBTC',
   },
   DAI: {
     BTC: 'BTC',
@@ -22,6 +23,9 @@ export const PAIRS = {
   USDC: {
     BTC: 'BTC',
     ETH: 'ETH',
+  },
+  WBTC: {
+    BTC: 'BTC',
   },
 };
 
