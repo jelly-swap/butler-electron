@@ -15,9 +15,12 @@ import {
   checkIfETHSecretMatchERC20Secret,
   checkIfAddressessDoNotMatchRegex,
   checkIfSecretIsMissing,
+  checkIfSeedPhraseIsInvalid,
 } from '../../../../../utils/validateWalletData';
 
 import './style.scss';
+
+const isBTCWallet = wallet => wallet === 'BTC';
 
 const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => {
   const [wallets, setWallets] = useState({});
@@ -27,6 +30,7 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
   const [ERC20InvalidSecret, setERC20InvalidSecret] = useState({});
   const [isPrivateKeyShown, setIsPrivateKeyShown] = useState(false);
   const [privateKeyValue, setPrivateKeyValue] = useState('');
+  const [isSeedPhraseInvalid, setIsSeedPhraseInvalid] = useState(false);
 
   useGetStateFromCP(isButlerStarted, getState, { WALLETS: wallets });
 
@@ -47,6 +51,13 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
       return;
     }
 
+    if (checkIfSeedPhraseIsInvalid(wallets?.BTC)) {
+      setIsValid(false);
+      setIsSeedPhraseInvalid(true);
+      return;
+    }
+
+    setIsSeedPhraseInvalid(false);
     setIsValid(true);
   }, [wallets]);
 
@@ -152,8 +163,12 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
                   </div>
                   <div className='wallet-private-key'>
                     <Input
-                      type={isPrivateKeyShown && privateKeyValue === wallets[wallet]?.secret ? 'text' : 'password'}
-                      placeholder='Private Key'
+                      type={
+                        isBTCWallet(wallet) || (isPrivateKeyShown && privateKeyValue === wallets[wallet]?.secret)
+                          ? 'text'
+                          : 'password'
+                      }
+                      placeholder={isBTCWallet(wallet) ? 'Seed phrase' : 'Private key'}
                       value={wallets[wallet]?.secret}
                       onChange={event => handleSecretOnChange(wallet, event)}
                       name='privateKey'
@@ -170,6 +185,9 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
                     )}
                     {ERC20InvalidSecret[wallet] && (
                       <p className='errorMsg secret'>Your {wallet} secret cannot match ETH secret</p>
+                    )}
+                    {isBTCWallet(wallet) && isSeedPhraseInvalid && (
+                      <p className='errorMsg btc-secret'>Please enter 12 words</p>
                     )}
                   </div>
                 </div>
