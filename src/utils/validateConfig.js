@@ -1,5 +1,6 @@
 import { getNetworkRegex } from './addressValidation';
 import { REGEX_FOR_EMAIL, WALLETS } from '../constants';
+import { seedPhraseValidation } from './validateWalletData';
 
 export const validateConfig = Config => {
   return {
@@ -114,10 +115,19 @@ const validateNotifications = notifications => {
 };
 
 const validateWalletState = (wallets, network) => {
-  //     !new RegExp(getNetworkRegex(network)).test(wallets[WALLETS[network]].ADDRESS) ||
-
-  if (!wallets[WALLETS[network]].SECRET) {
+  if (
+    !new RegExp(getNetworkRegex(network)).test(wallets[WALLETS[network]].ADDRESS) ||
+    !wallets[WALLETS[network]].SECRET
+  ) {
     return false;
+  }
+
+  if (network === 'BTC') {
+    const seedPhrase = wallets.BTC.SECRET;
+
+    if (seedPhraseValidation(seedPhrase.split(/\s+/).filter(w => Boolean(w)).length)) {
+      return false;
+    }
   }
 
   return true;
