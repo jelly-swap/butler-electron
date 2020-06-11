@@ -14,6 +14,14 @@ const ServerONPages = () => {
     },
   ]);
 
+  const [selectedLogFilters, setSelectedLogFilters] = useState([]);
+
+  const onLogFilterSelected = selectedFilter => {
+    selectedLogFilters.includes(selectedFilter)
+      ? setSelectedLogFilters(selectedLogFilters.filter(f => f !== selectedFilter))
+      : setSelectedLogFilters([...selectedLogFilters, selectedFilter]);
+  };
+
   const { data } = useChannel('data');
 
   useEffect(() => {
@@ -29,7 +37,17 @@ const ServerONPages = () => {
 
   return (
     <>
-      <Route exact path='/terminal' component={() => <Terminal terminalData={terminalData} />} />
+      <Route
+        exact
+        path='/terminal'
+        component={() => (
+          <Terminal
+            terminalData={terminalData}
+            selectedLogFilters={selectedLogFilters}
+            onLogFilterSelected={onLogFilterSelected}
+          />
+        )}
+      />
       <Route exact path='/balanceOf' component={() => <BalanceOf />} />
     </>
   );

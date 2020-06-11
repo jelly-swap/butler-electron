@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Terminal from 'terminal-in-react';
 
-import './style.scss';
+import LogFilter from './logFilter';
 
-import { CheckboxRadio, useCheckboxes } from '../../../common/Checkbox';
+import './style.scss';
 
 // 📕: error message
 // 📙: warning message
@@ -12,7 +12,7 @@ import { CheckboxRadio, useCheckboxes } from '../../../common/Checkbox';
 // 📓: canceled status message
 // 📔: Or anything you like and want to recognize immediately by color
 
-const MESSAGE_COLORS = {
+const MESSAGE_TYPES = {
   ERROR: '📕',
   WARN: '📙',
   INFO: '📗',
@@ -21,21 +21,7 @@ const MESSAGE_COLORS = {
   DEFAULT: '📔',
 };
 
-const checkboxesList = ['Info', 'Error', 'Warning'];
-
-const getDefaultCheckboxes = () =>
-  checkboxesList.map(checkbox => ({
-    name: checkbox,
-    checked: false,
-  }));
-
-const JellyTerminal = ({ terminalData }) => {
-  const [checkboxes, setCheckboxes] = useState(getDefaultCheckboxes());
-
-  useCheckboxes(checkboxes, setCheckboxes);
-
-  console.log(checkboxes);
-
+const JellyTerminal = ({ terminalData, selectedLogFilters, onLogFilterSelected }) => {
   useEffect(() => {
     terminalData.forEach(log => {
       const { now, info } = log;
@@ -44,15 +30,21 @@ const JellyTerminal = ({ terminalData }) => {
 
       const idxOfDblDots = info.indexOf(':');
 
-      const color = idxOfDblDots !== -1 ? info.split(':')[0] : 'DEFAULT';
+      const messageType = idxOfDblDots !== -1 ? info.split(':')[0] : 'DEFAULT';
 
-      console.log(`${MESSAGE_COLORS[color]} ${now} ${info.replace(/INFO|ERROR|WARN/, '')}`);
+      if (!selectedLogFilters.length) {
+        console.log(`${MESSAGE_TYPES[messageType]} ${now} ${info.replace(/INFO|ERROR|WARN/, '')}`);
+      } else {
+        if (selectedLogFilters.includes(messageType)) {
+          console.log(`${MESSAGE_TYPES[messageType]} ${now} ${info.replace(/INFO|ERROR|WARN/, '')}`);
+        }
+      }
     });
-  }, [terminalData]);
+  }, [terminalData, selectedLogFilters]);
 
   return (
     <>
-      {CheckboxRadio(checkboxes)}
+      <LogFilter selectedLogFilters={selectedLogFilters} onLogFilterSelected={onLogFilterSelected} />
 
       <div className='terminal-wrapper'>
         <Terminal
