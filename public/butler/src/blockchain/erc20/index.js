@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const erc20_1 = require("@jelly-swap/erc20");
+const providers_1 = require("@jelly-swap/ethereum/dist/providers");
 const emitter_1 = require("../../emitter");
 const email_1 = require("../../email");
 const math_1 = require("../../utils/math");
@@ -18,7 +19,9 @@ const config_1 = require("../config");
 const config_2 = require("../../config");
 class Erc20Contract extends erc20_1.Contract {
     constructor(config) {
-        super(new erc20_1.Providers.WalletProvider(config.PRIVATE_KEY, config.providerUrl), config);
+        const _wallet = new providers_1.WalletProvider(config.PRIVATE_KEY, config.providerUrl);
+        super(_wallet, config);
+        this.wallet = _wallet;
         this.emailService = new email_1.default();
         this.receivers = new config_2.default().getReceivers(Object.keys(config_1.SECONDARY_NETWORKS));
         this.filter = {
@@ -29,6 +32,11 @@ class Erc20Contract extends erc20_1.Contract {
                 sender: this.receivers,
             },
         };
+    }
+    signMessage(message) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.wallet.signMessage(message);
+        });
     }
     subscribe() {
         logger_1.logInfo(`Starting ERC20 Events - ${this.config.contractAddress}`);
@@ -83,12 +91,12 @@ class Erc20Contract extends erc20_1.Contract {
                             }
                         }
                         catch (err) {
-                            logger_1.logError(`ERC20_REFUND_ERROR: ${err} ${event}`);
+                            logger_1.logError(`ERC20_REFUND_ERROR`, { err, event });
                         }
                     }
                 }
                 catch (err) {
-                    logger_1.logError(`ERC20_REFUND_ERROR: ${err}`);
+                    logger_1.logError(`ERC20_REFUND_ERROR`, err);
                 }
             });
             setInterval(() => __awaiter(this, void 0, void 0, function* () {

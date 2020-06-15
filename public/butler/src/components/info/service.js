@@ -11,10 +11,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = require("axios");
 const moment = require("moment");
+const contracts_1 = require("../../blockchain/contracts");
 const service_1 = require("../balance/service");
 const service_2 = require("../price/service");
 const logger_1 = require("../../logger");
 const config_1 = require("../../config");
+const utils_1 = require("../../utils");
 class InfoService {
     constructor() {
         this.pairs = {};
@@ -31,19 +33,18 @@ class InfoService {
         InfoService.instance = this;
     }
     register() {
-        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                this.update();
+                yield this.update();
                 const info = this.getInfo();
                 const result = yield axios_1.default.post(`${this.userConfig.AGGREGATOR_URL}/register`, info);
-                const { valid, message } = (_a = result) === null || _a === void 0 ? void 0 : _a.data;
+                const { valid, message } = result === null || result === void 0 ? void 0 : result.data;
                 if (!valid) {
-                    logger_1.logError(`CANNOT_CONNECT_TO_NETWORK: ${message}`);
+                    logger_1.logError(`CANNOT_CONNECT_TO_NETWORK`, message);
                 }
             }
             catch (err) {
-                logger_1.logError(`REGISTER_ERROR: ${err}`);
+                logger_1.logError(`REGISTER_ERROR`, err);
             }
         });
     }
@@ -52,24 +53,42 @@ class InfoService {
             this.prices = this.priceService.getPricesWithSpreadAndFee();
             this.balances = this.balanceService.getBalances();
             this.updated = moment().valueOf();
+            yield this.getSignatures();
+        });
+    }
+    getSignatures() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const contracts = contracts_1.default();
+            for (const network of Object.keys(this.balances)) {
+                const message = `${this.name} is LP for ${network} at Jelly v0.1 at ${this.updated}`;
+                const signMessageFunction = utils_1.safeAccess(contracts, [network, 'signMessage']);
+                if (signMessageFunction) {
+                    try {
+                        const sig = yield contracts[network].signMessage(message);
+                        this.balances[network]['signature'] = sig;
+                    }
+                    catch (err) {
+                        logger_1.logError('Cannot sign message', err);
+                    }
+                }
+            }
         });
     }
     iAmAlive() {
-        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const info = this.getInfo();
                 const result = yield axios_1.default.post(`${this.userConfig.AGGREGATOR_URL}/update`, info);
-                const { valid, message } = (_a = result) === null || _a === void 0 ? void 0 : _a.data;
+                const { valid, message } = result === null || result === void 0 ? void 0 : result.data;
                 if (!valid) {
-                    logger_1.logError(`CANNOT_CONNECT_TO_NETWORK: ${message}`);
+                    logger_1.logError(`CANNOT_CONNECT_TO_NETWORK`, message);
                     if (message === 'NOT_REGISTERED') {
                         yield this.register();
                     }
                 }
             }
             catch (err) {
-                logger_1.logError(`I_AM_ALIVE_ERROR: ${err}`);
+                logger_1.logError(`I_AM_ALIVE_ERROR`, err);
             }
         });
     }

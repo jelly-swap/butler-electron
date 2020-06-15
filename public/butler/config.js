@@ -8,6 +8,7 @@ exports.default = {
         DAI: true,
         USDC: true,
         WBTC: true,
+        'BTC++': true,
     },
     // The amount of fee that is charged by JellySwap protocol.
     // Currently the usage of JellySwap protocol is free
@@ -24,8 +25,9 @@ exports.default = {
     // You can track your portfolio P&L with this option
     BALANCE_SNAPSHOT_INTERVAL: 3600,
     PRICE: {
-        COINS: ['ETH', 'BTC', 'AE', 'DAI', 'WBTC', 'USDC', 'USDT'],
+        COINS: ['ETH', 'BTC', 'AE', 'DAI', 'WBTC', 'USDC', 'USDT', 'BTC++'],
     },
+    DUPLICATE_PRICE: { DAI: 'USDC', WBTC: 'BTC', 'BTC++': 'BTC' },
     // ================== Binance configuration ==================
     BINANCE: {
         PAIRS: {
@@ -43,7 +45,6 @@ exports.default = {
             AE: 1,
             USDC: 4,
         },
-        DUPLICATE_PRICE: { DAI: 'USDC', WBTC: 'BTC' },
     },
 };
 //# sourceMappingURL=config.js.map

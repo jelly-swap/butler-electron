@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PriceService = void 0;
 const config_1 = require("../../../config");
 const provider_1 = require("./provider");
 const logger_1 = require("../../logger");
@@ -39,7 +40,7 @@ class PriceService {
                 }
                 for (const pair in this.userConfig.PAIRS) {
                     if (!prices[pair]) {
-                        logger_1.logError(`SUPPORTED_PAIR_MISSING_PRICE: ${pair}`);
+                        logger_1.logError(`SUPPORTED_PAIR_MISSING_PRICE`, pair);
                     }
                 }
                 if (Object.values(prices).length > 0) {

@@ -30,7 +30,7 @@ class BalanceRepository {
                 yield this.balanceRepository.save(balance);
             }
             catch (error) {
-                logger_1.logError(`Error while saving the Balance: ${error}`);
+                logger_1.logError(`BALANCE_REPOSITORY_ERROR`, error);
             }
         });
     }

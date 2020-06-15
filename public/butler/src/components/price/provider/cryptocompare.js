@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const node_fetch_1 = require("node-fetch");
 const CryptoCompareApi = require("cryptocompare");
 const config_1 = require("../../../config");
+const config_2 = require("../../../../config");
 global.fetch = node_fetch_1.default;
 class CryptoCompareProvider {
     constructor() {
@@ -26,10 +27,17 @@ class CryptoCompareProvider {
                 }
                 const prices = {};
                 const result = yield CryptoCompareApi.priceMulti(q, b);
+                Object.entries(config_2.default.DUPLICATE_PRICE).forEach((t) => {
+                    result[t['0']] = result[t['1']];
+                });
                 Object.keys(result).forEach((base) => {
                     Object.keys(result[base]).forEach((quote) => {
                         prices[`${base}-${quote}`] = result[base][quote];
                     });
+                });
+                Object.entries(config_2.default.DUPLICATE_PRICE).forEach((t) => {
+                    prices[`${t['0']}-${t['1']}`] = 1;
+                    prices[`${t['1']}-${t['0']}`] = 1;
                 });
                 return prices;
             }

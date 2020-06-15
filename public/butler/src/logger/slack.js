@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getSlackTransport = void 0;
 const SlackHook = require("winston-slack-webhook-transport");
 const config_1 = require("../config");
 const utils_1 = require("../utils");

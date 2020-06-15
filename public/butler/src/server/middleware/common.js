@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.handleCompression = exports.handleBodyRequestParsing = exports.handleCors = void 0;
 const cors = require("cors");
 const parser = require("body-parser");
 const compression = require("compression");

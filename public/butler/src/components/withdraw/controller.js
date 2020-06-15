@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.WithdrawController = void 0;
 const config_1 = require("../../../config");
 const contracts_1 = require("../../blockchain/contracts");
 const logger_1 = require("../../logger");
@@ -19,7 +20,7 @@ class WithdrawController {
             if (config_1.default.COVER_FEES) {
                 const { swap, secret } = request.body;
                 const result = yield contracts[swap.network].userWithdraw(swap, secret);
-                logger_1.logInfo(`USER_WITHDRAW_TX: ${result}`);
+                logger_1.logInfo(`USER_WITHDRAW_TX`, result);
                 return result;
             }
             else {

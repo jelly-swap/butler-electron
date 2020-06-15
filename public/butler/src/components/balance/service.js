@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BalanceService = void 0;
 const config_1 = require("../../blockchain/config");
 const contracts_1 = require("../../blockchain/contracts");
 const adapters_1 = require("../../blockchain/adapters");
@@ -53,13 +54,13 @@ class BalanceService {
                         }
                     }
                     catch (err) {
-                        logger_1.logError(`Cannot get balances ${network} ${err}`);
+                        logger_1.logError(`CANNOT_GET_BALANCES`, { network, err });
                     }
                 }
                 this.exchangeBalances = yield this.exchange.getBalance();
             }
             catch (err) {
-                logger_1.logError(`Cannot get balances ${err}`);
+                logger_1.logError(`CANNOT_GET_BALANCES`, err);
             }
         });
     }
@@ -79,7 +80,7 @@ class BalanceService {
                         portfolioInUsdcTotal = math_1.addBig(portfolioInUsdcTotal, valueInUsdc);
                     }
                     catch (err) {
-                        logger_1.logInfo(`Balance History Service Warning - price missing ${network}-USDC  ${err}`);
+                        logger_1.logWarn(`BALANCE_HISTORY_PRICE_${network}-USDC`, err);
                     }
                 }
                 balances.push({
@@ -90,7 +91,7 @@ class BalanceService {
                 this.balanceRepository.saveBalance(balances);
             }
             catch (err) {
-                logger_1.logError(`Cannot save balance snapshot ${err}`);
+                logger_1.logError(`CANNOT_SAVE_BALANCES`, err);
             }
         });
     }

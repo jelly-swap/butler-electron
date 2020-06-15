@@ -10,13 +10,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const ethereum_1 = require("@jelly-swap/ethereum");
+const providers_1 = require("@jelly-swap/ethereum/dist/providers");
 const emitter_1 = require("../../emitter");
 const math_1 = require("../../utils/math");
 const logger_1 = require("../../logger");
 const email_1 = require("../../email");
 class EthereumContract extends ethereum_1.Contract {
     constructor(config) {
-        super(new ethereum_1.Providers.WalletProvider(config.PRIVATE_KEY, config.providerUrl), config);
+        const _wallet = new providers_1.WalletProvider(config.PRIVATE_KEY, config.providerUrl);
+        super(_wallet, config);
+        this.wallet = _wallet;
         this.emailService = new email_1.default();
         this.filter = {
             new: {
@@ -26,6 +29,11 @@ class EthereumContract extends ethereum_1.Contract {
                 sender: this.config.receiverAddress,
             },
         };
+    }
+    signMessage(message) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.wallet.signMessage(message);
+        });
     }
     subscribe() {
         const _super = Object.create(null, {
@@ -78,12 +86,12 @@ class EthereumContract extends ethereum_1.Contract {
                             }
                         }
                         catch (err) {
-                            logger_1.logError(`ETH_REFUND_ERROR: ${err} ${event}`);
+                            logger_1.logError(`ETH_REFUND_ERROR`, { err, event });
                         }
                     }
                 }
                 catch (err) {
-                    logger_1.logError(`ETH_REFUND_ERROR: ${err}`);
+                    logger_1.logError(`ETH_REFUND_ERROR`, err);
                 }
             });
             setInterval(() => __awaiter(this, void 0, void 0, function* () {

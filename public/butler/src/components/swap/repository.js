@@ -30,7 +30,7 @@ class SwapRepository {
                 yield this.swapRepository.save(swap);
             }
             catch (error) {
-                logger_1.logError(`Error while saving the Swap: ${error}`);
+                logger_1.logError(`SWAP_REPOSITORY_ERROR`, error);
             }
         });
     }
