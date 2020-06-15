@@ -11,6 +11,7 @@ export const PAIRS = {
     AE: 'AE',
     USDC: 'USDC',
     WBTC: 'WBTC',
+    'BTC++': 'BTC++',
   },
   DAI: {
     BTC: 'BTC',
@@ -27,6 +28,9 @@ export const PAIRS = {
   WBTC: {
     BTC: 'BTC',
   },
+  'BTC++': {
+    BTC: 'BTC',
+  },
 };
 
 export const WALLETS = {
@@ -36,12 +40,14 @@ export const WALLETS = {
   WBTC: 'WBTC',
   BTC: 'BTC',
   AE: 'AE',
+  'BTC++': 'BTC++',
 };
 
 export const ERC20_TOKENS = {
   DAI: 'DAI',
   USDC: 'USDC',
   WBTC: 'WBTC',
+  'BTC++': 'BTC++',
 };
 
 export const PRICE_PROVIDER_INTERVALS = {
@@ -80,6 +86,7 @@ export const BLOCKCHAIN_PROVIDERS = {
   DAI: 'INFURA',
   WBTC: 'INFURA',
   USDC: 'INFURA',
+  'BTC++': 'INFURA',
 };
 
 export const PORT_ACTION_TYPES = {

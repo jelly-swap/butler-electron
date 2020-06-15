@@ -17,6 +17,7 @@ export const getNetworkRegex = network => {
     case 'DAI':
     case 'USDC':
     case 'WBTC':
+    case 'BTC++':
       return `^0x[0-9a-fA-F]{${ADDRESSES_LENGTH.ETH.MAX}}$`;
     case 'BTC':
       return `^bc1[a-zA-HJ-NP-Z0-9]{${ADDRESSES_LENGTH.BTC.MAX}}$`;
