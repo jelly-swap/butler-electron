@@ -212,10 +212,18 @@ autoUpdater.on('update-downloaded', info => {
 });
 
 autoUpdater.on('update-downloaded', info => {
-  // Wait 5 seconds, then quit and install
-  // In your application, you don't need to wait 500 ms.
-  // You could call autoUpdater.quitAndInstall(); immediately
-  autoUpdater.quitAndInstall();
+  dialog
+    .showMessageBox(mainWindow, {
+      buttons: ['Get Updates'],
+      message: 'A new update is now available. Updates need to be installed.',
+    })
+    .then(result => {
+      if (result.response === 0) {
+        autoUpdater.quitAndInstall();
+      } else if (result.response === 1) {
+        process.exit(-1);
+      }
+    });
 });
 
 const getConfigPath = () => {

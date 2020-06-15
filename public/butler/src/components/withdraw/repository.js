@@ -30,7 +30,7 @@ class WithdrawRepository {
                 yield this.withdrawRepository.save(withdraw);
             }
             catch (error) {
-                logger_1.logError(`Error while saving the Withdraw: ${error}`);
+                logger_1.logError(`WITHDRAW_REPOSITORY_ERROR`, error);
             }
         });
     }

@@ -90,12 +90,12 @@ class AeternityContract extends aeternity_1.Contract {
                             }
                         }
                         catch (err) {
-                            logger_1.logError(`AE_REFUND_ERROR: ${err} ${event}`);
+                            logger_1.logError(`AE_REFUND_ERROR`, { err, event });
                         }
                     }
                 }
                 catch (err) {
-                    logger_1.logError(`AE_REFUND_ERROR: ${err}`);
+                    logger_1.logError(`AE_REFUND_ERROR`, err);
                 }
             });
             setInterval(() => __awaiter(this, void 0, void 0, function* () {

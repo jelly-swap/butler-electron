@@ -112,8 +112,8 @@ class BinanceExchange {
                                     }
                                 }
                             }
-                            Object.keys(config_1.default.BINANCE.DUPLICATE_PRICE).forEach((t) => {
-                                const d = config_1.default.BINANCE.DUPLICATE_PRICE[t];
+                            Object.keys(config_1.default.DUPLICATE_PRICE).forEach((t) => {
+                                const d = config_1.default.DUPLICATE_PRICE[t];
                                 Object.keys(prices).forEach((p) => {
                                     prices[p.replace(d, t)] = prices[p];
                                 });
@@ -131,8 +131,8 @@ class BinanceExchange {
         });
     }
     formatOrder(order) {
-        const quote = config_1.default.BINANCE.DUPLICATE_PRICE[order.quote] || order.quote;
-        const base = config_1.default.BINANCE.DUPLICATE_PRICE[order.base] || order.base;
+        const quote = config_1.default.DUPLICATE_PRICE[order.quote] || order.quote;
+        const base = config_1.default.DUPLICATE_PRICE[order.base] || order.base;
         if (config_1.default.BINANCE.PAIRS[quote + base]) {
             return {
                 type: 'marketBuy',

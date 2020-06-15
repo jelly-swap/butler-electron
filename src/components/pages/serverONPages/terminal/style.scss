@@ -28,3 +28,17 @@
     max-width: 100% !important;
   }
 }
+
+.log-filter-wrapper {
+  background: #e4e4e4;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  label {
+    display: flex;
+    align-items: center;
+    margin-right: 2%;
+  }
+}

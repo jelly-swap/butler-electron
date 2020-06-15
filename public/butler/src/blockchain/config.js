@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SECONDARY_NETWORKS = void 0;
 const config_testnet_1 = require("./config-testnet");
 const config_mainnet_1 = require("./config-mainnet");
 let Config;
@@ -7,6 +8,7 @@ exports.SECONDARY_NETWORKS = {
     WBTC: 'WBTC',
     USDC: 'USDC',
     DAI: 'DAI',
+    'BTC++': 'BTC++',
 };
 exports.default = () => {
     if (!Config) {

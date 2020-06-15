@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PK_MATCH_ADDRESS = exports.aeAddressMatch = exports.btcAddressMatch = exports.ethAddressMatch = exports.sleep = exports.compareAddress = void 0;
 const utils_1 = require("@jelly-swap/utils");
 // Ethereum
 const ethers_1 = require("ethers");
@@ -18,6 +19,7 @@ const btc_provider_1 = require("@jelly-swap/btc-provider");
 // Aeternity
 const aepp_sdk_1 = require("@aeternity/aepp-sdk");
 const nacl = require("tweetnacl");
+const config_1 = require("./config");
 exports.compareAddress = (a1, a2) => {
     return a1.toLowerCase() === a2.toLowerCase();
 };
@@ -42,12 +44,11 @@ exports.aeAddressMatch = (privateKey, address) => __awaiter(void 0, void 0, void
     const publicBuffer = Buffer.from(keys.publicKey);
     return `ak_${aepp_sdk_1.Crypto.encodeBase58Check(publicBuffer)}` === address;
 });
-exports.PK_MATCH_ADDRESS = {
-    ETH: exports.ethAddressMatch,
-    DAI: exports.ethAddressMatch,
-    USDC: exports.ethAddressMatch,
-    WBTC: exports.ethAddressMatch,
-    BTC: exports.btcAddressMatch,
-    AE: exports.aeAddressMatch,
+const getErc20Matcher = () => {
+    return Object.keys(config_1.SECONDARY_NETWORKS).reduce((object, token) => {
+        object[token] = exports.ethAddressMatch;
+        return object;
+    }, {});
 };
+exports.PK_MATCH_ADDRESS = Object.assign(Object.assign({}, getErc20Matcher()), { ETH: exports.ethAddressMatch, BTC: exports.btcAddressMatch, AE: exports.aeAddressMatch });
 //# sourceMappingURL=utils.js.map

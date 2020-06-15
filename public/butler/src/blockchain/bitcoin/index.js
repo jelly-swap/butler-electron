@@ -64,6 +64,11 @@ class BitcoinContract extends bitcoin_1.Contract {
             });
         });
     }
+    signMessage(message) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.wallet.signMessage(message, this.config.receiverAddress);
+        });
+    }
     processRefunds() {
         const _super = Object.create(null, {
             getPastEvents: { get: () => super.getPastEvents },
@@ -98,13 +103,13 @@ class BitcoinContract extends bitcoin_1.Contract {
                                 }
                             }
                             catch (err) {
-                                logger_1.logError(`BTC_REFUND_ERROR: ${err} ${event}`);
+                                logger_1.logError(`BTC_REFUND_ERROR`, { err, event });
                             }
                         }
                     }
                 }
                 catch (err) {
-                    logger_1.logError(`BTC_REFUND_ERROR: ${err}`);
+                    logger_1.logError(`BTC_REFUND_ERROR`, err);
                 }
             });
             setInterval(() => __awaiter(this, void 0, void 0, function* () {

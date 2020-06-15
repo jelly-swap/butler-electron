@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BalanceController = void 0;
 const service_1 = require("./service");
 class BalanceController {
     constructor() {
