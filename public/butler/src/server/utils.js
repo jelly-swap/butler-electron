@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.applyRoutes = exports.applyMiddleware = exports.startTasks = void 0;
 const logger_1 = require("../logger");
 exports.startTasks = (tasks) => __awaiter(void 0, void 0, void 0, function* () {
     for (const t of tasks) {

@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Routes = void 0;
 const routes_1 = require("../components/price/routes");
 const routes_2 = require("../components/balance/routes");
 const routes_3 = require("../components/info/routes");

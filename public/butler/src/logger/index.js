@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logError = exports.logInfo = exports.logWarn = void 0;
 const winston_1 = require("winston");
 const slack_1 = require("./slack");
 const config = {

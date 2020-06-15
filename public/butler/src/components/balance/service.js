@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BalanceService = void 0;
 const config_1 = require("../../blockchain/config");
 const contracts_1 = require("../../blockchain/contracts");
 const adapters_1 = require("../../blockchain/adapters");

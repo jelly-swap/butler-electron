@@ -33,12 +33,13 @@ class InfoService {
         InfoService.instance = this;
     }
     register() {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield this.update();
                 const info = this.getInfo();
                 const result = yield axios_1.default.post(`${this.userConfig.AGGREGATOR_URL}/register`, info);
-                const { valid, message } = result === null || result === void 0 ? void 0 : result.data;
+                const { valid, message } = (_a = result) === null || _a === void 0 ? void 0 : _a.data;
                 if (!valid) {
                     logger_1.logError(`CANNOT_CONNECT_TO_NETWORK`, message);
                 }
@@ -68,18 +69,19 @@ class InfoService {
                         this.balances[network]['signature'] = sig;
                     }
                     catch (err) {
-                        logger_1.logError('Cannot sign message', err);
+                        logger_1.logError(`Cannot sign message ${network} : ${err}`);
                     }
                 }
             }
         });
     }
     iAmAlive() {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const info = this.getInfo();
                 const result = yield axios_1.default.post(`${this.userConfig.AGGREGATOR_URL}/update`, info);
-                const { valid, message } = result === null || result === void 0 ? void 0 : result.data;
+                const { valid, message } = (_a = result) === null || _a === void 0 ? void 0 : _a.data;
                 if (!valid) {
                     logger_1.logError(`CANNOT_CONNECT_TO_NETWORK`, message);
                     if (message === 'NOT_REGISTERED') {

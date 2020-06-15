@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.startHandlers = void 0;
 const swap_1 = require("./swap");
 const withdraw_1 = require("./withdraw");
 const emitter_1 = require("../../emitter");

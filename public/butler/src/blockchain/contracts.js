@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.startEventListener = exports.getNetworkContracts = void 0;
 const config_1 = require("./config");
 const bitcoin_1 = require("./bitcoin");
 const ethereum_1 = require("./ethereum");

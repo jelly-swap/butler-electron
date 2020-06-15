@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.run = void 0;
 require("reflect-metadata");
 const typeorm_1 = require("typeorm");
 const server_1 = require("./server");
