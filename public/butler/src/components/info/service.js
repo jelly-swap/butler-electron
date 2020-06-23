@@ -11,21 +11,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = require("axios");
 const moment = require("moment");
+const config_1 = require("../../config");
 const contracts_1 = require("../../blockchain/contracts");
+const supportedNetworks_1 = require("../../config/supportedNetworks");
 const service_1 = require("../balance/service");
 const service_2 = require("../price/service");
 const logger_1 = require("../../logger");
-const config_1 = require("../../config");
 const utils_1 = require("../../utils");
 class InfoService {
     constructor() {
         this.pairs = {};
         this.prices = {};
         this.balances = {};
+        this.addresses = {};
         if (InfoService.instance) {
             return InfoService.instance;
         }
         this.userConfig = new config_1.default().getUserConfig();
+        this.addresses = this.getAddresses();
         this.name = this.userConfig.NAME;
         this.pairs = this.userConfig.PAIRS;
         this.balanceService = new service_1.BalanceService();
@@ -33,13 +36,12 @@ class InfoService {
         InfoService.instance = this;
     }
     register() {
-        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield this.update();
                 const info = this.getInfo();
                 const result = yield axios_1.default.post(`${this.userConfig.AGGREGATOR_URL}/register`, info);
-                const { valid, message } = (_a = result) === null || _a === void 0 ? void 0 : _a.data;
+                const { valid, message } = result === null || result === void 0 ? void 0 : result.data;
                 if (!valid) {
                     logger_1.logError(`CANNOT_CONNECT_TO_NETWORK`, message);
                 }
@@ -56,6 +58,16 @@ class InfoService {
             this.updated = moment().valueOf();
             yield this.getSignatures();
         });
+    }
+    getAddresses() {
+        const allAssets = supportedNetworks_1.default();
+        return Object.keys(allAssets).reduce((result, asset) => {
+            const address = utils_1.safeAccess(this.userConfig, ['WALLETS', asset, 'ADDRESS']);
+            if (address) {
+                result[asset] = address;
+            }
+            return result;
+        }, {});
     }
     getSignatures() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -76,12 +88,11 @@ class InfoService {
         });
     }
     iAmAlive() {
-        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const info = this.getInfo();
                 const result = yield axios_1.default.post(`${this.userConfig.AGGREGATOR_URL}/update`, info);
-                const { valid, message } = (_a = result) === null || _a === void 0 ? void 0 : _a.data;
+                const { valid, message } = result === null || result === void 0 ? void 0 : result.data;
                 if (!valid) {
                     logger_1.logError(`CANNOT_CONNECT_TO_NETWORK`, message);
                     if (message === 'NOT_REGISTERED') {
@@ -99,6 +110,7 @@ class InfoService {
             name: this.name,
             pairs: this.pairs,
             prices: this.prices,
+            addresses: this.addresses,
             balances: this.balances,
             updated: this.updated,
         };
