@@ -99,7 +99,9 @@ ipcMain.on(START, (event, config) => {
     butler = fork(butlerPath, [JSON.stringify(_config)], { execPath: process.execPath });
 
     butler.on('message', msg => {
-      event.sender.send('data', msg);
+      if (event && event.sender && event.sender.send) {
+        event.sender.send('data', msg);
+      }
     });
 
     event.preventDefault();
