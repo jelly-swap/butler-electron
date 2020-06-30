@@ -13,12 +13,8 @@ export const encryptPrivateKeys = (secret, password) => {
 
 export const decryptPrivateKey = (wallet, password) => {
   try {
-    if (!wallet) {
-      return;
-    }
-
-    if (!wallet.ENCRYPTED || !password) {
-      return wallet.secret;
+    if (!wallet.ENCRYPTED) {
+      return wallet.SECRET;
     }
 
     const bytes = AES.decrypt(wallet.SECRET, password);
@@ -28,6 +24,8 @@ export const decryptPrivateKey = (wallet, password) => {
       new Emitter().emitAll('WRONG_PASSWORD');
       return;
     }
+
+    new Emitter().emitAll('SUCCESS_PASSWORD');
 
     return decrypted;
   } catch (error) {

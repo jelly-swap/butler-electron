@@ -19,7 +19,6 @@ import {
 } from '../../../../../utils/validateWalletData';
 
 import './style.scss';
-import { decryptPrivateKey } from '../../../../../utils/managePrivateKeys';
 
 const isBTCWallet = wallet => wallet === 'BTC';
 
@@ -66,7 +65,7 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState, passw
     setWallets({});
 
     walletsToShow.forEach(wallet => {
-      const secret = decryptPrivateKey(wallets[wallets[wallet]] || selectedWallets?.[wallet], password);
+      const secret = wallets[wallets[wallet]]?.secret || selectedWallets?.[wallet]?.SECRET;
 
       setWallets(wallets => ({
         ...wallets,
@@ -74,7 +73,6 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState, passw
           [wallet]: {
             address: wallets[wallet]?.address || selectedWallets?.[wallet]?.ADDRESS || '',
             secret: secret || '',
-            encrypted: false,
           },
         },
       }));
@@ -95,8 +93,7 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState, passw
           ...wallets,
           [wallet]: {
             address: ADDRESS,
-            secret: decryptPrivateKey(selectedWallets[wallet], password),
-            encrypted: false,
+            secret: selectedWallets[wallet],
           },
         };
       });
@@ -135,12 +132,6 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState, passw
   };
 
   const toggePrivateKey = privateKey => {
-    if (!privateKey) {
-      console.log('in');
-
-      return null;
-    }
-
     setIsPrivateKeyShown(!isPrivateKeyShown);
     setPrivateKeyValue(privateKey);
   };

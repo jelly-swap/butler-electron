@@ -40,7 +40,16 @@ const PriceProvider = ({ valid, selectedPriceProvider, isButlerStarted, getState
   };
 
   useEffect(() => {
-    if (!selectedPriceProvider) return;
+    if (!selectedPriceProvider) {
+      setPriceProvider({
+        CryptoCompare: {
+          apiKey: '',
+          interval: 30,
+        },
+      });
+
+      return;
+    }
 
     const { PROVIDER, API_KEY, SECRET_KEY, UPDATE_INTERVAL } = selectedPriceProvider;
 

@@ -23,6 +23,7 @@ import { useUpdateServerPort } from '../../../context/ServerPortContext';
 import Button from '../../common/Button';
 import Emitter from '../../../utils/emitter';
 import DownArrow from '../../../images/down-arrow.svg';
+import Logo from '../../../images/jelly-butler.svg';
 
 import { readCFGFromFS, writeCFGOnFS } from '../../../utils/accessConfigOnFS';
 
@@ -41,6 +42,7 @@ const Questions = () => {
   const [isButlerStarted, setIsButlerStarted] = useState(false);
   const [isScrollToTopVisible, setIsScrollToTopVisible] = useState(false);
   const [password, setPassword] = useState(enteredPassword);
+  const [passwordMsg, setPasswordMsg] = useState('');
   const [wrongPasswordAttempts, setWrongPasswordAttempts] = useState(0);
 
   const appWrapperRef = useRef();
@@ -67,7 +69,7 @@ const Questions = () => {
     }
 
     const readConfig = async () => {
-      if (!enteredPassword) {
+      if (isFirstTimeAppOpen) {
         return;
       }
 
@@ -82,34 +84,50 @@ const Questions = () => {
       history.push(pathname);
     });
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     return () => {
       isFirstTimeAppOpen = false;
     };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  new Emitter().on('WRONG_PASSWORD', () => {
-    showPasswordModal();
+  new Emitter().on('SUCCESS_PASSWORD', () => {
     isFirstTimeAppOpen = false;
+  });
+
+  new Emitter().on('WRONG_PASSWORD', () => {
+    if (!isFirstTimeAppOpen) {
+      return;
+    }
+
+    showPasswordModal();
+
     enteredPassword = '';
+
     setPassword('');
   });
 
   useEffect(() => {
     if (wrongPasswordAttempts === MAX_TIMES_ENTERED_WRONG_PASSWORD) {
       ipcRenderer.send('deleteConfig');
+
+      setReadConfig({});
     }
   }, [wrongPasswordAttempts]);
 
   const onPasswordEntered = async () => {
     enteredPassword = password;
 
-    const config = await readCFGFromFS(enteredPassword);
+    if (wrongPasswordAttempts < MAX_TIMES_ENTERED_WRONG_PASSWORD - 1) {
+      const config = await readCFGFromFS(enteredPassword);
+
+      setReadConfig(config);
+    }
 
     setWrongPasswordAttempts(wrongPasswordAttempts + 1);
-
-    setReadConfig(config);
   };
+
+  // SAVE CFG
 
   useEffect(() => {
     if (isButlerStarted && history.location.pathname === '/' && Object.keys(writeConfig).length) {
@@ -133,29 +151,38 @@ const Questions = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [writeConfig]);
 
-  useEffect(() => {
-    // console.log('pass', password);
-  }, [password]);
+  const handlePasswordOnChange = event => {
+    event.persist();
+
+    setPassword(event.target.value);
+  };
 
   const showPasswordModal = () => {
     confirmAlert({
       customUI: ({ onClose }) => {
         return (
           <div className='custom-ui'>
-            <h1>Enter Password</h1>
-            <input
-              value={password}
-              onChange={event => {
-                setPassword(event.target.value);
-              }}
-            />
-            <Button
-              onClick={() => {
-                onPasswordEntered();
-                onClose();
-              }}
-              btnText='Enter'
-            />
+            <img src={Logo} alt='logo' />
+            <div className='modal-wrapper'>
+              <label>Enter password</label>
+              <label>
+                You have 3 attempts to enter password. After that your config will be deleted and should be recreated!
+              </label>
+              <input type='password' value={password} onChange={handlePasswordOnChange} placeholder='Password' />
+              <p className='errorMsg'>{passwordMsg}</p>
+              <Button
+                onClick={() => {
+                  onPasswordEntered();
+                  if (!password.length < 4) {
+                    setPasswordMsg('Password should be 4 symbols long');
+                    return;
+                  }
+
+                  onClose();
+                }}
+                btnText='Enter'
+              />
+            </div>
           </div>
         );
       },
@@ -168,6 +195,7 @@ const Questions = () => {
     if (isFirstTimeAppOpen) {
       showPasswordModal();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [password]);
 
   const handleOnScroll = () => {
@@ -198,7 +226,6 @@ const Questions = () => {
           selectedWallets={readConfig.WALLETS}
           isButlerStarted={isButlerStarted}
           getState={getState}
-          password={password}
         />
         <BlockchainProvider
           valid={validatedConfig.BLOCKCHAIN_PROVIDER}
@@ -224,40 +251,41 @@ const Questions = () => {
           isButlerStarted={isButlerStarted}
           getState={getState}
         />
-      </div>
-      <Collapsible
-        ref={collapseRef}
-        trigger={
-          <div className='advanced-options-wrapper'>
-            <span>Advanced options</span>
-            <img src={DownArrow} alt='advanced-options' />
+
+        <Collapsible
+          ref={collapseRef}
+          trigger={
+            <div className='advanced-options-wrapper'>
+              <span>Advanced options</span>
+              <img src={DownArrow} alt='advanced-options' />
+            </div>
+          }
+          className='collapsible-style'
+          triggerOpenedClassName='collapsible-style-opened'
+          onOpen={() => {
+            setTimeout(() => {
+              appWrapperRef.current.scrollTo({
+                left: 0,
+                top: appWrapperRef.current.scrollHeight,
+                behavior: 'smooth',
+              });
+            }, 100);
+          }}
+        >
+          <Database selectedDatabase={readConfig.DATABASE} isButlerStarted={isButlerStarted} getState={getState} />
+          <ServerOptions
+            selectedAggregatorURL={readConfig.AGGREGATOR_URL}
+            selectedPort={readConfig.SERVER && readConfig.SERVER.PORT}
+            isButlerStarted={isButlerStarted}
+            getState={getState}
+          />
+        </Collapsible>
+        {isScrollToTopVisible && (
+          <div className='scroll-to-top-img-wrapper'>
+            <Button onClick={scrollToTop} />
           </div>
-        }
-        className='collapsible-style'
-        triggerOpenedClassName='collapsible-style-opened'
-        onOpen={() => {
-          setTimeout(() => {
-            appWrapperRef.current.scrollTo({
-              left: 0,
-              top: appWrapperRef.current.scrollHeight,
-              behavior: 'smooth',
-            });
-          }, 100);
-        }}
-      >
-        <Database selectedDatabase={readConfig.DATABASE} isButlerStarted={isButlerStarted} getState={getState} />
-        <ServerOptions
-          selectedAggregatorURL={readConfig.AGGREGATOR_URL}
-          selectedPort={readConfig.SERVER && readConfig.SERVER.PORT}
-          isButlerStarted={isButlerStarted}
-          getState={getState}
-        />
-      </Collapsible>
-      {isScrollToTopVisible && (
-        <div className='scroll-to-top-img-wrapper'>
-          <Button onClick={scrollToTop} />
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

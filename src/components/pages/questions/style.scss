@@ -1,4 +1,4 @@
-@import "../../../css/constants.scss";
+@import '../../../css/constants.scss';
 
 .app-wrapper {
   background-color: $bgColor;
@@ -33,8 +33,8 @@
       box-shadow: $notFocusedShadow;
 
       &:before {
-        content: "\f077";
-        font-family: "FontAwesome";
+        content: '\f077';
+        font-family: 'FontAwesome';
         color: $strawberry;
       }
     }
@@ -93,7 +93,7 @@ label {
 
   &:after {
     display: block;
-    content: "";
+    content: '';
     border-bottom: 1px solid #a9a9a9;
     margin-top: 30px;
   }
@@ -104,4 +104,40 @@ label {
   font-size: 14px;
   font-weight: bold;
   color: red;
+}
+
+.custom-ui {
+  text-align: center;
+
+  img {
+    width: 250px;
+  }
+
+  .modal-wrapper {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    height: 185px;
+    justify-content: space-between;
+
+    input {
+      width: 50%;
+      margin: 0 auto;
+      outline: none;
+      border: none;
+
+      padding: 0.5em;
+    }
+
+    button {
+      margin: 10px auto 0 auto;
+      background-color: #315dce;
+      font-size: 1.1rem;
+      padding: 0.5em;
+    }
+
+    .errorMsg {
+      font-size: 1rem;
+    }
+  }
 }

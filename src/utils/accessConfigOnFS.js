@@ -1,5 +1,6 @@
 import { generateConfig } from './generateConfig';
 import { validateConfig, areAllValid } from './validateConfig';
+import { decryptPrivateKey } from './managePrivateKeys';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -12,9 +13,20 @@ export const readCFGFromFS = password =>
     ipcRenderer.send('loadConfig');
 
     ipcRenderer.once('configLoaded', (__message, config) => {
+      decryptKeys(config.WALLETS, password);
+
       resolve(config);
     });
   });
+
+const decryptKeys = (wallets, password) => {
+  Object.keys(wallets).forEach(wallet => {
+    const secret = decryptPrivateKey(wallets[wallet], password);
+
+    wallets[wallet].SECRET = secret;
+    wallets[wallet].ENCRYPTED = false;
+  });
+};
 
 export const writeCFGOnFS = (config, password) =>
   new Promise((resolve, reject) => {

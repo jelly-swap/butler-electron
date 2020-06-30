@@ -12,10 +12,14 @@ const ButlerName = ({ valid, selectedName, isButlerStarted, getState }) => {
   const [isValid, setIsValid] = useState();
 
   useEffect(() => {
-    if (!selectedName) return;
+    if (!selectedName) {
+      setIsValid(false);
+      setButlerName('');
+      return;
+    }
 
-    setButlerName(selectedName);
     setIsValid(true);
+    setButlerName(selectedName);
   }, [selectedName]);
 
   useEffect(() => {
