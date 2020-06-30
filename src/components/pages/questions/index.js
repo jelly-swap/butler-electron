@@ -173,10 +173,6 @@ const Questions = () => {
               <Button
                 onClick={() => {
                   onPasswordEntered();
-                  if (!password.length < 4) {
-                    setPasswordMsg('Password should be 4 symbols long');
-                    return;
-                  }
 
                   onClose();
                 }}
