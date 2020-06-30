@@ -30,9 +30,10 @@ const decryptKeys = (wallets, password) => {
 
 export const writeCFGOnFS = (config, password) =>
   new Promise((resolve, reject) => {
-    const generatedConfig = generateConfig(config, password);
+    const encryptedConfig = generateConfig(config, password);
+    const plainConfig = generateConfig(config, password, false);
 
-    const validatedConfig = validateConfig(generatedConfig);
+    const validatedConfig = validateConfig(plainConfig);
 
     const allQuestionsAreValid = areAllValid(validatedConfig);
 
@@ -40,13 +41,13 @@ export const writeCFGOnFS = (config, password) =>
       return;
     }
 
-    ipcRenderer.send('saveConfig', generatedConfig);
+    ipcRenderer.send('saveConfig', encryptedConfig);
 
-    ipcRenderer.send('start-butler', JSON.stringify(generatedConfig));
+    ipcRenderer.send('start-butler', JSON.stringify(plainConfig));
 
     resolve({
       validatedConfig,
       allQuestionsAreValid,
-      serverPort: generatedConfig.SERVER.PORT,
+      serverPort: encryptedConfig.SERVER.PORT,
     });
   });

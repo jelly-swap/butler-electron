@@ -1,10 +1,10 @@
 import { encryptPrivateKeys } from './managePrivateKeys';
 
-export const generateConfig = (config, password) => {
+export const generateConfig = (config, password, encrypt = true) => {
   return {
     NAME: config.NAME,
     PAIRS: getPairs(config.PAIRS),
-    WALLETS: getWallets(config.WALLETS, password),
+    WALLETS: getWallets(config.WALLETS, password, encrypt),
     ...(config.BLOCKCHAIN_PROVIDER &&
       Object.keys(config.BLOCKCHAIN_PROVIDER).length && {
         BLOCKCHAIN_PROVIDER: getBlockchainProvider(config.BLOCKCHAIN_PROVIDER),
@@ -31,7 +31,7 @@ const getPairs = selectedPairs => {
   return { ...pairs };
 };
 
-const getWallets = (selectedWallets, password) => {
+const getWallets = (selectedWallets, password, encrypt = true) => {
   if (!selectedWallets || !Object.keys(selectedWallets).length) return;
 
   const wallets = {};
@@ -43,8 +43,8 @@ const getWallets = (selectedWallets, password) => {
 
     wallets[wallet] = {
       ADDRESS: address,
-      SECRET: encryptedSecret,
-      ENCRYPTED: true,
+      SECRET: encrypt ? encryptedSecret : secret,
+      ENCRYPTED: encrypt,
     };
   });
 
