@@ -1,8 +1,10 @@
-export const generateConfig = config => {
+import { encryptPrivateKeys } from './managePrivateKeys';
+
+export const generateConfig = (config, password) => {
   return {
     NAME: config.NAME,
     PAIRS: getPairs(config.PAIRS),
-    WALLETS: getWallets(config.WALLETS),
+    WALLETS: getWallets(config.WALLETS, password),
     ...(config.BLOCKCHAIN_PROVIDER &&
       Object.keys(config.BLOCKCHAIN_PROVIDER).length && {
         BLOCKCHAIN_PROVIDER: getBlockchainProvider(config.BLOCKCHAIN_PROVIDER),
@@ -29,7 +31,7 @@ const getPairs = selectedPairs => {
   return { ...pairs };
 };
 
-const getWallets = selectedWallets => {
+const getWallets = (selectedWallets, password) => {
   if (!selectedWallets || !Object.keys(selectedWallets).length) return;
 
   const wallets = {};
@@ -37,9 +39,12 @@ const getWallets = selectedWallets => {
   Object.keys(selectedWallets).forEach(wallet => {
     const { address, secret } = selectedWallets[wallet];
 
+    const encryptedSecret = encryptPrivateKeys(secret, password);
+
     wallets[wallet] = {
       ADDRESS: address,
-      SECRET: secret,
+      SECRET: encryptedSecret,
+      ENCRYPTED: true,
     };
   });
 
@@ -108,7 +113,7 @@ const getServerPort = serverOptions => {
 const getDatabase = selectedDatabase => {
   if (!selectedDatabase || !Object.keys(selectedDatabase).length) return;
 
-  const dbName = selectedDatabase.active.toUpperCase();
+  const dbName = selectedDatabase.active.toUpperCase() || selectedDatabase?.ACTIVE?.toUpperCase();
 
   const database = { ACTIVE: dbName };
 

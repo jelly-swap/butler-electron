@@ -79,9 +79,18 @@ const BUTLER_EVENTS = {
   STOP: 'stop-butler',
   SAVE: 'saveConfig',
   LOAD: 'loadConfig',
+  DELETE: 'deleteConfig',
 };
 
-const { START, STOP, SAVE, LOAD } = BUTLER_EVENTS;
+const { START, STOP, SAVE, LOAD, DELETE } = BUTLER_EVENTS;
+
+ipcMain.on(DELETE, (event, config) => {
+  const configPath = getConfigPath();
+
+  fs.unlink(configPath, () => {
+    console.log('file deleted correctly');
+  });
+});
 
 ipcMain.on(START, (event, config) => {
   if (!butler) {

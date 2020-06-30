@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
+import Collapsible from 'react-collapsible';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 // Basic
 import ButlerName from './basic/ButlerName';
@@ -18,17 +21,18 @@ import ServerOptions from './advanced/ServerOptions';
 import { useUpdateServerPort } from '../../../context/ServerPortContext';
 
 import Button from '../../common/Button';
-
 import Emitter from '../../../utils/emitter';
-
-import { validateConfig, areAllValid } from '../../../utils/validateConfig';
-import { generateConfig } from '../../../utils/generateConfig';
-
 import DownArrow from '../../../images/down-arrow.svg';
 
-import Collapsible from 'react-collapsible';
+import { readCFGFromFS, writeCFGOnFS } from '../../../utils/accessConfigOnFS';
 
 import './style.scss';
+
+const { ipcRenderer } = window.require('electron');
+
+let [isFirstTimeAppOpen, enteredPassword] = [true, ''];
+
+const MAX_TIMES_ENTERED_WRONG_PASSWORD = 3;
 
 const Questions = () => {
   const [writeConfig, setWriteConfig] = useState({});
@@ -36,6 +40,9 @@ const Questions = () => {
   const [validatedConfig, setValidatedConfig] = useState({});
   const [isButlerStarted, setIsButlerStarted] = useState(false);
   const [isScrollToTopVisible, setIsScrollToTopVisible] = useState(false);
+  const [password, setPassword] = useState(enteredPassword);
+  const [wrongPasswordAttempts, setWrongPasswordAttempts] = useState(0);
+
   const appWrapperRef = useRef();
   const collapseRef = useRef();
 
@@ -55,48 +62,113 @@ const Questions = () => {
   };
 
   useEffect(() => {
-    const { ipcRenderer } = window.require('electron');
+    if (isFirstTimeAppOpen) {
+      showPasswordModal();
+    }
+
+    const readConfig = async () => {
+      if (!enteredPassword) {
+        return;
+      }
+
+      const config = await readCFGFromFS(enteredPassword);
+
+      setReadConfig(config);
+    };
+
+    readConfig();
 
     ipcRenderer.on('butlerHasBeenKilled', (__message, pathname) => {
       history.push(pathname);
     });
 
-    ipcRenderer.send('loadConfig');
-
-    ipcRenderer.on('configLoaded', (__message, config) => {
-      setReadConfig(config);
-    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => {
+      isFirstTimeAppOpen = false;
+    };
   }, []);
+
+  new Emitter().on('WRONG_PASSWORD', () => {
+    showPasswordModal();
+    isFirstTimeAppOpen = false;
+    enteredPassword = '';
+    setPassword('');
+  });
+
+  useEffect(() => {
+    if (wrongPasswordAttempts === MAX_TIMES_ENTERED_WRONG_PASSWORD) {
+      ipcRenderer.send('deleteConfig');
+    }
+  }, [wrongPasswordAttempts]);
+
+  const onPasswordEntered = async () => {
+    enteredPassword = password;
+
+    const config = await readCFGFromFS(enteredPassword);
+
+    setWrongPasswordAttempts(wrongPasswordAttempts + 1);
+
+    setReadConfig(config);
+  };
 
   useEffect(() => {
     if (isButlerStarted && history.location.pathname === '/' && Object.keys(writeConfig).length) {
       setIsButlerStarted(false);
 
-      const { ipcRenderer } = require('electron');
+      const saveConfig = async () => {
+        const { validatedConfig, allQuestionsAreValid, serverPort } = await writeCFGOnFS(writeConfig, password);
 
-      const config = generateConfig(writeConfig);
+        if (!allQuestionsAreValid) {
+          return;
+        }
 
-      const validatedConfig = validateConfig(config);
+        updateServerPort(serverPort);
+        setValidatedConfig(validatedConfig);
 
-      setValidatedConfig(validatedConfig);
+        history.push('/terminal');
+      };
 
-      const allQuestionsAreValid = areAllValid(validatedConfig);
-
-      if (!allQuestionsAreValid) {
-        return;
-      }
-
-      updateServerPort(config.SERVER.PORT);
-
-      ipcRenderer.send('saveConfig', config);
-
-      ipcRenderer.send('start-butler', JSON.stringify(config));
-
-      history.push('/terminal');
+      saveConfig();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [writeConfig]);
+
+  useEffect(() => {
+    // console.log('pass', password);
+  }, [password]);
+
+  const showPasswordModal = () => {
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div className='custom-ui'>
+            <h1>Enter Password</h1>
+            <input
+              value={password}
+              onChange={event => {
+                setPassword(event.target.value);
+              }}
+            />
+            <Button
+              onClick={() => {
+                onPasswordEntered();
+                onClose();
+              }}
+              btnText='Enter'
+            />
+          </div>
+        );
+      },
+      closeOnEscape: false,
+      closeOnClickOutside: false,
+    });
+  };
+
+  useEffect(() => {
+    if (isFirstTimeAppOpen) {
+      showPasswordModal();
+    }
+  }, [password]);
 
   const handleOnScroll = () => {
     appWrapperRef.current.scrollTop > 100 ? setIsScrollToTopVisible(true) : setIsScrollToTopVisible(false);
@@ -126,6 +198,7 @@ const Questions = () => {
           selectedWallets={readConfig.WALLETS}
           isButlerStarted={isButlerStarted}
           getState={getState}
+          password={password}
         />
         <BlockchainProvider
           valid={validatedConfig.BLOCKCHAIN_PROVIDER}

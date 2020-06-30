@@ -19,10 +19,11 @@ import {
 } from '../../../../../utils/validateWalletData';
 
 import './style.scss';
+import { decryptPrivateKey } from '../../../../../utils/managePrivateKeys';
 
 const isBTCWallet = wallet => wallet === 'BTC';
 
-const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => {
+const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState, password }) => {
   const [wallets, setWallets] = useState({});
   const [walletsToShow, setWalletsToShow] = useState([]);
   const [isValid, setIsValid] = useState();
@@ -65,12 +66,15 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
     setWallets({});
 
     walletsToShow.forEach(wallet => {
+      const secret = decryptPrivateKey(wallets[wallets[wallet]] || selectedWallets?.[wallet], password);
+
       setWallets(wallets => ({
         ...wallets,
         ...{
           [wallet]: {
             address: wallets[wallet]?.address || selectedWallets?.[wallet]?.ADDRESS || '',
-            secret: wallets[wallet]?.secret || selectedWallets?.[wallet]?.SECRET || '',
+            secret: secret || '',
+            encrypted: false,
           },
         },
       }));
@@ -84,17 +88,20 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
     setIsValid(true);
 
     Object.keys(selectedWallets).forEach(wallet => {
-      const { ADDRESS, SECRET } = selectedWallets[wallet];
+      const { ADDRESS } = selectedWallets[wallet];
 
-      setWallets(wallets => ({
-        ...wallets,
-        [wallet]: {
-          address: ADDRESS,
-          secret: SECRET,
-        },
-      }));
+      setWallets(wallets => {
+        return {
+          ...wallets,
+          [wallet]: {
+            address: ADDRESS,
+            secret: decryptPrivateKey(selectedWallets[wallet], password),
+            encrypted: false,
+          },
+        };
+      });
     });
-  }, [selectedWallets]);
+  }, [selectedWallets, password]);
 
   new Emitter().on('onPairAdded', payload => {
     const uniqueWallets = new Set();
@@ -128,6 +135,12 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
   };
 
   const toggePrivateKey = privateKey => {
+    if (!privateKey) {
+      console.log('in');
+
+      return null;
+    }
+
     setIsPrivateKeyShown(!isPrivateKeyShown);
     setPrivateKeyValue(privateKey);
   };
@@ -163,28 +176,23 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState }) => 
                   </div>
                   <div className='wallet-private-key'>
                     <Input
-                      type={
-                        isBTCWallet(wallet) || (isPrivateKeyShown && privateKeyValue === wallets[wallet]?.secret)
-                          ? 'text'
-                          : 'password'
-                      }
+                      type={isPrivateKeyShown && privateKeyValue === wallets[wallet]?.secret ? 'text' : 'password'}
                       placeholder={isBTCWallet(wallet) ? 'Seed phrase' : 'Private key'}
                       value={wallets[wallet]?.secret}
                       onChange={event => handleSecretOnChange(wallet, event)}
                       name='privateKey'
                       wrapperClassName='wallet-input-wrapper'
                     />
-                    {!isBTCWallet(wallet) ? (
-                      isPrivateKeyShown && privateKeyValue === wallets[wallet]?.secret ? (
-                        <span>
-                          <i className='fas fa-eye-slash' onClick={() => toggePrivateKey(wallets[wallet]?.secret)} />
-                        </span>
-                      ) : (
-                        <span title='Reveal secret key' onClick={() => toggePrivateKey(wallets[wallet]?.secret)}>
-                          <i className='fas fa-eye' />
-                        </span>
-                      )
-                    ) : null}
+
+                    {isPrivateKeyShown && privateKeyValue === wallets[wallet]?.secret ? (
+                      <span>
+                        <i className='fas fa-eye-slash' onClick={() => toggePrivateKey(wallets[wallet]?.secret)} />
+                      </span>
+                    ) : (
+                      <span title='Reveal secret key' onClick={() => toggePrivateKey(wallets[wallet]?.secret)}>
+                        <i className='fas fa-eye' />
+                      </span>
+                    )}
 
                     {ERC20InvalidSecret[wallet] && (
                       <p className='errorMsg secret'>Your {wallet} secret cannot match ETH secret</p>
