@@ -62,6 +62,8 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState, passw
   }, [wallets]);
 
   useEffect(() => {
+    setWallets({});
+
     walletsToShow.forEach(wallet => {
       const secret = selectedWallets?.[wallet]?.SECRET || '';
       const address = selectedWallets?.[wallet]?.ADDRESS || '';

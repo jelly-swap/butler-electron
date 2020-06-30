@@ -10,6 +10,7 @@ const path = require('path');
 const isDev = require('electron-is-dev');
 
 const { autoUpdater } = require('electron-updater');
+
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 
@@ -148,7 +149,7 @@ ipcMain.on(LOAD, event => {
   fs.readFile(configPath, (err, file) => {
     if (err) {
       log.info('Error reading config', err);
-      event.sender.send('configLoaded', { success: false });
+      event.sender.send('configLoaded', { success: false, config: DEFAULT_CONFIG });
       return;
     }
 
@@ -160,7 +161,7 @@ ipcMain.on(LOAD, event => {
       fileToUse = JSON.stringify({});
     }
 
-    event.sender.send('configLoaded', JSON.parse(fileToUse));
+    event.sender.send('configLoaded', { success: true, config: JSON.parse(fileToUse) });
   });
 
   event.preventDefault();
@@ -240,4 +241,30 @@ autoUpdater.on('update-downloaded', info => {
 
 const getConfigPath = () => {
   return `${path.join(app.getPath('userData'), 'config.json')}`;
+};
+
+// DEFAULT CONFIG
+const DEFAULT_CONFIG = {
+  NAME: '',
+  PAIRS: { 'BTC-ETH': { FEE: 0 } },
+  WALLETS: {
+    ETH: {
+      ADDRESS: '',
+      SECRET: '',
+    },
+    BTC: {
+      ADDRESS: '',
+      SECRET: '',
+    },
+  },
+  BLOCKCHAIN_PROVIDER: { INFURA: '' },
+  PRICE: {
+    PROVIDER: 'CryptoCompare',
+    API_KEY: '',
+    UPDATE_INTERVAL: 30,
+  },
+  NOTIFICATIONS: {},
+  AGGREGATOR_URL: 'https://network.jelly.market/api/v1/info',
+  SERVER: { PORT: '9000' },
+  DATABASE: { ACTIVE: 'SQLITE', SQLITE: { database: 'butler.sqlite' } },
 };

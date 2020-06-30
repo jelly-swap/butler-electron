@@ -1,5 +1,4 @@
 import { AES, enc } from 'crypto-js';
-import Emitter from './emitter';
 
 export const encryptPrivateKeys = (secret, password) => {
   if (!secret) {
@@ -21,14 +20,11 @@ export const decryptPrivateKey = (wallet, password) => {
     const decrypted = bytes.toString(enc.Utf8);
 
     if (!decrypted) {
-      // new Emitter().emitAll('WRONG_PASSWORD');
       return;
     }
 
-    new Emitter().emitAll('SUCCESS_PASSWORD');
-
     return decrypted;
   } catch (error) {
-    // new Emitter().emitAll('WRONG_PASSWORD');
+    console.log(error);
   }
 };

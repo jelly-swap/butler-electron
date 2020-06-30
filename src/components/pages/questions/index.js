@@ -38,7 +38,7 @@ const Questions = () => {
   const [validatedConfig, setValidatedConfig] = useState({});
   const [isButlerStarted, setIsButlerStarted] = useState(false);
   const [isScrollToTopVisible, setIsScrollToTopVisible] = useState(false);
-  const [shouldCloseModal, setShouldCloseModal] = useState(false);
+
   const appWrapperRef = useRef();
   const collapseRef = useRef();
 
@@ -64,9 +64,7 @@ const Questions = () => {
 
     const getConfig = async () => {
       if (!isAppOpenForFirstTime) {
-        const config = await readCFGFromFS(enteredPassword);
-
-        setReadConfig(config);
+        await readCFGFromFS(enteredPassword);
       }
     };
 
@@ -80,6 +78,10 @@ const Questions = () => {
   }, []);
 
   // SAVE CFG
+
+  new Emitter().on('CONFIG_LOADED', config => {
+    setReadConfig(config);
+  });
 
   useEffect(() => {
     if (isButlerStarted && history.location.pathname === '/' && Object.keys(writeConfig).length) {
@@ -112,11 +114,7 @@ const Questions = () => {
   };
 
   const submitModal = async password => {
-    const config = await readCFGFromFS(password);
-
-    if (!Object.keys(config).length) {
-      setShouldCloseModal(true);
-    }
+    const { config } = await readCFGFromFS(password);
 
     setReadConfig(config);
 
@@ -125,7 +123,7 @@ const Questions = () => {
 
   return (
     <>
-      <Password submitModal={submitModal} shouldCloseModal={shouldCloseModal} />
+      <Password submitModal={submitModal} />
       <div ref={appWrapperRef} className='app-wrapper' onScroll={handleOnScroll}>
         <div className='questions-wrapper'>
           <ButlerName

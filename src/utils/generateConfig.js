@@ -39,13 +39,15 @@ const getWallets = (selectedWallets, password, encrypt = true) => {
   Object.keys(selectedWallets).forEach(wallet => {
     const { address, secret } = selectedWallets[wallet];
 
-    const encryptedSecret = encryptPrivateKeys(secret, password);
+    if (address && secret) {
+      const encryptedSecret = encryptPrivateKeys(secret, password);
 
-    wallets[wallet] = {
-      ADDRESS: address,
-      SECRET: encrypt ? encryptedSecret : secret,
-      ENCRYPTED: encrypt,
-    };
+      wallets[wallet] = {
+        ADDRESS: address,
+        SECRET: encrypt ? encryptedSecret : secret,
+        ENCRYPTED: encrypt,
+      };
+    }
   });
 
   return { ...wallets };
