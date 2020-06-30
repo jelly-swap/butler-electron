@@ -10,13 +10,24 @@ export const readCFGFromFS = password =>
       resolve({});
     }
 
-    ipcRenderer.send('loadConfig');
+    try {
+      ipcRenderer.send('loadConfig');
 
-    ipcRenderer.once('configLoaded', (__message, config) => {
-      decryptKeys(config.WALLETS, password);
+      ipcRenderer.once('configLoaded', (__message, config) => {
+        if (config.success === false) {
+          resolve({});
+          return;
+        }
 
-      resolve(config);
-    });
+        console.log(config);
+
+        decryptKeys(config.WALLETS, password);
+
+        resolve(config);
+      });
+    } catch (error) {
+      console.log(error);
+    }
   });
 
 const decryptKeys = (wallets, password) => {

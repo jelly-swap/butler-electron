@@ -1,0 +1,11 @@
+.ReactModalPortal {
+  position: unset !important;
+
+  .ReactModal__Overlay .ReactModal__Overlay--after-open {
+    position: unset !important;
+  }
+
+  & > div {
+    position: unset !important;
+  }
+}

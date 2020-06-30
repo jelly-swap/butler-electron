@@ -62,20 +62,10 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState, passw
   }, [wallets]);
 
   useEffect(() => {
-    setWallets({});
-
     walletsToShow.forEach(wallet => {
-      const secret = wallets[wallets[wallet]]?.secret || selectedWallets?.[wallet]?.SECRET;
-
-      setWallets(wallets => ({
-        ...wallets,
-        ...{
-          [wallet]: {
-            address: wallets[wallet]?.address || selectedWallets?.[wallet]?.ADDRESS || '',
-            secret: secret || '',
-          },
-        },
-      }));
+      const secret = selectedWallets?.[wallet]?.SECRET || '';
+      const address = selectedWallets?.[wallet]?.ADDRESS || '';
+      setWallets(wallets => ({ ...wallets, [wallet]: { address, secret } }));
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [walletsToShow]);
@@ -93,7 +83,7 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState, passw
           ...wallets,
           [wallet]: {
             address: ADDRESS,
-            secret: selectedWallets[wallet],
+            secret: selectedWallets[wallet].SECRET,
           },
         };
       });

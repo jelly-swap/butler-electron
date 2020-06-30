@@ -21,7 +21,7 @@ export const decryptPrivateKey = (wallet, password) => {
     const decrypted = bytes.toString(enc.Utf8);
 
     if (!decrypted) {
-      new Emitter().emitAll('WRONG_PASSWORD');
+      // new Emitter().emitAll('WRONG_PASSWORD');
       return;
     }
 
@@ -29,6 +29,6 @@ export const decryptPrivateKey = (wallet, password) => {
 
     return decrypted;
   } catch (error) {
-    new Emitter().emitAll('WRONG_PASSWORD');
+    // new Emitter().emitAll('WRONG_PASSWORD');
   }
 };

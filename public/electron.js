@@ -148,6 +148,7 @@ ipcMain.on(LOAD, event => {
   fs.readFile(configPath, (err, file) => {
     if (err) {
       log.info('Error reading config', err);
+      event.sender.send('configLoaded', { success: false });
       return;
     }
 
