@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.logError = exports.logInfo = exports.logWarn = exports.setLoggerConfig = void 0;
 const winston_1 = require("winston");
 const slack_1 = require("./slack");
 const config = {
@@ -33,7 +34,7 @@ const baseFormat = [
 ];
 const fileFormat = winston_1.format.combine(...baseFormat);
 const consoleFormat = winston_1.format.combine(winston_1.format.colorize(), ...baseFormat);
-const logger = winston_1.createLogger({
+let logger = winston_1.createLogger({
     exitOnError: false,
     levels: config.levels,
     transports: [
@@ -49,6 +50,24 @@ const logger = winston_1.createLogger({
         }),
     ],
 });
+exports.setLoggerConfig = (combinedFile, errorFile) => {
+    logger = winston_1.createLogger({
+        exitOnError: false,
+        levels: config.levels,
+        transports: [
+            new winston_1.transports.Console({ format: consoleFormat }),
+            new winston_1.transports.File({
+                filename: combinedFile,
+                format: fileFormat,
+            }),
+            new winston_1.transports.File({
+                filename: errorFile,
+                format: fileFormat,
+                level: 'error',
+            }),
+        ],
+    });
+};
 if (slack_1.getSlackTransport()) {
     logger.add(slack_1.getSlackTransport());
 }

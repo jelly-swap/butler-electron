@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.divDecimals = exports.toBigNumber = exports.toFixed = exports.equal = exports.lessThanOrEqual = exports.greaterThan = exports.round = exports.sqrt = exports.pow = exports.div = exports.mulDecimals = exports.mul = exports.sub = exports.addBig = exports.add = void 0;
 const big_js_1 = require("big.js");
 exports.add = (a, b) => {
     return big_js_1.default(a).add(b).toString();
