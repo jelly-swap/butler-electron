@@ -65,8 +65,8 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState, passw
     setWallets({});
 
     walletsToShow.forEach(wallet => {
-      const secret = selectedWallets?.[wallet]?.SECRET || '';
-      const address = selectedWallets?.[wallet]?.ADDRESS || '';
+      const secret = wallets[wallet]?.secret || selectedWallets?.[wallet]?.SECRET || '';
+      const address = wallets[wallet]?.address || selectedWallets?.[wallet]?.ADDRESS || '';
       setWallets(wallets => ({ ...wallets, [wallet]: { address, secret } }));
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
