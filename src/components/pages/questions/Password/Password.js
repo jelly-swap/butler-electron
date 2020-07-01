@@ -66,17 +66,19 @@ export const Password = ({ submitModal }) => {
     <AppModal isOpen={isModalOpen}>
       <div className='password-wrapper'>
         <div className='title'>
-          <h1>Welcome to the Jelly Butler!</h1>
+          <h1>Welcome to the Butler!</h1>
           <p>
-            <span className='note'>Note:</span> If the user does not enter the correct password 3 times in a row, new
-            password will be generated and config will be reset.
+            <span className='note'>Note: </span>
+            Butler encrypts all of the sensitive information locally with a password you provide. Your first entered
+            password will be used in the future. If you do not enter the correct password 3 times in a row, you'll have
+            to use a new password and configure Butler again.
           </p>
         </div>
         <div className='logo'>
           <img src={Logo} alt='logo' />
         </div>
         <div className='input-wrapper'>
-          <label htmlFor='input-password'> Please Enter your password</label>
+          <label htmlFor='input-password'> Please Enter your password.</label>
           <input
             id='input-password'
             type='password'
@@ -84,15 +86,15 @@ export const Password = ({ submitModal }) => {
             onChange={handlePasswordOnChange}
             placeholder='Password'
           />
-          {showErrorMsg && <p className='error-msg'>Password cannot be less than 4 symbols long</p>}
+          {showErrorMsg && <p className='error-msg'>Password cannot be less than 4 symbols.</p>}
           {3 - attempts > 0 ? (
             <p className='info'>
               You have
               <span className={attemptsClassName}>{3 - attempts}</span>
-              to unlock your config
+              to unlock your configuration.
             </p>
           ) : (
-            <p>Enter new password and reacreate config</p>
+            <p>Enter new password and recreate config.</p>
           )}
           <Button
             btnText='Password'
