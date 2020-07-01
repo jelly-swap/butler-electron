@@ -16,6 +16,8 @@ autoUpdater.logger.transports.file.level = 'info';
 
 log.transports.file.level = 'info';
 log.transports.file.file = `${path.join(app.getPath('userData'), 'butler-electron.log')}`;
+const combinedLog = `${path.join(app.getPath('userData'), 'butler-combined.log')}`;
+const errorLog = `${path.join(app.getPath('userData'), 'butler-error.log')}`;
 
 let mainWindow, butler;
 
@@ -98,7 +100,6 @@ ipcMain.on(START, (event, config) => {
     const butlerPath = `${path.join(app.getAppPath(), 'build/butler/src/index.js')}`;
 
     log.info('Trying to start...', butlerPath);
-    log.info('Config: ', config);
     log.info('Executable: ', process.execPath);
 
     const _config = JSON.parse(config);
@@ -106,7 +107,7 @@ ipcMain.on(START, (event, config) => {
       _config.DATABASE.SQLITE.database = `${path.join(app.getPath('userData'), 'butler.sqlite')}`;
     }
 
-    butler = fork(butlerPath, [JSON.stringify(_config)], { execPath: process.execPath });
+    butler = fork(butlerPath, [JSON.stringify(_config), combinedLog, errorLog], { execPath: process.execPath });
 
     butler.on('message', msg => {
       if (event && event.sender && event.sender.send) {
