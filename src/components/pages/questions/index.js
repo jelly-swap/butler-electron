@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
+import Collapsible from 'react-collapsible';
 
 // Basic
 import ButlerName from './basic/ButlerName';
@@ -18,17 +19,18 @@ import ServerOptions from './advanced/ServerOptions';
 import { useUpdateServerPort } from '../../../context/ServerPortContext';
 
 import Button from '../../common/Button';
-
 import Emitter from '../../../utils/emitter';
-
-import { validateConfig, areAllValid } from '../../../utils/validateConfig';
-import { generateConfig } from '../../../utils/generateConfig';
-
 import DownArrow from '../../../images/down-arrow.svg';
 
-import Collapsible from 'react-collapsible';
+import { readCFGFromFS, writeCFGOnFS } from '../../../utils/accessConfigOnFS';
 
 import './style.scss';
+
+import { Password } from './Password/Password';
+
+const { ipcRenderer } = window.require('electron');
+
+let [enteredPassword, isAppOpenForFirstTime] = ['', true];
 
 const Questions = () => {
   const [writeConfig, setWriteConfig] = useState({});
@@ -36,6 +38,7 @@ const Questions = () => {
   const [validatedConfig, setValidatedConfig] = useState({});
   const [isButlerStarted, setIsButlerStarted] = useState(false);
   const [isScrollToTopVisible, setIsScrollToTopVisible] = useState(false);
+
   const appWrapperRef = useRef();
   const collapseRef = useRef();
 
@@ -55,45 +58,49 @@ const Questions = () => {
   };
 
   useEffect(() => {
-    const { ipcRenderer } = window.require('electron');
-
     ipcRenderer.on('butlerHasBeenKilled', (__message, pathname) => {
       history.push(pathname);
     });
 
-    ipcRenderer.send('loadConfig');
+    const getConfig = async () => {
+      if (!isAppOpenForFirstTime) {
+        await readCFGFromFS(enteredPassword);
+      }
+    };
 
-    ipcRenderer.on('configLoaded', (__message, config) => {
-      setReadConfig(config);
-    });
+    getConfig();
+
+    return () => {
+      isAppOpenForFirstTime = false;
+    };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // SAVE CFG
+
+  new Emitter().on('CONFIG_LOADED', config => {
+    setReadConfig(config);
+  });
 
   useEffect(() => {
     if (isButlerStarted && history.location.pathname === '/' && Object.keys(writeConfig).length) {
       setIsButlerStarted(false);
 
-      const { ipcRenderer } = require('electron');
+      const saveConfig = async () => {
+        const { validatedConfig, allQuestionsAreValid, serverPort } = await writeCFGOnFS(writeConfig, enteredPassword);
 
-      const config = generateConfig(writeConfig);
+        if (!allQuestionsAreValid) {
+          return;
+        }
 
-      const validatedConfig = validateConfig(config);
+        updateServerPort(serverPort);
+        setValidatedConfig(validatedConfig);
 
-      setValidatedConfig(validatedConfig);
+        history.push('/terminal');
+      };
 
-      const allQuestionsAreValid = areAllValid(validatedConfig);
-
-      if (!allQuestionsAreValid) {
-        return;
-      }
-
-      updateServerPort(config.SERVER.PORT);
-
-      ipcRenderer.send('saveConfig', config);
-
-      ipcRenderer.send('start-butler', JSON.stringify(config));
-
-      history.push('/terminal');
+      saveConfig();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [writeConfig]);
@@ -106,89 +113,99 @@ const Questions = () => {
     appWrapperRef.current.scrollTop = 0;
   };
 
+  const submitModal = async password => {
+    const { config } = await readCFGFromFS(password);
+
+    setReadConfig(config);
+
+    enteredPassword = password;
+  };
+
   return (
-    <div ref={appWrapperRef} className='app-wrapper' onScroll={handleOnScroll}>
-      <div className='questions-wrapper'>
-        <ButlerName
-          valid={validatedConfig.NAME}
-          selectedName={readConfig.NAME}
-          isButlerStarted={isButlerStarted}
-          getState={getState}
-        />
-        <TradingPairs
-          valid={validatedConfig.PAIRS}
-          selectedPairs={readConfig.PAIRS}
-          isButlerStarted={isButlerStarted}
-          getState={getState}
-        />
-        <WalletsSetup
-          valid={validatedConfig.WALLETS}
-          selectedWallets={readConfig.WALLETS}
-          isButlerStarted={isButlerStarted}
-          getState={getState}
-        />
-        <BlockchainProvider
-          valid={validatedConfig.BLOCKCHAIN_PROVIDER}
-          selectedBlockchainProviders={readConfig.BLOCKCHAIN_PROVIDER}
-          isButlerStarted={isButlerStarted}
-          getState={getState}
-        />
-        <PriceProvider
-          valid={validatedConfig.PRICE}
-          selectedPriceProvider={readConfig.PRICE}
-          isButlerStarted={isButlerStarted}
-          getState={getState}
-        />
-        <Rebalance
-          valid={validatedConfig.REBALANCE}
-          selectedRebalance={readConfig.EXCHANGE}
-          isButlerStarted={isButlerStarted}
-          getState={getState}
-        />
-        <Notifications
-          valid={validatedConfig.NOTIFICATIONS}
-          selectedNotifications={readConfig.NOTIFICATIONS}
-          isButlerStarted={isButlerStarted}
-          getState={getState}
-        />
-      </div>
-      <Collapsible
-        ref={collapseRef}
-        trigger={
-          <div className='advanced-options-wrapper'>
-            <span>Advanced options</span>
-            <img src={DownArrow} alt='advanced-options' />
-          </div>
-        }
-        className='collapsible-style'
-        triggerOpenedClassName='collapsible-style-opened'
-        onOpen={() => {
-          setTimeout(() => {
-            appWrapperRef.current.scrollTo({
-              left: 0,
-              top: appWrapperRef.current.scrollHeight,
-              behavior: 'smooth',
-            });
-          }, 100);
-        }}
-      >
-        <Database selectedDatabase={readConfig.DATABASE} isButlerStarted={isButlerStarted} getState={getState} />
-        <ServerOptions
-          selectedAggregatorURL={readConfig.AGGREGATOR_URL}
-          selectedPort={readConfig.SERVER && readConfig.SERVER.PORT}
-          isButlerStarted={isButlerStarted}
-          getState={getState}
-        />
-      </Collapsible>
-      {isScrollToTopVisible && (
-        <div className='scroll-to-top-img-wrapper'>
-          <Button onClick={scrollToTop} />
+    <>
+      <Password submitModal={submitModal} />
+      <div ref={appWrapperRef} className='app-wrapper' onScroll={handleOnScroll}>
+        <div className='questions-wrapper'>
+          <ButlerName
+            valid={validatedConfig.NAME}
+            selectedName={readConfig.NAME}
+            isButlerStarted={isButlerStarted}
+            getState={getState}
+          />
+          <TradingPairs
+            valid={validatedConfig.PAIRS}
+            selectedPairs={readConfig.PAIRS}
+            isButlerStarted={isButlerStarted}
+            getState={getState}
+          />
+          <WalletsSetup
+            valid={validatedConfig.WALLETS}
+            selectedWallets={readConfig.WALLETS}
+            isButlerStarted={isButlerStarted}
+            getState={getState}
+          />
+          <BlockchainProvider
+            valid={validatedConfig.BLOCKCHAIN_PROVIDER}
+            selectedBlockchainProviders={readConfig.BLOCKCHAIN_PROVIDER}
+            isButlerStarted={isButlerStarted}
+            getState={getState}
+          />
+          <PriceProvider
+            valid={validatedConfig.PRICE}
+            selectedPriceProvider={readConfig.PRICE}
+            isButlerStarted={isButlerStarted}
+            getState={getState}
+          />
+          <Rebalance
+            valid={validatedConfig.REBALANCE}
+            selectedRebalance={readConfig.EXCHANGE}
+            isButlerStarted={isButlerStarted}
+            getState={getState}
+          />
+          <Notifications
+            valid={validatedConfig.NOTIFICATIONS}
+            selectedNotifications={readConfig.NOTIFICATIONS}
+            isButlerStarted={isButlerStarted}
+            getState={getState}
+          />
+
+          <Collapsible
+            ref={collapseRef}
+            trigger={
+              <div className='advanced-options-wrapper'>
+                <span>Advanced options</span>
+                <img src={DownArrow} alt='advanced-options' />
+              </div>
+            }
+            className='collapsible-style'
+            triggerOpenedClassName='collapsible-style-opened'
+            onOpen={() => {
+              setTimeout(() => {
+                appWrapperRef.current.scrollTo({
+                  left: 0,
+                  top: appWrapperRef.current.scrollHeight,
+                  behavior: 'smooth',
+                });
+              }, 100);
+            }}
+          >
+            <Database selectedDatabase={readConfig.DATABASE} isButlerStarted={isButlerStarted} getState={getState} />
+            <ServerOptions
+              selectedAggregatorURL={readConfig.AGGREGATOR_URL}
+              selectedPort={readConfig.SERVER && readConfig.SERVER.PORT}
+              isButlerStarted={isButlerStarted}
+              getState={getState}
+            />
+          </Collapsible>
+          {isScrollToTopVisible && (
+            <div className='scroll-to-top-img-wrapper'>
+              <Button onClick={scrollToTop} />
+            </div>
+          )}
         </div>
-      )}
-    </div>
+      </div>
+    </>
   );
 };
-
-// <img className='scroll-to-top-img' alt='scroll-to-top' onClick={scrollToTop} src={ScrollToTop}></img>
 
 export default Questions;

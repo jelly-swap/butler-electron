@@ -10,11 +10,14 @@ const path = require('path');
 const isDev = require('electron-is-dev');
 
 const { autoUpdater } = require('electron-updater');
+
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 
 log.transports.file.level = 'info';
 log.transports.file.file = `${path.join(app.getPath('userData'), 'butler-electron.log')}`;
+const combinedLog = `${path.join(app.getPath('userData'), 'butler-combined.log')}`;
+const errorLog = `${path.join(app.getPath('userData'), 'butler-error.log')}`;
 
 let mainWindow, butler;
 
@@ -79,16 +82,24 @@ const BUTLER_EVENTS = {
   STOP: 'stop-butler',
   SAVE: 'saveConfig',
   LOAD: 'loadConfig',
+  DELETE: 'deleteConfig',
 };
 
-const { START, STOP, SAVE, LOAD } = BUTLER_EVENTS;
+const { START, STOP, SAVE, LOAD, DELETE } = BUTLER_EVENTS;
+
+ipcMain.on(DELETE, (event, config) => {
+  const configPath = getConfigPath();
+
+  fs.unlink(configPath, () => {
+    console.log('file deleted correctly');
+  });
+});
 
 ipcMain.on(START, (event, config) => {
   if (!butler) {
     const butlerPath = `${path.join(app.getAppPath(), 'build/butler/src/index.js')}`;
 
     log.info('Trying to start...', butlerPath);
-    log.info('Config: ', config);
     log.info('Executable: ', process.execPath);
 
     const _config = JSON.parse(config);
@@ -96,7 +107,7 @@ ipcMain.on(START, (event, config) => {
       _config.DATABASE.SQLITE.database = `${path.join(app.getPath('userData'), 'butler.sqlite')}`;
     }
 
-    butler = fork(butlerPath, [JSON.stringify(_config)], { execPath: process.execPath });
+    butler = fork(butlerPath, [JSON.stringify(_config), combinedLog, errorLog], { execPath: process.execPath });
 
     butler.on('message', msg => {
       if (event && event.sender && event.sender.send) {
@@ -139,6 +150,7 @@ ipcMain.on(LOAD, event => {
   fs.readFile(configPath, (err, file) => {
     if (err) {
       log.info('Error reading config', err);
+      event.sender.send('configLoaded', { success: false, config: DEFAULT_CONFIG });
       return;
     }
 
@@ -150,7 +162,7 @@ ipcMain.on(LOAD, event => {
       fileToUse = JSON.stringify({});
     }
 
-    event.sender.send('configLoaded', JSON.parse(fileToUse));
+    event.sender.send('configLoaded', { success: true, config: JSON.parse(fileToUse) });
   });
 
   event.preventDefault();
@@ -230,4 +242,30 @@ autoUpdater.on('update-downloaded', info => {
 
 const getConfigPath = () => {
   return `${path.join(app.getPath('userData'), 'config.json')}`;
+};
+
+// DEFAULT CONFIG
+const DEFAULT_CONFIG = {
+  NAME: '',
+  PAIRS: { 'BTC-ETH': { FEE: 0 } },
+  WALLETS: {
+    ETH: {
+      ADDRESS: '',
+      SECRET: '',
+    },
+    BTC: {
+      ADDRESS: '',
+      SECRET: '',
+    },
+  },
+  BLOCKCHAIN_PROVIDER: { INFURA: '' },
+  PRICE: {
+    PROVIDER: 'CryptoCompare',
+    API_KEY: '',
+    UPDATE_INTERVAL: 30,
+  },
+  NOTIFICATIONS: {},
+  AGGREGATOR_URL: 'https://network.jelly.market/api/v1/info',
+  SERVER: { PORT: '9000' },
+  DATABASE: { ACTIVE: 'SQLITE', SQLITE: { database: 'butler.sqlite' } },
 };

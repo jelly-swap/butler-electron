@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.run = void 0;
 require("reflect-metadata");
 const typeorm_1 = require("typeorm");
 const server_1 = require("./server");
@@ -23,10 +24,14 @@ const user_config_1 = require("../user-config");
 const database_1 = require("./config/database");
 const config_1 = require("./config");
 const utils_2 = require("./blockchain/utils");
-exports.run = (config = user_config_1.default) => {
+exports.run = (config = user_config_1.default, combinedFile, errorFile) => {
+    if (combinedFile && errorFile) {
+        logger_1.setLoggerConfig(combinedFile, errorFile);
+    }
     new config_1.default().setUserConfig(config);
     const dbConfig = database_1.default(Object.assign({ name: config.DATABASE.ACTIVE }, config.DATABASE[config.DATABASE.ACTIVE]));
-    validateAddresses(config).then((result) => {
+    validateAddresses(config)
+        .then((result) => {
         if (result) {
             typeorm_1.createConnection(dbConfig)
                 .then(() => __awaiter(void 0, void 0, void 0, function* () {
@@ -40,6 +45,9 @@ exports.run = (config = user_config_1.default) => {
                 logger_1.logError(`DB_ERROR`, error);
             });
         }
+    })
+        .catch((error) => {
+        logger_1.logError(`Validate error: ${error}`);
     });
 };
 const validateAddresses = (config) => __awaiter(void 0, void 0, void 0, function* () {
@@ -53,11 +61,17 @@ const validateAddresses = (config) => __awaiter(void 0, void 0, void 0, function
             return false;
         }
         if (ADDRESS && SECRET) {
-            const result = yield utils_2.PK_MATCH_ADDRESS[network](SECRET, ADDRESS);
-            if (!result) {
-                logger_1.logError(`The SECRET you have provided for ${network} network does not match the ADDRESS.
+            try {
+                const result = yield utils_2.PK_MATCH_ADDRESS[network](SECRET, ADDRESS);
+                if (!result) {
+                    logger_1.logError(`The SECRET you have provided for ${network} network does not match the ADDRESS.
                     \r\n${SECRET} does not match ${ADDRESS}.
                     \r\nFix the problem and start Butler again.`);
+                    return false;
+                }
+            }
+            catch (error) {
+                logger_1.logError(`Invalid Address or Private Key for ${network} network.`);
                 return false;
             }
         }

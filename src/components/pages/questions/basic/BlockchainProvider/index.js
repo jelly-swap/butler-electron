@@ -41,6 +41,7 @@ const BlockchainProvider = ({ valid, selectedBlockchainProviders, isButlerStarte
 
   useEffect(() => {
     if (!selectedBlockchainProviders) {
+      setBlockchainProviders({});
       return;
     }
 
