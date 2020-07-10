@@ -1,5 +1,8 @@
 import React, { createContext, useContext, useReducer, useCallback } from 'react';
-import { PASSWORD_ACTION_TYPES } from '../constants';
+
+const PASSWORD_ACTION_TYPES = {
+  UPDATE_PASSWORD: 'UPDATE_PASSWORD',
+};
 
 const PasswordStateContext = createContext();
 const PasswordDispatchContext = createContext();
