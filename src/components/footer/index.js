@@ -25,7 +25,7 @@ const Footer = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [enteredPassword, setEnteredPassword] = useState('');
   const [isPasswordIncorrect, setIsPasswordIncorrect] = useState(false);
-  const { password } = usePassword();
+  const password = usePassword();
 
   const buttonHandler = () => {
     return {

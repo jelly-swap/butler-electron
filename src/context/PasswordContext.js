@@ -41,7 +41,7 @@ export const Provider = ({ children }) => {
 export const usePassword = () => {
   const state = usePasswordStateContext();
 
-  return state;
+  return state.password;
 };
 
 export const useUpdatePassword = () => {
