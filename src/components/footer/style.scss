@@ -46,3 +46,35 @@
     }
   }
 }
+
+.modal-content {
+  text-align: center;
+
+  h2 {
+    margin-top: 3rem;
+    font-size: 1.5rem;
+  }
+
+  .input-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+    margin: auto;
+    margin-top: 12rem;
+    height: 120px;
+    justify-content: space-between;
+  }
+
+  .error-msg {
+    color: red;
+    font-weight: bold;
+  }
+
+  button {
+    font-size: 1rem;
+    padding: 0.8em 3em;
+    margin: 0 auto;
+    background: rgb(34, 193, 195);
+    background: linear-gradient(0deg, rgba(34, 193, 195, 1) 0%, rgba(177, 45, 253, 1) 100%);
+  }
+}

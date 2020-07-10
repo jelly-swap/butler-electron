@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import Input from '../common/Input';
 import Button from '../common/Button';
+import { AppModal } from '../common/Modal/Modal';
+
+import { usePassword } from '../../context/PasswordContext';
 
 import Emitter from '../../utils/emitter';
 
@@ -18,6 +22,10 @@ const statusText = {
 const Footer = () => {
   const history = useHistory();
   const location = history.location;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [enteredPassword, setEnteredPassword] = useState('');
+  const [isPasswordIncorrect, setIsPasswordIncorrect] = useState(false);
+  const { password } = usePassword();
 
   const buttonHandler = () => {
     return {
@@ -26,15 +34,29 @@ const Footer = () => {
       },
 
       '/terminal': () => {
-        const { ipcRenderer } = window.require('electron');
-        ipcRenderer.send('stop-butler');
+        setIsModalOpen(true);
       },
 
       '/balanceOf': () => {
-        const { ipcRenderer } = window.require('electron');
-        ipcRenderer.send('stop-butler');
+        setIsModalOpen(true);
       },
     };
+  };
+
+  const handlePasswordOnChange = event => {
+    event.persist();
+
+    setEnteredPassword(event.target.value);
+  };
+
+  const handleQuitOnClick = () => {
+    if (password === enteredPassword) {
+      const { ipcRenderer } = window.require('electron');
+      ipcRenderer.send('stop-butler');
+      setIsModalOpen(false);
+    } else {
+      setIsPasswordIncorrect(true);
+    }
   };
 
   return (
@@ -50,6 +72,16 @@ const Footer = () => {
           buttonHandler()[location.pathname]();
         }}
       />
+      <AppModal isOpen={isModalOpen}>
+        <div className='modal-content'>
+          <h2>Enter password</h2>
+          <div className='input-wrapper'>
+            <Input value={enteredPassword} onChange={handlePasswordOnChange} type='password' />
+            {isPasswordIncorrect && <p className='error-msg'>Wrong password! Please try again.</p>}
+            <Button btnText='Quit' onClick={handleQuitOnClick} />
+          </div>
+        </div>
+      </AppModal>
     </div>
   );
 };
