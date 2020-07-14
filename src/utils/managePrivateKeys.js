@@ -10,13 +10,9 @@ export const encryptPrivateKeys = (secret, password) => {
   return encrypted;
 };
 
-export const decryptPrivateKey = (wallet, password) => {
+export const decryptPrivateKey = (secret, password) => {
   try {
-    if (!wallet.ENCRYPTED) {
-      return wallet.SECRET;
-    }
-
-    const bytes = AES.decrypt(wallet.SECRET, password);
+    const bytes = AES.decrypt(secret, password);
     const decrypted = bytes.toString(enc.Utf8);
 
     if (!decrypted) {

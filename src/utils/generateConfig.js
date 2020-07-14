@@ -10,8 +10,8 @@ export const generateConfig = (config, password, encrypt = true) => {
         BLOCKCHAIN_PROVIDER: getBlockchainProvider(config.BLOCKCHAIN_PROVIDER),
       }),
     PRICE: getPrice(config.PRICE_PROVIDER),
-    EXCHANGE: getExchange(config.REBALANCE),
-    NOTIFICATIONS: getNotifications(config.NOTIFICATIONS),
+    EXCHANGE: getExchange(config.EXCHANGE, password),
+    NOTIFICATIONS: getNotifications(config.NOTIFICATIONS, password),
     AGGREGATOR_URL: getAggregatorUrl(config.SERVER_OPTIONS),
     SERVER: getServerPort(config.SERVER_OPTIONS),
     DATABASE: getDatabase(config.DATABASE),
@@ -70,25 +70,33 @@ const getPrice = selectedPriceProvider => {
   };
 };
 
-const getExchange = selectedExchange => {
+const getExchange = (selectedExchange, password) => {
   if (!selectedExchange || !Object.keys(selectedExchange).length) return;
 
   const nameOfExhange = Object.keys(selectedExchange)[0];
 
   return {
     NAME: nameOfExhange,
-    API_KEY: selectedExchange[nameOfExhange].apiKey,
-    SECRET_KEY: selectedExchange[nameOfExhange].secretKey,
+    API_KEY: encryptPrivateKeys(selectedExchange[nameOfExhange].apiKey, password),
+    SECRET_KEY: encryptPrivateKeys(selectedExchange[nameOfExhange].secretKey, password),
   };
 };
 
-const getNotifications = notifications => {
+const getNotifications = (notifications, password) => {
   if (!notifications || !Object.keys(notifications).length) return;
 
   const selectedChannels = {};
 
   Object.keys(notifications).forEach(channel => {
     if (notifications[channel].ENABLED) {
+      if (channel === 'EMAIL') {
+        console.log(notifications.EMAIL);
+
+        notifications.EMAIL.PASSWORD = encryptPrivateKeys(notifications.EMAIL.PASSWORD, password);
+      }
+
+      console.log(notifications);
+
       selectedChannels[channel] = {
         ...notifications[channel],
       };
