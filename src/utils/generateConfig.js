@@ -90,12 +90,8 @@ const getNotifications = (notifications, password) => {
   Object.keys(notifications).forEach(channel => {
     if (notifications[channel].ENABLED) {
       if (channel === 'EMAIL') {
-        console.log(notifications.EMAIL);
-
         notifications.EMAIL.PASSWORD = encryptPrivateKeys(notifications.EMAIL.PASSWORD, password);
       }
-
-      console.log(notifications);
 
       selectedChannels[channel] = {
         ...notifications[channel],

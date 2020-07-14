@@ -33,8 +33,6 @@ export const readCFGFromFS = password =>
 
         config.EXCHANGE && decryptExchangeKeys(config.EXCHANGE, password);
 
-        console.log(config.NOTIFICATIONS);
-
         config?.NOTIFICATIONS?.EMAIL?.ENABLED && decryptEmailPassword(config.NOTIFICATIONS.EMAIL, password);
 
         new Emitter().emitAll('CONFIG_LOADED', config);
@@ -84,8 +82,6 @@ export const writeCFGOnFS = (config, password) =>
   new Promise((resolve, reject) => {
     const encryptedConfig = generateConfig(config, password);
     const plainConfig = generateConfig(config, password, false);
-
-    console.log(plainConfig);
 
     const validatedConfig = validateConfig(plainConfig);
 
