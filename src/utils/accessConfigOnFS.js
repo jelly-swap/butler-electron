@@ -80,8 +80,8 @@ const decryptWalletsKeys = (wallets, password) => {
 
 export const writeCFGOnFS = (config, password) =>
   new Promise((resolve, reject) => {
-    const encryptedConfig = generateConfig(config, password);
     const plainConfig = generateConfig(config, password, false);
+    const encryptedConfig = generateConfig(config, password);
 
     const validatedConfig = validateConfig(plainConfig);
 
