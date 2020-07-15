@@ -55,7 +55,9 @@ export const Password = ({ submitModal }) => {
 
   new Emitter().on('CORRECT_PASSWORD', () => {
     setIsModalOpen(false);
-    updatePassword(password);
+    if (password) {
+      updatePassword(password);
+    }
   });
 
   new Emitter().on('WRONG_PASSWORD', () => {
