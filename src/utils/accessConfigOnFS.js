@@ -24,12 +24,16 @@ export const readCFGFromFS = password =>
           return;
         }
 
-        const secretNotFound = decryptKeys(config.WALLETS, password);
+        const secretNotFound = decryptWalletsKeys(config.WALLETS, password);
 
         if (secretNotFound) {
           new Emitter().emitAll('WRONG_PASSWORD');
           return;
         }
+
+        config.EXCHANGE && decryptExchangeKeys(config.EXCHANGE, password);
+
+        config?.NOTIFICATIONS?.EMAIL?.ENABLED && decryptEmailPassword(config.NOTIFICATIONS.EMAIL, password);
 
         new Emitter().emitAll('CONFIG_LOADED', config);
 
@@ -42,11 +46,26 @@ export const readCFGFromFS = password =>
     }
   });
 
-const decryptKeys = (wallets, password) => {
+const decryptExchangeKeys = (exhange, password) => {
+  const { API_KEY, SECRET_KEY } = exhange;
+
+  exhange.API_KEY = decryptPrivateKey(API_KEY, password);
+  exhange.SECRET_KEY = decryptPrivateKey(SECRET_KEY, password);
+};
+
+const decryptEmailPassword = (email, password) => {
+  email.PASSWORD = decryptPrivateKey(email.PASSWORD, password);
+};
+
+const decryptWalletsKeys = (wallets, password) => {
   let secretNotFound = false;
 
   Object.keys(wallets).forEach(wallet => {
-    const secret = decryptPrivateKey(wallets[wallet], password);
+    let secret = wallets[wallet].SECRET;
+
+    if (wallets[wallet].ENCRYPTED) {
+      secret = decryptPrivateKey(wallets[wallet].SECRET, password);
+    }
 
     if (!secret) {
       secretNotFound = true;
@@ -61,8 +80,8 @@ const decryptKeys = (wallets, password) => {
 
 export const writeCFGOnFS = (config, password) =>
   new Promise((resolve, reject) => {
-    const encryptedConfig = generateConfig(config, password);
     const plainConfig = generateConfig(config, password, false);
+    const encryptedConfig = generateConfig(config, password);
 
     const validatedConfig = validateConfig(plainConfig);
 

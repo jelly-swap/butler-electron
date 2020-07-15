@@ -68,11 +68,6 @@
           border-radius: 0;
         }
 
-        // input[type='password'] {
-        //   width: 96%;
-        //   float: left;
-        // }
-
         .from-to-wrapper {
           width: 100%;
           display: flex;
@@ -99,6 +94,9 @@
         .from-wrapper,
         .password-wrapper {
           display: flex;
+          flex-direction: row;
+          height: 40px;
+          max-width: 275px;
 
           .invalid-email {
             &:after {
@@ -126,16 +124,23 @@
             .invalid-email {
               &:after {
                 top: -12px;
-                left: -28px;
+                left: -24px;
               }
             }
 
             .valid-email {
               &:after {
                 top: -12px;
-                left: -28px;
+                left: -24px;
               }
             }
+          }
+        }
+
+        .password-wrapper {
+          display: flex;
+          input {
+            height: 40px;
           }
         }
 

@@ -29,8 +29,6 @@ export const Password = ({ submitModal }) => {
   };
 
   useEffect(() => {
-    console.log(attempts);
-
     switch (attempts) {
       case 1: {
         setAttemptsClassName('warning');
