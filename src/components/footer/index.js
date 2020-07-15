@@ -54,6 +54,7 @@ const Footer = () => {
       const { ipcRenderer } = window.require('electron');
       ipcRenderer.send('stop-butler');
       setIsModalOpen(false);
+      setEnteredPassword('');
     } else {
       setIsPasswordIncorrect(true);
     }
@@ -72,7 +73,17 @@ const Footer = () => {
           buttonHandler()[location.pathname]();
         }}
       />
-      <AppModal isOpen={isModalOpen}>
+      <AppModal
+        isOpen={isModalOpen}
+        styles={{
+          content: {
+            top: '40%',
+            left: '35%',
+            height: '30%',
+            width: '30%',
+          },
+        }}
+      >
         <div className='modal-content'>
           <h2>Enter password</h2>
           <div className='input-wrapper'>

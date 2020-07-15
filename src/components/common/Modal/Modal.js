@@ -25,9 +25,9 @@ const customStyles = {
 
 Modal.setAppElement('body');
 
-export const AppModal = ({ isOpen, children }) => {
+export const AppModal = ({ isOpen, children, styles }) => {
   return (
-    <Modal style={customStyles} isOpen={isOpen}>
+    <Modal style={{ ...customStyles, ...styles }} isOpen={isOpen}>
       {children}
     </Modal>
   );
