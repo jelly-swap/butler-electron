@@ -6,6 +6,7 @@ import { ipcRenderer } from 'electron';
 import { DEFAULT_CONFIG } from '../../../../constants';
 import Logo from '../../../../images/jelly-butler.svg';
 import './style.scss';
+import { useUpdatePassword } from '../../../../context/PasswordContext';
 
 let isAppFirstOpen = true;
 
@@ -15,6 +16,7 @@ export const Password = ({ submitModal }) => {
   const [attempts, setAttempts] = useState(0);
   const [showErrorMsg, setShowErrorMsg] = useState(false);
   const [attemptsClassName, setAttemptsClassName] = useState('success');
+  const updatePassword = useUpdatePassword();
 
   useEffect(() => {
     return () => {
@@ -53,6 +55,9 @@ export const Password = ({ submitModal }) => {
 
   new Emitter().on('CORRECT_PASSWORD', () => {
     setIsModalOpen(false);
+    if (password) {
+      updatePassword(password);
+    }
   });
 
   new Emitter().on('WRONG_PASSWORD', () => {
