@@ -114,11 +114,10 @@ const Questions = () => {
   };
 
   const submitModal = async password => {
+    enteredPassword = password;
     const { config } = await readCFGFromFS(password);
 
     setReadConfig(config);
-
-    enteredPassword = password;
   };
 
   return (
