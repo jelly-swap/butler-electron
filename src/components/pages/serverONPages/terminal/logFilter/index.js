@@ -17,7 +17,7 @@ export default ({ selectedLogFilters, onLogFilterSelected }) => {
   return (
     <div className='log-filter-wrapper'>
       {logFilters.map(name => (
-        <label>
+        <label key={name}>
           <Input
             type='checkbox'
             key={name}

@@ -70,8 +70,8 @@
     "react-router-dom": "5.1.2",
     "react-scripts": "3.4.1",
     "sqlite3": "^4.1.1",
-    "terminal-in-react": "4.3.1",
     "typeorm": "^0.2.24",
+    "uuid": "^8.2.0",
     "winston": "^3.2.1",
     "winston-slack-webhook-transport": "^1.2.1"
   },
@@ -89,7 +89,8 @@
     },
     "win": {
       "icon": "./public/icons/win/jelly-butler.png",
-      "target": [{
+      "target": [
+        {
           "target": "nsis",
           "arch": [
             "x64"
