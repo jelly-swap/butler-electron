@@ -7,9 +7,7 @@ export default ({ terminalData, selectedLogFilters }) => {
   const isScrollAtBottomRef = useRef(true);
 
   useEffect(() => {
-    if (!logsWrapperRef.current) return;
-
-    if (!isScrollAtBottomRef.current) return;
+    if (!logsWrapperRef.current || !isScrollAtBottomRef.current) return;
 
     logsWrapperRef.current.scrollTop = logsWrapperRef.current.scrollHeight;
   }, [terminalData]);
