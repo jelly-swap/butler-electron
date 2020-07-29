@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import Button from '../../../common/Button';
+import axios from 'axios';
 
 const REGISTER_MODEL = {
   email: 'test',
   password: 'test',
   confirmPassword: 'test',
-  referralCode: 'test',
+  referralCode: 'test1',
 };
 
 export const Register = ({ authenticateUser }) => {
   const [state, setState] = useState(REGISTER_MODEL);
+  const [emailMessage, setEmailMessage] = useState('');
+  const [referralMessage, setReferralMessage] = useState('');
 
   const handleInputOnChange = event => {
     event.persist();
@@ -24,7 +27,7 @@ export const Register = ({ authenticateUser }) => {
     }));
   };
 
-  const handleOnBlur = event => {
+  const handleOnBlur = async event => {
     event.persist();
 
     const {
@@ -33,10 +36,16 @@ export const Register = ({ authenticateUser }) => {
 
     if (name !== 'email') return;
 
-    //TODO: Check if email is available
+    try {
+      await axios.get('http://localhost:9000/email/' + value);
+
+      setEmailMessage('Email is available');
+    } catch (error) {
+      setEmailMessage('Email is taken');
+    }
   };
 
-  const handleOnKeyUp = event => {
+  const handleOnKeyUp = async event => {
     event.persist();
 
     const {
@@ -47,7 +56,13 @@ export const Register = ({ authenticateUser }) => {
       return;
     }
 
-    //TODO: Check if referral code is valid
+    try {
+      await axios.get('http://localhost:9000/referralCode/' + value);
+
+      setReferralMessage('Valid referral code');
+    } catch (error) {
+      setReferralMessage('Invalid referral code');
+    }
   };
 
   const submitForm = () => {
@@ -70,6 +85,8 @@ export const Register = ({ authenticateUser }) => {
           />
         </div>
       ))}
+      {emailMessage && <p>{emailMessage}</p>}
+      {referralMessage && <p>{referralMessage}</p>}
       <div>
         <Button btnText='Register' onClick={submitForm} />
       </div>
