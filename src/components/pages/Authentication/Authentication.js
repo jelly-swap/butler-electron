@@ -19,6 +19,10 @@ export const Authentication = () => {
     setTab(tabToOpen);
   };
 
+  const authenticateUser = (endPoint, state) => {
+    // TODO: Make post request to register/login user
+  };
+
   return (
     <div className='authentication-wrapper'>
       <div className='title'>
@@ -31,9 +35,9 @@ export const Authentication = () => {
       {(() => {
         switch (tab) {
           case REGISTER:
-            return <Register />;
+            return <Register authenticateUser={authenticateUser} />;
           case LOGIN:
-            return <Login />;
+            return <Login authenticateUser={authenticateUser} />;
           default:
             return null;
         }

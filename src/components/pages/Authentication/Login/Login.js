@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import Button from '../../../common/Button';
 
 const LOGIN_MODEL = {
   username: '',
   password: '',
 };
 
-export const Login = () => {
+export const Login = ({ authenticateUser }) => {
   const [state, setState] = useState(LOGIN_MODEL);
 
   const handleInputOnChange = event => {
@@ -21,6 +22,10 @@ export const Login = () => {
     }));
   };
 
+  const submitForm = () => {
+    authenticateUser('/user/login', state);
+  };
+
   return (
     <div className='authentication-wrapper'>
       {Object.keys(LOGIN_MODEL).map(key => (
@@ -29,6 +34,9 @@ export const Login = () => {
           <input name={key} value={state[key]} onChange={handleInputOnChange} />
         </div>
       ))}
+      <div>
+        <Button btnText='Login' onClick={submitForm} />
+      </div>
     </div>
   );
 };

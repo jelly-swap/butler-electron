@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Button from '../../../common/Button';
 
 const REGISTER_MODEL = {
   username: '',
@@ -7,7 +8,7 @@ const REGISTER_MODEL = {
   referralCode: '',
 };
 
-export const Register = () => {
+export const Register = ({ authenticateUser }) => {
   const [state, setState] = useState(REGISTER_MODEL);
 
   const handleInputOnChange = event => {
@@ -23,6 +24,12 @@ export const Register = () => {
     }));
   };
 
+  const submitForm = () => {
+    const { confirmPassword, ...rest } = state;
+
+    authenticateUser('/user/register', rest);
+  };
+
   return (
     <div className='authentication-wrapper'>
       {Object.keys(REGISTER_MODEL).map(key => (
@@ -31,6 +38,9 @@ export const Register = () => {
           <input name={key} value={state[key]} onChange={handleInputOnChange} />
         </div>
       ))}
+      <div>
+        <Button btnText='Register' onClick={submitForm} />
+      </div>
     </div>
   );
 };
