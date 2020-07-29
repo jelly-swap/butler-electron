@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import Button from '../../../common/Button';
 
 const REGISTER_MODEL = {
-  username: '',
-  password: '',
-  confirmPassword: '',
-  referralCode: '',
+  email: 'test',
+  password: 'test',
+  confirmPassword: 'test',
+  referralCode: 'test',
 };
 
 export const Register = ({ authenticateUser }) => {
@@ -24,10 +24,36 @@ export const Register = ({ authenticateUser }) => {
     }));
   };
 
+  const handleOnBlur = event => {
+    event.persist();
+
+    const {
+      target: { name, value },
+    } = event;
+
+    if (name !== 'email') return;
+
+    //TODO: Check if email is available
+  };
+
+  const handleOnKeyUp = event => {
+    event.persist();
+
+    const {
+      target: { name, value },
+    } = event;
+
+    if (name !== 'referralCode' || value.length < 5) {
+      return;
+    }
+
+    //TODO: Check if referral code is valid
+  };
+
   const submitForm = () => {
     const { confirmPassword, ...rest } = state;
 
-    authenticateUser('/user/register', rest);
+    authenticateUser('/register', rest);
   };
 
   return (
@@ -35,7 +61,13 @@ export const Register = ({ authenticateUser }) => {
       {Object.keys(REGISTER_MODEL).map(key => (
         <div key={key}>
           <label>{key}</label>
-          <input name={key} value={state[key]} onChange={handleInputOnChange} />
+          <input
+            name={key}
+            value={state[key]}
+            onChange={handleInputOnChange}
+            onBlur={handleOnBlur}
+            onKeyUp={handleOnKeyUp}
+          />
         </div>
       ))}
       <div>

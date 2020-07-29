@@ -23,7 +23,7 @@ export const Login = ({ authenticateUser }) => {
   };
 
   const submitForm = () => {
-    authenticateUser('/user/login', state);
+    authenticateUser('/login', state);
   };
 
   return (

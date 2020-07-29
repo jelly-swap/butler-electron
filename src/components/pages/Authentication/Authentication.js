@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 import { Register } from './Register/Register';
 import { Login } from './Login/Login';
@@ -19,8 +20,14 @@ export const Authentication = () => {
     setTab(tabToOpen);
   };
 
-  const authenticateUser = (endPoint, state) => {
-    // TODO: Make post request to register/login user
+  const authenticateUser = async (endPoint, state) => {
+    try {
+      const data = await axios.post('http://localhost:9000' + endPoint, state);
+
+      console.log(data);
+    } catch (error) {
+      console.log('Error', endPoint, error);
+    }
   };
 
   return (
