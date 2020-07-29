@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { HashRouter } from 'react-router-dom';
 
 import Header from './components/header';
@@ -13,17 +13,6 @@ import EtherImage from './css/background-coins/Eth2.svg';
 import './App.scss';
 
 function App() {
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch('https://api.github.com/users/AndonMitev');
-      const data = await response.json();
-
-      console.log(data);
-    };
-
-    fetchData();
-  }, []);
-
   return (
     <HashRouter>
       <div className='App'>
