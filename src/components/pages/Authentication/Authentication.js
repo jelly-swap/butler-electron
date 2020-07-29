@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 
-import './style.scss';
 import { Register } from './Register/Register';
+import { Login } from './Login/Login';
+
+import './style.scss';
 
 const TABS = {
   REGISTER: 'Register',
@@ -30,6 +32,8 @@ export const Authentication = () => {
         switch (tab) {
           case REGISTER:
             return <Register />;
+          case LOGIN:
+            return <Login />;
           default:
             return null;
         }

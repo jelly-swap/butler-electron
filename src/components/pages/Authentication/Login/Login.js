@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 
-const REGISTER_MODEL = {
+const LOGIN_MODEL = {
   username: '',
   password: '',
-  confirmPassword: '',
-  referralCode: '',
 };
 
-export const Register = () => {
-  const [state, setState] = useState(REGISTER_MODEL);
+export const Login = () => {
+  const [state, setState] = useState(LOGIN_MODEL);
 
   const handleInputOnChange = event => {
     event.persist();
@@ -25,7 +23,7 @@ export const Register = () => {
 
   return (
     <div className='authentication-wrapper'>
-      {Object.keys(REGISTER_MODEL).map(key => (
+      {Object.keys(LOGIN_MODEL).map(key => (
         <div key={key}>
           <label>{key}</label>
           <input name={key} value={state[key]} onChange={handleInputOnChange} />
