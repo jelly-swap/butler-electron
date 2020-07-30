@@ -13,7 +13,7 @@ exports.applyRoutes = exports.applyMiddleware = exports.startTasks = void 0;
 const logger_1 = require("../logger");
 exports.startTasks = (tasks) => __awaiter(void 0, void 0, void 0, function* () {
     for (const t of tasks) {
-        logger_1.logInfo(`Starting task: ${t.name}`);
+        logger_1.logData(`Starting ${t.name}`);
         yield t.start();
     }
 });
@@ -23,14 +23,12 @@ exports.applyMiddleware = (middlewareWrappers, router) => {
     }
 };
 exports.applyRoutes = (routes, router) => {
-    routes.forEach(route => {
+    routes.forEach((route) => {
         const { method, controller, action } = route;
         router[method](route.route, (req, res, next) => {
             const result = new controller()[action](req, res, next);
             if (result instanceof Promise) {
-                result.then(innerResult => innerResult !== null && innerResult !== undefined
-                    ? res.send(innerResult)
-                    : undefined);
+                result.then((innerResult) => innerResult !== null && innerResult !== undefined ? res.send(innerResult) : undefined);
             }
             else if (result !== null && result !== undefined) {
                 res.json(result);

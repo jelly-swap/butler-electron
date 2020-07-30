@@ -8,11 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const repository_1 = require("../../repository");
+const model_1 = require("./model");
+const repository_1 = __importDefault(require("../../repository"));
 const logger_1 = require("../../logger");
 const utils_1 = require("../../utils");
-const config_1 = require("../../config");
+const config_1 = __importDefault(require("../../config"));
 class SwapRepository {
     constructor() {
         const userConfig = new config_1.default().getUserConfig();
@@ -27,10 +31,10 @@ class SwapRepository {
     create(swap) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield this.swapRepository.save(swap);
+                yield this.swapRepository.save(new model_1.SwapModel(swap.id, swap.outputSwapId, swap.hashLock, swap.transactionHash, swap.sender, swap.receiver, swap.refundAddress, swap.outputAddress, swap.inputAmount, swap.outputAmount, swap.expiration, swap.network, swap.outputNetwork));
             }
             catch (error) {
-                logger_1.logError(`SWAP_REPOSITORY_ERROR`, error);
+                logger_1.logDebug(`SWAP_REPOSITORY_ERROR`, error);
             }
         });
     }

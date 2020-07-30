@@ -1,9 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const aeternity_1 = require("@jelly-swap/aeternity");
-const config_1 = require("../../config");
+const config_1 = __importDefault(require("../../config"));
 const utils_1 = require("../../utils");
-const logger_1 = require("../../logger");
 exports.default = () => {
     const userConfig = new config_1.default().getUserConfig();
     const address = utils_1.safeAccess(userConfig, ['WALLETS', 'AE', 'ADDRESS']);
@@ -16,7 +18,7 @@ exports.default = () => {
             } });
     }
     else {
-        logger_1.logError('Aeternity ADDRESS and SECRET are missing.');
+        throw new Error('Aeternity ADDRESS and SECRET are missing.');
     }
 };
 //# sourceMappingURL=config.js.map

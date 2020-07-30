@@ -8,13 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.startHandlers = void 0;
-const swap_1 = require("./swap");
-const withdraw_1 = require("./withdraw");
-const emitter_1 = require("../../emitter");
-const refund_1 = require("./refund");
-const MINUTES_10 = 10 * 1000 * 60;
+const swap_1 = __importDefault(require("./swap"));
+const withdraw_1 = __importDefault(require("./withdraw"));
+const emitter_1 = __importDefault(require("../../emitter"));
+const refund_1 = __importDefault(require("./refund"));
 exports.startHandlers = () => __awaiter(void 0, void 0, void 0, function* () {
     const emitter = new emitter_1.default();
     const swapHandler = new swap_1.default();
@@ -22,12 +24,10 @@ exports.startHandlers = () => __awaiter(void 0, void 0, void 0, function* () {
     const refundHandler = new refund_1.default();
     emitter.on('NEW_CONTRACT', (swap) => __awaiter(void 0, void 0, void 0, function* () { return yield swapHandler.onSwap(swap); }));
     emitter.on('WITHDRAW', (withdraw) => __awaiter(void 0, void 0, void 0, function* () { return yield withdrawHandler.onWithdraw(withdraw); }));
-    setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
-        yield swapHandler.processOldSwaps();
-    }), MINUTES_10);
-    setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
-        yield withdrawHandler.processOldWithdraws();
-    }), MINUTES_10);
-    yield refundHandler.processRefunds();
+    emitter.on('PROCESS_PAST_SWAPS', ({ activeSwaps, withdraws, expiredSwaps }) => __awaiter(void 0, void 0, void 0, function* () {
+        yield swapHandler.processOldSwaps(activeSwaps);
+        yield withdrawHandler.processOldWithdraws(withdraws);
+        yield refundHandler.processRefunds(expiredSwaps);
+    }));
 });
 //# sourceMappingURL=index.js.map

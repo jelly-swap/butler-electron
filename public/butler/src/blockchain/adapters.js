@@ -1,15 +1,34 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const bitcoin_1 = require("@jelly-swap/bitcoin");
 const ethereum_1 = require("@jelly-swap/ethereum");
 const aeternity_1 = require("@jelly-swap/aeternity");
 const erc20_1 = require("@jelly-swap/erc20");
-const config_1 = require("./config");
+const config_1 = __importStar(require("./config"));
 let Adapters;
 const getErc20Adapters = (config) => {
     return Object.keys(config_1.SECONDARY_NETWORKS).reduce((object, token) => {
         if (config[token]) {
-            object[token] = new erc20_1.Adapter(token, config[token]);
+            object[token] = new erc20_1.Adapter(config[token]);
         }
         return object;
     }, {});

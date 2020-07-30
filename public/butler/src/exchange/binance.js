@@ -8,14 +8,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const config_1 = require("../../config");
-const Binance = require("node-binance-api");
+const config_1 = __importDefault(require("../../config"));
+const node_binance_api_1 = __importDefault(require("node-binance-api"));
 const math_1 = require("../utils/math");
 const logger_1 = require("../logger");
-const config_2 = require("../../config");
+const config_2 = __importDefault(require("../../config"));
 const utils_1 = require("../utils");
-const config_3 = require("../config");
+const config_3 = __importDefault(require("../config"));
+const ORDER_TYPE_TO_LABEL = {
+    marketBuy: 'BUY',
+    marketSell: 'SELL',
+};
 class BinanceExchange {
     constructor() {
         if (BinanceExchange.Instance) {
@@ -23,7 +30,7 @@ class BinanceExchange {
         }
         const userConfig = new config_3.default().getUserConfig();
         utils_1.safeAccess;
-        this.binance = Binance().options({
+        this.binance = node_binance_api_1.default().options({
             APIKEY: utils_1.safeAccess(userConfig, ['EXCHANGE', 'API_KEY']) || utils_1.safeAccess(userConfig, ['PRICE', 'API_KEY']),
             APISECRET: utils_1.safeAccess(userConfig, ['EXCHANGE', 'SECRET_KEY']) || utils_1.safeAccess(userConfig, ['PRICE', 'SECRET_KEY']),
             useServerTime: true,
@@ -41,16 +48,18 @@ class BinanceExchange {
                 const { type, pair, quantity } = exchangeOrder;
                 yield this.binance[type](pair, quantity, (err, response) => {
                     if (err) {
-                        logger_1.logError('BINANCE_ORDER_PLACE_ERROR', err);
+                        logger_1.logDebug('BINANCE_ORDER_PLACE_ERROR', err);
+                        logger_1.logError(`Could not place order in Binance for ${quantity} ${pair}`);
                     }
                     else {
                         logger_1.logInfo(`BINANCE_ORDER_PLACED ${pair} ${quantity} ${response.orderId}`);
+                        logger_1.logData(`You placed ${ORDER_TYPE_TO_LABEL[type]} order in Binance for ${quantity} ${pair} `);
                     }
                 });
                 return true;
             }
             catch (err) {
-                logger_1.logError('BINANCE_PLACE_ORDER_ERROR', err);
+                logger_1.logDebug('BINANCE_PLACE_ORDER_ERROR', err);
                 return false;
             }
         });
@@ -78,7 +87,7 @@ class BinanceExchange {
                 });
             }
             catch (err) {
-                logger_1.logError('BINANCE_GET_BALANCE_ERROR', err);
+                logger_1.logDebug('BINANCE_GET_BALANCE_ERROR', err);
                 return false;
             }
         });
@@ -115,10 +124,15 @@ class BinanceExchange {
                             Object.keys(config_1.default.DUPLICATE_PRICE).forEach((t) => {
                                 const d = config_1.default.DUPLICATE_PRICE[t];
                                 Object.keys(prices).forEach((p) => {
-                                    prices[p.replace(d, t)] = prices[p];
+                                    const duplicate = p.replace(new RegExp('\\b' + d + '\\b'), t);
+                                    prices[duplicate] = prices[p];
                                 });
-                                prices[`${t}-${d}`] = 1;
-                                prices[`${d}-${t}`] = 1;
+                                if (!prices[`${t}-${d}`]) {
+                                    prices[`${t}-${d}`] = 1;
+                                }
+                                if (!prices[`${d}-${t}`]) {
+                                    prices[`${d}-${t}`] = 1;
+                                }
                             });
                             resolve(prices);
                         }

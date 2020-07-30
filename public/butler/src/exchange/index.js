@@ -8,10 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const exchanges_1 = require("./exchanges");
+const exchanges_1 = __importDefault(require("./exchanges"));
 const logger_1 = require("../logger");
-const config_1 = require("../config");
+const config_1 = __importDefault(require("../config"));
 class Exchange {
     constructor() {
         var _a, _b;
@@ -38,6 +41,7 @@ class Exchange {
                 return result;
             }
             catch (err) {
+                logger_1.logError(`Could not place order in ${this.userConfig.EXCHANGE.NAME}.`);
                 logger_1.logError('PLACE_ORDER_ERROR', err);
                 return false;
             }

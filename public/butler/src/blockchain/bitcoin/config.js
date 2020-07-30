@@ -1,10 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const bitcoin_1 = require("@jelly-swap/bitcoin");
 const btc_utils_1 = require("@jelly-swap/btc-utils");
 const utils_1 = require("../../utils");
-const config_1 = require("../../config");
-const logger_1 = require("../../logger");
+const config_1 = __importDefault(require("../../config"));
 exports.default = () => {
     const userConfig = new config_1.default().getUserConfig();
     const address = utils_1.safeAccess(userConfig, ['WALLETS', 'BTC', 'ADDRESS']);
@@ -14,7 +16,7 @@ exports.default = () => {
         return Object.assign(Object.assign({}, config), { receiverAddress: address, REFUND: address, SEED: secret });
     }
     else {
-        logger_1.logError('Bitcoin ADDRESS and SECRET are missing.');
+        throw new Error('Bitcoin ADDRESS and SECRET are missing.');
     }
 };
 //# sourceMappingURL=config.js.map

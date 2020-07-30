@@ -8,13 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PriceService = void 0;
-const config_1 = require("../../../config");
-const provider_1 = require("./provider");
+const config_1 = __importDefault(require("../../../config"));
+const provider_1 = __importDefault(require("./provider"));
 const logger_1 = require("../../logger");
 const math_1 = require("../../utils/math");
-const config_2 = require("../../config");
+const config_2 = __importDefault(require("../../config"));
 const utils_1 = require("../../utils");
 const utils_2 = require("../../blockchain/utils");
 class PriceService {
@@ -40,7 +43,8 @@ class PriceService {
                 }
                 for (const pair in this.userConfig.PAIRS) {
                     if (!prices[pair]) {
-                        logger_1.logError(`SUPPORTED_PAIR_MISSING_PRICE`, pair);
+                        logger_1.logDebug(`MISSING_PRICE`, pair);
+                        logger_1.logError(`The price for ${pair} is missing.`);
                     }
                 }
                 if (Object.values(prices).length > 0) {
@@ -51,13 +55,13 @@ class PriceService {
             catch (err) {
                 if (maxTries > 0) {
                     yield utils_2.sleep(15000);
-                    logger_1.logError('PRICE_SERVICE_DOWN', err);
+                    logger_1.logDebug('PRICE_SERVICE_DOWN', err);
                     logger_1.logInfo(`Starting new price service: ${this.userConfig.PRICE.PROVIDER}`);
                     this.priceProvider = new provider_1.default[this.userConfig.PRICE.PROVIDER]();
                     yield this.update(this.priceProvider, maxTries - 1);
                 }
                 else {
-                    logger_1.logInfo(`Shutting down the application after 10 minutes without price provider.`);
+                    logger_1.logError(`Shutting down the application after 10 minutes without price provider.`);
                     process.exit(-1);
                 }
             }

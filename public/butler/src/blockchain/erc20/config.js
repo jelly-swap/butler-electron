@@ -1,9 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const erc20_1 = require("@jelly-swap/erc20");
-const config_1 = require("../../config");
+const config_1 = __importDefault(require("../../config"));
 const utils_1 = require("../../utils");
-const logger_1 = require("../../logger");
 const TokenConfig = {
     DAI: {
         network: 'DAI',
@@ -37,13 +39,12 @@ exports.default = (token) => {
     const userConfig = new config_1.default().getUserConfig();
     const address = utils_1.safeAccess(userConfig, ['WALLETS', token, 'ADDRESS']);
     const secret = utils_1.safeAccess(userConfig, ['WALLETS', token, 'SECRET']);
-    const tokenConfig = erc20_1.Config(token, TokenConfig, AddressToToken, 7200);
-    const config = Object.assign(Object.assign({}, tokenConfig), { providerUrl: ((_a = userConfig.BLOCKCHAIN_PROVIDER) === null || _a === void 0 ? void 0 : _a.INFURA) || 'https://mainnet.infura.io/v3/02cf6338c88b42f595f8fd946134fa4b', contractAddress: '0x133DbFdf74f565838A2f9413Fb53761a19f06ADF', explorer: 'https://etherscan.io/tx/', REFUND_PERIOD: 10, VALID_EXPIRATION: 72000, gasMultiplier: 2 });
+    const config = Object.assign(Object.assign(Object.assign({}, erc20_1.Config(TokenConfig, AddressToToken, 7200)), TokenConfig[token]), { providerUrl: ((_a = userConfig.BLOCKCHAIN_PROVIDER) === null || _a === void 0 ? void 0 : _a.INFURA) || 'https://mainnet.infura.io/v3/02cf6338c88b42f595f8fd946134fa4b', contractAddress: '0x133DbFdf74f565838A2f9413Fb53761a19f06ADF', explorer: 'https://etherscan.io/tx/', REFUND_PERIOD: 10, VALID_EXPIRATION: 72000, gasMultiplier: 1 });
     if (address && secret) {
         return Object.assign(Object.assign({}, config), { receiverAddress: address, PRIVATE_KEY: secret });
     }
     else {
-        logger_1.logError(`${token} ADDRESS and SECRET are missing.`);
+        throw new Error(`${token} ADDRESS and SECRET are missing.`);
     }
 };
 //# sourceMappingURL=config.js.map

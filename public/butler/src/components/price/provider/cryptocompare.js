@@ -1,4 +1,23 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,11 +27,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const node_fetch_1 = require("node-fetch");
-const CryptoCompareApi = require("cryptocompare");
-const config_1 = require("../../../config");
-const config_2 = require("../../../../config");
+const node_fetch_1 = __importDefault(require("node-fetch"));
+const CryptoCompareApi = __importStar(require("cryptocompare"));
+const config_1 = __importDefault(require("../../../config"));
+const config_2 = __importDefault(require("../../../../config"));
 global.fetch = node_fetch_1.default;
 class CryptoCompareProvider {
     constructor() {
@@ -28,7 +50,11 @@ class CryptoCompareProvider {
                 const prices = {};
                 const result = yield CryptoCompareApi.priceMulti(q, b);
                 Object.entries(config_2.default.DUPLICATE_PRICE).forEach((t) => {
-                    result[t['0']] = result[t['1']];
+                    const duplicate = t['0'];
+                    const from = t['1'];
+                    if (!result[duplicate]) {
+                        result[duplicate] = result[from];
+                    }
                 });
                 Object.keys(result).forEach((base) => {
                     Object.keys(result[base]).forEach((quote) => {
@@ -36,8 +62,14 @@ class CryptoCompareProvider {
                     });
                 });
                 Object.entries(config_2.default.DUPLICATE_PRICE).forEach((t) => {
-                    prices[`${t['0']}-${t['1']}`] = 1;
-                    prices[`${t['1']}-${t['0']}`] = 1;
+                    const b = t['0'];
+                    const q = t['1'];
+                    if (!prices[`${b}-${q}`]) {
+                        prices[`${b}-${q}`] = 1;
+                    }
+                    if (!prices[`${q}-${b}`]) {
+                        prices[`${q}-${b}`] = 1;
+                    }
                 });
                 return prices;
             }

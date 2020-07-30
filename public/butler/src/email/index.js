@@ -8,13 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const nodemailer_1 = require("nodemailer");
-const swap_1 = require("./templates/swap");
-const withdraw_1 = require("./templates/withdraw");
-const refund_1 = require("./templates/refund");
+const swap_1 = __importDefault(require("./templates/swap"));
+const withdraw_1 = __importDefault(require("./templates/withdraw"));
+const refund_1 = __importDefault(require("./templates/refund"));
 const logger_1 = require("../logger");
-const config_1 = require("../config");
+const config_1 = __importDefault(require("../config"));
 const utils_1 = require("../utils");
 class EmailService {
     constructor() {
@@ -67,7 +70,7 @@ class EmailService {
             };
             yield this.transport.sendMail(mailOptions, (err, information) => {
                 if (err) {
-                    logger_1.logError('EMAIL_ERROR', err);
+                    logger_1.logDebug('EMAIL_ERROR', err);
                 }
                 else {
                     logger_1.logInfo('EMAIL_SENT', information.response);
