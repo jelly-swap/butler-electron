@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 
 import Log from './log';
 
-export default ({ terminalData, selectedLogFilters }) => {
+export default ({ terminalData }) => {
   const logsWrapperRef = useRef();
   const isScrollAtBottomRef = useRef(true);
 
@@ -25,7 +25,7 @@ export default ({ terminalData, selectedLogFilters }) => {
   return (
     <div ref={logsWrapperRef} onScroll={handleOnScroll} className='logs-wrapper'>
       {terminalData.map(log => (
-        <Log key={log.id} log={log} selectedLogFilters={selectedLogFilters} />
+        <Log key={log.id} log={log} />
       ))}
     </div>
   );
