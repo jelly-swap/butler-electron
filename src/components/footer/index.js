@@ -27,9 +27,13 @@ const Footer = () => {
   const [isPasswordIncorrect, setIsPasswordIncorrect] = useState(false);
   const password = usePassword();
 
+  if (location.pathname === '/') {
+    return null;
+  }
+
   const buttonHandler = () => {
     return {
-      '/': () => {
+      '/questions': () => {
         new Emitter().emitAll('startButler');
       },
 

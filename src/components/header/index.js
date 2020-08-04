@@ -22,7 +22,7 @@ const Header = () => {
       <div className='img-wrapper'>
         <img className='logo' src={Logo} alt='logo' />
       </div>
-      {location.pathname !== '/' && (
+      {location.pathname !== '/' && location.pathname !== '/questions' && (
         <div className='nav-links-wrapper'>
           <button
             className={`${location.pathname === '/terminal' ? 'active' : null}`}
@@ -37,6 +37,13 @@ const Header = () => {
             name='/balanceOf'
           >
             Wallets
+          </button>
+        </div>
+      )}
+      {location.pathname !== '/' && (
+        <div className='nav-links-wrapper'>
+          <button onClick={navigateTo} name='/referrals'>
+            Referrals
           </button>
         </div>
       )}

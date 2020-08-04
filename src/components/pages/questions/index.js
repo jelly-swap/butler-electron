@@ -26,8 +26,6 @@ import { readCFGFromFS, writeCFGOnFS } from '../../../utils/accessConfigOnFS';
 
 import './style.scss';
 
-import { Password } from './Password/Password';
-
 const { ipcRenderer } = window.require('electron');
 
 let [enteredPassword, isAppOpenForFirstTime] = ['', true];
@@ -113,16 +111,8 @@ const Questions = () => {
     appWrapperRef.current.scrollTop = 0;
   };
 
-  const submitModal = async password => {
-    enteredPassword = password;
-    const { config } = await readCFGFromFS(password);
-
-    setReadConfig(config);
-  };
-
   return (
     <>
-      <Password submitModal={submitModal} />
       <div ref={appWrapperRef} className='app-wrapper' onScroll={handleOnScroll}>
         <div className='questions-wrapper'>
           <ButlerName

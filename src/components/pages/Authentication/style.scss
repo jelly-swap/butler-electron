@@ -1,0 +1,17 @@
+.authentication-wrapper {
+  height: 450px;
+  width: 100%;
+  background-color: #e4e4e4;
+  font-size: 1.2rem;
+  text-align: center;
+
+  .authentication-tabs {
+    margin-top: 3rem;
+    margin: 3rem auto 0 auto;
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    color: #2fa1d0;
+  }
+}
