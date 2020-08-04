@@ -31,12 +31,7 @@ export default ({ tableData }) => {
             {rows.map((row, i) => {
               prepareRow(row);
               return (
-                <tr
-                  {...row.getRowProps()}
-                  style={{
-                    marginBottom: '10px',
-                  }}
-                >
+                <tr {...row.getRowProps()}>
                   {row.cells.map(cell => {
                     return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
                   })}

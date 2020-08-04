@@ -8,42 +8,19 @@ const balanceEndpoint = '/api/v1/balanceAll';
 export const useBalanceTable = () => {
   const httpResponse = useHttpGet(balanceEndpoint);
 
-  const mockData = {
-    ETH: {
-      address: '0x4382432',
-      balance: '321321321321',
-    },
-    AE: {
-      address: 'ae321321',
-      balance: '351321',
-    },
-    USDC: {
-      address: '0x41254432',
-      balance: '2222',
-    },
-    WBTC: {
-      address: '0x4382543534432',
-      balance: '22',
-    },
-    DAI: {
-      address: '0x4382436546542',
-      balance: '3',
-    },
-    BTC: {
-      address: 'bc14532fwf',
-      balance: '32322132132',
-    },
-  };
-
   const data = useMemo(() => {
-    return Object.keys(mockData).map(key => ({
+    if (httpResponse.isLoading) {
+      return [];
+    }
+
+    return Object.keys(data).map(key => ({
       network: (
         <div className='network-wrapper'>
           {key} <img src={require(`../images/tokens/${key}.svg`)} alt={key} />
         </div>
       ),
-      balance: Number(mockData[key].balance).toFixed(6),
-      address: mockData[key].address,
+      balance: Number(data[key].balance).toFixed(6),
+      address: data[key].address,
     }));
   }, [httpResponse.data, httpResponse.isLoading]);
 
