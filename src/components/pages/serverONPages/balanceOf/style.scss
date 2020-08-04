@@ -1,8 +1,9 @@
-@import "../../../../css/constants.scss";
+@import '../../../../css/constants.scss';
 
 .balance-of-wrapper {
   background-color: $bgColor;
   height: 500px;
+  overflow-y: auto;
   width: 100%;
   padding: 1% 2.5%;
 
@@ -13,43 +14,28 @@
     color: $titleColor;
   }
 
-  .row-balance-of {
-    height: 100px;
-    display: flex;
-    align-items: center;
+  table {
+    width: 90%;
 
-    .address-wrapper {
-      display: flex;
-      align-items: center;
-      width: 30%;
-      height: 50px;
-    }
+    overflow-y: auto;
 
-    .balance-wrapper {
-      height: 50px;
-      display: flex;
-      align-items: center;
-      width: 40%;
-      p {
-        width: 100%;
+    thead {
+      th {
+        padding-bottom: 2em;
       }
     }
 
-    .img-wrapper {
-      width: 30px;
-      height: 30px;
+    tbody {
+      text-align: center;
+      overflow-y: auto;
 
-      img {
-        width: 20px;
-        height: 20px;
+      tr {
+        height: 100px;
       }
     }
+  }
 
-    p,
-    span {
-      height: 22px;
-      font-size: 1em;
-      margin-right: 6%;
-    }
+  img {
+    width: 20px;
   }
 }

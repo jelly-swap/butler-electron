@@ -1,36 +1,46 @@
 import React from 'react';
 
-import { useHttpGet } from '../../../../hooks/useHttpGet';
-
-import { formatAddress } from '../../../../utils/formatter';
-
 import './style.scss';
 
-const balanceEndpoint = '/api/v1/balanceAll';
+export default ({ tableData }) => {
+  const { tableInstance, isLoading } = tableData;
 
-const BalanceOf = () => {
-  const { data, isLoading } = useHttpGet(balanceEndpoint);
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
 
   return (
     !isLoading && (
       <div className='balance-of-wrapper'>
-        <h2>Balance</h2>
-        {Object.keys(data).map((key, idx) => (
-          <div key={idx} className='row-balance-of'>
-            <div className='address-wrapper'>
-              <p>Address:</p> <span>{formatAddress(data[key].address)}</span>
-            </div>
-            <div className='balance-wrapper'>
-              <p>Balance:</p> <span>{data[key].balance}</span>
-              <div className='img-wrapper'>
-                <img className='token-img' src={require(`../../../../images/tokens/${key}.svg`)} alt={key} />
-              </div>
-            </div>
-          </div>
-        ))}
+        <table {...getTableProps()}>
+          <thead>
+            {headerGroups.map(headerGroup => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map(column => (
+                  // Add the sorting props to control sorting. For this example
+                  // we can add them into the header props
+
+                  <th {...column.getHeaderProps(column?.getSortByToggleProps())}>
+                    {column.render('Header')}
+                    {/* Add a sort direction indicator */}
+                    <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {rows.map((row, i) => {
+              prepareRow(row);
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map(cell => {
+                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     )
   );
 };
-
-export default BalanceOf;

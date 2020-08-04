@@ -6,6 +6,7 @@ import Terminal from './terminal';
 import BalanceOf from './balanceOf';
 
 import { useChannel } from '../../../hooks/useChannel';
+import { useBalanceTable } from '../../../hooks/useBalanceTable';
 
 const MAX_LOGS = 9999;
 const LOGS_TO_REMOVE = 1000;
@@ -43,10 +44,12 @@ const ServerONPages = () => {
     }
   }, [terminalData]);
 
+  const tableData = useBalanceTable();
+
   return (
     <>
       <Route exact path='/terminal' component={() => <Terminal terminalData={terminalData} />} />
-      <Route exact path='/balanceOf' component={() => <BalanceOf />} />
+      <Route exact path='/balanceOf' component={() => <BalanceOf tableData={tableData} />} />
     </>
   );
 };
