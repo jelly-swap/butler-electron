@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from '../../../common/Button';
 
 const LOGIN_MODEL = {
-  username: '',
+  email: '',
   password: '',
 };
 

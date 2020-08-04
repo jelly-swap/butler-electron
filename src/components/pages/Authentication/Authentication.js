@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 import { Register } from './Register/Register';
 import { Login } from './Login/Login';
+
+import { useUpdateUser } from '../../../context/UserContext';
 
 import './style.scss';
 
@@ -16,15 +19,21 @@ const { REGISTER, LOGIN } = TABS;
 export const Authentication = () => {
   const [tab, setTab] = useState(REGISTER);
 
+  const history = useHistory();
+  const updateUser = useUpdateUser();
+
   const changeTab = tabToOpen => {
     setTab(tabToOpen);
   };
 
   const authenticateUser = async (endPoint, state) => {
     try {
-      const data = await axios.post('http://localhost:9000' + endPoint, state);
+      const { data } = await axios.post('http://localhost:9000' + endPoint, state);
 
-      console.log(data);
+      if (data.success && endPoint === '/login') {
+        updateUser(data.user);
+        history.push('/questions');
+      }
     } catch (error) {
       console.log('Error', endPoint, error);
     }
