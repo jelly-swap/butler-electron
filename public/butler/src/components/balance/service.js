@@ -8,17 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BalanceService = void 0;
-const config_1 = require("../../blockchain/config");
-const contracts_1 = require("../../blockchain/contracts");
-const adapters_1 = require("../../blockchain/adapters");
-const providedAssets_1 = require("../../config/providedAssets");
-const supportedNetworks_1 = require("../../config/supportedNetworks");
-const exchange_1 = require("../../exchange");
+const config_1 = __importDefault(require("../../blockchain/config"));
+const contracts_1 = __importDefault(require("../../blockchain/contracts"));
+const adapters_1 = __importDefault(require("../../blockchain/adapters"));
+const providedAssets_1 = __importDefault(require("../../config/providedAssets"));
+const supportedNetworks_1 = __importDefault(require("../../config/supportedNetworks"));
+const exchange_1 = __importDefault(require("../../exchange"));
 const math_1 = require("../../utils/math");
 const service_1 = require("../../components/price/service");
-const repository_1 = require("./repository");
+const repository_1 = __importDefault(require("./repository"));
 const logger_1 = require("../../logger");
 const utils_1 = require("../../utils");
 class BalanceService {
@@ -47,20 +50,20 @@ class BalanceService {
                         const address = this.blockchainConfig[network].receiverAddress;
                         const result = yield this.contracts[network].getBalance(address, network);
                         const raw = result.toString();
-                        const balance = this.adapters[network].parseFromNative(result || 0).toString();
+                        const balance = this.adapters[network].parseFromNative(result || 0, network).toString();
                         this.allBalances[network] = { address, raw, balance };
                         if (this.providedAssets[network]) {
                             this.providedBalances[network] = this.allBalances[network];
                         }
                     }
                     catch (err) {
-                        logger_1.logError(`CANNOT_GET_BALANCES`, { network, err });
+                        logger_1.logDebug(`CANNOT_GET_BALANCES`, { network, err });
                     }
                 }
                 this.exchangeBalances = yield this.exchange.getBalance();
             }
             catch (err) {
-                logger_1.logError(`CANNOT_GET_BALANCES`, err);
+                logger_1.logDebug(`CANNOT_GET_BALANCES`, err);
             }
         });
     }
@@ -80,7 +83,7 @@ class BalanceService {
                         portfolioInUsdcTotal = math_1.addBig(portfolioInUsdcTotal, valueInUsdc);
                     }
                     catch (err) {
-                        logger_1.logWarn(`BALANCE_HISTORY_PRICE_${network}-USDC`, err);
+                        logger_1.logDebug(`BALANCE_HISTORY_PRICE_${network}-USDC`, err);
                     }
                 }
                 balances.push({
@@ -91,7 +94,7 @@ class BalanceService {
                 this.balanceRepository.saveBalance(balances);
             }
             catch (err) {
-                logger_1.logError(`CANNOT_SAVE_BALANCES`, err);
+                logger_1.logDebug(`CANNOT_SAVE_BALANCES`, err);
             }
         });
     }

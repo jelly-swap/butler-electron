@@ -8,11 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const repository_1 = require("../../repository");
+const repository_1 = __importDefault(require("../../repository"));
 const utils_1 = require("../../utils");
 const logger_1 = require("../../logger");
-const config_1 = require("../../config");
+const config_1 = __importDefault(require("../../config"));
 class BalanceRepository {
     constructor() {
         const userConfig = new config_1.default().getUserConfig();
@@ -30,7 +33,7 @@ class BalanceRepository {
                 yield this.balanceRepository.save(balance);
             }
             catch (error) {
-                logger_1.logError(`BALANCE_REPOSITORY_ERROR`, error);
+                logger_1.logDebug(`BALANCE_REPOSITORY_ERROR`, error);
             }
         });
     }

@@ -8,18 +8,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const adapters_1 = require("../adapters");
-const contracts_1 = require("../contracts");
+const adapters_1 = __importDefault(require("../adapters"));
+const contracts_1 = __importDefault(require("../contracts"));
 const validator_1 = require("../validator");
 const utils_1 = require("../utils");
 const logger_1 = require("../../logger");
 const service_1 = require("../../components/swap/service");
-const email_1 = require("../../email");
-const exchange_1 = require("../../exchange");
+const email_1 = __importDefault(require("../../email"));
+const exchange_1 = __importDefault(require("../../exchange"));
 const math_1 = require("../../utils/math");
 const service_2 = require("../../components/price/service");
-const config_1 = require("../config");
+const config_1 = __importDefault(require("../config"));
 const RETRY_COUNT = 10;
 const RETRY_TIME = 1000 * 10;
 class SwapHandler {
@@ -39,9 +42,10 @@ class SwapHandler {
                 logger_1.logInfo(`SWAP_RECEIVED`, inputSwap);
                 const isProcessed = yield this.swapService.findByIdAndNetwork(inputSwap.id, inputSwap.network);
                 if (!isProcessed && !this.localCache[inputSwap.id]) {
-                    const adapter = this.adapters[inputSwap.outputNetwork];
+                    const inputAdapter = this.adapters[inputSwap.network];
+                    const outputAdapter = this.adapters[inputSwap.outputNetwork];
                     const contract = this.contracts[inputSwap.outputNetwork];
-                    const outputSwap = adapter.createSwapFromInput(Object.assign(Object.assign({}, inputSwap), { outputAmount: this.getLatestOutputAmount(inputSwap) }));
+                    const outputSwap = outputAdapter.createSwapFromInput(Object.assign(Object.assign({}, inputSwap), { outputAmount: this.getLatestOutputAmount(inputSwap) }));
                     const validOutputSwap = yield validator_1.isOutputSwapValid(outputSwap, inputSwap.outputAmount);
                     const validInputSwap = yield validator_1.isInputSwapValid(inputSwap);
                     if (validOutputSwap && validInputSwap) {
@@ -55,23 +59,24 @@ class SwapHandler {
                                 yield this.swapService.add(inputSwap.id, Object.assign(Object.assign({}, outputSwap), { transactionHash }));
                                 this.exchange.placeOrder(inputSwap);
                                 logger_1.logInfo('SWAP_SENT', transactionHash);
+                                logger_1.logData(`Created a swap: ${outputAdapter.parseFromNative(String(outputSwap.inputAmount), outputSwap.network)} ${outputSwap.network} for ${inputAdapter.parseFromNative(String(inputSwap.inputAmount), inputSwap.network)} ${inputSwap.network}`);
                                 yield this.emailService.send('SWAP', Object.assign(Object.assign({}, outputSwap), { transactionHash }));
                             }
                             catch (err) {
-                                logger_1.logError(`SWAP_SERVICE_ERROR: ${err}`);
+                                logger_1.logDebug(`SWAP_SERVICE_ERROR: ${err}`);
                             }
                         }
                         catch (err) {
                             this.localCache[inputSwap.id] = false;
-                            logger_1.logError('SWAP_BROADCAST_ERROR', inputSwap.id);
-                            logger_1.logError(`SWAP_ERROR`, err);
+                            logger_1.logDebug('SWAP_BROADCAST_ERROR', inputSwap.id);
+                            logger_1.logDebug(`SWAP_ERROR`, err);
                             if (maxTries > 0) {
                                 logger_1.logInfo('SWAP_RETRY', inputSwap.id);
                                 yield utils_1.sleep((RETRY_COUNT + 1 - maxTries) * RETRY_TIME);
                                 yield this.onSwap(inputSwap, maxTries - 1);
                             }
                             else {
-                                logger_1.logError('SWAP_FAILED', inputSwap.id);
+                                logger_1.logDebug('SWAP_FAILED', inputSwap.id);
                             }
                         }
                     }
@@ -81,28 +86,16 @@ class SwapHandler {
                 }
             }
             catch (err) {
-                logger_1.logError(`CANNOT_PREPARE_SWAP_OUTPUT`, { inputSwap, err });
+                logger_1.logDebug(`CANNOT_PREPARE_SWAP_OUTPUT`, { inputSwap, err });
             }
         });
     }
-    processOldSwaps() {
+    processOldSwaps(swaps) {
         return __awaiter(this, void 0, void 0, function* () {
-            logger_1.logInfo(`TRACK_OLD_SWAPS`);
-            const networkContracts = contracts_1.getNetworkContracts();
-            for (const network in networkContracts) {
-                try {
-                    const swaps = yield networkContracts[network].getPast('new');
-                    if (swaps) {
-                        for (const swap of swaps) {
-                            // if swap is Active
-                            if (math_1.equal(swap.status, 1)) {
-                                this.onSwap(swap);
-                            }
-                        }
-                    }
-                }
-                catch (err) {
-                    logger_1.logError(`TRACK_OLD_SWAPS_ERROR`, { network, err });
+            logger_1.logData(`Checking for missed swaps.`);
+            if (swaps) {
+                for (const swap of swaps) {
+                    yield this.onSwap(swap);
                 }
             }
         });

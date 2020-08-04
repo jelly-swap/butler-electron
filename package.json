@@ -1,6 +1,6 @@
 {
   "name": "butler-electron",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "private": true,
   "scripts": {
     "start": "rescripts start",
@@ -8,6 +8,7 @@
     "test": "rescripts test",
     "eject": "react-scripts eject",
     "electron-start": "concurrently \"yarn build && cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron-start-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "postinstall": "electron-builder install-app-deps",
     "preelectron-pack": "yarn build",
     "electron-pack": "electron-builder build -w",
@@ -41,8 +42,8 @@
     "@jelly-swap/bitcoin": "0.1.42",
     "@jelly-swap/btc-provider": "0.1.40",
     "@jelly-swap/btc-utils": "0.1.40",
-    "@jelly-swap/btc-web-wallet": "0.1.42",
-    "@jelly-swap/erc20": "0.1.42",
+    "@jelly-swap/btc-web-wallet": "0.1.45",
+    "@jelly-swap/erc20": "0.1.44",
     "@jelly-swap/ethereum": "0.1.42",
     "@jelly-swap/utils": "0.1.41",
     "axios": "^0.19.2",

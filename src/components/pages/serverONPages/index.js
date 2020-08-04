@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
+
 import { Route } from 'react-router-dom';
+
+import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 
 import Terminal from './terminal';
@@ -8,30 +11,30 @@ import BalanceOf from './balanceOf';
 import { useChannel } from '../../../hooks/useChannel';
 import { useBalanceTable } from '../../../hooks/useBalanceTable';
 
+const ALLOWED_MESSAGES = ['DATA', 'ERROR'];
 const MAX_LOGS = 9999;
 const LOGS_TO_REMOVE = 1000;
 
+const getCurrentDate = () => moment().format('MMM Do YYYY h:mm:s A');
+const getMessageType = message => message?.indexOf(':') !== -1 && message?.split(':')[0];
+
 const ServerONPages = () => {
   const [terminalData, setTerminalData] = useState([
-    {
-      now: new Date().toISOString().substring(0, 19).replace('T', ' '),
-      info: 'Loading...',
-      id: uuidv4(),
-    },
+    { now: getCurrentDate(), info: ': Loading...', id: uuidv4(), msgType: 'DATA' },
   ]);
 
   const { data } = useChannel('data');
 
   useEffect(() => {
-    const now = new Date().toISOString().substring(0, 19).replace('T', ' ');
+    const messageType = getMessageType(data);
 
-    const log = {
-      now,
-      info: data,
-      id: uuidv4(),
-    };
+    if (ALLOWED_MESSAGES.includes(messageType)) {
+      const now = getCurrentDate();
 
-    setTerminalData(terminalData => [...terminalData, log]);
+      const log = { now, info: data, msgType: messageType, id: uuidv4() };
+
+      setTerminalData(terminalData => [...terminalData, log]);
+    }
   }, [data]);
 
   useEffect(() => {

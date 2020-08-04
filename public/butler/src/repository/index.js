@@ -1,14 +1,17 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
-const swap_1 = require("../entity/sql/swap");
-const swap_2 = require("../entity/mongo/swap");
-const withdraw_1 = require("../entity/sql/withdraw");
-const withdraw_2 = require("../entity/mongo/withdraw");
-const refund_1 = require("../entity/sql/refund");
-const refund_2 = require("../entity/mongo/refund");
-const balance_1 = require("../entity/sql/balance");
-const balance_2 = require("../entity/mongo/balance");
+const swap_1 = __importDefault(require("../entity/sql/swap"));
+const swap_2 = __importDefault(require("../entity/mongo/swap"));
+const withdraw_1 = __importDefault(require("../entity/sql/withdraw"));
+const withdraw_2 = __importDefault(require("../entity/mongo/withdraw"));
+const refund_1 = __importDefault(require("../entity/sql/refund"));
+const refund_2 = __importDefault(require("../entity/mongo/refund"));
+const balance_1 = __importDefault(require("../entity/sql/balance"));
+const balance_2 = __importDefault(require("../entity/mongo/balance"));
 exports.default = {
     MONGODB: {
         swap: () => typeorm_1.getMongoRepository(swap_2.default),

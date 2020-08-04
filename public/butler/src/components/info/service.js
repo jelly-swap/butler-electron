@@ -8,12 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const axios_1 = require("axios");
-const moment = require("moment");
-const config_1 = require("../../config");
-const contracts_1 = require("../../blockchain/contracts");
-const supportedNetworks_1 = require("../../config/supportedNetworks");
+const axios_1 = __importDefault(require("axios"));
+const moment_1 = __importDefault(require("moment"));
+const config_1 = __importDefault(require("../../config"));
+const contracts_1 = __importDefault(require("../../blockchain/contracts"));
+const supportedNetworks_1 = __importDefault(require("../../config/supportedNetworks"));
 const service_1 = require("../balance/service");
 const service_2 = require("../price/service");
 const logger_1 = require("../../logger");
@@ -55,7 +58,7 @@ class InfoService {
         return __awaiter(this, void 0, void 0, function* () {
             this.prices = this.priceService.getPricesWithSpreadAndFee();
             this.balances = this.balanceService.getBalances();
-            this.updated = moment().valueOf();
+            this.updated = moment_1.default().valueOf();
             yield this.getSignatures();
         });
     }
@@ -81,7 +84,9 @@ class InfoService {
                         this.balances[network]['signature'] = sig;
                     }
                     catch (err) {
-                        logger_1.logError(`Cannot sign message ${network} : ${err}`);
+                        logger_1.logError(`Cannot sign message for ${network}. ${err}`);
+                        logger_1.logError(`Please make sure you've entered correct Address/Secret pair. This error can happen if you've entered a BTC address and a mnemonic that does not contain it.`);
+                        process.exit(-1);
                     }
                 }
             }

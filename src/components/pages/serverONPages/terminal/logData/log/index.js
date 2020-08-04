@@ -10,27 +10,20 @@ import React from 'react';
 const MESSAGE_TYPES = {
   ERROR: '📕',
   WARN: '📙',
-  INFO: '📗',
+  DATA: '📗',
   ACTION: '📘',
   CANCELED: '📓',
   DEFAULT: '📔',
 };
 
-export default ({ log, selectedLogFilters }) => {
-  const { info, now } = log;
-
-  if (!info) {
-    return null;
-  }
-
-  const idxOfDblDots = info.indexOf(':');
-  const messageType = idxOfDblDots !== -1 ? info.split(':')[0] : 'DEFAULT';
-
-  return !selectedLogFilters.length ? (
-    <div className='log'>{`${MESSAGE_TYPES[messageType]} ${now} ${info.replace(/INFO|ERROR|WARN/, '')}`}</div>
-  ) : (
-    selectedLogFilters.includes(messageType) && (
-      <div className='log'>{`${MESSAGE_TYPES[messageType]} ${now} ${info.replace(/INFO|ERROR|WARN/, '')}`}</div>
+export default ({ log }) => {
+  const { info, now, msgType } = log;
+  return (
+    info && (
+      <div className='log'>{`${MESSAGE_TYPES[msgType]} ${now} ${info.replace(
+        new RegExp('\\b' + msgType + '\\b'),
+        '',
+      )}`}</div>
     )
   );
 };

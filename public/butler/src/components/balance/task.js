@@ -8,10 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const service_1 = require("./service");
-const config_1 = require("../../../config");
-const config_2 = require("../../config");
+const config_1 = __importDefault(require("../../../config"));
+const config_2 = __importDefault(require("../../config"));
 class BalanceTask {
     constructor() {
         this.name = 'Balance Task';

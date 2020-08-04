@@ -8,10 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WithdrawController = void 0;
-const config_1 = require("../../../config");
-const contracts_1 = require("../../blockchain/contracts");
+const config_1 = __importDefault(require("../../../config"));
+const contracts_1 = __importDefault(require("../../blockchain/contracts"));
 const logger_1 = require("../../logger");
 class WithdrawController {
     withdraw(request, response, next) {

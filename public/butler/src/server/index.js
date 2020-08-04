@@ -8,20 +8,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express = require("express");
-const http = require("http");
+const express_1 = __importDefault(require("express"));
+const http_1 = __importDefault(require("http"));
 const utils_1 = require("./utils");
-const middleware_1 = require("./middleware");
+const middleware_1 = __importDefault(require("./middleware"));
 const routes_1 = require("./routes");
 const logger_1 = require("../logger");
 exports.default = (port = process.env.PORT || 8080) => __awaiter(void 0, void 0, void 0, function* () {
-    const router = express();
+    const router = express_1.default();
     utils_1.applyMiddleware(middleware_1.default, router);
     utils_1.applyRoutes(routes_1.Routes, router);
-    const server = http.createServer(router);
+    const server = http_1.default.createServer(router);
     server.listen(port, () => {
-        logger_1.logInfo(`Server started on port ${server.address().port}`);
+        logger_1.logData(`Server started on port ${server.address().port}`);
     });
 });
 //# sourceMappingURL=index.js.map

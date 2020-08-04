@@ -8,9 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WithdrawService = void 0;
-const repository_1 = require("./repository");
+const repository_1 = __importDefault(require("./repository"));
 class WithdrawService {
     constructor() {
         this.swapRepository = new repository_1.default();

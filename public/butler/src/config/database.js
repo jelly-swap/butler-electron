@@ -1,7 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const sql_1 = require("../entity/sql");
-const mongo_1 = require("../entity/mongo");
+const sql_1 = __importDefault(require("../entity/sql"));
+const mongo_1 = __importDefault(require("../entity/mongo"));
 exports.default = (options) => {
     switch (options.name) {
         case 'SQLITE': {
