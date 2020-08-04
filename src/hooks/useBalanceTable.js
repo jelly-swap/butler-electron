@@ -13,16 +13,14 @@ export const useBalanceTable = () => {
       return [];
     }
 
-    console.log('data', httpResponse);
-
     return Object.keys(httpResponse.data).map(key => ({
-      network: key,
-      address: httpResponse.data[key].address,
-      balance: (
+      network: (
         <span>
-          {httpResponse.data[key].balance} <img src={require(`../images/tokens/${key}.svg`)} alt={key} />
+          {key} <img src={require(`../images/tokens/${key}.svg`)} alt={key} />
         </span>
       ),
+      balance: httpResponse.data[key].balance,
+      address: httpResponse.data[key].address,
     }));
   }, [httpResponse.data, httpResponse.isLoading]);
 
@@ -33,12 +31,12 @@ export const useBalanceTable = () => {
         accessor: 'network', // accessor is the "key" in the data
       },
       {
-        Header: 'Address',
-        accessor: 'address', // accessor is the "key" in the data
-      },
-      {
         Header: 'Balance',
         accessor: 'balance',
+      },
+      {
+        Header: 'Address',
+        accessor: 'address', // accessor is the "key" in the data
       },
     ],
     [],
