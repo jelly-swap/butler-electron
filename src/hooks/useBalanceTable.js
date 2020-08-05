@@ -19,8 +19,8 @@ export const useBalanceTable = isServerStarted => {
           {key} <img src={require(`../images/tokens/${key}.svg`)} alt={key} />
         </div>
       ),
-      balance: Number(data[key].balance).toFixed(6),
-      address: data[key].address,
+      balance: Number(httpResponse.data[key].balance).toFixed(6),
+      address: httpResponse.data[key].address,
     }));
   }, [httpResponse.data, httpResponse.isLoading]);
 
