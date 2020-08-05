@@ -22,6 +22,7 @@ const ServerONPages = () => {
   const [terminalData, setTerminalData] = useState([
     { now: getCurrentDate(), info: ': Loading...', id: uuidv4(), msgType: 'DATA' },
   ]);
+  const [isServerStarted, setIsServerStarted] = useState(false);
 
   const { data } = useChannel('data');
 
@@ -31,11 +32,15 @@ const ServerONPages = () => {
     if (ALLOWED_MESSAGES.includes(messageType)) {
       const now = getCurrentDate();
 
+      if (data.includes('Server started on port')) {
+        setIsServerStarted(true);
+      }
+
       const log = { now, info: data, msgType: messageType, id: uuidv4() };
 
       setTerminalData(terminalData => [...terminalData, log]);
     }
-  }, [data]);
+  }, [data, setIsServerStarted]);
 
   useEffect(() => {
     if (terminalData.length === MAX_LOGS) {
@@ -47,7 +52,7 @@ const ServerONPages = () => {
     }
   }, [terminalData]);
 
-  const tableData = useBalanceTable();
+  const tableData = useBalanceTable(isServerStarted);
 
   return (
     <>

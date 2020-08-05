@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
 import { useServerPort } from '../context/ServerPortContext';
 
-export const useHttpGet = endPoint => {
+export const useHttpGet = (endPoint, isServerStarted) => {
   const isRendered = useRef();
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState();
@@ -12,6 +12,10 @@ export const useHttpGet = endPoint => {
   const BASE_URL = useRef(`http://localhost:${PORT}`);
 
   useEffect(() => {
+    if (!isServerStarted) {
+      return;
+    }
+
     isRendered.current = true;
 
     const getData = async () => {
@@ -35,7 +39,7 @@ export const useHttpGet = endPoint => {
     return () => {
       isRendered.current = false;
     };
-  }, [endPoint]);
+  }, [endPoint, isServerStarted]);
 
   return {
     isLoading,

@@ -5,15 +5,15 @@ import { useHttpGet } from './useHttpGet';
 
 const balanceEndpoint = '/api/v1/balanceAll';
 
-export const useBalanceTable = () => {
-  const httpResponse = useHttpGet(balanceEndpoint);
+export const useBalanceTable = isServerStarted => {
+  const httpResponse = useHttpGet(balanceEndpoint, isServerStarted);
 
   const data = useMemo(() => {
     if (httpResponse.isLoading) {
       return [];
     }
 
-    return Object.keys(data).map(key => ({
+    return Object.keys(httpResponse.data).map(key => ({
       network: (
         <div className='network-wrapper'>
           {key} <img src={require(`../images/tokens/${key}.svg`)} alt={key} />
