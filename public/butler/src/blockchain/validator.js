@@ -75,6 +75,11 @@ exports.isInputSwapValid = (swap) => __awaiter(void 0, void 0, void 0, function*
         logger_1.logDebug(`INPUT_SENDER_EQUAL_BUTLER_RECEIVER`, swap);
         return false;
     }
+    const isPairValid = isInputPairValid(swap);
+    if (!isPairValid) {
+        logger_1.logDebug(`INVALID_PAIR`, swap);
+        return false;
+    }
     if (!exports.isInputSwapExpirationValid(swap)) {
         logger_1.logDebug(`INPUT_INVALID_EXPIRATION`, swap);
         return false;
@@ -116,11 +121,6 @@ exports.isOutputSwapValid = (swap, takerDesiredAmount) => __awaiter(void 0, void
     }
     if (utils_2.compareAddress(swap.sender, swap.receiver)) {
         logger_1.logDebug(`OUTPUT_SENDER_CANNOT_EQUAL_RECEIVER`, swap);
-        return false;
-    }
-    const isPairValid = isInputPairValid(swap);
-    if (!isPairValid) {
-        logger_1.logDebug(`OUTPUT_INVALID_PAIR`, swap);
         return false;
     }
     const allowedSlippageAmount = math_1.mul(takerDesiredAmount, config_1.default.SLIPPAGE);

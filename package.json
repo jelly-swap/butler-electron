@@ -1,6 +1,6 @@
 {
   "name": "butler-electron",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "private": true,
   "scripts": {
     "start": "rescripts start",
@@ -70,6 +70,7 @@
     "react-modal": "^3.11.2",
     "react-router-dom": "5.1.2",
     "react-scripts": "3.4.1",
+    "react-table": "^7.5.0",
     "sqlite3": "^5.0.0",
     "typeorm": "^0.2.24",
     "uuid": "^8.2.0",

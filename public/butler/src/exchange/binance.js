@@ -29,13 +29,13 @@ class BinanceExchange {
             return BinanceExchange.Instance;
         }
         const userConfig = new config_3.default().getUserConfig();
-        utils_1.safeAccess;
         this.binance = node_binance_api_1.default().options({
             APIKEY: utils_1.safeAccess(userConfig, ['EXCHANGE', 'API_KEY']) || utils_1.safeAccess(userConfig, ['PRICE', 'API_KEY']),
             APISECRET: utils_1.safeAccess(userConfig, ['EXCHANGE', 'SECRET_KEY']) || utils_1.safeAccess(userConfig, ['PRICE', 'SECRET_KEY']),
             useServerTime: true,
         });
         BinanceExchange.Instance = this;
+        logger_1.logData(`Binance Exchange Connected!`);
     }
     placeOrder(order) {
         return __awaiter(this, void 0, void 0, function* () {
