@@ -100,7 +100,8 @@ class PriceService {
         const pricesWithSpread = {};
         Object.keys(prices).forEach((pair) => {
             const pairFee = utils_1.safeAccess(this.userConfig, ['PAIRS', pair, 'FEE']) || 0;
-            pricesWithSpread[pair] = math_1.mul(prices[pair], math_1.sub(1, math_1.add(pairFee, config_1.default.FEE)));
+            const pairPrice = utils_1.safeAccess(this.userConfig, ['PAIRS', pair, 'PRICE']) || 0;
+            pricesWithSpread[pair] = pairPrice > 0 ? pairPrice : math_1.mul(prices[pair], math_1.sub(1, math_1.add(pairFee, config_1.default.FEE)));
         });
         this.pricesWithSpreadAndFee = pricesWithSpread;
     }
