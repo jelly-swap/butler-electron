@@ -101,7 +101,7 @@ export const MAX_WORDS_FOR_VALID_SEED = 24;
 
 export const DEFAULT_CONFIG = {
   NAME: '',
-  PAIRS: { 'BTC-ETH': { FEE: 0 } },
+  PAIRS: { 'BTC-ETH': { FEE: 0, PRICE: 0 } },
   WALLETS: {
     ETH: {
       ADDRESS: '',

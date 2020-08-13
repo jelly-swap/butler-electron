@@ -1,4 +1,19 @@
-@import "../../../../../css/constants.scss";
+@import '../../../../../css/constants.scss';
+
+.react-tooltip-lite {
+  background: #333;
+  color: white;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.tip-content {
+  width: 300px;
+
+  p {
+    width: 300px;
+  }
+}
 
 .trading-pairs-wrapper {
   width: 100%;
@@ -126,9 +141,14 @@
       }
 
       .input-fields {
-        width: 28%;
+        width: 38%;
         display: flex;
         justify-content: center;
+
+        .tooltip {
+          margin-left: -5%;
+          cursor: pointer;
+        }
 
         .fee-input {
           display: flex;
@@ -136,13 +156,31 @@
           justify-content: center;
 
           span {
-            margin-right: 17%;
+            margin-right: 6%;
+          }
+
+          input {
+            width: 46%;
+            margin-right: 6%;
+            margin-left: 3%;
+            padding-left: 20%;
+          }
+        }
+
+        .price-input {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          span {
+            margin-right: 3%;
           }
 
           input {
             width: 46%;
             margin-right: 3%;
             margin-left: 3%;
+            padding-left: 20%;
           }
         }
       }
