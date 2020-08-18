@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 import Email from './Email';
-import Slack from './Slack';
 import QuestionTitle from '../../../../common/QuestionTitle';
 
 import { useGetStateFromCP } from '../../../../../hooks/useGetStateFromCP';
@@ -19,23 +18,13 @@ const EMAIL_DEFAULT = {
   SUBJECT: 'JELLY',
 };
 
-const SLACK_DEFAULT = {
-  ENABLED: false,
-  WEBHOOK_URL: '',
-};
-
 const NOTIFICATIONS = {
   EMAIL: EMAIL_DEFAULT,
-  SLACK: SLACK_DEFAULT,
 };
 
-const Notifications = ({ valid, selectedNotifications, isButlerStarted, getState }) => {
-  const [notifications, setNotifications] = useState({
-    EMAIL: { ...EMAIL_DEFAULT },
-    SLACK: { ...SLACK_DEFAULT },
-  });
+const Notifications = ({ selectedNotifications, isButlerStarted, getState }) => {
+  const [notifications, setNotifications] = useState({ EMAIL: { ...EMAIL_DEFAULT } });
   const [isEmailValid, setIsEmailValid] = useState(true);
-  const [isSlackValid, setIsSlackValid] = useState(true);
 
   useGetStateFromCP(isButlerStarted, getState, { NOTIFICATIONS: notifications });
 
@@ -53,16 +42,12 @@ const Notifications = ({ valid, selectedNotifications, isButlerStarted, getState
   }, [selectedNotifications]);
 
   useEffect(() => {
-    const { EMAIL, SLACK } = notifications;
+    const { EMAIL } = notifications;
 
     if (!EMAIL.ENALBED && (EMAIL.USERNAME || EMAIL.FROM || EMAIL.TO)) {
       setIsEmailValid(false);
     } else if (!EMAIL.ENABLED) {
       setIsEmailValid(true);
-    }
-
-    if (!SLACK.ENABLED) {
-      setIsSlackValid(true);
     }
 
     const emailRegex = new RegExp(REGEX_FOR_EMAIL);
@@ -77,12 +62,6 @@ const Notifications = ({ valid, selectedNotifications, isButlerStarted, getState
       setIsEmailValid(false);
     } else if (EMAIL.ENABLED && EMAIL.USERNAME && EMAIL.PASSWORD && EMAIL.TO && EMAIL.FROM) {
       setIsEmailValid(true);
-    }
-
-    if (SLACK.ENABLED && !SLACK.WEBHOOK_URL) {
-      setIsSlackValid(false);
-    } else if (SLACK.ENABLED && SLACK.WEBHOOK_URL) {
-      setIsSlackValid(true);
     }
   }, [notifications]);
 
@@ -112,10 +91,9 @@ const Notifications = ({ valid, selectedNotifications, isButlerStarted, getState
 
   return (
     <div className='notifications-wrapper'>
-      <QuestionTitle isValid={isEmailValid && isSlackValid} title='Notifications' />
+      <QuestionTitle isValid={isEmailValid} title='Notifications' />
       <div className='notifications'>
         <Email emailInfo={notifications.EMAIL} setChannelData={setChannelData} />
-        <Slack slackInfo={notifications.SLACK} setChannelData={setChannelData} />
       </div>
     </div>
   );
