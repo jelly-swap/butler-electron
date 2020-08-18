@@ -13,6 +13,7 @@ export const generateConfig = (config, password, encrypt = true) => {
     EXCHANGE: getExchange(config.EXCHANGE, password, encrypt),
     NOTIFICATIONS: getNotifications(config.NOTIFICATIONS, password, encrypt),
     AGGREGATOR_URL: getAggregatorUrl(config.SERVER_OPTIONS),
+    TRACKER_URL: getTrackerUrl(config.SERVER_OPTIONS),
     SERVER: getServerPort(config.SERVER_OPTIONS),
     DATABASE: getDatabase(config.DATABASE),
   };
@@ -24,8 +25,8 @@ const getPairs = selectedPairs => {
   const pairs = {};
 
   Object.keys(selectedPairs).forEach(pair => {
-    const { provide, receive, fee } = selectedPairs[pair];
-    pairs[receive + '-' + provide] = { FEE: fee / 100 };
+    const { provide, receive, fee, price } = selectedPairs[pair];
+    pairs[receive + '-' + provide] = { FEE: fee / 100, PRICE: Number(price) };
   });
 
   return { ...pairs };
@@ -113,6 +114,12 @@ const getAggregatorUrl = serverOptions => {
   if (!serverOptions || !Object.keys(serverOptions).length || !serverOptions.aggregatorUrl) return;
 
   return serverOptions.aggregatorUrl;
+};
+
+const getTrackerUrl = serverOptions => {
+  if (!serverOptions || !Object.keys(serverOptions).length || !serverOptions.trackerUrl) return;
+
+  return serverOptions.trackerUrl;
 };
 
 const getServerPort = serverOptions => {

@@ -16,7 +16,7 @@ const GENERATE_KEY_URL = {
 };
 
 const BlockchainProvider = ({ valid, selectedBlockchainProviders, isButlerStarted, getState }) => {
-  const [blockchainProviders, setBlockchainProviders] = useState({});
+  const [blockchainProviders, setBlockchainProviders] = useState({ INFURA: '' });
   const [providersToShow, setProvidersToShow] = useState([]);
   const [isValid, setIsValid] = useState(valid);
 
@@ -41,7 +41,7 @@ const BlockchainProvider = ({ valid, selectedBlockchainProviders, isButlerStarte
 
   useEffect(() => {
     if (!selectedBlockchainProviders) {
-      setBlockchainProviders({});
+      setBlockchainProviders({ INFURA: '' });
       return;
     }
 

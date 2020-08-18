@@ -41,7 +41,7 @@ exports.run = (config = user_config_1.default, combinedFile, errorFile) => {
                 yield utils_1.startTasks([new task_1.default(), new task_2.default(), new task_3.default()]);
                 yield server_1.default(config.SERVER.PORT);
                 yield handler_1.startHandlers();
-                yield tracker_1.default(config.WALLETS);
+                yield tracker_1.default(config);
             }))
                 .catch((error) => {
                 logger_1.logError(`${error}`);

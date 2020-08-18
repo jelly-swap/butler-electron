@@ -192,6 +192,7 @@ const Questions = () => {
             <ServerOptions
               selectedAggregatorURL={readConfig.AGGREGATOR_URL}
               selectedPort={readConfig.SERVER && readConfig.SERVER.PORT}
+              selectedTrackerUrl={readConfig.TRACKER_URL}
               isButlerStarted={isButlerStarted}
               getState={getState}
             />

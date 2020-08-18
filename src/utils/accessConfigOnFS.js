@@ -2,6 +2,7 @@ import { generateConfig } from './generateConfig';
 import { validateConfig, areAllValid } from './validateConfig';
 import { decryptPrivateKey } from './managePrivateKeys';
 import Emitter from './emitter';
+import { DEFAULT_CONFIG } from '../constants';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -12,7 +13,7 @@ export const readCFGFromFS = password =>
     }
 
     try {
-      ipcRenderer.send('loadConfig');
+      ipcRenderer.send('loadConfig', DEFAULT_CONFIG);
 
       ipcRenderer.once('configLoaded', (__message, { success, config }) => {
         // IF success is false we load DEFAULT_CONFIG

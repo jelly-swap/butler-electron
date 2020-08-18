@@ -4,6 +4,7 @@ export const PAIRS = {
     DAI: 'DAI',
     AE: 'AE',
     USDC: 'USDC',
+    ONE: 'ONE',
   },
   BTC: {
     ETH: 'ETH',
@@ -12,6 +13,11 @@ export const PAIRS = {
     USDC: 'USDC',
     WBTC: 'WBTC',
     'BTC++': 'BTC++',
+    ONE: 'ONE',
+  },
+  ONE: {
+    BTC: 'BTC',
+    ETH: 'ETH',
   },
   DAI: {
     BTC: 'BTC',
@@ -39,6 +45,7 @@ export const WALLETS = {
   USDC: 'USDC',
   WBTC: 'WBTC',
   BTC: 'BTC',
+  ONE: 'ONE',
   AE: 'AE',
   'BTC++': 'BTC++',
 };
@@ -101,7 +108,7 @@ export const MAX_WORDS_FOR_VALID_SEED = 24;
 
 export const DEFAULT_CONFIG = {
   NAME: '',
-  PAIRS: { 'BTC-ETH': { FEE: 0 } },
+  PAIRS: { 'BTC-ETH': { FEE: 0, PRICE: 0 } },
   WALLETS: {
     ETH: {
       ADDRESS: '',
@@ -119,7 +126,8 @@ export const DEFAULT_CONFIG = {
     UPDATE_INTERVAL: 30,
   },
   NOTIFICATIONS: {},
-  AGGREGATOR_URL: 'https://network.jelly.market/api/v1/info',
+  AGGREGATOR_URL: 'https://jelly-jam.herokuapp.com/api/v1/info',
+  TRACKER_URL: 'jelly-tracker.herokuapp.com',
   SERVER: { PORT: '9000' },
   DATABASE: { ACTIVE: 'SQLITE', SQLITE: { database: 'butler.sqlite' } },
 };

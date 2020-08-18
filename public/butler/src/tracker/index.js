@@ -18,28 +18,29 @@ const ws_1 = require("./ws");
 const emitter_1 = __importDefault(require("../emitter"));
 const utils_1 = require("../utils");
 const config_1 = __importDefault(require("../blockchain/config"));
-exports.default = (wallets) => __awaiter(void 0, void 0, void 0, function* () {
+exports.default = (config) => __awaiter(void 0, void 0, void 0, function* () {
+    const { WALLETS, TRACKER_URL } = config;
     const MINUTES_15 = 15 * 1000 * 60;
-    const lpAddresses = getLpAddresses(wallets);
-    yield processPastEvents(lpAddresses, wallets);
+    const lpAddresses = getLpAddresses(WALLETS);
+    yield processPastEvents(lpAddresses, WALLETS, TRACKER_URL);
     setInterval(() => {
-        processPastEvents(lpAddresses, wallets);
+        processPastEvents(lpAddresses, WALLETS, TRACKER_URL);
     }, MINUTES_15);
-    handleMessage(wallets);
-    ws_1.subscribe();
+    handleMessage(WALLETS);
+    ws_1.subscribe(TRACKER_URL);
 });
 const SWAP_STATUSES = {
     ACTIVE_STATUS: 1,
     WITHDRAWN_STATUS: 3,
     EXPIRED_STATUS: 4,
 };
-const processPastEvents = (lpAddresses, wallets) => __awaiter(void 0, void 0, void 0, function* () {
+const processPastEvents = (lpAddresses, wallets, url) => __awaiter(void 0, void 0, void 0, function* () {
     const past5Days = moment_1.default().subtract(5, 'days').unix();
-    const fetchedWithdraws = yield service_1.fetchWithdraws(lpAddresses, past5Days);
+    const fetchedWithdraws = yield service_1.fetchWithdraws(url, lpAddresses, past5Days);
     const withdraws = getWithdraws(fetchedWithdraws, wallets);
-    const fetchedSwaps = yield service_1.fetchSwaps(lpAddresses, past5Days);
+    const fetchedSwaps = yield service_1.fetchSwaps(url, lpAddresses, past5Days);
     const activeSwaps = getActiveSwaps(fetchedSwaps, wallets);
-    const fetchedExpiredSwaps = yield service_1.fetchExpiredSwaps(lpAddresses);
+    const fetchedExpiredSwaps = yield service_1.fetchExpiredSwaps(url, lpAddresses);
     const expiredSwaps = getExpiredSwaps(fetchedExpiredSwaps, wallets);
     new emitter_1.default().emit('PROCESS_PAST_SWAPS', { withdraws, activeSwaps, expiredSwaps });
 });

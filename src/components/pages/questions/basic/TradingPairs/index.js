@@ -15,6 +15,7 @@ const pairDefaultState = {
   provide: 'ETH',
   receive: 'BTC',
   fee: 0,
+  price: 0,
 };
 
 const TradingPairs = ({ valid, selectedPairs, isButlerStarted, getState }) => {
@@ -55,7 +56,7 @@ const TradingPairs = ({ valid, selectedPairs, isButlerStarted, getState }) => {
 
     Object.keys(selectedPairs).forEach((pair, idx) => {
       const [provide, receive] = pair.split('-').reverse();
-      const { FEE } = selectedPairs[pair];
+      const { FEE, PRICE } = selectedPairs[pair];
 
       const key = provide + '-' + receive;
 
@@ -70,6 +71,7 @@ const TradingPairs = ({ valid, selectedPairs, isButlerStarted, getState }) => {
           provide,
           receive,
           fee: FEE * 100,
+          price: PRICE || 0,
         },
       }));
 
@@ -142,6 +144,21 @@ const TradingPairs = ({ valid, selectedPairs, isButlerStarted, getState }) => {
     }));
   };
 
+  const handlePriceOnChange = (pairId, event) => {
+    event.persist();
+
+    if (!event.target.value) {
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
+
+    setPairs(allPairs => ({
+      ...allPairs,
+      [pairId]: { ...allPairs[pairId], price: event.target.value },
+    }));
+  };
+
   const addNewPair = () => {
     setIsInitialState(false);
 
@@ -181,7 +198,7 @@ const TradingPairs = ({ valid, selectedPairs, isButlerStarted, getState }) => {
 
   return (
     <div className='trading-pairs-wrapper'>
-      <QuestionTitle title='Traiding Pairs' isValid={isValid} />
+      <QuestionTitle title='Trading Pairs' isValid={isValid} />
       {Object.keys(pairs).map((id, idx) => {
         return (
           <PairRow
@@ -193,6 +210,7 @@ const TradingPairs = ({ valid, selectedPairs, isButlerStarted, getState }) => {
             handleProvideOnChange={handleProvideOnChange}
             handleReceiveOnChange={handleReceiveOnChange}
             handleFeeOnChange={handleFeeOnChange}
+            handlePriceOnChange={handlePriceOnChange}
             addNewPair={addNewPair}
             removePair={removePair}
             existingPairs={existingPairs}

@@ -1,10 +1,23 @@
-@import "../../../../../css/constants.scss";
+@import '../../../../../css/constants.scss';
+
+.react-tooltip-lite {
+  background: #333;
+  color: white;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.tip-content {
+  width: 300px;
+
+  p {
+    width: 300px;
+  }
+}
 
 .trading-pairs-wrapper {
   width: 100%;
   min-height: 215px;
-  max-height: 400px;
-  overflow-y: auto;
 
   .pair-row {
     min-width: 100%;
@@ -96,13 +109,12 @@
 
             .assets-list {
               position: relative;
-              top: 86px;
+              top: 96px;
               width: 250px;
               display: flex;
               justify-content: space-between;
-              align-items: center;
               flex-wrap: wrap;
-              height: 120px;
+              height: 150px;
               border-radius: 15px;
               background-color: $bgColor;
               box-shadow: $notFocusedShadow;
@@ -114,6 +126,7 @@
                 width: 70px;
                 display: flex;
                 justify-content: space-evenly;
+                margin-bottom: 5px;
                 align-items: center;
                 box-shadow: $notFocusedShadow;
                 height: 40px;
@@ -126,9 +139,14 @@
       }
 
       .input-fields {
-        width: 28%;
+        width: 38%;
         display: flex;
         justify-content: center;
+
+        .tooltip {
+          margin-left: -5%;
+          cursor: pointer;
+        }
 
         .fee-input {
           display: flex;
@@ -136,13 +154,31 @@
           justify-content: center;
 
           span {
-            margin-right: 17%;
+            margin-right: 6%;
+          }
+
+          input {
+            width: 46%;
+            margin-right: 6%;
+            margin-left: 3%;
+            padding-left: 20%;
+          }
+        }
+
+        .price-input {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          span {
+            margin-right: 3%;
           }
 
           input {
             width: 46%;
             margin-right: 3%;
             margin-left: 3%;
+            padding-left: 20%;
           }
         }
       }

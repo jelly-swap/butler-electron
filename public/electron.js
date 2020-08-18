@@ -144,13 +144,13 @@ ipcMain.on(STOP, event => {
   event.preventDefault();
 });
 
-ipcMain.on(LOAD, event => {
+ipcMain.on(LOAD, (event, defaultConfig) => {
   const configPath = getConfigPath();
 
   fs.readFile(configPath, (err, file) => {
     if (err) {
       log.info('Error reading config', err);
-      event.sender.send('configLoaded', { success: false, config: DEFAULT_CONFIG });
+      event.sender.send('configLoaded', { success: false, config: defaultConfig });
       return;
     }
 
@@ -242,30 +242,4 @@ autoUpdater.on('update-downloaded', info => {
 
 const getConfigPath = () => {
   return `${path.join(app.getPath('userData'), 'config.json')}`;
-};
-
-// DEFAULT CONFIG
-const DEFAULT_CONFIG = {
-  NAME: '',
-  PAIRS: { 'BTC-ETH': { FEE: 0 } },
-  WALLETS: {
-    ETH: {
-      ADDRESS: '',
-      SECRET: '',
-    },
-    BTC: {
-      ADDRESS: '',
-      SECRET: '',
-    },
-  },
-  BLOCKCHAIN_PROVIDER: { INFURA: '' },
-  PRICE: {
-    PROVIDER: 'CryptoCompare',
-    API_KEY: '',
-    UPDATE_INTERVAL: 30,
-  },
-  NOTIFICATIONS: {},
-  AGGREGATOR_URL: 'https://network.jelly.market/api/v1/info',
-  SERVER: { PORT: '9000' },
-  DATABASE: { ACTIVE: 'SQLITE', SQLITE: { database: 'butler.sqlite' } },
 };
