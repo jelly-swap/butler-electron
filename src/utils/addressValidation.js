@@ -23,6 +23,8 @@ export const getNetworkRegex = network => {
       return `^bc1[a-zA-HJ-NP-Z0-9]{${ADDRESSES_LENGTH.BTC.MAX}}$`;
     case 'AE':
       return `^ak_[a-zA-Z0-9]{${ADDRESSES_LENGTH.AE.MIN},${ADDRESSES_LENGTH.AE.MAX}}$`;
+    case 'ONE':
+      return `^one1[a-zA-HJ-NP-Z0-9]`;
     default:
       break;
   }
