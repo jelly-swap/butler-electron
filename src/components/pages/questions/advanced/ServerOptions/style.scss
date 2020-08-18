@@ -5,21 +5,22 @@
   margin-top: 6%;
 
   .server-options {
-    display: flex;
+    display: inline;
     justify-content: space-between;
 
     .aggregator-url-wrapper,
     .port-wrapper {
-      width: 45%;
+      width: 50%;
 
       span {
-        margin-bottom: 30px;
-        display: block;
+        margin-bottom: 8px;
+        display: inline-block;
         text-align: center;
       }
 
       input {
         width: 100%;
+        margin-bottom: 25px;
       }
     }
   }
