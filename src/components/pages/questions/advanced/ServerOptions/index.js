@@ -10,7 +10,10 @@ import { useGetStateFromCP } from '../../../../../hooks/useGetStateFromCP';
 import './style.scss';
 
 const ServerOptions = ({ selectedAggregatorURL, selectedPort, selectedTrackerUrl, isButlerStarted, getState }) => {
-  const [serverOptions, setServerOptions] = useState({});
+  const [serverOptions, setServerOptions] = useState({
+    port: '',
+    aggregatorUrl: '',
+  });
 
   useGetStateFromCP(isButlerStarted, getState, { SERVER_OPTIONS: serverOptions });
 

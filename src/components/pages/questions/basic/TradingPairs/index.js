@@ -71,7 +71,7 @@ const TradingPairs = ({ valid, selectedPairs, isButlerStarted, getState }) => {
           provide,
           receive,
           fee: FEE * 100,
-          price: PRICE,
+          price: PRICE || 0,
         },
       }));
 
@@ -198,9 +198,8 @@ const TradingPairs = ({ valid, selectedPairs, isButlerStarted, getState }) => {
 
   return (
     <div className='trading-pairs-wrapper'>
-      <QuestionTitle title='Traiding Pairs' isValid={isValid} />
+      <QuestionTitle title='Trading Pairs' isValid={isValid} />
       {Object.keys(pairs).map((id, idx) => {
-        console.log(pairs[id]);
         return (
           <PairRow
             key={id}

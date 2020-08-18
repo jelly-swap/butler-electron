@@ -128,7 +128,7 @@ const PairRow = ({
                   </div>
                 }
               >
-                <i class='fas fa-info-circle'></i>
+                <i className='fas fa-info-circle'></i>
               </Tooltip>
             </span>
           </div>
