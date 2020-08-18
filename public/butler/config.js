@@ -25,7 +25,7 @@ exports.default = {
     // You can track your portfolio P&L with this option
     BALANCE_SNAPSHOT_INTERVAL: 3600,
     PRICE: {
-        COINS: ['ETH', 'BTC', 'AE', 'DAI', 'WBTC', 'USDC', 'USDT', 'BTC++'],
+        COINS: ['ETH', 'BTC', 'AE', 'DAI', 'WBTC', 'USDC', 'USDT', 'BTC++', 'ONE'],
     },
     DUPLICATE_PRICE: { DAI: 'USDC', WBTC: 'BTC', 'BTC++': 'BTC' },
     // ================== Binance configuration ==================
@@ -37,6 +37,7 @@ exports.default = {
             AEBTC: true,
             ETHUSDC: true,
             BTCUSDC: true,
+            ONEBTC: true,
         },
         PRECISION: {
             ETH: 3,

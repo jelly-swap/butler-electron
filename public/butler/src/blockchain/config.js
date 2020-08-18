@@ -15,7 +15,7 @@ exports.SECONDARY_NETWORKS = {
 };
 exports.default = () => {
     if (!Config) {
-        Config = process.env.NETWORK === 'testnet' ? config_testnet_1.default : config_mainnet_1.default();
+        Config = process.env.NETWORK === 'testnet' ? config_testnet_1.default() : config_mainnet_1.default();
     }
     return Config;
 };

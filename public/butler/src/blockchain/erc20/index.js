@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const erc20_1 = require("@jelly-swap/erc20");
-const providers_1 = require("@jelly-swap/ethereum/dist/providers");
+const providers_1 = require("@jelly-swap/ethereum/dist/src/providers");
 const math_1 = require("../../utils/math");
 class Erc20Contract extends erc20_1.Contract {
     constructor(config) {

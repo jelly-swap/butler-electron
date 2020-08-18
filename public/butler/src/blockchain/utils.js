@@ -31,8 +31,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PK_MATCH_ADDRESS = exports.aeAddressMatch = exports.btcAddressMatch = exports.ethAddressMatch = exports.sleep = exports.compareAddress = void 0;
+exports.PK_MATCH_ADDRESS = exports.aeAddressMatch = exports.oneAddressMatch = exports.btcAddressMatch = exports.ethAddressMatch = exports.sleep = exports.compareAddress = void 0;
 const utils_1 = require("@jelly-swap/utils");
+const adapters_1 = __importDefault(require("./adapters"));
 // Ethereum
 const ethers_1 = require("ethers");
 //Bitcoin
@@ -42,6 +43,8 @@ const btc_provider_1 = __importDefault(require("@jelly-swap/btc-provider"));
 const aepp_sdk_1 = require("@aeternity/aepp-sdk");
 const nacl = __importStar(require("tweetnacl"));
 const config_1 = require("./config");
+// Harmony
+const providers_1 = require("@jelly-swap/harmony/dist/src/providers");
 exports.compareAddress = (a1, a2) => {
     return a1.toLowerCase() === a2.toLowerCase();
 };
@@ -49,17 +52,22 @@ exports.sleep = (msec) => {
     return new Promise((resolve) => setTimeout(resolve, msec));
 };
 exports.ethAddressMatch = (privateKey, address) => __awaiter(void 0, void 0, void 0, function* () {
-    return ethers_1.utils.computeAddress(utils_1.fixHash(privateKey, true)).toLowerCase() === address.toLowerCase();
+    return exports.compareAddress(ethers_1.utils.computeAddress(utils_1.fixHash(privateKey, true)), address);
 });
 exports.btcAddressMatch = (mnemonic, address) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const wallet = new btc_web_wallet_1.default(mnemonic, new btc_provider_1.default(''));
         const btcAddress = yield wallet.getWalletAddress(address);
-        return btcAddress.address.toLowerCase() === address.toLowerCase();
+        return exports.compareAddress(btcAddress.address, address);
     }
     catch (err) {
         return false;
     }
+});
+exports.oneAddressMatch = (privateKey, address) => __awaiter(void 0, void 0, void 0, function* () {
+    const wallet = new providers_1.WalletProvider(undefined, privateKey).addByPrivateKey(privateKey);
+    const bech32Address = adapters_1.default()['ONE'].parseAddress(wallet.address);
+    return exports.compareAddress(address, bech32Address);
 });
 exports.aeAddressMatch = (privateKey, address) => __awaiter(void 0, void 0, void 0, function* () {
     const keys = nacl.sign.keyPair.fromSecretKey(Buffer.from(privateKey, 'hex'));
@@ -72,5 +80,5 @@ const getErc20Matcher = () => {
         return object;
     }, {});
 };
-exports.PK_MATCH_ADDRESS = Object.assign(Object.assign({}, getErc20Matcher()), { ETH: exports.ethAddressMatch, BTC: exports.btcAddressMatch, AE: exports.aeAddressMatch });
+exports.PK_MATCH_ADDRESS = Object.assign(Object.assign({}, getErc20Matcher()), { ETH: exports.ethAddressMatch, BTC: exports.btcAddressMatch, AE: exports.aeAddressMatch, ONE: exports.oneAddressMatch });
 //# sourceMappingURL=utils.js.map

@@ -8,12 +8,15 @@ const ws_1 = __importDefault(require("ws"));
 const emitter_1 = __importDefault(require("../emitter"));
 const logger_1 = require("../logger");
 let ws = null;
-exports.subscribe = () => {
+exports.subscribe = (url) => {
     if (!ws) {
-        ws = new ws_1.default('wss://jelly-tracker.herokuapp.com/subscribe');
+        ws = new ws_1.default(`wss://${url}/subscribe`);
         ws.onopen = () => {
             logger_1.logDebug('WS_OPENED');
         };
+        ws.on('error', (err) => {
+            logger_1.logDebug(`WS_ERROR ${err}`);
+        });
         ws.onmessage = (event) => {
             logger_1.logDebug(`WS_EVENT: `, event.data);
             new emitter_1.default().emit('WS_EVENT', event.data);
@@ -22,7 +25,7 @@ exports.subscribe = () => {
             logger_1.logDebug('WS_OPENED');
             ws = null;
             setTimeout(() => {
-                exports.subscribe();
+                exports.subscribe(url);
             }, 5000);
         };
     }
