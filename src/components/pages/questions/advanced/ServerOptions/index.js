@@ -13,6 +13,7 @@ const ServerOptions = ({ selectedAggregatorURL, selectedPort, selectedTrackerUrl
   const [serverOptions, setServerOptions] = useState({
     port: '',
     aggregatorUrl: '',
+    trackerUrl: '',
   });
 
   useGetStateFromCP(isButlerStarted, getState, { SERVER_OPTIONS: serverOptions });
