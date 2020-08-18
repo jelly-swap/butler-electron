@@ -111,13 +111,12 @@
 
             .assets-list {
               position: relative;
-              top: 86px;
+              top: 96px;
               width: 250px;
               display: flex;
               justify-content: space-between;
-              align-items: center;
               flex-wrap: wrap;
-              height: 120px;
+              height: 150px;
               border-radius: 15px;
               background-color: $bgColor;
               box-shadow: $notFocusedShadow;
@@ -129,6 +128,7 @@
                 width: 70px;
                 display: flex;
                 justify-content: space-evenly;
+                margin-bottom: 5px;
                 align-items: center;
                 box-shadow: $notFocusedShadow;
                 height: 40px;
