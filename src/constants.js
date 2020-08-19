@@ -106,8 +106,11 @@ export const REGEX_FOR_EMAIL = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&
 export const MIN_WORDS_FOR_VALID_SEED = 12;
 export const MAX_WORDS_FOR_VALID_SEED = 24;
 
+export const CONFIG_VERSION = 1;
+
 export const DEFAULT_CONFIG = {
   NAME: '',
+  VERSION: CONFIG_VERSION,
   PAIRS: { 'BTC-ETH': { FEE: 0, PRICE: 0 } },
   WALLETS: {
     ETH: {

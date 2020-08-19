@@ -8,14 +8,29 @@ import TrackerURL from './TrackerURL';
 import { useGetStateFromCP } from '../../../../../hooks/useGetStateFromCP';
 
 import './style.scss';
+import { CONFIG_VERSION } from '../../../../../constants';
 
-const ServerOptions = ({ selectedAggregatorURL, selectedPort, selectedTrackerUrl, isButlerStarted, getState }) => {
+const ServerOptions = ({
+  version,
+  selectedAggregatorURL,
+  selectedPort,
+  selectedTrackerUrl,
+  isButlerStarted,
+  getState,
+}) => {
+  if (version !== CONFIG_VERSION) {
+    selectedPort = '9000';
+    selectedAggregatorURL = 'https://network.weidex.market/api/v1/info';
+    selectedTrackerUrl = 'tracker.weidex.market';
+  }
+
   const [serverOptions, setServerOptions] = useState({
     port: '',
     aggregatorUrl: '',
     trackerUrl: '',
   });
 
+  useGetStateFromCP(isButlerStarted, getState, { VERSION: CONFIG_VERSION });
   useGetStateFromCP(isButlerStarted, getState, { SERVER_OPTIONS: serverOptions });
 
   useEffect(() => {

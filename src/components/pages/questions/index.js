@@ -33,6 +33,7 @@ const { ipcRenderer } = window.require('electron');
 let [enteredPassword, isAppOpenForFirstTime] = ['', true];
 
 const Questions = () => {
+  const [version, setVersion] = useState();
   const [writeConfig, setWriteConfig] = useState({});
   const [readConfig, setReadConfig] = useState({});
   const [validatedConfig, setValidatedConfig] = useState({});
@@ -80,6 +81,7 @@ const Questions = () => {
   // SAVE CFG
 
   new Emitter().on('CONFIG_LOADED', config => {
+    setVersion(config.VERSION || 0);
     setReadConfig(config);
   });
 
@@ -190,6 +192,7 @@ const Questions = () => {
           >
             <Database selectedDatabase={readConfig.DATABASE} isButlerStarted={isButlerStarted} getState={getState} />
             <ServerOptions
+              version={version}
               selectedAggregatorURL={readConfig.AGGREGATOR_URL}
               selectedPort={readConfig.SERVER && readConfig.SERVER.PORT}
               selectedTrackerUrl={readConfig.TRACKER_URL}

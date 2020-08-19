@@ -3,6 +3,7 @@ import { encryptPrivateKeys } from './managePrivateKeys';
 export const generateConfig = (config, password, encrypt = true) => {
   return {
     NAME: config.NAME,
+    VERSION: config.VERSION,
     PAIRS: getPairs(config.PAIRS),
     WALLETS: getWallets(config.WALLETS, password, encrypt),
     ...(config.BLOCKCHAIN_PROVIDER &&
