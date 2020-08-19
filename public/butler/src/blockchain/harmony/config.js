@@ -10,7 +10,7 @@ exports.default = () => {
     const userConfig = new config_1.default().getUserConfig();
     const address = utils_1.safeAccess(userConfig, ['WALLETS', 'ONE', 'ADDRESS']);
     const secret = utils_1.safeAccess(userConfig, ['WALLETS', 'ONE', 'SECRET']);
-    const config = Object.assign(Object.assign({}, harmony_1.Config(7200)), { providerUrl: 'https://api.s0.t.hmny.io', contractAddress: '0x381a5b682D3e143DCADc0C42912CB97BED501919', explorer: 'https://explorer.harmony.one/#/tx/', REFUND_PERIOD: 10, VALID_EXPIRATION: 72000 });
+    const config = Object.assign(Object.assign({}, harmony_1.Config(7200)), { providerUrl: 'https://api.s0.t.hmny.io', contractAddress: '0x381a5b682D3e143DCADc0C42912CB97BED501919', explorer: 'https://explorer.harmony.one/#/tx/', chainId: 1, REFUND_PERIOD: 10, VALID_EXPIRATION: 72000 });
     if (address && secret) {
         return Object.assign(Object.assign({}, config), { receiverAddress: address, PRIVATE_KEY: secret });
     }
