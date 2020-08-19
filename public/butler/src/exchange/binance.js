@@ -12,12 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const config_1 = __importDefault(require("../../config"));
 const node_binance_api_1 = __importDefault(require("node-binance-api"));
 const math_1 = require("../utils/math");
 const logger_1 = require("../logger");
-const config_2 = __importDefault(require("../../config"));
 const utils_1 = require("../utils");
+const config_1 = __importDefault(require("../blockchain/config"));
+const config_2 = __importDefault(require("../../config"));
 const config_3 = __importDefault(require("../config"));
 const ORDER_TYPE_TO_LABEL = {
     marketBuy: 'BUY',
@@ -95,7 +95,7 @@ class BinanceExchange {
     fixPrecision(quote, quantity) {
         const precision = utils_1.safeAccess(config_2.default, ['BINANCE', 'PRECISION', quote]);
         if (precision) {
-            return math_1.toFixed(math_1.divDecimals(quantity, config_1.default[quote].decimals), precision);
+            return math_1.toFixed(math_1.divDecimals(quantity, config_1.default()[quote].decimals), precision);
         }
     }
     getPrices(quotes, bases) {
@@ -121,8 +121,8 @@ class BinanceExchange {
                                     }
                                 }
                             }
-                            Object.keys(config_1.default.DUPLICATE_PRICE).forEach((t) => {
-                                const d = config_1.default.DUPLICATE_PRICE[t];
+                            Object.keys(config_2.default.DUPLICATE_PRICE).forEach((t) => {
+                                const d = config_2.default.DUPLICATE_PRICE[t];
                                 Object.keys(prices).forEach((p) => {
                                     const duplicate = p.replace(new RegExp('\\b' + d + '\\b'), t);
                                     prices[duplicate] = prices[p];
@@ -145,16 +145,16 @@ class BinanceExchange {
         });
     }
     formatOrder(order) {
-        const quote = config_1.default.DUPLICATE_PRICE[order.quote] || order.quote;
-        const base = config_1.default.DUPLICATE_PRICE[order.base] || order.base;
-        if (config_1.default.BINANCE.PAIRS[quote + base]) {
+        const quote = config_2.default.DUPLICATE_PRICE[order.quote] || order.quote;
+        const base = config_2.default.DUPLICATE_PRICE[order.base] || order.base;
+        if (config_2.default.BINANCE.PAIRS[quote + base]) {
             return {
                 type: 'marketBuy',
                 pair: quote + base,
                 quantity: order.buy,
             };
         }
-        else if (config_1.default.BINANCE.PAIRS[base + quote]) {
+        else if (config_2.default.BINANCE.PAIRS[base + quote]) {
             return {
                 type: 'marketSell',
                 pair: base + quote,
