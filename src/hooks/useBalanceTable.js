@@ -6,7 +6,7 @@ import { useHttpGet } from './useHttpGet';
 const balanceEndpoint = '/api/v1/balanceAll';
 
 export const useBalanceTable = isServerStarted => {
-  const httpResponse = useHttpGet(balanceEndpoint, isServerStarted);
+  const httpResponse = useHttpGet(balanceEndpoint, isServerStarted, true);
 
   const data = useMemo(() => {
     if (httpResponse.isLoading) {
