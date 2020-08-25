@@ -2,8 +2,10 @@ import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
 import { useServerPort } from '../context/ServerPortContext';
 
-export const useHttpGet = (endPoint, isServerStarted) => {
+export const useHttpGet = (endPoint, isServerStarted, isPeriodically) => {
   const isRendered = useRef();
+  const timerRef = useRef();
+
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState();
 
@@ -36,10 +38,17 @@ export const useHttpGet = (endPoint, isServerStarted) => {
 
     getData();
 
+    if (isPeriodically) {
+      timerRef.current = setInterval(() => {
+        getData();
+      }, 10000);
+    }
+
     return () => {
       isRendered.current = false;
+      clearInterval(timerRef.current);
     };
-  }, [endPoint, isServerStarted]);
+  }, [endPoint, isServerStarted, isPeriodically]);
 
   return {
     isLoading,
