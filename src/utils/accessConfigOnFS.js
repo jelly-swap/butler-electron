@@ -13,9 +13,9 @@ export const readCFGFromFS = password =>
     }
 
     try {
-      ipcRenderer.send('loadConfig', DEFAULT_CONFIG);
+      ipcRenderer.send('load-config', DEFAULT_CONFIG);
 
-      ipcRenderer.once('configLoaded', (__message, { success, config }) => {
+      ipcRenderer.once('config-loaded', (__message, { success, config }) => {
         // IF success is false we load DEFAULT_CONFIG
 
         if (!success) {
@@ -92,7 +92,7 @@ export const writeCFGOnFS = (config, password) =>
       return;
     }
 
-    ipcRenderer.send('saveConfig', encryptedConfig);
+    ipcRenderer.send('save-config', encryptedConfig);
 
     ipcRenderer.send('start-butler', JSON.stringify(plainConfig));
 

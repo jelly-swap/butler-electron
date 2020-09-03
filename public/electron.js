@@ -19,7 +19,7 @@ log.transports.file.file = `${path.join(app.getPath('userData'), 'butler-electro
 const combinedLog = `${path.join(app.getPath('userData'), 'butler-combined.log')}`;
 const errorLog = `${path.join(app.getPath('userData'), 'butler-error.log')}`;
 
-let mainWindow, butler;
+let mainWindow, butler, globalConfig;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -80,20 +80,14 @@ app.on('activate', () => {
 const BUTLER_EVENTS = {
   START: 'start-butler',
   STOP: 'stop-butler',
-  SAVE: 'saveConfig',
-  LOAD: 'loadConfig',
-  DELETE: 'deleteConfig',
+  SAVE: 'save-config',
+  LOAD: 'load-config',
+  LOADED: 'config-loaded',
+  DIED: 'butler-died',
+  ALIVE: 'butler-alive',
 };
 
-const { START, STOP, SAVE, LOAD, DELETE } = BUTLER_EVENTS;
-
-ipcMain.on(DELETE, (event, config) => {
-  const configPath = getConfigPath();
-
-  fs.unlink(configPath, () => {
-    console.log('file deleted correctly');
-  });
-});
+const { START, STOP, SAVE, LOAD, ALIVE, DIED, LOADED } = BUTLER_EVENTS;
 
 ipcMain.on(START, (event, config) => {
   if (!butler) {
@@ -108,6 +102,7 @@ ipcMain.on(START, (event, config) => {
     }
 
     butler = fork(butlerPath, [JSON.stringify(_config), combinedLog, errorLog], { execPath: process.execPath });
+    globalConfig = config;
 
     butler.on('message', msg => {
       if (event && event.sender && event.sender.send) {
@@ -144,13 +139,21 @@ ipcMain.on(STOP, event => {
   event.preventDefault();
 });
 
+ipcMain.on(ALIVE, event => {
+  if (butler && !butler.connected) {
+    butler.kill();
+    butler = null;
+    event.sender.send(DIED, { globalConfig });
+  }
+});
+
 ipcMain.on(LOAD, (event, defaultConfig) => {
   const configPath = getConfigPath();
 
   fs.readFile(configPath, (err, file) => {
     if (err) {
       log.info('Error reading config', err);
-      event.sender.send('configLoaded', { success: false, config: defaultConfig });
+      event.sender.send(LOADED, { success: false, config: defaultConfig });
       return;
     }
 
@@ -162,7 +165,7 @@ ipcMain.on(LOAD, (event, defaultConfig) => {
       fileToUse = JSON.stringify({});
     }
 
-    event.sender.send('configLoaded', { success: true, config: JSON.parse(fileToUse) });
+    event.sender.send(LOADED, { success: true, config: JSON.parse(fileToUse) });
   });
 
   event.preventDefault();
