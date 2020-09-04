@@ -54,7 +54,8 @@ class BalanceService {
                         }
                     }
                     catch (err) {
-                        logger_1.logDebug(`CANNOT_GET_BALANCES`, { network, err });
+                        logger_1.logDebug(`CANNOT_GET_BALANCES ${network} ${err}`);
+                        logger_1.logDebug(`CANNOT_GET_BALANCES`, err);
                     }
                 }
             }

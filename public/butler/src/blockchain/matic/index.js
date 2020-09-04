@@ -9,19 +9,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const harmony_1 = require("@jelly-swap/harmony");
-const providers_1 = require("@jelly-swap/harmony/dist/src/providers");
+const matic_1 = require("@jelly-swap/matic");
+const providers_1 = require("@jelly-swap/matic/dist/src/providers");
 const math_1 = require("../../utils/math");
-class EthereumContract extends harmony_1.Contract {
+class EthereumContract extends matic_1.Contract {
     constructor(config) {
-        const _wallet = new providers_1.WalletProvider(config.providerUrl, config.chainId, config.PRIVATE_KEY);
+        const _wallet = new providers_1.WalletProvider(config.PRIVATE_KEY, config);
         super(_wallet, config);
         this.wallet = _wallet;
     }
     // TODO: Implement message signing.
-    // async signMessage(message: string) {
-    // return await this.wallet.signMessage(message);
-    // }
+    signMessage(message) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.wallet.signMessage(message);
+        });
+    }
     userWithdraw(swap, secret) {
         const _super = Object.create(null, {
             getBalance: { get: () => super.getBalance },

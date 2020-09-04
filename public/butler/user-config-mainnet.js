@@ -53,6 +53,11 @@ exports.default = {
             // Ethereum Private Key
             SECRET: '',
         },
+        MATIC: {
+            ADDRESS: '',
+            // Matic Private Key
+            SECRET: '',
+        },
     },
     // BLOCKCHAIN PROVIDER
     BLOCKCHAIN_PROVIDER: {
