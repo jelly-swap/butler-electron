@@ -36,4 +36,3 @@ exports.applyRoutes = (routes, router) => {
         });
     });
 };
-//# sourceMappingURL=utils.js.map

@@ -63,4 +63,3 @@ exports.getNetworkContracts = () => {
     return NetworkContracts;
 };
 exports.default = getContracts;
-//# sourceMappingURL=contracts.js.map

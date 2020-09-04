@@ -122,4 +122,3 @@ class InfoService {
     }
 }
 exports.default = InfoService;
-//# sourceMappingURL=service.js.map

@@ -23,4 +23,3 @@ exports.default = () => {
     const supportedNetworks = supportedNetworks_1.default();
     return Object.assign({ BTC: supportedNetworks['BTC'] && config_1.default(), ETH: supportedNetworks['ETH'] && config_2.default(), AE: supportedNetworks['AE'] && config_3.default(), ONE: supportedNetworks['ONE'] && config_5.default(), MATIC: supportedNetworks['MATIC'] && config_6.default() }, getErc20Configs(supportedNetworks));
 };
-//# sourceMappingURL=config-mainnet.js.map

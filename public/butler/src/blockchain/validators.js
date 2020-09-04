@@ -33,4 +33,3 @@ const getErc20Validators = () => {
     }, {});
 };
 exports.default = Object.assign({ BTC: BitcoinValidator, ETH: EthereumValidator, AE: AeternityValidator, ONE: HarmonyValidator, MATIC: MaticValidator }, getErc20Validators());
-//# sourceMappingURL=validators.js.map

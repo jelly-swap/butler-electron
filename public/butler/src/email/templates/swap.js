@@ -86,4 +86,3 @@ const getContent = (swap) => {
 
 </html>`;
 };
-//# sourceMappingURL=swap.js.map

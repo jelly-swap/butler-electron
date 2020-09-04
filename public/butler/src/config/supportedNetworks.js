@@ -21,4 +21,3 @@ exports.default = () => {
         return result;
     }, {});
 };
-//# sourceMappingURL=supportedNetworks.js.map

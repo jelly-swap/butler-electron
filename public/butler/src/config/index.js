@@ -33,4 +33,3 @@ class UserConfig {
     }
 }
 exports.default = UserConfig;
-//# sourceMappingURL=index.js.map

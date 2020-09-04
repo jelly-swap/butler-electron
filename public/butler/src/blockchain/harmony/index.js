@@ -39,4 +39,3 @@ class EthereumContract extends harmony_1.Contract {
     }
 }
 exports.default = EthereumContract;
-//# sourceMappingURL=index.js.map

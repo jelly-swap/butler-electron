@@ -81,4 +81,3 @@ const getErc20Matcher = () => {
     }, {});
 };
 exports.PK_MATCH_ADDRESS = Object.assign(Object.assign({}, getErc20Matcher()), { ETH: exports.ethAddressMatch, BTC: exports.btcAddressMatch, AE: exports.aeAddressMatch, ONE: exports.oneAddressMatch, MATIC: exports.ethAddressMatch });
-//# sourceMappingURL=utils.js.map

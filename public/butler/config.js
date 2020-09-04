@@ -52,4 +52,3 @@ exports.default = {
         },
     },
 };
-//# sourceMappingURL=config.js.map

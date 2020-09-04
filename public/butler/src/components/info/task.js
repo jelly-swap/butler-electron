@@ -29,4 +29,3 @@ class InfoTask {
     }
 }
 exports.default = InfoTask;
-//# sourceMappingURL=task.js.map

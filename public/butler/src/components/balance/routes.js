@@ -15,4 +15,3 @@ exports.default = [
         action: 'getAllBalances',
     },
 ];
-//# sourceMappingURL=routes.js.map

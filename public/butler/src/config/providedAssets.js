@@ -17,4 +17,3 @@ exports.default = () => {
         return result;
     }, {});
 };
-//# sourceMappingURL=providedAssets.js.map

@@ -30,4 +30,3 @@ exports.startHandlers = () => __awaiter(void 0, void 0, void 0, function* () {
         yield refundHandler.processRefunds(expiredSwaps);
     }));
 });
-//# sourceMappingURL=index.js.map

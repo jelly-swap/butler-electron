@@ -41,4 +41,3 @@ class EthereumContract extends matic_1.Contract {
     }
 }
 exports.default = EthereumContract;
-//# sourceMappingURL=index.js.map

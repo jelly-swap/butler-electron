@@ -7,4 +7,3 @@ exports.safeAccess = (object, path) => {
         : null;
 };
 exports.cmpIgnoreCase = (a1, a2) => (a1 === null || a1 === void 0 ? void 0 : a1.toLowerCase()) === (a2 === null || a2 === void 0 ? void 0 : a2.toLowerCase());
-//# sourceMappingURL=index.js.map

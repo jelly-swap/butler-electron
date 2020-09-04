@@ -164,4 +164,3 @@ class BinanceExchange {
     }
 }
 exports.default = BinanceExchange;
-//# sourceMappingURL=binance.js.map

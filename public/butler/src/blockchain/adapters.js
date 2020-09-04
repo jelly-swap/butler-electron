@@ -43,4 +43,3 @@ exports.default = () => {
     }
     return Adapters;
 };
-//# sourceMappingURL=adapters.js.map

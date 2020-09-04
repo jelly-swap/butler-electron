@@ -82,4 +82,3 @@ const validateAddresses = (config) => __awaiter(void 0, void 0, void 0, function
     }
     return true;
 });
-//# sourceMappingURL=run.js.map

@@ -9,4 +9,3 @@ exports.default = [
         action: 'withdraw',
     },
 ];
-//# sourceMappingURL=routes.js.map

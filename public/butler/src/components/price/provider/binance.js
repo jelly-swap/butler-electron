@@ -28,4 +28,3 @@ class BinanceProvider {
     }
 }
 exports.default = BinanceProvider;
-//# sourceMappingURL=binance.js.map

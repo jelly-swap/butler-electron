@@ -76,4 +76,3 @@ const getContent = (withdraw) => {
 
 </html>`;
 };
-//# sourceMappingURL=withdraw.js.map

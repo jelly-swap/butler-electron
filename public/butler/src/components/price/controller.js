@@ -22,4 +22,3 @@ class PriceController {
     }
 }
 exports.PriceController = PriceController;
-//# sourceMappingURL=controller.js.map

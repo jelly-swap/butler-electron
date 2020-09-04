@@ -66,4 +66,3 @@ const getContent = (refund) => {
 
 </html>`;
 };
-//# sourceMappingURL=refund.js.map

@@ -42,4 +42,3 @@ Balance = __decorate([
     __metadata("design:paramtypes", [String, Number, Number])
 ], Balance);
 exports.default = Balance;
-//# sourceMappingURL=balance.js.map

@@ -32,4 +32,3 @@ class AeternityContract extends aeternity_1.Contract {
     }
 }
 exports.default = AeternityContract;
-//# sourceMappingURL=index.js.map

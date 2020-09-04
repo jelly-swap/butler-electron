@@ -18,4 +18,3 @@ exports.default = () => {
         throw new Error('ONE ADDRESS and SECRET are missing.');
     }
 };
-//# sourceMappingURL=config.js.map

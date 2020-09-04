@@ -27,4 +27,3 @@ exports.default = (port = process.env.PORT || 8080) => __awaiter(void 0, void 0,
         logger_1.logData(`Server started on port ${server.address().port}`);
     });
 });
-//# sourceMappingURL=index.js.map

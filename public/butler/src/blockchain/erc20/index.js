@@ -36,4 +36,3 @@ class Erc20Contract extends erc20_1.Contract {
     }
 }
 exports.default = Erc20Contract;
-//# sourceMappingURL=index.js.map

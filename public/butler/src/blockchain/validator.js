@@ -178,4 +178,3 @@ function isInputPriceValid(swap) {
         return false;
     }
 }
-//# sourceMappingURL=validator.js.map

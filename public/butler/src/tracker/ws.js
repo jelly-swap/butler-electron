@@ -30,4 +30,3 @@ exports.subscribe = (url) => {
         };
     }
 };
-//# sourceMappingURL=ws.js.map
