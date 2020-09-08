@@ -44,4 +44,3 @@ class BalanceRepository {
     }
 }
 exports.default = BalanceRepository;
-//# sourceMappingURL=repository.js.map

@@ -27,4 +27,3 @@ class BalanceController {
     }
 }
 exports.BalanceController = BalanceController;
-//# sourceMappingURL=controller.js.map

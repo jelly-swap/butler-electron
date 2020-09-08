@@ -9,4 +9,3 @@ exports.default = [
         action: 'getInfo',
     },
 ];
-//# sourceMappingURL=routes.js.map

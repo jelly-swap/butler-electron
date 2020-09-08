@@ -5,6 +5,7 @@ exports.default = {
         ETH: true,
         BTC: true,
         AE: true,
+        MATIC: true,
         DAI: true,
         USDC: true,
         WBTC: true,
@@ -25,7 +26,7 @@ exports.default = {
     // You can track your portfolio P&L with this option
     BALANCE_SNAPSHOT_INTERVAL: 3600,
     PRICE: {
-        COINS: ['ETH', 'BTC', 'AE', 'DAI', 'WBTC', 'USDC', 'USDT', 'BTC++', 'ONE'],
+        COINS: ['ETH', 'BTC', 'AE', 'DAI', 'WBTC', 'USDC', 'USDT', 'BTC++', 'ONE', 'MATIC'],
     },
     DUPLICATE_PRICE: { DAI: 'USDC', WBTC: 'BTC', 'BTC++': 'BTC' },
     // ================== Binance configuration ==================
@@ -43,10 +44,11 @@ exports.default = {
             ETH: 3,
             BTC: 4,
             AE: 1,
+            MATIC: 1,
+            ONE: 1,
             USDT: 4,
             USDC: 4,
             DAI: 4,
         },
     },
 };
-//# sourceMappingURL=config.js.map

@@ -50,4 +50,3 @@ function getErc20Configs(supportedNetworks) {
 function Erc20Config(token) {
     return Object.assign(Object.assign(Object.assign({}, erc20_1.Config(TokenConfig, AddressToToken, 86400)), TokenConfig[token]), { providerUrl: 'https://ropsten.infura.io/v3/8fe4fc9626494d238879981936dbf144', contractAddress: '0x66ea49fd943544d59e14d1bd9107217c7503906a', explorer: 'https://ropsten.etherscan.io/tx/', estimation: 600, timestampUnix: true, REFUND_PERIOD: 10, VALID_EXPIRATION: 72000 });
 }
-//# sourceMappingURL=config-testnet.js.map

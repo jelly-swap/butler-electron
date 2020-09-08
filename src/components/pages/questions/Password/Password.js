@@ -41,7 +41,7 @@ export const Password = ({ submitModal }) => {
         return;
       }
       case 3: {
-        ipcRenderer.send('saveConfig', DEFAULT_CONFIG);
+        ipcRenderer.send('save-config', DEFAULT_CONFIG);
         return;
       }
       case 4: {

@@ -33,4 +33,3 @@ const baseFormat = [
 ];
 exports.fileFormat = winston_1.format.combine(...baseFormat);
 exports.consoleFormat = winston_1.format.combine(winston_1.format.colorize(), ...baseFormat);
-//# sourceMappingURL=config.js.map

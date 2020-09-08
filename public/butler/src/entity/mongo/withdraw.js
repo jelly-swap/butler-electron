@@ -63,4 +63,3 @@ Withdraw = __decorate([
     __metadata("design:paramtypes", [String, String, String, String, String, String, String])
 ], Withdraw);
 exports.default = Withdraw;
-//# sourceMappingURL=withdraw.js.map

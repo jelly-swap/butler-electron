@@ -9,4 +9,3 @@ exports.default = {
     Binance: binance_1.default,
     mock: mock_1.default,
 };
-//# sourceMappingURL=exchanges.js.map

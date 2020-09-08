@@ -24,6 +24,7 @@ const EthereumValidator = __importStar(require("./ethereum/validator"));
 const AeternityValidator = __importStar(require("./aeternity/validator"));
 const Erc20Validator = __importStar(require("./erc20/validator"));
 const HarmonyValidator = __importStar(require("./harmony/validator"));
+const MaticValidator = __importStar(require("./matic/validator"));
 const config_1 = require("./config");
 const getErc20Validators = () => {
     return Object.keys(config_1.SECONDARY_NETWORKS).reduce((object, token) => {
@@ -31,5 +32,4 @@ const getErc20Validators = () => {
         return object;
     }, {});
 };
-exports.default = Object.assign({ BTC: BitcoinValidator, ETH: EthereumValidator, AE: AeternityValidator, ONE: HarmonyValidator }, getErc20Validators());
-//# sourceMappingURL=validators.js.map
+exports.default = Object.assign({ BTC: BitcoinValidator, ETH: EthereumValidator, AE: AeternityValidator, ONE: HarmonyValidator, MATIC: MaticValidator }, getErc20Validators());

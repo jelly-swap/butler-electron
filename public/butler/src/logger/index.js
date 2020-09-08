@@ -42,4 +42,3 @@ const log = (level, msg, data) => {
     }
 };
 exports.default = logger;
-//# sourceMappingURL=index.js.map

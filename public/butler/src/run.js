@@ -28,6 +28,7 @@ const user_config_1 = __importDefault(require("../user-config"));
 const database_1 = __importDefault(require("./config/database"));
 const config_1 = __importDefault(require("./config"));
 const utils_2 = require("./blockchain/utils");
+const config_2 = require("./blockchain/config");
 exports.run = (config = user_config_1.default, combinedFile, errorFile) => {
     logger_1.setLoggerConfig(combinedFile, errorFile);
     new config_1.default().setUserConfig(config);
@@ -59,7 +60,7 @@ const validateAddresses = (config) => __awaiter(void 0, void 0, void 0, function
     const ethAddress = (_b = (_a = config.WALLETS) === null || _a === void 0 ? void 0 : _a.ETH) === null || _b === void 0 ? void 0 : _b.ADDRESS;
     for (const network in config.WALLETS) {
         const { ADDRESS, SECRET } = config.WALLETS[network];
-        if (network !== 'ETH' && ethAddress && utils_2.compareAddress(ethAddress, ADDRESS)) {
+        if (network !== 'ETH' && ethAddress && config_2.SECONDARY_NETWORKS[network] && utils_2.compareAddress(ethAddress, ADDRESS)) {
             logger_1.logError('It is not allowed to have the same wallet for ETH and any ERC20');
             return false;
         }
@@ -81,4 +82,3 @@ const validateAddresses = (config) => __awaiter(void 0, void 0, void 0, function
     }
     return true;
 });
-//# sourceMappingURL=run.js.map

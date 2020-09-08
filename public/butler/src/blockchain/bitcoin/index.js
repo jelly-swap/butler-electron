@@ -42,4 +42,3 @@ class BitcoinContract extends bitcoin_1.Contract {
     }
 }
 exports.default = BitcoinContract;
-//# sourceMappingURL=index.js.map

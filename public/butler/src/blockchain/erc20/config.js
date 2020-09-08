@@ -47,4 +47,3 @@ exports.default = (token) => {
         throw new Error(`${token} ADDRESS and SECRET are missing.`);
     }
 };
-//# sourceMappingURL=config.js.map

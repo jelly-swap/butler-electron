@@ -10,6 +10,7 @@ import BalanceOf from './balanceOf';
 
 import { useChannel } from '../../../hooks/useChannel';
 import { useBalanceTable } from '../../../hooks/useBalanceTable';
+const { ipcRenderer } = window.require('electron');
 
 const ALLOWED_MESSAGES = ['DATA', 'ERROR'];
 const MAX_LOGS = 9999;
@@ -25,6 +26,29 @@ const ServerONPages = () => {
   const [isServerStarted, setIsServerStarted] = useState(false);
 
   const { data } = useChannel('data');
+
+  useEffect(() => {
+    const checkIfAlive = () => {
+      ipcRenderer.send('butler-alive');
+    };
+
+    setInterval(() => {
+      checkIfAlive();
+    }, 60000);
+  }, []);
+
+  useEffect(() => {
+    ipcRenderer.on('butler-died', (__message, { globalConfig }) => {
+      setTerminalData(terminalData => [
+        ...terminalData,
+        { now: getCurrentDate(), info: ': Restarting...', id: uuidv4(), msgType: 'DATA' },
+      ]);
+
+      ipcRenderer.send('start-butler', globalConfig);
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const messageType = getMessageType(data);

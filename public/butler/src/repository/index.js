@@ -26,4 +26,3 @@ exports.default = {
         balance: () => typeorm_1.getRepository(balance_1.default),
     },
 };
-//# sourceMappingURL=index.js.map

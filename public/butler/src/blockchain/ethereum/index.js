@@ -40,4 +40,3 @@ class EthereumContract extends ethereum_1.Contract {
     }
 }
 exports.default = EthereumContract;
-//# sourceMappingURL=index.js.map

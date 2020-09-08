@@ -17,4 +17,3 @@ exports.validateWithdraw = (__withdraw) => __awaiter(void 0, void 0, void 0, fun
     //If the withdraw event is triggered the withdraw is valid, No validation logic is needed
     return true;
 });
-//# sourceMappingURL=validator.js.map

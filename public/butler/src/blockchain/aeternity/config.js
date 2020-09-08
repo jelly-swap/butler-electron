@@ -21,4 +21,3 @@ exports.default = () => {
         throw new Error('Aeternity ADDRESS and SECRET are missing.');
     }
 };
-//# sourceMappingURL=config.js.map

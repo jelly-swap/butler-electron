@@ -93,4 +93,3 @@ Swap = __decorate([
     __metadata("design:paramtypes", [String, String, String, String, String, String, String, String, Number, Number, Number, String, String])
 ], Swap);
 exports.default = Swap;
-//# sourceMappingURL=swap.js.map

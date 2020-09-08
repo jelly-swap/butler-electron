@@ -30,4 +30,3 @@ class WithdrawService {
     }
 }
 exports.WithdrawService = WithdrawService;
-//# sourceMappingURL=service.js.map

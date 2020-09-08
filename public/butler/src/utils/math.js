@@ -50,4 +50,3 @@ exports.toBigNumber = (a) => {
 exports.divDecimals = (a, b) => {
     return exports.div(a, exports.pow(10, b));
 };
-//# sourceMappingURL=math.js.map

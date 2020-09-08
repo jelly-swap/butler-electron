@@ -20,4 +20,3 @@ class WithdrawModel {
     }
 }
 exports.WithdrawModel = WithdrawModel;
-//# sourceMappingURL=model.js.map

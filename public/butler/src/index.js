@@ -11,4 +11,3 @@ if (config) {
 else {
     run_1.run();
 }
-//# sourceMappingURL=index.js.map
