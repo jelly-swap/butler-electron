@@ -196,6 +196,7 @@ const Questions = () => {
               selectedAggregatorURL={readConfig.AGGREGATOR_URL}
               selectedPort={readConfig.SERVER && readConfig.SERVER.PORT}
               selectedTrackerUrl={readConfig.TRACKER_URL}
+              selectedJellyPriceUrl={readConfig.JELLY_PRICE_PROVIDER}
               isButlerStarted={isButlerStarted}
               getState={getState}
             />
