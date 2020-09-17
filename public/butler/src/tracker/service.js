@@ -63,4 +63,3 @@ exports.fetchWithdraws = (url, login, expiration = 1) => __awaiter(void 0, void 
         return [];
     }
 });
-//# sourceMappingURL=service.js.map

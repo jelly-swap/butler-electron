@@ -32,4 +32,3 @@ class SwapModel {
     }
 }
 exports.SwapModel = SwapModel;
-//# sourceMappingURL=model.js.map

@@ -19,4 +19,3 @@ exports.default = () => {
         throw new Error('Bitcoin ADDRESS and SECRET are missing.');
     }
 };
-//# sourceMappingURL=config.js.map

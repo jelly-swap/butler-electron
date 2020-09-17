@@ -24,4 +24,3 @@ class MockExchange {
     fixPrecision(__quote, __quantity) { }
 }
 exports.default = MockExchange;
-//# sourceMappingURL=mock.js.map

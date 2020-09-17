@@ -80,4 +80,3 @@ class CryptoCompareProvider {
     }
 }
 exports.default = CryptoCompareProvider;
-//# sourceMappingURL=cryptocompare.js.map

@@ -9,4 +9,3 @@ exports.default = {
     CryptoCompare: cryptocompare_1.default,
     Binance: binance_1.default,
 };
-//# sourceMappingURL=index.js.map

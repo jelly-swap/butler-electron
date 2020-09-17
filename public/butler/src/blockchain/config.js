@@ -19,4 +19,3 @@ exports.default = () => {
     }
     return Config;
 };
-//# sourceMappingURL=config.js.map

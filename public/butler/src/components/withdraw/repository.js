@@ -45,4 +45,3 @@ class WithdrawRepository {
     }
 }
 exports.default = WithdrawRepository;
-//# sourceMappingURL=repository.js.map

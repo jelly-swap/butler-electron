@@ -1,1 +1,0 @@
-{"version":3,"file":"mock.js","sourceRoot":"","sources":["../../../src/exchange/mock.ts"],"names":[],"mappings":";;;;;;;;;;;AAEA,MAAqB,YAAY;IAC7B,gBAAe,CAAC;IAEV,UAAU,CAAC,OAAO;;YACpB,OAAO,KAAK,CAAC;QACjB,CAAC;KAAA;IAEK,UAAU;;YACZ,OAAO,EAAE,CAAC;QACd,CAAC;KAAA;IAED,YAAY,CAAC,OAAO,EAAE,UAAU,IAAG,CAAC;CACvC;AAZD,+BAYC"}

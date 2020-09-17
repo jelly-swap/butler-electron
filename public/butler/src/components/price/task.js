@@ -30,4 +30,3 @@ class PriceTask {
     }
 }
 exports.default = PriceTask;
-//# sourceMappingURL=task.js.map

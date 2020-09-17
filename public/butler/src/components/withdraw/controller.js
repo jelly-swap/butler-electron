@@ -33,4 +33,3 @@ class WithdrawController {
     }
 }
 exports.WithdrawController = WithdrawController;
-//# sourceMappingURL=controller.js.map

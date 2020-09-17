@@ -24,6 +24,7 @@ const ethereum_1 = require("@jelly-swap/ethereum");
 const aeternity_1 = require("@jelly-swap/aeternity");
 const erc20_1 = require("@jelly-swap/erc20");
 const harmony_1 = require("@jelly-swap/harmony");
+const matic_1 = require("@jelly-swap/matic");
 const config_1 = __importStar(require("./config"));
 let Adapters;
 const getErc20Adapters = (config) => {
@@ -37,9 +38,8 @@ const getErc20Adapters = (config) => {
 exports.default = () => {
     if (!Adapters) {
         const Config = config_1.default();
-        const AllAdapters = Object.assign(Object.assign({}, getErc20Adapters(Config)), { ETH: Config.ETH && new ethereum_1.Adapter(Config.ETH), BTC: Config.BTC && new bitcoin_1.Adapter(Config.BTC), AE: Config.AE && new aeternity_1.Adapter(Config.AE), ONE: Config.ONE && new harmony_1.Adapter(Config.ONE) });
+        const AllAdapters = Object.assign(Object.assign({}, getErc20Adapters(Config)), { ETH: Config.ETH && new ethereum_1.Adapter(Config.ETH), BTC: Config.BTC && new bitcoin_1.Adapter(Config.BTC), AE: Config.AE && new aeternity_1.Adapter(Config.AE), ONE: Config.ONE && new harmony_1.Adapter(Config.ONE), MATIC: Config.MATIC && new matic_1.Adapter(Config.MATIC) });
         Adapters = Object.entries(AllAdapters).reduce((a, [k, v]) => (v === undefined ? a : Object.assign(Object.assign({}, a), { [k]: v })), {});
     }
     return Adapters;
 };
-//# sourceMappingURL=adapters.js.map

@@ -54,7 +54,8 @@ class BalanceService {
                         }
                     }
                     catch (err) {
-                        logger_1.logDebug(`CANNOT_GET_BALANCES`, { network, err });
+                        logger_1.logDebug(`CANNOT_GET_BALANCES ${network} ${err}`);
+                        logger_1.logDebug(`CANNOT_GET_BALANCES`, err);
                     }
                 }
             }
@@ -95,4 +96,3 @@ class BalanceService {
     }
 }
 exports.BalanceService = BalanceService;
-//# sourceMappingURL=service.js.map

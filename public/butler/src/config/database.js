@@ -21,4 +21,3 @@ const commonConfig = {
     logging: false,
     synchronize: true,
 };
-//# sourceMappingURL=database.js.map

@@ -25,4 +25,3 @@ class InfoController {
     }
 }
 exports.InfoController = InfoController;
-//# sourceMappingURL=controller.js.map

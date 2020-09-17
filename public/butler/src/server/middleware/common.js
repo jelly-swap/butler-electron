@@ -15,4 +15,3 @@ exports.handleBodyRequestParsing = (router) => {
 exports.handleCompression = (router) => {
     router.use(compression_1.default());
 };
-//# sourceMappingURL=common.js.map
