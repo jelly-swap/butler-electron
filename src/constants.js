@@ -57,6 +57,7 @@ export const WALLETS = {
   ETH: 'ETH',
   DAI: 'DAI',
   USDC: 'USDC',
+  AVAX: 'AVAX',
   WBTC: 'WBTC',
   MATIC: 'MATIC',
   BTC: 'BTC',
