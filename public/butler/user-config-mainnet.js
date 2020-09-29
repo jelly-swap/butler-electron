@@ -58,6 +58,11 @@ exports.default = {
             // Matic Private Key
             SECRET: '',
         },
+        AVAX: {
+            ADDRESS: '',
+            // Avalanche Private Key
+            SECRET: '',
+        },
     },
     // BLOCKCHAIN PROVIDER
     BLOCKCHAIN_PROVIDER: {
@@ -91,6 +96,7 @@ exports.default = {
     // ================== ADVANCED ==================
     AGGREGATOR_URL: 'https://network.jelly.market/api/v1/info',
     TRACKER_URL: 'jelly-tracker.herokuapp.com',
+    JELLY_PRICE_PROVIDER: '',
     SERVER: { PORT: 9000 },
     // ================== Database configuration ==================
     //options: MONGODB or SQLITE

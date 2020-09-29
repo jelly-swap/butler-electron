@@ -29,6 +29,9 @@ class PriceService {
         }
         this.userConfig = new config_2.default().getUserConfig();
         this.priceProvider = new provider_1.default[this.userConfig.PRICE.PROVIDER]();
+        if (this.userConfig.JELLY_PRICE_PROVIDER) {
+            this.jellyProvider = new provider_1.default.Jelly();
+        }
         PriceService.instance = this;
     }
     update(provider, maxTries = 40) {
@@ -40,6 +43,10 @@ class PriceService {
                 }
                 else {
                     prices = yield this.priceProvider.getPrices(config_1.default.PRICE.COINS);
+                }
+                if (this.jellyProvider) {
+                    const jellyPrices = yield this.jellyProvider.getPrices(null, null);
+                    prices = Object.assign(Object.assign({}, prices), jellyPrices);
                 }
                 for (const pair in this.userConfig.PAIRS) {
                     if (!prices[pair]) {
