@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import QuestionTitle from '../../../../common/QuestionTitle';
 import Port from './Port';
-import AggregatorURL from './AggregatorURL';
-import TrackerURL from './TrackerURL';
+import ProviderUrl from './ProviderUrl';
 
 import { useGetStateFromCP } from '../../../../../hooks/useGetStateFromCP';
 
@@ -15,6 +14,7 @@ const ServerOptions = ({
   selectedAggregatorURL,
   selectedPort,
   selectedTrackerUrl,
+  selectedJellyPriceUrl,
   isButlerStarted,
   getState,
 }) => {
@@ -28,6 +28,7 @@ const ServerOptions = ({
     port: '',
     aggregatorUrl: '',
     trackerUrl: '',
+    jellyPriceProvider: '',
   });
 
   useGetStateFromCP(isButlerStarted, getState, { VERSION: CONFIG_VERSION });
@@ -35,55 +36,45 @@ const ServerOptions = ({
 
   useEffect(() => {
     if (selectedAggregatorURL) {
-      setServerOptions(s => ({
-        ...s,
-        aggregatorUrl: selectedAggregatorURL,
-      }));
+      setServerOptions(s => ({ ...s, aggregatorUrl: selectedAggregatorURL }));
     }
 
     if (selectedPort) {
-      setServerOptions(s => ({
-        ...s,
-        port: selectedPort,
-      }));
+      setServerOptions(s => ({ ...s, port: selectedPort }));
     }
 
     if (selectedTrackerUrl) {
-      setServerOptions(s => ({
-        ...s,
-        trackerUrl: selectedTrackerUrl,
-      }));
+      setServerOptions(s => ({ ...s, trackerUrl: selectedTrackerUrl }));
     }
-  }, [selectedAggregatorURL, selectedPort, selectedTrackerUrl]);
 
-  const getPort = port => {
-    setServerOptions({
-      ...serverOptions,
-      port,
-    });
-  };
+    if (selectedJellyPriceUrl) {
+      setServerOptions(s => ({ ...s, jellyPriceProvider: selectedJellyPriceUrl }));
+    }
+  }, [selectedAggregatorURL, selectedPort, selectedTrackerUrl, selectedJellyPriceUrl]);
 
-  const getAggregatorUrl = aggregatorUrl => {
-    setServerOptions({
-      ...serverOptions,
-      aggregatorUrl,
-    });
-  };
+  const getPort = port => setServerOptions({ ...serverOptions, port });
 
-  const getTrackerUrl = trackerUrl => {
-    setServerOptions({
-      ...serverOptions,
-      trackerUrl,
-    });
-  };
+  const getAggregatorUrl = aggregatorUrl => setServerOptions({ ...serverOptions, aggregatorUrl });
+
+  const getTrackerUrl = trackerUrl => setServerOptions({ ...serverOptions, trackerUrl });
+
+  const getJellyPriceProvider = jellyPriceProvider => setServerOptions({ ...serverOptions, jellyPriceProvider });
 
   return (
     <div className='server-options-wrapper'>
       <QuestionTitle isValid={true} title='Server options' />
       <div className='server-options'>
         <Port port={serverOptions.port} getPort={getPort} />
-        <AggregatorURL aggregatorUrl={serverOptions.aggregatorUrl} getAggregatorUrl={getAggregatorUrl} />
-        <TrackerURL trackerUrl={serverOptions.trackerUrl} getTrackerUrl={getTrackerUrl} />
+
+        <ProviderUrl url={serverOptions.aggregatorUrl} getUrl={getAggregatorUrl} name={'Jelly Aggregator'} />
+
+        <ProviderUrl url={serverOptions.trackerUrl} getUrl={getTrackerUrl} name={'Jelly Tracker'} />
+
+        <ProviderUrl
+          url={serverOptions.jellyPriceProvider}
+          getUrl={getJellyPriceProvider}
+          name={'Jelly Price Provider'}
+        />
       </div>
     </div>
   );

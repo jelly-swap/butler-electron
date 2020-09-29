@@ -42,9 +42,9 @@ const btc_provider_1 = __importDefault(require("@jelly-swap/btc-provider"));
 // Aeternity
 const aepp_sdk_1 = require("@aeternity/aepp-sdk");
 const nacl = __importStar(require("tweetnacl"));
-const config_1 = require("./config");
 // Harmony
 const providers_1 = require("@jelly-swap/harmony/dist/src/providers");
+const config_1 = require("./erc20/config");
 exports.compareAddress = (a1, a2) => {
     return a1.toLowerCase() === a2.toLowerCase();
 };
@@ -80,4 +80,4 @@ const getErc20Matcher = () => {
         return object;
     }, {});
 };
-exports.PK_MATCH_ADDRESS = Object.assign(Object.assign({}, getErc20Matcher()), { ETH: exports.ethAddressMatch, BTC: exports.btcAddressMatch, AE: exports.aeAddressMatch, ONE: exports.oneAddressMatch, MATIC: exports.ethAddressMatch });
+exports.PK_MATCH_ADDRESS = Object.assign(Object.assign({}, getErc20Matcher()), { ETH: exports.ethAddressMatch, BTC: exports.btcAddressMatch, AE: exports.aeAddressMatch, ONE: exports.oneAddressMatch, MATIC: exports.ethAddressMatch, AVAX: exports.ethAddressMatch });

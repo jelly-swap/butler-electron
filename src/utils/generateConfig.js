@@ -15,6 +15,7 @@ export const generateConfig = (config, password, encrypt = true) => {
     NOTIFICATIONS: getNotifications(config.NOTIFICATIONS, password, encrypt),
     AGGREGATOR_URL: getAggregatorUrl(config.SERVER_OPTIONS),
     TRACKER_URL: getTrackerUrl(config.SERVER_OPTIONS),
+    JELLY_PRICE_PROVIDER: getJellyPriceProvider(config.SERVER_OPTIONS),
     SERVER: getServerPort(config.SERVER_OPTIONS),
     DATABASE: getDatabase(config.DATABASE),
   };
@@ -123,6 +124,11 @@ const getTrackerUrl = serverOptions => {
   return serverOptions.trackerUrl;
 };
 
+const getJellyPriceProvider = serverOptions => {
+  if (!serverOptions || !Object.keys(serverOptions).length || !serverOptions.jellyPriceProvider) return;
+
+  return serverOptions.jellyPriceProvider;
+};
 const getServerPort = serverOptions => {
   if (!serverOptions || !Object.keys(serverOptions).length || !serverOptions.port) return;
 

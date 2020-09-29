@@ -82,6 +82,7 @@ exports.default = {
     // ================== ADVANCED ==================
     AGGREGATOR_URL: 'https://jelly-jam-testnet.herokuapp.com/api/v1/info',
     TRACKER_URL: 'jelly-tracker-testnet.herokuapp.com',
+    JELLY_PRICE_PROVIDER: 'http://localhost:8080/prices',
     SERVER: { PORT: 9000 },
     // ================== Database configuration ==================
     //options: MONGODB or SQLITE

@@ -9,7 +9,7 @@ const config_1 = __importDefault(require("./bitcoin/config"));
 const config_2 = __importDefault(require("./ethereum/config"));
 const config_3 = __importDefault(require("./harmony/config"));
 const config_4 = __importDefault(require("./aeternity/config"));
-const config_5 = require("./config");
+const config_5 = require("./erc20/config");
 exports.default = () => {
     const supportedNetworks = supportedNetworks_1.default();
     return Object.assign({ BTC: supportedNetworks['BTC'] && Config.BTC(), ETH: supportedNetworks['ETH'] && Config.ETH(), ONE: supportedNetworks['ONE'] && Config.ONE(), AE: supportedNetworks['AE'] && Config.AE() }, getErc20Configs(supportedNetworks));

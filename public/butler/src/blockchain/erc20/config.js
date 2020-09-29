@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SECONDARY_NETWORKS = void 0;
 const erc20_1 = require("@jelly-swap/erc20");
 const config_1 = __importDefault(require("../../config"));
 const utils_1 = require("../../utils");
@@ -22,17 +23,15 @@ const TokenConfig = {
         decimals: 6,
         address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
     },
-    'BTC++': {
-        network: 'BTC++',
-        decimals: 18,
-        address: '0x0327112423f3a68efdf1fcf402f6c5cb9f7c33fd',
-    },
 };
+exports.SECONDARY_NETWORKS = Object.keys(TokenConfig).reduce((result, token) => {
+    result[token] = true;
+    return result;
+}, {});
 const AddressToToken = {
     '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599': TokenConfig.WBTC,
     '0x6b175474e89094c44da98b954eedeac495271d0f': TokenConfig.DAI,
     '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48': TokenConfig.USDC,
-    '0x0327112423f3a68efdf1fcf402f6c5cb9f7c33fd': TokenConfig['BTC++'],
 };
 exports.default = (token) => {
     var _a;

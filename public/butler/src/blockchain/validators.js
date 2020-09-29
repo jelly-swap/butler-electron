@@ -25,11 +25,12 @@ const AeternityValidator = __importStar(require("./aeternity/validator"));
 const Erc20Validator = __importStar(require("./erc20/validator"));
 const HarmonyValidator = __importStar(require("./harmony/validator"));
 const MaticValidator = __importStar(require("./matic/validator"));
-const config_1 = require("./config");
+const AvalancheValidator = __importStar(require("./avalanche/validator"));
+const config_1 = require("./erc20/config");
 const getErc20Validators = () => {
     return Object.keys(config_1.SECONDARY_NETWORKS).reduce((object, token) => {
         object[token] = Erc20Validator;
         return object;
     }, {});
 };
-exports.default = Object.assign({ BTC: BitcoinValidator, ETH: EthereumValidator, AE: AeternityValidator, ONE: HarmonyValidator, MATIC: MaticValidator }, getErc20Validators());
+exports.default = Object.assign({ BTC: BitcoinValidator, ETH: EthereumValidator, AE: AeternityValidator, ONE: HarmonyValidator, MATIC: MaticValidator, AVAX: AvalancheValidator }, getErc20Validators());
