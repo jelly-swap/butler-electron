@@ -7,10 +7,10 @@ exports.default = {
     AE: true,
     MATIC: true,
     AVAX: true,
+    BNB: true,
     DAI: true,
     USDC: true,
     WBTC: true,
-    BNB: true,
   },
   // The amount of fee that is charged by JellySwap protocol.
   // Currently the usage of JellySwap protocol is free
@@ -27,7 +27,7 @@ exports.default = {
   // You can track your portfolio P&L with this option
   BALANCE_SNAPSHOT_INTERVAL: 3600,
   PRICE: {
-    COINS: ['ETH', 'BTC', 'AE', 'DAI', 'WBTC', 'USDC', 'USDT', 'ONE', 'MATIC', 'BNB', 'AVAX'],
+    COINS: ['ETH', 'BTC', 'AE', 'DAI', 'WBTC', 'USDC', 'USDT', 'ONE', 'MATIC', 'AVAX', 'BNB'],
   },
   DUPLICATE_PRICE: { DAI: 'USDC', WBTC: 'BTC' },
   // ================== Binance configuration ==================
