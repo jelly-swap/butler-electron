@@ -1,6 +1,7 @@
 export const PAIRS = {
   ETH: {
     BTC: 'BTC',
+    BNB: 'BNB',
     DAI: 'DAI',
     AE: 'AE',
     MATIC: 'MATIC',
@@ -10,6 +11,7 @@ export const PAIRS = {
   },
   BTC: {
     ETH: 'ETH',
+    BNB: 'BNB',
     DAI: 'DAI',
     AE: 'AE',
     MATIC: 'MATIC',
@@ -48,8 +50,9 @@ export const PAIRS = {
   WBTC: {
     BTC: 'BTC',
   },
-  'BTC++': {
+  BNB: {
     BTC: 'BTC',
+    ETH: 'ETH',
   },
 };
 
@@ -60,6 +63,7 @@ export const WALLETS = {
   AVAX: 'AVAX',
   WBTC: 'WBTC',
   MATIC: 'MATIC',
+  BNB: 'BNB',
   BTC: 'BTC',
   ONE: 'ONE',
   AE: 'AE',

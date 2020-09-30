@@ -21,6 +21,11 @@ exports.default = {
             // Ethereum Private Key
             SECRET: '',
         },
+        BNB: {
+            ADDRESS: '',
+            // Binance Private Key
+            SECRET: '',
+        },
         ONE: {
             ADDRESS: '',
             // Harmony Private Key
