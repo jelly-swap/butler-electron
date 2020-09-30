@@ -80,4 +80,4 @@ const getErc20Matcher = () => {
         return object;
     }, {});
 };
-exports.PK_MATCH_ADDRESS = Object.assign(Object.assign({}, getErc20Matcher()), { ETH: exports.ethAddressMatch, BTC: exports.btcAddressMatch, AE: exports.aeAddressMatch, ONE: exports.oneAddressMatch, MATIC: exports.ethAddressMatch, AVAX: exports.ethAddressMatch });
+exports.PK_MATCH_ADDRESS = Object.assign(Object.assign({}, getErc20Matcher()), { ETH: exports.ethAddressMatch, BTC: exports.btcAddressMatch, AE: exports.aeAddressMatch, ONE: exports.oneAddressMatch, MATIC: exports.ethAddressMatch, AVAX: exports.ethAddressMatch, BNB: exports.ethAddressMatch });

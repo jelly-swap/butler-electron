@@ -29,6 +29,7 @@ const config_4 = __importStar(require("./erc20/config"));
 const config_5 = __importDefault(require("./harmony/config"));
 const config_6 = __importDefault(require("./matic/config"));
 const config_7 = __importDefault(require("./avalanche/config"));
+const config_8 = __importDefault(require("./binance/config"));
 const supportedNetworks_1 = __importDefault(require("../config/supportedNetworks"));
 const getErc20Configs = (supportedNetworks) => {
     return Object.keys(config_4.SECONDARY_NETWORKS).reduce((object, token) => {
@@ -40,5 +41,5 @@ const getErc20Configs = (supportedNetworks) => {
 };
 exports.default = () => {
     const supportedNetworks = supportedNetworks_1.default();
-    return Object.assign({ BTC: supportedNetworks['BTC'] && config_1.default(), ETH: supportedNetworks['ETH'] && config_2.default(), AE: supportedNetworks['AE'] && config_3.default(), ONE: supportedNetworks['ONE'] && config_5.default(), MATIC: supportedNetworks['MATIC'] && config_6.default(), AVAX: supportedNetworks['AVAX'] && config_7.default() }, getErc20Configs(supportedNetworks));
+    return Object.assign({ BTC: supportedNetworks['BTC'] && config_1.default(), ETH: supportedNetworks['ETH'] && config_2.default(), AE: supportedNetworks['AE'] && config_3.default(), ONE: supportedNetworks['ONE'] && config_5.default(), MATIC: supportedNetworks['MATIC'] && config_6.default(), AVAX: supportedNetworks['AVAX'] && config_7.default(), BNB: supportedNetworks['BNB'] && config_8.default() }, getErc20Configs(supportedNetworks));
 };
