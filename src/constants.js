@@ -1,3 +1,5 @@
+import { version } from '../package.json';
+
 export const PAIRS = {
   ETH: {
     BTC: 'BTC',
@@ -115,6 +117,8 @@ export const BLOCKCHAIN_PROVIDERS = {
   USDC: 'INFURA',
   'BTC++': 'INFURA',
 };
+
+export const BUTLER_VERSION = version;
 
 export const PORT_ACTION_TYPES = {
   UPDATE_PORT: 'UPDATE_PORT',

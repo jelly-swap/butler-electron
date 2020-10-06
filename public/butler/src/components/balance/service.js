@@ -23,6 +23,7 @@ const service_1 = require("../../components/price/service");
 const repository_1 = __importDefault(require("./repository"));
 const logger_1 = require("../../logger");
 const utils_1 = require("../../utils");
+const config_2 = require("../../blockchain/erc20/config");
 class BalanceService {
     constructor() {
         this.priceService = new service_1.PriceService();
@@ -41,6 +42,7 @@ class BalanceService {
     }
     update() {
         return __awaiter(this, void 0, void 0, function* () {
+            const erc20Address = {};
             try {
                 for (const network in this.allAssets) {
                     try {
@@ -51,6 +53,16 @@ class BalanceService {
                         this.allBalances[network] = { address, raw, balance };
                         if (this.providedAssets[network]) {
                             this.providedBalances[network] = this.allBalances[network];
+                        }
+                        if (config_2.SECONDARY_NETWORKS[network]) {
+                            if (!erc20Address[address]) {
+                                const ethBalance = yield this.contracts['ETH'].getBalance(address, network);
+                                erc20Address[address] = address;
+                                if (!math_1.greaterThan(ethBalance, 0)) {
+                                    logger_1.logError(`You need ETH in ${address} for the Ethereum network fees in order to  provide ${network}.`);
+                                    process.exit(-1);
+                                }
+                            }
                         }
                     }
                     catch (err) {
