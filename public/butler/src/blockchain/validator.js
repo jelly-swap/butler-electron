@@ -115,10 +115,6 @@ exports.isOutputSwapValid = (swap, takerDesiredAmount) => __awaiter(void 0, void
         logger_1.logDebug(`OUTPUT_CHAIN_VALIDATION_FAILED`, swap);
         return false;
     }
-    if (utils_2.compareAddress(swap.outputAddress, utils_1.safeAccess(userConfig, ['WALLETS', swap.network, 'ADDRESS']))) {
-        logger_1.logDebug(`OUTPUT_WRONG_OUTPUT_ADDRESS`, swap);
-        return false;
-    }
     if (utils_2.compareAddress(swap.sender, swap.receiver)) {
         logger_1.logDebug(`OUTPUT_SENDER_CANNOT_EQUAL_RECEIVER`, swap);
         return false;

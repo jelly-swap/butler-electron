@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { HashRouter } from 'react-router-dom';
 
 import Header from './components/header';
@@ -11,8 +11,13 @@ import BitcoinImage from './css/background-coins/bitcoin2.svg';
 import EtherImage from './css/background-coins/Eth2.svg';
 
 import './App.scss';
+import { BUTLER_VERSION } from './constants';
 
 function App() {
+  useEffect(() => {
+    document.title = `Jelly Butler - v${BUTLER_VERSION}`;
+  }, []);
+
   return (
     <HashRouter>
       <div className='App'>
