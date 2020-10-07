@@ -11,8 +11,6 @@ import { useGetStateFromCP } from '../../../../../hooks/useGetStateFromCP';
 import { WALLETS } from '../../../../../constants';
 
 import {
-  checkIfETHAddressMatchERC20Address,
-  checkIfETHSecretMatchERC20Secret,
   checkIfAddressessDoNotMatchRegex,
   checkIfSecretIsMissing,
   checkIfSeedPhraseIsInvalid,
@@ -26,8 +24,6 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState, passw
   const [wallets, setWallets] = useState({});
   const [walletsToShow, setWalletsToShow] = useState([]);
   const [isValid, setIsValid] = useState();
-  const [ERC20InvalidAddress, setERC20InvalidAddress] = useState({});
-  const [ERC20InvalidSecret, setERC20InvalidSecret] = useState({});
   const [isPrivateKeyShown, setIsPrivateKeyShown] = useState(false);
   const [privateKeyValue, setPrivateKeyValue] = useState('');
   const [isSeedPhraseInvalid, setIsSeedPhraseInvalid] = useState(false);
@@ -41,12 +37,7 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState, passw
   }, [valid]);
 
   useEffect(() => {
-    if (
-      checkIfAddressessDoNotMatchRegex(wallets) ||
-      checkIfSecretIsMissing(wallets) ||
-      checkIfETHAddressMatchERC20Address(wallets, setERC20InvalidAddress) ||
-      checkIfETHSecretMatchERC20Secret(wallets, setERC20InvalidSecret)
-    ) {
+    if (checkIfAddressessDoNotMatchRegex(wallets) || checkIfSecretIsMissing(wallets)) {
       setIsValid(false);
       return;
     }
@@ -153,9 +144,6 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState, passw
                     {!new RegExp(getNetworkRegex(wallet)).test(wallets[wallet]?.address) && (
                       <p className='errorMsg'>Enter valid {wallet} address</p>
                     )}
-                    {ERC20InvalidAddress[wallet] && (
-                      <p className='errorMsg address'>Your {wallet} address cannot match ETH address</p>
-                    )}
                   </div>
                   <div className='wallet-private-key'>
                     <Input
@@ -175,10 +163,6 @@ const WalletsSetup = ({ valid, selectedWallets, isButlerStarted, getState, passw
                       <span title='Reveal secret key' onClick={() => toggePrivateKey(wallets[wallet]?.secret)}>
                         <i className='fas fa-eye' />
                       </span>
-                    )}
-
-                    {ERC20InvalidSecret[wallet] && (
-                      <p className='errorMsg secret'>Your {wallet} secret cannot match ETH secret</p>
                     )}
                     {isBTCWallet(wallet) && isSeedPhraseInvalid && (
                       <p className='errorMsg btc-secret'>Please enter 12 or 24 words</p>
