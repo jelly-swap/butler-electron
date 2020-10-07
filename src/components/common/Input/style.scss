@@ -1,0 +1,90 @@
+@import '../../../css/themes/themify-mixin.scss';
+@import '../../../css//constants.scss';
+
+.inputHolder {
+  position: relative;
+
+  .input {
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+    width: 100%;
+    text-align: left;
+    font-family: Roboto;
+    font-weight: 500;
+    z-index: 7;
+    height: 46px;
+    border-radius: 13px;
+    border: none;
+    padding-left: 13px;
+    font-size: 14px;
+    line-height: 1.14;
+    padding-right: 2%;
+    background-color: inherit;
+
+    @include themify($themes) {
+      box-shadow: themed('clickable-components-shadow');
+      color: themed('purple-input-color');
+    }
+
+    &::placeholder {
+      @include themify($themes) {
+        color: themed('purple-input-color');
+      }
+
+      opacity: 0.6;
+    }
+
+    &:focus {
+      @include themify($themes) {
+        box-shadow: themed('clickable-components-shadow-focus');
+      }
+    }
+
+    &.purple {
+      @include themify($themes) {
+        color: themed('purple-input-color');
+      }
+
+      &::placeholder {
+        @include themify($themes) {
+          color: themed('purple-input-color');
+        }
+      }
+    }
+
+    &.grey {
+      @include themify($themes) {
+        color: themed('grey-input-color');
+      }
+
+      &::placeholder {
+        @include themify($themes) {
+          color: themed('grey-input-color');
+        }
+      }
+    }
+  }
+
+  .errorInput {
+    width: 106.2%;
+    position: absolute;
+    top: 59px;
+    color: #ff0000;
+    right: 1px;
+
+    span {
+      display: flex;
+      justify-content: flex-end;
+      font-size: 13px;
+      font-weight: 550;
+      line-height: 1.56;
+    }
+  }
+
+  //Turn Off Number Input Spinners
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
