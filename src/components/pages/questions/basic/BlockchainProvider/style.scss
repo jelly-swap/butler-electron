@@ -1,29 +1,45 @@
-@import "../../../../../css/constants.scss";
+@import '../../../../../../css/constants.scss';
+
 .blockchain-provider-wrapper {
-  h3 {
-    width: 25%;
-  }
+  margin-top: 2rem;
+  padding-right: 0.4em;
+  position: relative;
 
   .provider-wrapper {
+    margin-top: 2rem;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    height: 90px;
+
+    input {
+      margin-left: 0.3rem;
+      width: 330px;
+      height: 46px;
+
+      @include butlerInput;
+    }
 
     button {
-      @include roboto500;
-      font-size: 14px;
-      font-weight: bold;
-      border: none;
-      outline: none;
-      cursor: pointer;
-      padding: 0 19px;
-      display: block;
+      background-color: $grass;
+      width: 180px;
+      height: 46px;
+      font-size: 12px;
+      box-shadow: none;
+    }
 
-      height: 40px;
-      border-radius: 10px;
-      background-image: linear-gradient(108deg, #e7323e -106%, #a7223f 100%);
-      width: 25%;
+    padding-bottom: 51px;
+    border-bottom: 1px solid #c1c1c1;
+  }
+
+  .blockchain-provider-message {
+    top: -0.8em;
+    right: 0.5em;
+    position: absolute;
+
+    .content-wrapper {
+      &:after {
+        top: 1.6em;
+        right: 14.6em;
+      }
     }
   }
 }

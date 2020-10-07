@@ -3,144 +3,79 @@ import React, { useState, useEffect } from 'react';
 import QuestionTitle from '../../../../common/QuestionTitle';
 import Input from '../../../../common/Input';
 
-import { useGetStateFromCP } from '../../../../../hooks/useGetStateFromCP';
+import { useButlerConfig, useConfig } from '../../../../../context/ConfigContext';
 
 import './style.scss';
-import Emitter from '../../../../../utils/emitter';
 
-const Rebalance = ({ valid, selectedRebalance, isButlerStarted, getState }) => {
-  const [rebalance, setRebalance] = useState();
+const EXCHANGES = ['Binance'];
+
+const Rebalance = () => {
+  const [, updateConfig] = useButlerConfig();
+  const exchangeConfig = useConfig('EXCHANGE');
+
   const [isChecked, setIsChecked] = useState(false);
   const [isValid, setIsValid] = useState(true);
-  const [selectedPriceProvider, setSelectedPriceProvider] = useState('');
-  const [apiFromPriceProvider, setApiFromPriceProvider] = useState('');
-  const [secretFromPriceProvider, setSecretFromPriceProvider] = useState('');
-
-  useGetStateFromCP(isButlerStarted, getState, { EXCHANGE: rebalance });
 
   useEffect(() => {
-    if (!selectedRebalance) return;
-
-    const { NAME, API_KEY, SECRET_KEY } = selectedRebalance;
-
-    setRebalance({
-      [NAME]: {
-        apiKey: API_KEY,
-        secretKey: SECRET_KEY,
-      },
-    });
-    setIsChecked(true);
-  }, [selectedRebalance]);
-
-  useEffect(() => {
-    if (valid) {
+    if (isChecked) {
+      let valid = false;
+      if (exchangeConfig.API_KEY && exchangeConfig.SECRET_KEY && exchangeConfig.NAME) {
+        valid = true;
+      }
       setIsValid(valid);
     }
-  }, [valid]);
-
-  useEffect(() => {
-    new Emitter().emitAll('onRebalanceChange', rebalance);
-
-    new Emitter().on('onPriceProviderChange', priceProvider => {
-      const _selectedPriceProvider = Object.keys(priceProvider)[0];
-
-      setSelectedPriceProvider(_selectedPriceProvider);
-
-      if (_selectedPriceProvider === 'Binance') {
-        const { apiKey, secretKey } = priceProvider.Binance;
-
-        setApiFromPriceProvider(apiKey);
-        setSecretFromPriceProvider(secretKey);
-      }
-    });
-
-    if (rebalance && Object.keys(rebalance).length && (!rebalance.Binance.apiKey || !rebalance.Binance.secretKey)) {
-      setIsValid(false);
-      return;
-    }
-
-    setIsValid(true);
-  }, [rebalance]);
-
-  useEffect(() => {
-    if (selectedPriceProvider !== 'Binance' && rebalance && !Object.keys(rebalance).length) {
-      setApiFromPriceProvider('');
-      setSecretFromPriceProvider('');
-    }
-  }, [selectedPriceProvider, rebalance]);
-
-  useEffect(() => {
-    if (rebalance) {
-      setRebalance({
-        Binance: {
-          apiKey: apiFromPriceProvider,
-          secretKey: secretFromPriceProvider,
-        },
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [apiFromPriceProvider, secretFromPriceProvider]);
+  }, [isChecked, exchangeConfig]);
 
   const handleOnChange = event => {
-    event.persist();
-
-    const {
-      target: { checked, value },
-    } = event;
-
-    if (checked) {
-      setRebalance({ [value]: { apiKey: apiFromPriceProvider, secretKey: secretFromPriceProvider } });
-      setIsValid(false);
-    } else {
-      setRebalance({});
-      setIsValid(true);
-    }
-
-    setIsChecked(checked);
-  };
-
-  const handleKeyOnChange = event => {
     event.persist();
 
     const {
       target: { name, value },
     } = event;
 
-    setRebalance({
-      Binance: {
-        ...rebalance['Binance'],
-        [name]: value,
-      },
-    });
+    updateConfig({ EXCHANGE: { ...exchangeConfig, [name]: value } });
   };
 
   return (
     <div className='rebalance-wrapper'>
       <div className='title-and-rebalance-wrapper'>
         <QuestionTitle isValid={isValid} title='Rebalance' />
-        <div className='rebalance-checkbox-wrapper'>
-          <label className={isChecked ? 'mark-label' : null} htmlFor='binance'>
-            <Input type='checkbox' id='binance' value='Binance' onChange={handleOnChange} checked={isChecked} />
-            Binance
-            <span className='checkmark'></span>
-          </label>
+
+        <div className='price-provider-wrapper'>
+          {EXCHANGES.map(exchange => {
+            return (
+              <div className='rebalance-checkbox-wrapper' key={exchange}>
+                <label className={isChecked ? 'mark-label' : null} htmlFor='binance'>
+                  <input
+                    type='checkbox'
+                    id='binance'
+                    value={exchange}
+                    name='NAME'
+                    onChange={event => {
+                      handleOnChange(event);
+                      setIsChecked(!isChecked);
+                    }}
+                    checked={isChecked}
+                  />
+                  {exchange}
+                  <span className='checkmark'></span>
+                </label>
+              </div>
+            );
+          })}
         </div>
       </div>
+
       {isChecked && (
         <div className='rebalance-input-wrapper'>
+          <Input type='text' text='API KEY' name='API_KEY' value={exchangeConfig.API_KEY} onChange={handleOnChange} />
+
           <Input
             type='text'
-            placeholder='API KEY'
-            name='apiKey'
-            value={rebalance['Binance'].apiKey}
-            onChange={handleKeyOnChange}
-          />
-          <Input
-            type='text'
-            placeholder='SECRET KEY'
-            name='secretKey'
-            value={rebalance['Binance'].secretKey}
-            onChange={handleKeyOnChange}
+            text='SECRET KEY'
+            name='SECRET_KEY'
+            value={exchangeConfig.SECRET_KEY}
+            onChange={handleOnChange}
           />
         </div>
       )}

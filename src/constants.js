@@ -80,7 +80,7 @@ export const ERC20_TOKENS = {
   DAI: 'DAI',
   USDC: 'USDC',
   WBTC: 'WBTC',
-  'BTC++': 'BTC++',
+  TBTC: 'TBTC',
 };
 
 export const PRICE_PROVIDER_INTERVALS = {

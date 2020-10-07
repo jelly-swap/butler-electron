@@ -1,32 +1,45 @@
-@import '../../../../../css/constants.scss';
+@import '../../../../../../css/constants.scss';
 
 .rebalance-wrapper {
-  height: 116px;
+  margin-top: 2rem;
+  height: 140px;
+  border-bottom: 1px solid #c1c1c1;
+  position: relative;
 
   .title-and-rebalance-wrapper {
     display: flex;
-    height: 51px;
 
     h3 {
-      width: 165px;
+      text-align: left;
+      font-weight: bold;
+      font-size: 17px;
+    }
+
+    .rebalance-checkbox-wrapper {
+      margin-left: 12.4rem;
     }
   }
 
-  .rebalance-checkbox-wrapper {
+  .rebalance-input-wrapper {
+    .inputHolder {
+      width: 330px;
+      height: 46px;
+    }
+    margin-top: 2rem;
     display: flex;
-    text-align: center;
-    font-weight: bold;
-    margin-left: 28%;
-
-    @include styleCheckbox;
+    justify-content: space-around;
   }
 
-  .rebalance-input-wrapper {
-    display: flex;
-    justify-content: space-between;
+  .rebalance-message {
+    position: absolute;
 
-    input {
-      width: 45%;
+    top: -1em;
+    right: 0em;
+    .content-wrapper {
+      &:after {
+        top: 1.6em;
+        right: 14.6em;
+      }
     }
   }
 }

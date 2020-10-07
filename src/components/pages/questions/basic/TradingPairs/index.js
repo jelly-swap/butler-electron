@@ -1,227 +1,115 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import PairRow from './PairRow';
 import QuestionTitle from '../../../../common/QuestionTitle';
 
-import { useGetStateFromCP } from '../../../../../hooks/useGetStateFromCP';
-
-import { PAIRS } from '../../../../../constants';
+import { useButlerConfig, useConfig } from '../../../../../context/ConfigContext';
 
 import './style.scss';
-import Emitter from '../../../../../utils/emitter';
-import Button from '../../../../common/Button';
 
-const pairDefaultState = {
-  provide: 'ETH',
-  receive: 'BTC',
-  fee: 0,
-  price: 0,
-};
+const defaultPair = { name: 'ONE-ETH', provide: 'ETH', receive: 'ONE', fee: '', price: '' };
 
-const TradingPairs = ({ valid, selectedPairs, isButlerStarted, getState }) => {
-  const [pairs, setPairs] = useState({
-    0: { ...pairDefaultState },
-  });
+const TradingPairs = () => {
+  const [, updateConfig] = useButlerConfig();
+  const pairsConfig = useConfig('PAIRS');
+
+  const [pairs, setPairs] = useState(parsePairs(pairsConfig));
   const [existingPairs, setExistingPairs] = useState({});
-  const [isInitialState, setIsInitialState] = useState(true);
-  const [rowId, setRowId] = useState(0);
-  const [isValid, setIsValid] = useState();
-
-  useGetStateFromCP(isButlerStarted, getState, { PAIRS: pairs });
 
   useEffect(() => {
-    setIsValid(valid);
-  }, [valid]);
+    const result = pairs.reduce(
+      (result, pair) => {
+        if (result.pairs[pair.name]) {
+          result.duplicates[pair.name] = true;
+        } else {
+          result.pairs[pair.name] = { FEE: pair.fee || 0, PRICE: pair.price || 0 };
+        }
 
-  useEffect(() => {
-    const relevantPairsToWallets = Object.entries(existingPairs).filter(([pair, value]) => value > 0);
+        return result;
+      },
+      { pairs: {}, duplicates: {} },
+    );
 
-    const relevantProvidersObj = Object.fromEntries(relevantPairsToWallets);
-
-    new Emitter().emitAll('onPairAdded', relevantProvidersObj);
-
-    new Emitter().emitAll('updateBlockchainProvider', relevantProvidersObj);
-  }, [existingPairs]);
-
-  // Fill the state when is coming from config
-  useEffect(() => {
-    if (!selectedPairs) {
-      new Emitter().emitAll('onPairAdded', { 'ETH-BTC': 1 });
-      new Emitter().emitAll('updateBlockchainProvider', { 'ETH-BTC': 1 });
-      setExistingPairs({ 'ETH-BTC': 1 });
-      return;
-    }
-
-    setExistingPairs({});
-
-    Object.keys(selectedPairs).forEach((pair, idx) => {
-      const [provide, receive] = pair.split('-').reverse();
-      const { FEE, PRICE } = selectedPairs[pair];
-
-      const key = provide + '-' + receive;
-
-      setExistingPairs(prevExisting => ({
-        ...prevExisting,
-        [key]: 1,
-      }));
-
-      setPairs(prevPairs => ({
-        ...prevPairs,
-        [idx]: {
-          provide,
-          receive,
-          fee: FEE * 100,
-          price: PRICE || 0,
-        },
-      }));
-
-      setRowId(rowId => rowId + 1);
-
-      setIsValid(true);
-    });
-  }, [selectedPairs]);
-
-  // Fill the state on add row click
-  useEffect(() => {
-    if (isInitialState) return;
-
-    setPairs(pairs => ({
-      ...pairs,
-      [rowId]: { ...pairDefaultState },
-    }));
-
-    setExistingPairs(existingPairs => ({
-      ...existingPairs,
-      'ETH-BTC': existingPairs['ETH-BTC'] ? existingPairs['ETH-BTC'] + 1 : 1,
-    }));
-
+    setExistingPairs({ ...result.duplicates });
+    updateConfig({ PAIRS: { ...result.pairs } });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rowId]);
+  }, [pairs]);
 
-  useEffect(() => {
-    const hasRepeatingPairs = Object.values(existingPairs).some(e => e >= 2);
-
-    hasRepeatingPairs ? setIsValid(false) : setIsValid(true);
-  }, [existingPairs]);
-
-  const handleProvideOnChange = (pairId, selectedNetwork) => {
-    const receive = Object.keys(PAIRS[selectedNetwork])[0];
-
-    const prevSelectedProvideNetwork = pairs[pairId].provide;
-    const prevSelectedReceiveNetwork = pairs[pairId].receive;
-
-    setPairs(allPairs => ({
-      ...allPairs,
-      [pairId]: { ...allPairs[pairId], provide: selectedNetwork, receive },
-    }));
-
-    handleExistingPair(prevSelectedProvideNetwork, prevSelectedReceiveNetwork, selectedNetwork, receive);
+  const handleProvideOnChange = (id, provide) => {
+    const newPairs = [...pairs];
+    newPairs[id] = { ...newPairs[id], provide, name: `${newPairs[id].receive}-${provide}` };
+    setPairs(newPairs);
   };
 
-  const handleReceiveOnChange = (pairId, selectedNetwork) => {
-    const prevSelectedReceiveNetwork = pairs[pairId].receive;
-
-    setPairs(allPairs => ({
-      ...allPairs,
-      [pairId]: { ...allPairs[pairId], receive: selectedNetwork },
-    }));
-
-    handleExistingPair(pairs[pairId].provide, prevSelectedReceiveNetwork, pairs[pairId].provide, selectedNetwork);
+  const handleReceiveOnChange = (id, receive) => {
+    const newPairs = [...pairs];
+    newPairs[id] = { ...newPairs[id], receive, name: `${receive}-${newPairs[id].provide}` };
+    setPairs(newPairs);
   };
 
-  const handleFeeOnChange = (pairId, event) => {
-    event.persist();
-
-    if (!event.target.value) {
-      setIsValid(false);
-    } else {
-      setIsValid(true);
-    }
-
-    setPairs(allPairs => ({
-      ...allPairs,
-      [pairId]: { ...allPairs[pairId], fee: event.target.value },
-    }));
+  const handleFeeOnChange = (id, event) => {
+    const fee = event.target.value;
+    const newPairs = [...pairs];
+    newPairs[id] = { ...newPairs[id], fee };
+    setPairs(newPairs);
   };
 
-  const handlePriceOnChange = (pairId, event) => {
-    event.persist();
-
-    if (!event.target.value) {
-      setIsValid(false);
-    } else {
-      setIsValid(true);
-    }
-
-    setPairs(allPairs => ({
-      ...allPairs,
-      [pairId]: { ...allPairs[pairId], price: event.target.value },
-    }));
+  const handlePriceOnChange = (id, event) => {
+    const price = event.target.value;
+    const newPairs = [...pairs];
+    newPairs[id] = { ...newPairs[id], price };
+    setPairs(newPairs);
   };
 
-  const addNewPair = () => {
-    setIsInitialState(false);
+  const addNewPair = () => setPairs(oldArray => [...oldArray, defaultPair]);
 
-    setRowId(rowId + 1);
-  };
-
-  const removePair = id => {
-    const removedPair = pairs[id];
-
-    /*eslint no-empty-pattern: "off"*/
-    const {
-      [id]: {},
-      ...rest
-    } = pairs;
-
-    setPairs(rest);
-
-    const pairToDecrement = `${removedPair.provide}-${removedPair.receive}`;
-
-    setExistingPairs(existingPairs => ({
-      ...existingPairs,
-      [pairToDecrement]: existingPairs[pairToDecrement] - 1,
-    }));
-  };
-
-  // Decrement previous pair and increment the new one
-  const handleExistingPair = (prevSelectedProvideNetwork, prevSelectedReceiveNetwork, provide, receive) => {
-    const currentPairKey = provide + '-' + receive;
-    const prevPairKey = prevSelectedProvideNetwork + '-' + prevSelectedReceiveNetwork;
-
-    setExistingPairs({
-      ...existingPairs,
-      [prevPairKey]: existingPairs[prevPairKey] - 1,
-      [currentPairKey]: existingPairs[currentPairKey] ? existingPairs[currentPairKey] + 1 : 1,
-    });
+  const handleRemoval = id => {
+    const newPairs = [...pairs];
+    newPairs.splice(id, 1);
+    setPairs(newPairs);
   };
 
   return (
     <div className='trading-pairs-wrapper'>
-      <QuestionTitle title='Trading Pairs' isValid={isValid} />
-      {Object.keys(pairs).map((id, idx) => {
+      <div className='title-wrapper'>
+        <QuestionTitle title='Traiding Pairs' />
+        <span className='add-new-pair' onClick={addNewPair}>
+          Add new pair +
+        </span>
+      </div>
+
+      {pairs.map((pair, idx) => {
         return (
           <PairRow
-            key={id}
-            id={id}
-            pair={pairs[id]}
-            numberOfRows={Object.keys(pairs).length}
-            row={idx}
+            key={idx}
+            id={idx}
+            pair={pair}
+            numberOfRows={pairs.length}
             handleProvideOnChange={handleProvideOnChange}
             handleReceiveOnChange={handleReceiveOnChange}
             handleFeeOnChange={handleFeeOnChange}
             handlePriceOnChange={handlePriceOnChange}
-            addNewPair={addNewPair}
-            removePair={removePair}
+            handleRemoval={handleRemoval}
             existingPairs={existingPairs}
           />
         );
       })}
-      <div className='add-new-pair-btn'>
-        <Button onClick={addNewPair} btnText={'Add new pair +'} />
-      </div>
     </div>
   );
 };
 
 export default TradingPairs;
+
+const parsePairs = pairs => {
+  return Object.keys(pairs).reduce((result, pair) => {
+    const [receive, provide] = pair.split('-');
+    result.push({
+      provide,
+      receive,
+      fee: pair.FEE,
+      price: pair.PRICE,
+      name: `${receive}-${provide}`,
+    });
+    return result;
+  }, []);
+};

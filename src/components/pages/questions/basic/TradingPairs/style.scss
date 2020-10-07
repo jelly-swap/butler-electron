@@ -1,230 +1,112 @@
-@import '../../../../../css/constants.scss';
-
-.react-tooltip-lite {
-  background: #333;
-  color: white;
-  font-size: 14px;
-  font-weight: normal;
-}
-
-.tip-content {
-  width: 300px;
-
-  p {
-    width: 300px;
-  }
-}
+@import '../../../../../../css/constants.scss';
 
 .trading-pairs-wrapper {
   width: 100%;
-  min-height: 215px;
+  margin-top: 2rem;
+  border-bottom: 1px solid #c1c1c1;
+  padding-bottom: 3em;
+  padding-right: 0.4em;
 
-  .pair-row {
-    min-width: 100%;
+  img {
+    width: 25px;
+    height: 25px;
+  }
 
-    height: 80px;
+  .title-wrapper {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    border-radius: $questionRadius;
-    padding: 0 15px;
-    margin-top: 30px;
-    box-shadow: $notFocusedShadow;
 
-    &.row-focused {
-      box-shadow: $focusedShadow;
+    h3 {
+      text-align: left;
+      font-weight: bold;
+      font-size: 17px;
     }
 
-    &:first-child {
-      margin-top: 0px;
+    .add-new-pair {
+      font-size: 14px;
+      color: $grass;
+      cursor: pointer;
     }
+  }
 
-    &:focus-within {
-      box-shadow: $focusedShadow;
-    }
-
-    .left-part {
-      width: 100%;
+  .pair-row {
+    .row {
       display: flex;
       justify-content: space-between;
-      height: 60px;
-
-      .select-menus {
-        width: 57%;
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-
-        p {
-          margin: auto;
-        }
-
-        .field-wrapper {
-          width: 45%;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-
-          .left-select-menu,
-          .right-select-menu {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: $notFocusedShadow;
-            height: 40px;
-            width: 50%;
-            border-radius: 13px;
-            cursor: pointer;
-
-            &.opened {
-              box-shadow: $focusedShadow;
-            }
-
-            &:focus-within {
-              box-shadow: $focusedShadow;
-            }
-
-            .selected-asset {
-              width: 10%;
-              display: flex;
-              align-items: center;
-              position: absolute;
-              justify-content: space-evenly;
-            }
-
-            img {
-              width: 20px;
-              height: 20px;
-            }
-
-            span {
-              color: $duskyBlue;
-            }
-          }
-
-          .menu-wrapper {
-            margin: auto;
-            position: relative;
-            margin: 0;
-
-            .assets-list {
-              position: relative;
-              top: 120px;
-              width: 250px;
-              display: flex;
-              justify-content: space-between;
-              flex-wrap: wrap;
-              height: 195px;
-              border-radius: 15px;
-              background-color: $bgColor;
-              box-shadow: $notFocusedShadow;
-              padding: 10px;
-              z-index: 1000;
-              cursor: default;
-
-              .current-asset {
-                width: 70px;
-                display: flex;
-                justify-content: space-evenly;
-                margin-bottom: 5px;
-                align-items: center;
-                box-shadow: $notFocusedShadow;
-                height: 40px;
-                border-radius: 12px;
-                cursor: pointer;
-              }
-            }
-          }
-        }
-      }
-
-      .input-fields {
-        width: 38%;
-        display: flex;
-        justify-content: center;
-
-        .tooltip {
-          margin-left: -5%;
-          cursor: pointer;
-        }
-
-        .fee-input {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          span {
-            margin-right: 6%;
-          }
-
-          input {
-            width: 46%;
-            margin-right: 6%;
-            margin-left: 3%;
-            padding-left: 20%;
-          }
-        }
-
-        .price-input {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          span {
-            margin-right: 3%;
-          }
-
-          input {
-            width: 46%;
-            margin-right: 3%;
-            margin-left: 3%;
-            padding-left: 20%;
-          }
-        }
-      }
-    }
-
-    .remove-row-wrapper {
+      align-items: center;
+      margin-top: 2rem;
       position: relative;
 
-      left: 0%;
-      box-shadow: $notFocusedShadow;
-      cursor: pointer;
-      width: 30px;
-      height: 20px;
-      text-align: center;
-      border-radius: 33%;
+      .field-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 20%;
+
+        .label {
+          color: $brownGrey;
+          font-size: 14px;
+        }
+      }
+
+      .price-input,
+      .fee-input {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 17%;
+        padding-right: 0.4em;
+
+        span {
+          color: $brownGrey;
+          font-size: 14px;
+          margin-left: 1.3rem;
+        }
+
+        .inputHolder {
+          width: 55px;
+          height: 46px;
+          input {
+            text-align: center;
+            padding-left: 0px;
+          }
+        }
+      }
+
+      .price-input {
+        width: 22%;
+        padding-right: 1.8em;
+      }
 
       .remove-row-btn {
-        font-size: 18px;
-        color: $rogue;
+        cursor: pointer;
+        position: absolute;
+        left: 98%;
+        z-index: 1000;
+        color: #c0c1c7;
       }
     }
   }
 
-  .add-new-pair-btn {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 30px;
+  .fee-invalid,
+  .trading-pairs-icon {
+    position: absolute;
+    right: 1em;
 
-    button {
-      height: 25px;
-      background-color: $grass;
+    img {
+      width: 50px;
+      height: 50px;
+    }
+
+    .content-wrapper {
+      &:after {
+        top: 1.6em;
+        right: 14.6em;
+      }
     }
   }
-}
 
-.errorMsg {
-  position: relative;
-  top: 16px;
-  text-align: center;
-}
-
-.trading-pairs-wrapper::-webkit-scrollbar {
-  width: 6px;
-}
-
-.trading-pairs-wrapper::-webkit-scrollbar-thumb {
-  background-color: $duskyBlue;
-  border-radius: 15px;
+  .fee-invalid {
+    right: 14.6em;
+  }
 }

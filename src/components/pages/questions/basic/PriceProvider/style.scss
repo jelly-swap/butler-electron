@@ -1,146 +1,90 @@
-@import '../../../../../css/constants.scss';
+@import '../../../../../../css/constants.scss';
 
 .price-provider {
-  height: 190px;
-
-  .generate-url {
-    margin-top: 10px;
-
-    button {
-      @include roboto500;
-      font-size: 14px;
-      font-weight: bold;
-      border: none;
-      outline: none;
-      cursor: pointer;
-      padding: 0 19px;
-      display: block;
-      margin: 0 auto; // auto left/right margins
-      justify-content: space-between;
-      align-items: center;
-      width: 250px;
-      height: 50px;
-      border-radius: 10px;
-      box-shadow: 3px 3px 12px 0 rgba(0, 0, 0, 0.18);
-      background-image: linear-gradient(108deg, #e7323e -106%, #a7223f 100%);
-      width: 25%;
-      // margin-right: 2%;
-
-      &:hover {
-        opacity: 0.8;
-      }
-
-      span {
-        color: white;
-      }
-    }
-  }
-
+  margin-top: 2rem;
+  height: 267px;
+  border-bottom: 1px solid #c1c1c1;
+  padding-right: 0.4em;
   .title-and-provider-wrapper {
     display: flex;
-    height: 51px;
 
     h3 {
-      margin: 0;
-      width: 20%;
+      text-align: left;
+      font-weight: bold;
+      font-size: 17px;
     }
-  }
 
-  .price-provider-wrapper {
-    margin-left: 20%;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    margin-bottom: 30px;
-    width: 29%;
-
-    justify-content: space-around;
-
-    .current-provider {
-      position: relative;
-      width: 55%;
-      bottom: 9px;
-      margin-right: 32px;
-
-      @include styleRadioButton;
+    .price-provider-wrapper {
+      display: flex;
+      justify-content: space-between;
+      margin-left: 6.5rem;
+      width: 250px;
     }
   }
 
   .price-provider-inputs-wrapper {
+    margin-top: 2rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 
-    .price-provider-input-wrapper {
-      display: flex;
-      justify-content: space-between;
-      width: 30%;
-
-      input[type='text'] {
-        width: 100%;
-      }
-
-      &:last-child {
-        justify-content: center;
-        align-items: center;
-        max-height: 40px;
-        min-width: 217px;
-        max-width: 252px;
-
-        p {
-          min-width: 50%;
-          @include roboto500;
-          color: $duskyBlue;
-        }
-
-        .selected-interval {
-          @include roboto500;
-          color: $duskyBlue;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          box-shadow: $notFocusedShadow;
-          height: 40px;
-
-          border-radius: 13px;
-
-          &.menu-open {
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-            box-shadow: 5px 5px 10px #c0c1c7, -5px 3px 10px #fff;
-            min-width: 109px;
-            max-width: 109px;
-          }
-        }
-      }
+    .inputHolder {
+      width: 330px;
+      height: 46px;
     }
   }
 
-  .interval-menu {
-    background-color: $bgColor;
-    position: absolute;
-    box-shadow: 5px 5px 10px #c0c1c7, -5px 3px 10px #fff;
-    width: 109px;
-    right: 20px;
-    float: right;
-    border-bottom-left-radius: 13px;
-    border-bottom-right-radius: 13px;
-    height: 105px;
+  .bottom-row {
+    margin-top: 2rem;
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    z-index: 1000;
+    justify-content: space-between;
+    position: relative;
+    align-items: center;
 
-    .interval-wrapper {
+    button {
+      background-color: $grass;
+      width: 180px;
+      height: 46px;
+      font-size: 12px;
+      box-shadow: none;
+    }
+
+    .selected-interval {
       color: $duskyBlue;
-      text-align: center;
       cursor: pointer;
+      box-shadow: 5px 5px 10px #c0c1c7, -5px -5px 10px #ffffff;
+      width: 67%;
+      margin-top: 0.7rem;
+      padding: 1em;
+      border-radius: 10px;
+      user-select: none;
+    }
 
-      &:hover {
-        width: 90%;
-        margin: 0 auto;
-        background-color: rgba(255, 0, 0, 0.3);
-        border-radius: 12px;
+    .interval-menu {
+      user-select: none;
+      display: flex;
+      justify-content: space-between;
+      width: 190px;
+      padding: 1em;
+      position: absolute;
+      left: 1.4em;
+      box-shadow: 5px 5px 10px #c0c1c7, -5px 0px 10px #ffffff;
+      color: $duskyBlue;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 0.3rem;
+    }
+
+    .price-provider-message {
+      position: absolute;
+
+      top: 0.9em;
+      right: 13em;
+
+      .content-wrapper {
+        &:after {
+          top: 1.6em;
+          right: 14.6em;
+        }
       }
     }
   }

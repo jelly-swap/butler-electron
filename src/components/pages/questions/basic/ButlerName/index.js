@@ -1,47 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-import Input from '../../../../common/Input';
 import QuestionTitle from '../../../../common/QuestionTitle';
+import Input from '../../../../common/Input';
 
-import { useGetStateFromCP } from '../../../../../hooks/useGetStateFromCP';
+import { useButlerConfig } from '../../../../../context/ConfigContext';
+
+// import JellyIcon from '../../../../../common/Icons/JellyIcon';
 
 import './style.scss';
 
-const ButlerName = ({ valid, selectedName, isButlerStarted, getState }) => {
-  const [butlerName, setButlerName] = useState('');
-  const [isValid, setIsValid] = useState();
-
-  useEffect(() => {
-    if (!selectedName) {
-      setIsValid(false);
-      setButlerName('');
-      return;
-    }
-
-    setIsValid(true);
-    setButlerName(selectedName);
-  }, [selectedName]);
-
-  useEffect(() => {
-    if (valid) {
-      setIsValid(valid);
-    }
-  }, [valid]);
-
-  useGetStateFromCP(isButlerStarted, getState, { NAME: butlerName });
+const ButlerName = () => {
+  const [config, updateConfig] = useButlerConfig();
+  const [isValid, setIsValid] = useState(false);
 
   const handleOnChange = ({ target: { value } }) => {
-    setButlerName(value);
-
-    !value ? setIsValid(false) : setIsValid(true);
+    if (value) {
+      setIsValid(true);
+      updateConfig({ NAME: value });
+    } else {
+      setIsValid(false);
+      updateConfig({ NAME: '' });
+    }
   };
 
   return (
     <div className='butler-name-wrapper'>
-      <QuestionTitle isValid={isValid} title='Butler name' />
+      <QuestionTitle title='Butler name' isValid={isValid} />
       <div className='name-wrapper'>
-        <Input type='text' value={butlerName} onChange={handleOnChange} placeholder='Butler Name' />
-        {!isValid ? <p className={`${!butlerName ? 'invalid' : 'valid'} errorMsg`}>Butler Name is required</p> : null}
+        <Input type='text' value={config.NAME} onChange={handleOnChange} />
+        {!isValid && (
+          // <JellyIcon className='butler-name-icon'>
+          <p>Butler Name is required</p>
+          // </JellyIcon>
+        )}
       </div>
     </div>
   );
