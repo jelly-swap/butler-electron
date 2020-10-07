@@ -30,7 +30,7 @@ exports.default = {
     PRICE: {
         COINS: ['ETH', 'BTC', 'AE', 'DAI', 'WBTC', 'TBTC', 'USDC', 'USDT', 'ONE', 'MATIC', 'AVAX', 'BNB'],
     },
-    DUPLICATE_PRICE: { DAI: 'USDC', WBTC: 'BTC', TBTC: 'TBTC' },
+    DUPLICATE_PRICE: { DAI: 'USDC', WBTC: 'BTC', TBTC: 'BTC' },
     // ================== Binance configuration ==================
     BINANCE: {
         PAIRS: {
