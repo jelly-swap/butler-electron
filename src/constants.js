@@ -15,13 +15,13 @@ export const PAIRS = {
     ETH: 'ETH',
     BNB: 'BNB',
     DAI: 'DAI',
-    AE: 'AE',
+    TBTC: 'TBTC',
+    AVAX: 'AVAX',
     MATIC: 'MATIC',
     USDC: 'USDC',
     WBTC: 'WBTC',
-    'BTC++': 'BTC++',
     ONE: 'ONE',
-    AVAX: 'AVAX',
+    AE: 'AE',
   },
   ONE: {
     BTC: 'BTC',
@@ -52,6 +52,9 @@ export const PAIRS = {
   WBTC: {
     BTC: 'BTC',
   },
+  TBTC: {
+    BTC: 'BTC',
+  },
   BNB: {
     BTC: 'BTC',
     ETH: 'ETH',
@@ -64,6 +67,7 @@ export const WALLETS = {
   USDC: 'USDC',
   AVAX: 'AVAX',
   WBTC: 'WBTC',
+  TBTC: 'TBTC',
   MATIC: 'MATIC',
   BNB: 'BNB',
   BTC: 'BTC',
@@ -114,6 +118,7 @@ export const BLOCKCHAIN_PROVIDERS = {
   ETH: 'INFURA',
   DAI: 'INFURA',
   WBTC: 'INFURA',
+  TBTC: 'INFURA',
   USDC: 'INFURA',
   'BTC++': 'INFURA',
 };
