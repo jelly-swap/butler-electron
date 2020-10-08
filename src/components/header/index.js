@@ -5,7 +5,7 @@ import Logo from '../../images/jelly-butler.svg';
 
 import './style.scss';
 
-const Header = () => {
+export default () => {
   const history = useHistory();
   const location = useLocation();
 
@@ -22,26 +22,22 @@ const Header = () => {
       <div className='img-wrapper'>
         <img className='logo' src={Logo} alt='logo' />
       </div>
-      {location.pathname !== '/' && (
-        <div className='nav-links-wrapper'>
-          <button
-            className={`${location.pathname === '/terminal' ? 'active' : null}`}
-            onClick={navigateTo}
-            name='/terminal'
-          >
-            Logs
-          </button>
-          <button
-            className={`${location.pathname === '/balanceOf' ? 'active' : null}`}
-            onClick={navigateTo}
-            name='/balanceOf'
-          >
-            Wallets
-          </button>
-        </div>
-      )}
+      <div className='nav-links-wrapper'>
+        <button
+          className={`${location.pathname === '/terminal' ? 'active' : null}`}
+          onClick={navigateTo}
+          name='/terminal'
+        >
+          Logs
+        </button>
+        <button
+          className={`${location.pathname === '/balanceOf' ? 'active' : null}`}
+          onClick={navigateTo}
+          name='/balanceOf'
+        >
+          Wallets
+        </button>
+      </div>
     </div>
   );
 };
-
-export default Header;

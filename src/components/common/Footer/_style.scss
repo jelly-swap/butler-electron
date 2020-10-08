@@ -1,0 +1,11 @@
+@import '../../../css/constants.scss';
+
+.footer {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: start;
+  height: 7rem;
+  padding: 0 4rem;
+  margin-top: 2rem;
+  border-top: solid 1px $bgColor;
+}

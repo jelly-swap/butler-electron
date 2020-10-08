@@ -1,18 +1,18 @@
-import { encryptPrivateKeys } from './managePrivateKeys';
+import { encrypt } from './crypto';
 
-export const generateConfig = (config, password, encrypt = true) => {
+export const generateConfig = (config, password, encrypted = true) => {
   return {
     NAME: config.NAME,
     VERSION: config.VERSION,
     PAIRS: getPairs(config.PAIRS),
-    WALLETS: getWallets(config.WALLETS, password, encrypt),
+    WALLETS: getWallets(config.WALLETS, password, encrypted),
     ...(config.BLOCKCHAIN_PROVIDER &&
       Object.keys(config.BLOCKCHAIN_PROVIDER).length && {
         BLOCKCHAIN_PROVIDER: getBlockchainProvider(config.BLOCKCHAIN_PROVIDER),
       }),
     PRICE: getPrice(config.PRICE_PROVIDER),
-    EXCHANGE: getExchange(config.EXCHANGE, password, encrypt),
-    NOTIFICATIONS: getNotifications(config.NOTIFICATIONS, password, encrypt),
+    EXCHANGE: getExchange(config.EXCHANGE, password, encrypted),
+    NOTIFICATIONS: getNotifications(config.NOTIFICATIONS, password, encrypted),
     AGGREGATOR_URL: getAggregatorUrl(config.SERVER_OPTIONS),
     TRACKER_URL: getTrackerUrl(config.SERVER_OPTIONS),
     JELLY_PRICE_PROVIDER: getJellyPriceProvider(config.SERVER_OPTIONS),
@@ -34,7 +34,7 @@ const getPairs = selectedPairs => {
   return { ...pairs };
 };
 
-const getWallets = (selectedWallets, password, encrypt = true) => {
+const getWallets = (selectedWallets, password, encrypted = true) => {
   if (!selectedWallets || !Object.keys(selectedWallets).length) return;
 
   const wallets = {};
@@ -43,12 +43,12 @@ const getWallets = (selectedWallets, password, encrypt = true) => {
     const { address, secret } = selectedWallets[wallet];
 
     if (address && secret) {
-      const encryptedSecret = encryptPrivateKeys(secret, password);
+      const encryptedSecret = encrypt(secret, password);
 
       wallets[wallet] = {
         ADDRESS: address,
-        SECRET: encrypt ? encryptedSecret : secret,
-        ENCRYPTED: encrypt,
+        SECRET: encrypted ? encryptedSecret : secret,
+        ENCRYPTED: encrypted,
       };
     }
   });
@@ -73,16 +73,16 @@ const getPrice = selectedPriceProvider => {
   };
 };
 
-const getExchange = (selectedExchange, password, encrypt) => {
+const getExchange = (selectedExchange, password, encrypted) => {
   if (!selectedExchange || !Object.keys(selectedExchange).length) return;
 
   const nameOfExhange = Object.keys(selectedExchange)[0];
 
   let { apiKey, secretKey } = selectedExchange[nameOfExhange];
 
-  if (encrypt) {
-    apiKey = encryptPrivateKeys(selectedExchange[nameOfExhange].apiKey, password);
-    secretKey = encryptPrivateKeys(selectedExchange[nameOfExhange].secretKey, password);
+  if (encrypted) {
+    apiKey = encrypt(selectedExchange[nameOfExhange].apiKey, password);
+    secretKey = encrypt(selectedExchange[nameOfExhange].secretKey, password);
   }
 
   return {
@@ -92,15 +92,15 @@ const getExchange = (selectedExchange, password, encrypt) => {
   };
 };
 
-const getNotifications = (notifications, password, encrypt) => {
+const getNotifications = (notifications, password, encrypted) => {
   if (!notifications || !Object.keys(notifications).length) return;
 
   const selectedChannels = {};
 
   Object.keys(notifications).forEach(channel => {
     if (notifications[channel].ENABLED) {
-      if (channel === 'EMAIL' && encrypt) {
-        notifications.EMAIL.PASSWORD = encryptPrivateKeys(notifications.EMAIL.PASSWORD, password);
+      if (channel === 'EMAIL' && encrypted) {
+        notifications.EMAIL.PASSWORD = encrypt(notifications.EMAIL.PASSWORD, password);
       }
 
       selectedChannels[channel] = {

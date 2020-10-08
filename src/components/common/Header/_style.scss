@@ -1,0 +1,15 @@
+@import '../../../css/constants.scss';
+
+.header {
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  justify-content: start;
+  height: 4rem;
+  padding: 0 4rem;
+  margin-bottom: 2rem;
+  border-bottom: solid 1px $bgColor;
+
+  img {
+    width: 80%;
+  }
+}

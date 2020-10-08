@@ -1,0 +1,27 @@
+@import '../../css/constants.scss';
+
+.logs-wrapper {
+  width: 100% !important;
+  height: 500px;
+  overflow-y: auto;
+  background-color: $bgColor;
+  padding: 1em 2em;
+
+  .log {
+    margin: 1rem 0;
+  }
+}
+
+.log-filter-wrapper {
+  background: $bgColor;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  label {
+    display: flex;
+    align-items: center;
+    margin-right: 2%;
+  }
+}

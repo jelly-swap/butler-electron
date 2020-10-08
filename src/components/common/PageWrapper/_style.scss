@@ -1,0 +1,11 @@
+@import '../../../css/constants.scss';
+
+.page-wrapper {
+  background-color: $bgColorDarker;
+  height: 62vh;
+  width: 76vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 1em;
+  border-radius: 50px;
+}

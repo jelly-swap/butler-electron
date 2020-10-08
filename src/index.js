@@ -1,17 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.scss';
+
 import App from './App';
-import * as serviceWorker from './serviceWorker';
+
+import ConfigContextProvider from './context/ConfigContext';
+import PasswordContextProvider from './context/PasswordContext';
+
+import './index.scss';
+
+function ContextProviders({ children }) {
+  return (
+    <ConfigContextProvider>
+      <PasswordContextProvider>{children}</PasswordContextProvider>
+    </ConfigContextProvider>
+  );
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ContextProviders>
+      <App />
+    </ContextProviders>
   </React.StrictMode>,
   document.getElementById('root'),
 );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();

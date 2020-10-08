@@ -1,50 +1,46 @@
 import React, { createContext, useContext, useReducer, useCallback } from 'react';
+import { safeAccess } from '../utils';
 
-const PASSWORD_ACTION_TYPES = {
-  UPDATE_PASSWORD: 'UPDATE_PASSWORD',
-};
+const UPDATE_PASSWORD = 'UPDATE_PASSWORD';
 
-const PasswordStateContext = createContext();
-const PasswordDispatchContext = createContext();
+const PasswordContext = createContext();
 
-const usePasswordStateContext = () => useContext(PasswordStateContext);
-const usePasswordDispatchContext = () => useContext(PasswordDispatchContext);
+function usePasswordContext() {
+  return useContext(PasswordContext);
+}
 
 const reducer = (state, { type, payload }) => {
   switch (type) {
-    case PASSWORD_ACTION_TYPES.UPDATE_PASSWORD:
-      return {
-        ...state,
-        password: payload,
-      };
-    default:
+    case UPDATE_PASSWORD: {
+      return { ...state, password: payload };
+    }
+
+    default: {
       return state;
+    }
   }
 };
 
-export const Provider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, {
-    password: '',
-  });
+export default function Provider({ children }) {
+  const [state, dispatch] = useReducer(reducer, { password: '' });
 
-  const updatPassword = useCallback(password => {
-    dispatch({ type: PASSWORD_ACTION_TYPES.UPDATE_PASSWORD, payload: password });
+  const update = useCallback(password => {
+    dispatch({ type: UPDATE_PASSWORD, payload: password });
   }, []);
 
   return (
-    <PasswordStateContext.Provider value={state}>
-      <PasswordDispatchContext.Provider value={updatPassword}>{children}</PasswordDispatchContext.Provider>
-    </PasswordStateContext.Provider>
+    <PasswordContext.Provider
+      value={{
+        state,
+        update,
+      }}
+    >
+      {children}
+    </PasswordContext.Provider>
   );
-};
+}
 
-export const usePassword = () => {
-  const state = usePasswordStateContext();
-
-  return state.password;
-};
-
-export const useUpdatePassword = () => {
-  const dispatch = usePasswordDispatchContext();
-  return dispatch;
-};
+export function usePassword() {
+  const { state, update } = usePasswordContext();
+  return [safeAccess(state, ['password']), update];
+}

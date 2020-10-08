@@ -1,0 +1,51 @@
+@import '../../../../css/constants.scss';
+
+.notifications-wrapper {
+  margin-top: 2rem;
+  height: 343px;
+  border-bottom: 1px solid #c1c1c1;
+
+  label {
+    cursor: pointer;
+  }
+
+  .email-info-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    .inputHolder {
+      margin-top: 2rem;
+      width: 330px;
+      height: 46px;
+
+      input {
+        &:disabled {
+          box-shadow: unset;
+          background-color: #d5d5d5;
+        }
+      }
+    }
+  }
+
+  .email-checkbox-wrapper {
+    text-align: left;
+    margin-top: 2rem;
+  }
+
+  button {
+    background-color: $grass;
+    width: 180px;
+    height: 46px;
+    font-size: 12px;
+    position: relative;
+    box-shadow: unset;
+    right: -6em;
+    top: 2.2em;
+
+    &:disabled {
+      cursor: not-allowed;
+      background-color: #d5d5d5;
+    }
+  }
+}

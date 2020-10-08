@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  width: 55%;
+  width: 800px;
   margin: auto;
   position: relative;
   top: 20%;
@@ -29,7 +29,7 @@
 
 h3 {
   @include roboto500;
-  width: 150px;
+  width: 225px;
   height: 20px;
   font-size: 17px;
   font-weight: bold;
@@ -40,39 +40,4 @@ h3 {
   text-align: left;
   color: $titleColor;
   margin-bottom: 2.3%;
-}
-
-input[type='text'],
-input[type='password'] {
-  border: none;
-  box-shadow: 5px 5px 10px #c0c1c7, -5px -5px 10px #fff;
-  outline: none;
-  text-align: left;
-  font-family: Roboto;
-  font-weight: 500;
-  z-index: 7;
-  height: 40px;
-  border-radius: 13px;
-  border: none;
-  padding-left: 13px;
-  font-size: 16px;
-  line-height: 1.14;
-  padding-right: 2%;
-  background-color: inherit;
-  color: $duskyBlue;
-
-  &:focus {
-    box-shadow: inset 5px 5px 4px #c9cad1, inset -5px -5px 4px #ffffff;
-  }
-}
-
-button {
-  cursor: pointer;
-  border: none;
-  border-radius: 6px;
-  color: $white;
-
-  &:hover {
-    opacity: 0.8;
-  }
 }

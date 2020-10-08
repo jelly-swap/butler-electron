@@ -1,13 +1,13 @@
 @import '../../css/constants.scss';
 
 .footer-wrapper {
-  background-color: $bgColor;
+  background-color: $bgColorDarker;
   width: 100%;
   padding: 0 20px;
   border-bottom-left-radius: 50px;
   border-bottom-right-radius: 50px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   height: 102px;
 
@@ -70,11 +70,11 @@
     font-weight: bold;
   }
 
-  button {
-    font-size: 1rem;
-    padding: 0.8em 3em;
-    margin: 0 auto;
-    background: rgb(34, 193, 195);
-    background: linear-gradient(0deg, rgba(34, 193, 195, 1) 0%, rgba(177, 45, 253, 1) 100%);
-  }
+  // button {
+  //   font-size: 1rem;
+  //   padding: 0.8em 3em;
+  //   margin: 0 auto;
+  //   background: rgb(34, 193, 195);
+  //   background: linear-gradient(0deg, rgba(34, 193, 195, 1) 0%, rgba(177, 45, 253, 1) 100%);
+  // }
 }

@@ -1,6 +1,5 @@
 import { generateConfig } from './generateConfig';
-import { validateConfig, areAllValid } from './validateConfig';
-import { decryptPrivateKey } from './managePrivateKeys';
+import { decrypt } from './crypto';
 import Emitter from './emitter';
 import { DEFAULT_CONFIG } from '../constants';
 
@@ -50,12 +49,12 @@ export const readCFGFromFS = password =>
 const decryptExchangeKeys = (exhange, password) => {
   const { API_KEY, SECRET_KEY } = exhange;
 
-  exhange.API_KEY = decryptPrivateKey(API_KEY, password);
-  exhange.SECRET_KEY = decryptPrivateKey(SECRET_KEY, password);
+  exhange.API_KEY = decrypt(API_KEY, password);
+  exhange.SECRET_KEY = decrypt(SECRET_KEY, password);
 };
 
 const decryptEmailPassword = (email, password) => {
-  email.PASSWORD = decryptPrivateKey(email.PASSWORD, password);
+  email.PASSWORD = decrypt(email.PASSWORD, password);
 };
 
 const decryptWalletsKeys = (wallets, password) => {
@@ -65,7 +64,7 @@ const decryptWalletsKeys = (wallets, password) => {
     let secret = wallets[wallet].SECRET;
 
     if (wallets[wallet].ENCRYPTED) {
-      secret = decryptPrivateKey(wallets[wallet].SECRET, password);
+      secret = decrypt(wallets[wallet].SECRET, password);
     }
 
     if (!secret) {
@@ -84,21 +83,21 @@ export const writeCFGOnFS = (config, password) =>
     const plainConfig = generateConfig(config, password, false);
     const encryptedConfig = generateConfig(config, password);
 
-    const validatedConfig = validateConfig(plainConfig);
+    // const validatedConfig = validateConfig(plainConfig);
 
-    const allQuestionsAreValid = areAllValid(validatedConfig);
+    // const allQuestionsAreValid = areAllValid(validatedConfig);
 
-    if (!allQuestionsAreValid) {
-      return;
-    }
+    // if (!allQuestionsAreValid) {
+    //   return;
+    // }
 
     ipcRenderer.send('save-config', encryptedConfig);
 
     ipcRenderer.send('start-butler', JSON.stringify(plainConfig));
 
     resolve({
-      validatedConfig,
-      allQuestionsAreValid,
+      // validatedConfig,
+      // allQuestionsAreValid,
       serverPort: encryptedConfig.SERVER.PORT,
     });
   });

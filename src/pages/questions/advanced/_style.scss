@@ -1,0 +1,32 @@
+@import '../../../css/constants.scss';
+
+.advanced-options-wrapper {
+  margin-top: 2rem;
+  text-align: left;
+  text-transform: uppercase;
+  display: flex;
+
+  span {
+    font-size: 17px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.18;
+    letter-spacing: 0.34px;
+    text-align: left;
+    color: $duskyBlue;
+    cursor: pointer;
+  }
+
+  img {
+    width: 20px;
+    color: $duskyBlue;
+    margin-left: 1rem;
+    cursor: pointer;
+  }
+
+  img.open-dropdown {
+    transform: rotate(180deg);
+    transition: 0.4s ease-in-out;
+  }
+}

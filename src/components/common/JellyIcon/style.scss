@@ -1,0 +1,36 @@
+@import '../../../css/constants.scss';
+
+.jelly-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  img {
+    width: 50px;
+    margin-right: 1rem;
+  }
+
+  p {
+    background-color: $duskyBlue;
+    color: white;
+    width: 238px;
+    height: 46px;
+    font-size: 14px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .content-wrapper:after {
+    content: '';
+    position: absolute;
+    background-color: $duskyBlue;
+    width: 19px;
+    height: 17px;
+    transform-origin: 0 0;
+    transform: rotate(-30deg) skewX(30deg);
+    right: 15em;
+    top: 3.8em;
+  }
+}

@@ -1,0 +1,95 @@
+@import '../../css/constants.scss';
+
+.content-wrapper {
+  overflow: auto;
+}
+
+.app-wrapper {
+  position: relative;
+  .questions-wrapper {
+    margin: auto;
+    background-color: $bgColor;
+    overflow: auto;
+    height: 510px;
+    width: 100%;
+  }
+
+  .advanced-options-wrapper {
+    margin-top: 2rem;
+    text-align: left;
+    text-transform: uppercase;
+    display: flex;
+
+    span {
+      font-size: 17px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.18;
+      letter-spacing: 0.34px;
+      text-align: left;
+      color: $duskyBlue;
+      cursor: pointer;
+    }
+
+    img {
+      width: 20px;
+      color: $duskyBlue;
+      margin-left: 1rem;
+      cursor: pointer;
+    }
+
+    img.open-dropdown {
+      transform: rotate(180deg);
+      transition: 0.4s ease-in-out;
+    }
+  }
+
+  .start-wrapper {
+    position: absolute;
+    bottom: -4.3em;
+    cursor: pointer;
+    .start-butler-btn {
+      @include roboto500;
+      width: 280px;
+      height: 43px;
+      box-shadow: none;
+      text-align: left;
+      background-color: $strawberry;
+      font-size: 14px;
+      padding-left: 1.4em;
+      border-radius: 10px;
+    }
+
+    div {
+      position: absolute;
+      top: 0em;
+      left: 0em;
+      right: 0em;
+
+      img {
+        width: 4.5em;
+      }
+    }
+  }
+}
+
+.start-button {
+  margin-top: 2em !important;
+  width: 15rem !important;
+  height: 3rem !important;
+
+  span {
+    position: relative;
+    bottom: 1em;
+  }
+
+  img {
+    width: 100px;
+    height: 46px;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+}

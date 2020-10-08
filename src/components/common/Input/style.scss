@@ -1,5 +1,4 @@
-@import '../../../css/themes/themify-mixin.scss';
-@import '../../../css//constants.scss';
+@import '../../../css/constants.scss';
 
 .inputHolder {
   position: relative;
@@ -21,67 +20,48 @@
     padding-right: 2%;
     background-color: inherit;
 
-    @include themify($themes) {
-      box-shadow: themed('clickable-components-shadow');
-      color: themed('purple-input-color');
-    }
+    box-shadow: $notFocusedShadow;
+    color: $duskyBlue;
 
     &::placeholder {
-      @include themify($themes) {
-        color: themed('purple-input-color');
-      }
-
+      color: $duskyBlue;
       opacity: 0.6;
     }
 
     &:focus {
-      @include themify($themes) {
-        box-shadow: themed('clickable-components-shadow-focus');
-      }
+      box-shadow: $focusedShadow;
     }
 
     &.purple {
-      @include themify($themes) {
-        color: themed('purple-input-color');
-      }
+      color: $duskyBlue;
 
       &::placeholder {
-        @include themify($themes) {
-          color: themed('purple-input-color');
-        }
+        color: $duskyBlue;
       }
     }
 
     &.grey {
-      @include themify($themes) {
-        color: themed('grey-input-color');
-      }
+      color: $brownGrey;
 
       &::placeholder {
-        @include themify($themes) {
-          color: themed('grey-input-color');
-        }
+        color: $brownGrey;
       }
     }
   }
 
   .errorInput {
-    width: 106.2%;
+    width: 100%;
     position: absolute;
-    top: 59px;
-    color: #ff0000;
-    right: 1px;
+    top: 54px;
+    color: #fc3535;
 
     span {
       display: flex;
-      justify-content: flex-end;
-      font-size: 13px;
-      font-weight: 550;
-      line-height: 1.56;
+      justify-content: flex-start;
+      font-size: 11px;
     }
   }
 
-  //Turn Off Number Input Spinners
   input[type='number']::-webkit-inner-spin-button,
   input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
