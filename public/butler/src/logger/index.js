@@ -27,17 +27,15 @@ exports.logWarn = (msg, data) => log('warn', msg, data);
 exports.logError = (msg, data) => log('error', msg, data);
 exports.logDebug = (msg, data) => log('debug', msg, data);
 exports.logData = (msg, data) => log('data', msg, data);
+const FORWARD_LOG_LEVEL = ['error', 'data'];
 const log = (level, msg, data) => {
     if (data) {
         logger[level](`${msg} : ${JSON.stringify(data)}`);
-        if (process.send) {
-            process.send(`${level.toUpperCase()}: ${msg}: ${JSON.stringify(data)}`);
-        }
     }
     else {
         logger[level](msg);
-        if (process.send) {
-            process.send(`${level.toUpperCase()}: ${msg}`);
+        if (process.send && FORWARD_LOG_LEVEL.includes(level)) {
+            process.send({ TYPE: 'LOGGER', DATA: { level, msg: `${new Date().toLocaleString()} ${msg}` } });
         }
     }
 };

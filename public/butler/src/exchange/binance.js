@@ -53,7 +53,7 @@ class BinanceExchange {
                     }
                     else {
                         logger_1.logInfo(`BINANCE_ORDER_PLACED ${pair} ${quantity} ${response.orderId}`);
-                        logger_1.logData(`You placed ${ORDER_TYPE_TO_LABEL[type]} order in Binance for ${quantity} ${pair} `);
+                        logger_1.logData(`You placed ${ORDER_TYPE_TO_LABEL[type]} order in Binance for ${quantity} ${pair}`);
                     }
                 });
                 return true;
