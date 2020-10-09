@@ -1,14 +1,14 @@
 @import '../../css/constants.scss';
 
 .balance-of-wrapper {
-  background-color: $bgColor;
-  height: 500px;
+  @include roboto500;
+  background-color: $bgColorDarker;
+  height: 26.7em;
   overflow-y: auto;
   width: 100%;
   padding: 1% 2.5%;
 
   h2 {
-    @include roboto500;
     font-weight: bold;
     font-size: 25px;
     color: $titleColor;

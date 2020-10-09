@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 
-import Header from './components/header';
-import Footer from './components/footer';
-
 import BitcoinImage from './css/background-coins/bitcoin2.svg';
 import EtherImage from './css/background-coins/Eth2.svg';
 
@@ -14,6 +11,7 @@ import Questions from './pages/questions';
 import JellyTerminal from './pages/terminal';
 import Balance from './pages/balance';
 import Login from './pages/login';
+import Tranasctions from './pages/transactions';
 
 function App() {
   useEffect(() => {
@@ -27,9 +25,11 @@ function App() {
         <img className='bg-ether-image' src={EtherImage} alt='ethereum' />
         <Switch>
           <Route exact path='/' component={() => <Login />} />
+          <Route exact path='/login' component={() => <Login />} />
           <Route exact path='/home' component={() => <Questions />} />
           <Route exact path='/terminal' component={() => <JellyTerminal />} />
           <Route exact path='/balance' component={() => <Balance />} />
+          <Route exact path='/transactions' component={() => <Tranasctions />} />
         </Switch>
       </div>
     </HashRouter>

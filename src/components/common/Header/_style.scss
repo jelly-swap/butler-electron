@@ -2,7 +2,7 @@
 
 .header {
   display: grid;
-  grid-template-columns: 20% 60% 20%;
+  grid-template-columns: 20% 80%;
   justify-content: start;
   height: 4rem;
   padding: 0 4rem;
@@ -11,5 +11,23 @@
 
   img {
     width: 80%;
+  }
+}
+
+.nav-bar {
+  @include roboto500;
+  display: grid;
+  grid-template-columns: 20% 20% 20% 20% 20%;
+
+  a {
+    margin: 0 auto;
+    margin-top: 1em;
+    text-decoration: none;
+    color: $titleColor;
+
+    &.active {
+      border-bottom: 3px solid $duskyBlue;
+      color: $duskyBlue;
+    }
   }
 }

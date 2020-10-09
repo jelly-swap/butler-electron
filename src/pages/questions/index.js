@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import BasicOptions from './basic';
 import AdvancedOptions from './advanced';
@@ -10,21 +11,25 @@ import Button from '../../components/common/Button';
 import CoinImage from '../../css/background-coins/Coins-button.svg';
 import Footer from '../../components/common/Footer';
 
-import './style.scss';
-import { sendFromRenderer } from '../../utils/electronAPI';
-import { BUTLER_EVENTS } from '../../constants';
 import { useButlerConfig } from '../../context/ConfigContext';
 
+import { sendFromRenderer } from '../../utils/electronAPI';
+import { BUTLER_EVENTS } from '../../constants';
+
+import './style.scss';
+
 export default () => {
+  const history = useHistory();
   const [config] = useButlerConfig();
 
   const handleOnClick = () => {
     sendFromRenderer(BUTLER_EVENTS.START, config);
+    history.push('/terminal');
   };
 
   return (
     <PageWrapper>
-      <Header></Header>
+      <Header displayNav={true} />
       <ContentWrapper className='content-wrapper'>
         <BasicOptions />
         <AdvancedOptions />
@@ -42,8 +47,6 @@ export default () => {
           onClick={handleOnClick}
         />
       </Footer>
-
-      <div></div>
     </PageWrapper>
   );
 };

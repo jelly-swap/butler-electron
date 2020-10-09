@@ -8,6 +8,10 @@ export const receiveFromMain = (type, callback) => {
   ipcRenderer.once(type, callback);
 };
 
+export const receiveAllFromMain = (type, callback) => {
+  ipcRenderer.on(type, callback);
+};
+
 export const openLink = url => {
   shell.openExternal(url);
 };

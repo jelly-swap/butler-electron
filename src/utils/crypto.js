@@ -1,26 +1,14 @@
 import { AES, enc } from 'crypto-js';
 
 export const encrypt = (secret, password) => {
-  if (!secret) {
-    return '';
-  }
-
-  const encrypted = AES.encrypt(secret, password).toString();
-
-  return encrypted;
+  return AES.encrypt(secret, password).toString();
 };
 
 export const decrypt = (secret, password) => {
   try {
     const bytes = AES.decrypt(secret, password);
-    const decrypted = bytes.toString(enc.Utf8);
-
-    if (!decrypted) {
-      return;
-    }
-
-    return decrypted;
+    return { success: true, data: bytes.toString(enc.Utf8) };
   } catch (error) {
-    console.log(error);
+    return { success: false };
   }
 };

@@ -3,11 +3,12 @@ import { version } from '../package.json';
 export const BUTLER_EVENTS = {
   START: 'start-butler',
   STOP: 'stop-butler',
+  STOPPED: 'butler-killed',
   SAVE: 'save-config',
   LOAD: 'load-config',
   LOADED: 'config-loaded',
-  DIED: 'butler-died',
   ALIVE: 'butler-alive',
+  DIED: 'butler-died',
 };
 
 export const PAIRS = {

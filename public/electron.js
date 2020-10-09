@@ -19,22 +19,17 @@ log.transports.file.file = `${path.join(app.getPath('userData'), 'butler-electro
 const combinedLog = `${path.join(app.getPath('userData'), 'butler-combined.log')}`;
 const errorLog = `${path.join(app.getPath('userData'), 'butler-error.log')}`;
 
-let mainWindow, butler, globalConfig;
+let mainWindow, butler;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1920,
     height: 1080,
-    webPreferences: {
-      nodeIntegration: true,
-      webSecurity: false,
-    },
+    webPreferences: { nodeIntegration: true, webSecurity: false },
   });
 
   mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
   if (isDev) {
-    // Open the DevTools.
-    //BrowserWindow.addDevToolsExtension('<location to your react chrome extension>');
     mainWindow.webContents.openDevTools();
   }
 
@@ -80,33 +75,32 @@ app.on('activate', () => {
 const BUTLER_EVENTS = {
   START: 'start-butler',
   STOP: 'stop-butler',
+  STOPPED: 'butler-killed',
   SAVE: 'save-config',
   LOAD: 'load-config',
   LOADED: 'config-loaded',
-  DIED: 'butler-died',
   ALIVE: 'butler-alive',
+  DIED: 'butler-died',
 };
 
-const { START, STOP, SAVE, LOAD, ALIVE, DIED, LOADED } = BUTLER_EVENTS;
-
-ipcMain.on(START, (event, config) => {
+ipcMain.on(BUTLER_EVENTS.START, (event, config) => {
   if (!butler) {
     const butlerPath = `${path.join(app.getAppPath(), 'build/butler/src/index.js')}`;
 
     log.info('Trying to start...', butlerPath);
     log.info('Executable: ', process.execPath);
 
-    const _config = JSON.parse(config);
-    if (_config?.DATABASE?.SQLITE?.database) {
-      _config.DATABASE.SQLITE.database = `${path.join(app.getPath('userData'), 'butler.sqlite')}`;
+    if (config?.DATABASE?.SQLITE?.database) {
+      config.DATABASE.SQLITE.database = `${path.join(app.getPath('userData'), 'butler.sqlite')}`;
     }
 
-    butler = fork(butlerPath, [JSON.stringify(_config), combinedLog, errorLog], { execPath: process.execPath });
-    globalConfig = config;
+    butler = fork(butlerPath, [JSON.stringify(config), combinedLog, errorLog], { execPath: process.execPath });
 
     butler.on('message', msg => {
       if (event && event.sender && event.sender.send) {
-        event.sender.send('data', msg);
+        const channel = msg.TYPE || 'DATA';
+        console.log(channel, msg.DATA);
+        event.sender.send(channel, msg.DATA);
       }
     });
 
@@ -114,7 +108,7 @@ ipcMain.on(START, (event, config) => {
   }
 });
 
-ipcMain.on(STOP, event => {
+ipcMain.on(BUTLER_EVENTS.STOP, event => {
   if (!butler || butler?.killed) {
     return;
   }
@@ -128,50 +122,14 @@ ipcMain.on(STOP, event => {
       if (result.response === 0) {
         butler.kill();
         butler = null;
-
-        const listeners = Object.values(BUTLER_EVENTS);
-        ipcMain.removeAllListeners(listeners);
-
-        event.sender.send('butlerHasBeenKilled', '/');
+        event.sender.send(BUTLER_EVENTS.STOPPED);
       }
     });
 
   event.preventDefault();
 });
 
-ipcMain.on(ALIVE, event => {
-  if (butler && !butler.connected) {
-    butler.kill();
-    butler = null;
-    event.sender.send(DIED, { globalConfig });
-  }
-});
-
-ipcMain.on(LOAD, (event, defaultConfig) => {
-  const configPath = getConfigPath();
-
-  fs.readFile(configPath, (err, file) => {
-    if (err) {
-      log.info('Error reading config', err);
-      event.sender.send(LOADED, { success: false, config: defaultConfig });
-      return;
-    }
-
-    let fileToUse = file;
-
-    const fileAsStr = file && file.toString();
-
-    if (!fileAsStr) {
-      fileToUse = JSON.stringify({});
-    }
-
-    event.sender.send(LOADED, { success: true, config: JSON.parse(fileToUse) });
-  });
-
-  event.preventDefault();
-});
-
-ipcMain.on(SAVE, (event, file) => {
+ipcMain.on(BUTLER_EVENTS.SAVE, (event, file) => {
   const configPath = getConfigPath();
 
   fs.writeFile(configPath, JSON.stringify(file), err => {
@@ -183,11 +141,42 @@ ipcMain.on(SAVE, (event, file) => {
       if (err) {
         log.info('Error reading config', err);
       }
-      event.sender.send('configSaved', JSON.parse(file));
+      event.sender.send(BUTLER_EVENTS.LOADED, JSON.parse(file));
     });
   });
 
   event.preventDefault();
+});
+
+ipcMain.on(BUTLER_EVENTS.LOAD, (event, defaultConfig) => {
+  const configPath = getConfigPath();
+
+  fs.readFile(configPath, (err, file) => {
+    if (err) {
+      log.info('Error reading config', err);
+      if (err.code === 'ENOENT') {
+        event.sender.send(BUTLER_EVENTS.LOADED, { success: false, config: defaultConfig, reason: 'FILE_NOT_FOUND' });
+      } else {
+        event.sender.send(BUTLER_EVENTS.LOADED, { success: false, config: defaultConfig, reason: 'UNKNOWN' });
+      }
+      return;
+    }
+
+    if (file) {
+      const config = file.toString();
+      event.sender.send(BUTLER_EVENTS.LOADED, { success: true, config: JSON.parse(config) });
+    }
+  });
+
+  event.preventDefault();
+});
+
+ipcMain.on(BUTLER_EVENTS.ALIVE, event => {
+  if (butler && !butler.connected) {
+    butler.kill();
+    butler = null;
+    event.sender.send(BUTLER_EVENTS.DIED);
+  }
 });
 
 //-------------------------------------------------------------------

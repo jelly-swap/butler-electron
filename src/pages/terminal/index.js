@@ -1,54 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import moment from 'moment';
+import React, { useEffect, useRef } from 'react';
 
-import LogData from './logData';
+import Message from './Message';
 
-import { useChannel } from '../../hooks/useChannel';
+import { useLogger } from '../../context/LoggerContext';
 
 import './style.scss';
+import PageWrapper from '../../components/common/PageWrapper';
+import ContentWrapper from '../../components/common/ContentWrapper';
+import Header from '../../components/common/Header';
+import Footer from '../../components/common/Footer';
 
-const JellyTerminal = () => {
-  const [terminalData, setTerminalData] = useState([INIT_STATE]);
+export default () => {
+  const [loggerData] = useLogger();
 
-  const { data } = useChannel('data');
+  const messagesEndRef = useRef(null);
 
-  // useEffect(() => {
-  // const messageType = getMessageType(data);
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
 
-  // if (ALLOWED_MESSAGES.includes(messageType)) {
-  //   const now = getCurrentDate();
+  useEffect(scrollToBottom, [loggerData]);
 
-  //   // if (data.includes('Server started on port')) {
-  //   //   setIsServerStarted(true);
-  //   // }
-
-  //   const log = { now, info: data, msgType: messageType, id: uuidv4() };
-
-  //   setTerminalData(terminalData => [...terminalData, log]);
-  // }
-  // }, [data, setIsServerStarted]);
-  // }, [data]);
-
-  useEffect(() => {
-    if (terminalData.length === MAX_LOGS) {
-      const dataRef = [...terminalData];
-
-      dataRef.splice(0, LOGS_TO_REMOVE);
-
-      setTerminalData(dataRef);
-    }
-  }, [terminalData]);
-
-  return <LogData terminalData={terminalData} />;
+  return (
+    <PageWrapper>
+      <Header displayNav={true} />
+      <ContentWrapper>
+        <div className='logs-wrapper'>
+          {loggerData.map(log => (
+            <Message key={log.id} level={log.level} message={log.msg} />
+          ))}
+          <div ref={messagesEndRef} />
+        </div>
+      </ContentWrapper>
+      <Footer />
+    </PageWrapper>
+  );
 };
-
-const getCurrentDate = () => moment().format('MMM Do YYYY h:mm:s A');
-const getMessageType = message => message?.indexOf(':') !== -1 && message?.split(':')[0];
-
-const INIT_STATE = { now: getCurrentDate(), info: ': Loading...', id: uuidv4(), msgType: 'DATA' };
-const ALLOWED_MESSAGES = ['DATA', 'ERROR'];
-const MAX_LOGS = 9999;
-const LOGS_TO_REMOVE = 1000;
-
-export default JellyTerminal;

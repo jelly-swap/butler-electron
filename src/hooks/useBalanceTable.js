@@ -1,34 +1,31 @@
 import React, { useMemo } from 'react';
 import { useTable, useSortBy } from 'react-table';
+import { useBalance } from '../context/BalanceContext';
 
-import { useHttpGet } from './useHttpGet';
-
-const balanceEndpoint = '/api/v1/balanceAll';
-
-export const useBalanceTable = isServerStarted => {
-  const httpResponse = useHttpGet(balanceEndpoint, isServerStarted, true);
+export const useBalanceTable = () => {
+  const balance = useBalance();
 
   const data = useMemo(() => {
-    if (httpResponse.isLoading) {
+    if (!balance) {
       return [];
     }
 
-    return Object.keys(httpResponse.data).map(key => ({
+    return Object.keys(balance).map(key => ({
       network: (
         <div className='network-wrapper'>
           {key} <img src={require(`../images/tokens/${key}.svg`)} alt={key} />
         </div>
       ),
-      balance: Number(httpResponse.data[key].balance).toFixed(6),
-      address: httpResponse.data[key].address,
+      balance: Number(balance[key].balance).toFixed(6),
+      address: balance[key].address,
     }));
-  }, [httpResponse.data, httpResponse.isLoading]);
+  }, [balance]);
 
   const columns = useMemo(
     () => [
       {
         Header: 'Network',
-        accessor: 'network', // accessor is the "key" in the data
+        accessor: 'network',
       },
       {
         Header: 'Balance',
@@ -36,13 +33,13 @@ export const useBalanceTable = isServerStarted => {
       },
       {
         Header: 'Address',
-        accessor: 'address', // accessor is the "key" in the data
+        accessor: 'address',
       },
     ],
     [],
   );
 
-  const tableInstance = useTable({ columns, data: data || [] }, useSortBy);
+  const tableInstance = useTable({ columns, data }, useSortBy);
 
-  return { tableInstance, isLoading: httpResponse.isLoading };
+  return [tableInstance, Object.keys(balance).length === 0];
 };
