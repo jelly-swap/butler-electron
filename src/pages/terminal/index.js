@@ -9,6 +9,7 @@ import PageWrapper from '../../components/common/PageWrapper';
 import ContentWrapper from '../../components/common/ContentWrapper';
 import Header from '../../components/common/Header';
 import Footer from '../../components/common/Footer';
+import EmptyPage from '../../components/common/EmptyPage';
 
 export default () => {
   const [loggerData] = useLogger();
@@ -19,18 +20,26 @@ export default () => {
     messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
-  useEffect(scrollToBottom, [loggerData]);
+  useEffect(() => {
+    if (loggerData.length > 0 && messagesEndRef.current) {
+      scrollToBottom();
+    }
+  }, [loggerData]);
 
   return (
     <PageWrapper>
       <Header displayNav={true} />
       <ContentWrapper>
-        <div className='logs-wrapper'>
-          {loggerData.map(log => (
-            <Message key={log.id} level={log.level} message={log.msg} />
-          ))}
-          <div ref={messagesEndRef} />
-        </div>
+        {!loggerData.length ? (
+          <EmptyPage />
+        ) : (
+          <div className='logs-wrapper'>
+            {loggerData.map(log => (
+              <Message key={log.id} level={log.level} message={log.msg} />
+            ))}
+            <div ref={messagesEndRef} />
+          </div>
+        )}
       </ContentWrapper>
       <Footer />
     </PageWrapper>

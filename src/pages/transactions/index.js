@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import ContentWrapper from '../../components/common/ContentWrapper';
+import EmptyPage from '../../components/common/EmptyPage';
 import Header from '../../components/common/Header';
 import PageWrapper from '../../components/common/PageWrapper';
+import { useApp } from '../../context/AppContext';
 import { useTransactionTable } from '../../hooks/useTxTable';
 
 export default () => {
-  const [table, isLoading] = useTransactionTable();
+  const [table] = useTransactionTable();
+  const [app] = useApp();
 
   const { getTableProps, getTableBodyProps, rows, prepareRow } = table;
 
@@ -13,7 +16,9 @@ export default () => {
     <PageWrapper>
       <Header displayNav={true} />
       <ContentWrapper>
-        {!isLoading && (
+        {!app.serverStarted ? (
+          <EmptyPage />
+        ) : (
           <div className='balance-of-wrapper'>
             <table {...getTableProps()}>
               <tbody {...getTableBodyProps()}>

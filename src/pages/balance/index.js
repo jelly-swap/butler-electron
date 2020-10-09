@@ -1,8 +1,10 @@
 import React from 'react';
 import ContentWrapper from '../../components/common/ContentWrapper';
+import EmptyPage from '../../components/common/EmptyPage';
 import Footer from '../../components/common/Footer';
 import Header from '../../components/common/Header';
 import PageWrapper from '../../components/common/PageWrapper';
+import { useApp } from '../../context/AppContext';
 
 import { useBalanceTable } from '../../hooks/useBalanceTable';
 
@@ -11,12 +13,15 @@ import './style.scss';
 export default () => {
   const [table, isLoading] = useBalanceTable();
 
+  const [app] = useApp();
+
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = table;
 
   return (
     <PageWrapper>
       <Header displayNav={true} />
       <ContentWrapper>
+        {!app.serverStarted && <EmptyPage />}
         {!isLoading && (
           <div className='balance-of-wrapper'>
             <table {...getTableProps()}>
