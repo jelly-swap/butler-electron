@@ -12,7 +12,9 @@ import CoinImage from '../../css/background-coins/Coins-button.svg';
 import Footer from '../../components/common/Footer';
 
 import { useButlerConfig } from '../../context/ConfigContext';
+import { usePassword } from '../../context/PasswordContext';
 
+import { encrypt } from '../../utils/crypto';
 import { sendFromRenderer } from '../../utils/electronAPI';
 import { BUTLER_EVENTS } from '../../constants';
 
@@ -20,10 +22,12 @@ import './style.scss';
 
 export default () => {
   const history = useHistory();
+  const [password] = usePassword();
   const [config] = useButlerConfig();
 
   const handleOnClick = () => {
     sendFromRenderer(BUTLER_EVENTS.START, config);
+    sendFromRenderer(BUTLER_EVENTS.SAVE, encryptSecrets(config, password));
     history.push('/terminal');
   };
 
@@ -49,4 +53,24 @@ export default () => {
       </Footer>
     </PageWrapper>
   );
+};
+
+const encryptSecrets = (config, password) => {
+  const decryptedConfig = { ...config };
+
+  if (config.WALLETS) {
+    for (const asset in config.WALLETS) {
+      const secret = config.WALLETS[asset]?.SECRET;
+      if (secret) {
+        const result = encrypt(secret, password);
+        if (result) {
+          decryptedConfig.WALLETS[asset].SECRET = result;
+        } else {
+          throw new Error('ERROR_ENCRYPTING');
+        }
+      }
+    }
+  }
+
+  return decryptedConfig;
 };
