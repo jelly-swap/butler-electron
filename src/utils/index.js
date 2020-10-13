@@ -39,6 +39,6 @@ export const validateAddress = (asset, address) => {
   }
 };
 
-export const cutHash = (txHash) => {
-  return txHash.substring(0,4) + "..." + txHash.substring(txHash.length,txHash.length - 4)
-}
+export const cutHash = txHash => {
+  return txHash.substring(0, 4) + '...' + txHash.substring(txHash.length, txHash.length - 4);
+};
