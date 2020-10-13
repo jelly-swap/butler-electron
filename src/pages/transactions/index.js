@@ -6,6 +6,8 @@ import PageWrapper from '../../components/common/PageWrapper';
 import { useApp } from '../../context/AppContext';
 import { useTransactionTable } from '../../hooks/useTxTable';
 
+import './_style.scss';
+
 export default () => {
   const [table] = useTransactionTable();
   const [app] = useApp();
@@ -19,7 +21,7 @@ export default () => {
         {!app.serverStarted ? (
           <EmptyPage />
         ) : (
-          <div className='balance-of-wrapper'>
+          <div className='transaction-wrapper'>
             <table {...getTableProps()}>
               <tbody {...getTableBodyProps()}>
                 {rows.map((row, i) => {
