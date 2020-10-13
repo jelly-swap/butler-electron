@@ -3,6 +3,12 @@ import { useTable, useSortBy } from 'react-table';
 import { useTransactions } from '../context/TransactionContext';
 import { getAssetImage } from '../images/tokens';
 
+import {cutHash} from '../utils'
+
+import {STATUS,STATUS_COLOR} from '../constants'
+
+import Arrow from '../images/arrow.svg'
+
 // network: "ETH"
 // transactionHash: "0xc9ef5f6e4574450f092f90c690e2dafc68a47ca81135b2b11b32a2570a8ea031"
 // blockNumber: 10453301
@@ -23,17 +29,35 @@ import { getAssetImage } from '../images/tokens';
 export const useTransactionTable = () => {
   const transactions = useTransactions();
 
-  console.log(transactions);
 
   const data = useMemo(() => {
     if (!transactions) {
       return [];
     }
     return Object.values(transactions).map(swap => ({
+      
       swap: (
         <div className='network-wrapper'>
-          {swap.network} <img src={getAssetImage(swap.network)} alt={swap.network} />
-          {swap.outputNetwork} <img src={getAssetImage(swap.outputNetwork)} alt={swap.outputNetwork} />
+          <div className="transaction-info">
+            <div className="input-info">
+              <img src={getAssetImage(swap.network)} alt={swap.network} /> 
+              <span>{swap.inputAmount}</span>
+              </div>
+
+            <div className="txHash">
+              <img src={Arrow} alt="arrow"/>
+              <span title={swap.transactionHash}>
+                <p>TXHash:&nbsp;</p>
+                { cutHash(swap.transactionHash)}</span>
+              </div>
+
+            <div className="output-info">
+              <img src={getAssetImage(swap.outputNetwork)} alt={swap.network} />
+              <span>{swap.outputAmount}</span>
+            </div>
+          </div>
+
+         <span className="status" style={{color: STATUS_COLOR[STATUS[swap.status]]}}>{(STATUS[swap.status]).toLowerCase()}</span>
         </div>
       ),
     }));

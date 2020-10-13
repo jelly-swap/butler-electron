@@ -2,7 +2,7 @@
 
 .price-provider {
   margin-top: 2rem;
-  height: 267px;
+  height: 231px;
   border-bottom: 1px solid #c1c1c1;
   padding-right: 0.4em;
   .title-and-provider-wrapper {
@@ -20,6 +20,16 @@
     margin-top: 2rem;
     display: flex;
     justify-content: space-around;
+
+    &.binance {
+      display: grid;
+      grid-template-columns: 47% 47%;
+      grid-gap: 6%;
+
+      .inputHolder {
+        width: 100%;
+      }
+    }
 
     .inputHolder {
       width: 330px;
@@ -42,30 +52,40 @@
       box-shadow: none;
     }
 
-    .selected-interval {
-      color: $duskyBlue;
-      cursor: pointer;
-      box-shadow: 5px 5px 10px #c0c1c7, -5px -5px 10px #ffffff;
-      width: 67%;
-      margin-top: 0.7rem;
-      padding: 1em;
-      border-radius: 10px;
-      user-select: none;
-    }
-
-    .interval-menu {
-      user-select: none;
+    .price-provider-input-wrapper {
       display: flex;
-      justify-content: space-between;
-      width: 190px;
-      padding: 1em;
-      position: absolute;
-      left: 1.4em;
-      box-shadow: 5px 5px 10px #c0c1c7, -5px 0px 10px #ffffff;
-      color: $duskyBlue;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-top: 0.3rem;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+
+      & > :first-child {
+        width: 237px;
+      }
+
+      .selected-interval {
+        color: $duskyBlue;
+        cursor: pointer;
+        box-shadow: 5px 5px 10px #c0c1c7, -5px -5px 10px #ffffff;
+        width: 67%;
+        padding: 1em;
+        border-radius: 10px;
+        user-select: none;
+      }
+
+      .interval-menu {
+        position: absolute;
+        right: -31px;
+        top: 53px;
+        z-index: 100;
+        display: flex;
+        justify-content: space-between;
+        width: 190px;
+        padding: 1em;
+        box-shadow: 5px 5px 10px #c0c1c7, -5px 0px 10px #ffffff;
+        color: $duskyBlue;
+        border-radius: 10px;
+        cursor: pointer;
+      }
     }
 
     .price-provider-message {

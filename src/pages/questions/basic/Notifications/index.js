@@ -46,7 +46,7 @@ const Notifications = () => {
         </div>
 
         <div className='email-info-wrapper'>
-          <div>
+          <div className="email-info-inputs">
             <Input
               type='text'
               text='Username'

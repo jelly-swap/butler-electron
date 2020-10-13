@@ -2,10 +2,10 @@ import React from 'react';
 
 import Input from '../../../../../components/common/Input';
 
-const AdvancedInput = ({ value, name, handler }) => {
+const AdvancedInput = ({currentRef, value, name, handler }) => {
   return (
     <div className='advanced-input-wrapper'>
-      <span>{name}</span>
+      <span ref={currentRef} >{name}</span>
       <Input type='text' value={value} onChange={handler} />
     </div>
   );

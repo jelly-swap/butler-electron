@@ -5,12 +5,11 @@
   margin-top: 6%;
 
   .server-options {
-    display: inline;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 47% 47%;
+    grid-gap: 6%;
 
     .advanced-input-wrapper {
-      width: 50%;
-
       span {
         margin-bottom: 8px;
         display: inline-block;

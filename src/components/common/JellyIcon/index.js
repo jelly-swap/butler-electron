@@ -10,7 +10,7 @@ export default ({ isValid, children, className }) => {
       <div className='logo-wrapper'>
         <img src={JELLY} alt='jelly-icon' />
       </div>
-      <div className='content-wrapper'>{children}</div>
+      <div className='jelly-icon-content-wrapper'>{children}</div>
     </div>
   ) : null;
 };

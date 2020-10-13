@@ -45,13 +45,51 @@
   }
 
   .network-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 76px;
+    display: grid;
+    grid-template-columns: 1fr 100px;
+    grid-gap: 81px;
+
+    .transaction-info {
+      display: flex;
+      justify-content: space-around;
+
+      .input-info,
+      .output-info,
+      .txHash {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .txHash {
+        span {
+          font-size: 14px;
+          display: -webkit-inline-box;
+          color: grey;
+
+          p {
+            color: #a4a4a4;
+          }
+        }
+        img {
+          width: 17px;
+        }
+      }
+    }
+
+    .status {
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      justify-content: center;
+      text-transform: capitalize;
+    }
 
     img {
-      width: 20px;
-      margin-left: 10px;
+      width: 23px;
+      margin-bottom: 7px;
     }
   }
 }

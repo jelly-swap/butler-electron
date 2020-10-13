@@ -138,3 +138,19 @@ export const DEFAULT_CONFIG = {
   SERVER: { PORT: '9000' },
   DATABASE: { ACTIVE: 'SQLITE', SQLITE: { database: 'butler.sqlite' } },
 };
+
+export const STATUS_COLOR = {
+  INVALID: '#e7303c',
+  COMPLETED: '#66a02c',
+  ACTIVE: '#ff6f00',
+  EXPIRED: '#e7303c',
+  REFUNDED: '#66a02c'
+}
+
+export const STATUS = {
+  0: 'INVALID', // Uninitialized  swap -> can go to ACTIVE
+  1: 'ACTIVE', // Active swap -> can go to WITHDRAWN or EXPIRED
+  2: 'REFUNDED', // Swap is refunded -> final state.
+  3: 'COMPLETED', // Swap is withdrawn -> final state.
+  4: 'EXPIRED' // Swap is expired -> can go to REFUNDED
+}

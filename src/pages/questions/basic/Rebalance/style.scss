@@ -15,13 +15,15 @@
   }
 
   .rebalance-input-wrapper {
+    display: grid;
+    grid-template-columns: 47% 47%;
+    grid-gap: 6%;
+    margin-top: 2rem;
+
     .inputHolder {
-      width: 330px;
+      width: 100%;
       height: 46px;
     }
-    margin-top: 2rem;
-    display: flex;
-    justify-content: space-around;
   }
 
   .rebalance-message {

@@ -2,7 +2,7 @@
 
 .notifications-wrapper {
   margin-top: 2rem;
-  height: 343px;
+  height: 365px;
   border-bottom: 1px solid #c1c1c1;
 
   label {
@@ -14,16 +14,15 @@
     flex-wrap: wrap;
     justify-content: space-around;
 
-    .inputHolder {
-      margin-top: 2rem;
-      width: 330px;
-      height: 46px;
+    .email-info-inputs {
+      display: grid;
+      grid-template-columns: 47% 47%;
+      grid-gap: 6%;
 
-      input {
-        &:disabled {
-          box-shadow: unset;
-          background-color: #d5d5d5;
-        }
+      .inputHolder {
+        margin-top: 2rem;
+        width: 330px;
+        height: 46px;
       }
     }
   }
@@ -40,12 +39,6 @@
     font-size: 12px;
     position: relative;
     box-shadow: unset;
-    right: -6em;
-    top: 2.2em;
-
-    &:disabled {
-      cursor: not-allowed;
-      background-color: #d5d5d5;
-    }
+    top: 3.6em;
   }
 }

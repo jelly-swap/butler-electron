@@ -76,7 +76,7 @@ const PriceProvider = () => {
           })}
         </div>
       </div>
-      <div className='price-provider-inputs-wrapper'>
+      <div className={`price-provider-inputs-wrapper ${SECRET_KEY[priceProvider.PROVIDER] ? "binance" : ""}`}>
         <div className='price-provider-input-wrapper'>
           <Input
             type='text'

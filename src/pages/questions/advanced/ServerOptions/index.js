@@ -7,7 +7,7 @@ import { useButlerConfig } from '../../../../context/ConfigContext';
 
 import './style.scss';
 
-export default () => {
+export default ({currentRef}) => {
   const [config, updateConfig] = useButlerConfig();
 
   return (
@@ -33,6 +33,8 @@ export default () => {
         />
 
         <AdvancedInput
+          currentRef={currentRef}
+          id="bottom"
           value={config.JELLY_PRICE_PROVIDER}
           handler={e => updateConfig({ JELLY_PRICE_PROVIDER: e.target.value })}
           name={'Jelly Price Provider'}

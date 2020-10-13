@@ -23,6 +23,16 @@
     box-shadow: $notFocusedShadow;
     color: $duskyBlue;
 
+    &:disabled {
+      box-shadow: unset;
+      background-color: darkgrey;
+      cursor: not-allowed;
+
+      &::placeholder {
+        color: white;
+      }
+    }
+
     &::placeholder {
       color: $duskyBlue;
       opacity: 0.6;

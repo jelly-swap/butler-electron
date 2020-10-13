@@ -13,7 +13,7 @@ export default ({ hideLogout, displayNav }) => {
         {displayNav && <NavLink to={'/balance'}>Wallets</NavLink>}
         {displayNav && <NavLink to={'/transactions'}>Transactions</NavLink>}
         {displayNav && <NavLink to={'/terminal'}>Logs</NavLink>}
-        {!hideLogout && <NavLink to={'/login'}>Logout</NavLink>}
+        {!hideLogout && <div className="logout"> <NavLink  to={'/login'}>Logout</NavLink></div>}
       </div>
     </div>
   );

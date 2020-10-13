@@ -43,11 +43,11 @@
     position: absolute;
     top: 0;
     z-index: 17;
-    width: 291px;
+    width: 293px;
     display: block;
     -webkit-animation: fadeIn 0.5s;
     animation: fadeIn 0.5s;
-    max-height: 164px;
+    max-height: 211px;
     border-radius: 10px;
     background-color: $bgColor;
     box-shadow: $notFocusedShadow;
@@ -70,6 +70,7 @@
         background: inherit;
         padding: 3px;
         cursor: pointer;
+        outline: none;
 
         img {
           width: 16px;
@@ -84,12 +85,19 @@
       .search {
         padding-bottom: 7px;
         border-bottom: 1px solid #818181;
-        display: flow-root;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         input {
           border: none;
           background: border-box;
           color: $duskyBlue;
+        }
+
+        img {
+          width: 14px;
+          height: 14px;
         }
       }
 
@@ -117,7 +125,7 @@
 
     .currency-list {
       width: 96%;
-      max-height: 105px;
+      max-height: 151px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;

@@ -15,6 +15,12 @@
   /* Safari */
   transition-duration: 0.4s;
   box-shadow: 5px 5px 7px #e8e8e8, -5px -5px 7px #ffffff;
+
+  &:disabled {
+    box-shadow: unset;
+    background-color: darkgrey;
+    cursor: not-allowed;
+  }
 }
 
 .button.red {
