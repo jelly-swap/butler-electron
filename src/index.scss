@@ -166,12 +166,15 @@ select {
 
 * {
   box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+
+  ::-webkit-scrollbar {
+    width: 9px;
+  }
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-    'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #011b51;
@@ -184,4 +187,21 @@ code {
 
 #root {
   height: 100vh;
+  overflow: hidden;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: grey;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: darkgrey;
 }

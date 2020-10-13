@@ -1,4 +1,4 @@
-import { version } from '../package.json';
+import { version } from '../../package.json';
 
 export const BUTLER_EVENTS = {
   START: 'start-butler',
@@ -79,9 +79,6 @@ export const BUTLER_VERSION = version;
 /*eslint no-control-regex: "off"*/
 export const REGEX_FOR_EMAIL = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
 
-export const MIN_WORDS_FOR_VALID_SEED = 12;
-export const MAX_WORDS_FOR_VALID_SEED = 24;
-
 const getQuotes = pairs => {
   return Object.entries(pairs).reduce((object, asset) => {
     object[asset[0]] = Object.values(asset[1]);
@@ -137,4 +134,20 @@ export const DEFAULT_CONFIG = {
   JELLY_PRICE_PROVIDER: '',
   SERVER: { PORT: '9000' },
   DATABASE: { ACTIVE: 'SQLITE', SQLITE: { database: 'butler.sqlite' } },
+};
+
+export const STATUS_COLOR = {
+  INVALID: '#e7303c',
+  COMPLETED: '#66a02c',
+  ACTIVE: '#ff6f00',
+  EXPIRED: '#e7303c',
+  REFUNDED: '#66a02c',
+};
+
+export const STATUS = {
+  0: 'INVALID', // Uninitialized  swap -> can go to ACTIVE
+  1: 'ACTIVE', // Active swap -> can go to WITHDRAWN or EXPIRED
+  2: 'REFUNDED', // Swap is refunded -> final state.
+  3: 'COMPLETED', // Swap is withdrawn -> final state.
+  4: 'EXPIRED', // Swap is expired -> can go to REFUNDED
 };

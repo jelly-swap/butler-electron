@@ -33,6 +33,7 @@
       width: 100%;
       display: flex;
       justify-content: space-between;
+      position: relative;
 
       .wallet-address,
       .wallet-private-key {
@@ -51,6 +52,10 @@
         }
       }
 
+      .private-key-input {
+        margin-right: 29px;
+      }
+
       .errorMsg {
         top: 0;
         bottom: 4%;
@@ -67,6 +72,12 @@
           text-align: left;
           width: 325px;
         }
+      }
+
+      .fa-eye-container {
+        position: absolute;
+        right: 0;
+        top: 16px;
       }
     }
   }

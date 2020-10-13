@@ -22,7 +22,7 @@
     justify-content: center;
   }
 
-  .content-wrapper:after {
+  .jelly-icon-content-wrapper:after {
     content: '';
     position: absolute;
     background-color: $duskyBlue;
@@ -31,6 +31,6 @@
     transform-origin: 0 0;
     transform: rotate(-30deg) skewX(30deg);
     right: 15em;
-    top: 3.8em;
+    top: 4.8em;
   }
 }

@@ -53,5 +53,23 @@
       width: 20px;
       margin-left: 10px;
     }
+
+    span {
+      font-size: 13px;
+    }
+  }
+
+  .address-wrapper {
+    font-size: 13px;
+    cursor: pointer;
+
+    i {
+      font-size: 9px;
+      margin-left: 5px;
+    }
+  }
+
+  .amount-wrapper {
+    font-size: 17px;
   }
 }

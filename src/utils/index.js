@@ -1,3 +1,6 @@
+import BigNumber from 'big.js';
+import { ASSETS_MAP } from '../constants/assets';
+
 export const safeAccess = (object, path) => {
   return object
     ? path.reduce(
@@ -37,4 +40,12 @@ export const validateAddress = (asset, address) => {
   if (!new RegExp(getNetworkRegex(asset)).test(address)) {
     return true;
   }
+};
+
+export const cutHash = txHash => {
+  return txHash.substring(0, 4) + '...' + txHash.substring(txHash.length, txHash.length - 4);
+};
+
+export const getAmount = (amount, network) => {
+  return new BigNumber(amount).div(Math.pow(10, ASSETS_MAP[network].decimals)).toFixed(4).toString();
 };
