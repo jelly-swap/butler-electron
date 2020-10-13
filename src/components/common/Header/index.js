@@ -15,7 +15,6 @@ export default ({ hideLogout, displayNav }) => {
         {displayNav && <NavLink to={'/terminal'}>Logs</NavLink>}
         {!hideLogout && (
           <div className='logout'>
-            {' '}
             <NavLink to={'/login'}>Logout</NavLink>
           </div>
         )}
