@@ -4,6 +4,7 @@ import EmptyPage from '../../components/common/EmptyPage';
 import Footer from '../../components/common/Footer';
 import Header from '../../components/common/Header';
 import PageWrapper from '../../components/common/PageWrapper';
+import StopButton from '../../components/StopButton';
 import { useApp } from '../../context/AppContext';
 
 import { useBalanceTable } from '../../hooks/useBalanceTable';
@@ -22,7 +23,7 @@ export default () => {
       <Header displayNav={true} />
       <ContentWrapper>
         {!app.serverStarted && <EmptyPage />}
-        {!isLoading && (
+        {!isLoading && app.serverStarted && (
           <div className='balance-of-wrapper'>
             <table {...getTableProps()}>
               <thead>
@@ -57,7 +58,7 @@ export default () => {
           </div>
         )}
       </ContentWrapper>
-      <Footer />
+      <Footer>{app.serverStarted && <StopButton />}</Footer>
     </PageWrapper>
   );
 };

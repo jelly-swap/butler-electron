@@ -9,6 +9,7 @@ import LoggerContextProvider, { Updater as LoggerUpdater } from './context/Logge
 import AppContextProvider, { Updater as AppUpdater } from './context/AppContext';
 import BalanceContextProvider, { Updater as BalanceUpdater } from './context/BalanceContext';
 import TransactionContextProvider, { Updater as TransactionUpdater } from './context/TransactionContext';
+import EventContextProvider from './context/EventContext';
 
 import './index.scss';
 
@@ -25,18 +26,20 @@ function Updaters() {
 
 function ContextProviders({ children }) {
   return (
-    <ConfigContextProvider>
-      <AppContextProvider>
-        <BalanceContextProvider>
-          <TransactionContextProvider>
-            <LoggerContextProvider>
-              <Updaters />
-              <PasswordContextProvider>{children}</PasswordContextProvider>
-            </LoggerContextProvider>
-          </TransactionContextProvider>
-        </BalanceContextProvider>
-      </AppContextProvider>
-    </ConfigContextProvider>
+    <EventContextProvider>
+      <ConfigContextProvider>
+        <AppContextProvider>
+          <BalanceContextProvider>
+            <TransactionContextProvider>
+              <LoggerContextProvider>
+                <Updaters />
+                <PasswordContextProvider>{children}</PasswordContextProvider>
+              </LoggerContextProvider>
+            </TransactionContextProvider>
+          </BalanceContextProvider>
+        </AppContextProvider>
+      </ConfigContextProvider>
+    </EventContextProvider>
   );
 }
 

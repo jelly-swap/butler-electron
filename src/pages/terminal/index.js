@@ -10,9 +10,12 @@ import ContentWrapper from '../../components/common/ContentWrapper';
 import Header from '../../components/common/Header';
 import Footer from '../../components/common/Footer';
 import EmptyPage from '../../components/common/EmptyPage';
+import StopButton from '../../components/StopButton';
+import { useApp } from '../../context/AppContext';
 
 export default () => {
   const [loggerData] = useLogger();
+  const [app] = useApp();
 
   const messagesEndRef = useRef(null);
 
@@ -30,7 +33,7 @@ export default () => {
     <PageWrapper>
       <Header displayNav={true} />
       <ContentWrapper>
-        {!loggerData.length ? (
+        {!loggerData.length || !app.serverStarted ? (
           <EmptyPage />
         ) : (
           <div className='logs-wrapper'>
@@ -41,7 +44,7 @@ export default () => {
           </div>
         )}
       </ContentWrapper>
-      <Footer />
+      <Footer>{app.serverStarted && <StopButton />}</Footer>
     </PageWrapper>
   );
 };

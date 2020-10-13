@@ -2,7 +2,7 @@
 
 .notifications-wrapper {
   margin-top: 2rem;
-  height: 365px;
+  height: 305px;
   border-bottom: 1px solid #c1c1c1;
 
   label {
@@ -30,15 +30,5 @@
   .email-checkbox-wrapper {
     text-align: left;
     margin-top: 2rem;
-  }
-
-  button {
-    background-color: $grass;
-    width: 180px;
-    height: 46px;
-    font-size: 12px;
-    position: relative;
-    box-shadow: unset;
-    top: 3.6em;
   }
 }

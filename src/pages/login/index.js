@@ -75,7 +75,7 @@ export default () => {
 
   return !isLoading ? (
     <PageWrapper>
-      <Header hideLogout={true} />
+      <Header />
       <ContentWrapper>
         <div className='title'>
           <h1>Welcome to Butler</h1>

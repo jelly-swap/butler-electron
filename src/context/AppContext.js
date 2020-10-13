@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useReducer, useCallback, useEffect } from 'react';
+import { BUTLER_EVENTS } from '../constants';
 import { receiveAllFromMain } from '../utils/electronAPI';
+import { useEventDispatch } from './EventContext';
 
 const UPDATE = 'UPDATE';
 
@@ -15,6 +17,8 @@ function reducer(state, { type, payload }) {
       const updatedState = { ...state };
       if (payload.msg === 'SERVER_STARTED') {
         updatedState.serverStarted = true;
+      } else if (payload.msg === 'SERVER_STOPPED') {
+        updatedState.serverStarted = false;
       }
 
       return updatedState;
@@ -28,12 +32,17 @@ function reducer(state, { type, payload }) {
 
 export function Updater() {
   const { update } = useAppContext();
+  const dispatchEvent = useEventDispatch();
 
   useEffect(() => {
     receiveAllFromMain('SERVER', (event, data) => {
       update(data);
     });
-  }, [update]);
+
+    receiveAllFromMain(BUTLER_EVENTS.STOPPED, () => {
+      dispatchEvent(BUTLER_EVENTS.STOPPED);
+    });
+  }, [update, dispatchEvent]);
 
   return null;
 }

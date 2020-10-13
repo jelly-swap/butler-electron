@@ -14,21 +14,20 @@ const Rebalance = () => {
   const [, updateConfig] = useButlerConfig();
   const exchangeConfig = useConfig('EXCHANGE') || DEFAULT_CONFIG.EXCHANGE;
 
-  const [isChecked, setIsChecked] = useState(false);
   const [isValid, setIsValid] = useState(true);
 
   useEffect(() => {
-    if (isChecked) {
+    if (exchangeConfig.NAME) {
       let valid = false;
-      if (exchangeConfig.API_KEY && exchangeConfig.SECRET_KEY && exchangeConfig.NAME) {
+      if (exchangeConfig.API_KEY && exchangeConfig.SECRET_KEY) {
         valid = true;
       }
       setIsValid(valid);
     }
-  }, [isChecked, exchangeConfig]);
+  }, [exchangeConfig]);
 
   const handleOnChange = event => {
-    event.persist();
+    event.persist && event.persist();
 
     const {
       target: { name, value },
@@ -46,17 +45,17 @@ const Rebalance = () => {
           {EXCHANGES.map(exchange => {
             return (
               <div className='rebalance-checkbox-wrapper' key={exchange}>
-                <label className={isChecked ? 'mark-label' : null} htmlFor='binance'>
+                <label className={exchangeConfig.NAME ? 'mark-label' : null} htmlFor='binance'>
                   <input
                     type='checkbox'
                     id='binance'
-                    value={exchange}
-                    name='NAME'
                     onChange={event => {
-                      handleOnChange(event);
-                      setIsChecked(!isChecked);
+                      handleOnChange({
+                        ...event,
+                        target: { name: 'NAME', value: exchangeConfig.NAME ? '' : exchange },
+                      });
                     }}
-                    checked={isChecked}
+                    checked={exchangeConfig.NAME && true}
                   />
                   {exchange}
                   <span className='checkmark'></span>
@@ -67,19 +66,25 @@ const Rebalance = () => {
         </div>
       </div>
 
-      {isChecked && (
-        <div className='rebalance-input-wrapper'>
-          <Input type='text' text='API KEY' name='API_KEY' value={exchangeConfig.API_KEY} onChange={handleOnChange} />
+      <div className='rebalance-input-wrapper'>
+        <Input
+          type='text'
+          text='API KEY'
+          name='API_KEY'
+          value={exchangeConfig.API_KEY}
+          onChange={handleOnChange}
+          disabled={!exchangeConfig.NAME}
+        />
 
-          <Input
-            type='text'
-            text='SECRET KEY'
-            name='SECRET_KEY'
-            value={exchangeConfig.SECRET_KEY}
-            onChange={handleOnChange}
-          />
-        </div>
-      )}
+        <Input
+          type='text'
+          text='SECRET KEY'
+          name='SECRET_KEY'
+          value={exchangeConfig.SECRET_KEY}
+          onChange={handleOnChange}
+          disabled={!exchangeConfig.NAME}
+        />
+      </div>
     </div>
   );
 };

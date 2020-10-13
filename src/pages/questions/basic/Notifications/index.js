@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 import QuestionTitle from '../../../../components/common/QuestionTitle';
 import Input from '../../../../components/common/Input';
-import Button from '../../../../components/common/Button';
 
 import { useButlerConfig, useConfig } from '../../../../context/ConfigContext';
 import { DEFAULT_CONFIG, REGEX_FOR_EMAIL } from '../../../../constants';
@@ -12,7 +11,6 @@ import './style.scss';
 const Notifications = () => {
   const [, updateConfig] = useButlerConfig();
   const emailConfig = useConfig('NOTIFICATIONS', 'EMAIL') || DEFAULT_CONFIG.NOTIFICATIONS.EMAIL;
-  const [enabled, toggleEnabled] = useState(false);
   const [isValid, setIsValid] = useState(true);
 
   const handleEmailDataOnChange = event => {
@@ -26,7 +24,7 @@ const Notifications = () => {
   };
 
   useEffect(() => {
-    if (enabled) {
+    if (emailConfig.ENABLED) {
       const valid =
         emailConfig.PASSWORD &&
         new RegExp(REGEX_FOR_EMAIL).test(emailConfig.USERNAME) &&
@@ -34,14 +32,20 @@ const Notifications = () => {
         new RegExp(REGEX_FOR_EMAIL).test(emailConfig.TO);
       setIsValid(valid);
     }
-  }, [enabled, emailConfig]);
+  }, [emailConfig]);
 
   return (
     <div className='notifications-wrapper'>
       <QuestionTitle isValid={isValid} title='Notifications' />
       <div>
         <div className={'email-checkbox-wrapper'}>
-          <input id='open-email-data' type='checkbox' onChange={() => toggleEnabled(!enabled)} />
+          <input
+            id='open-email-data'
+            type='checkbox'
+            onChange={event => {
+              handleEmailDataOnChange({ ...event, target: { name: 'ENABLED', value: !emailConfig.ENABLED } });
+            }}
+          />
           <label htmlFor='open-email-data'>Email</label>
         </div>
 
@@ -53,7 +57,7 @@ const Notifications = () => {
               name='USERNAME'
               value={emailConfig.USERNAME}
               onChange={handleEmailDataOnChange}
-              disabled={!enabled}
+              disabled={!emailConfig.ENABLED}
             />
 
             <Input
@@ -62,7 +66,7 @@ const Notifications = () => {
               name='PASSWORD'
               value={emailConfig.PASSWORD}
               onChange={handleEmailDataOnChange}
-              disabled={!enabled}
+              disabled={!emailConfig.ENABLED}
             />
 
             <Input
@@ -71,7 +75,7 @@ const Notifications = () => {
               name='FROM'
               value={emailConfig.FROM}
               onChange={handleEmailDataOnChange}
-              disabled={!enabled}
+              disabled={!emailConfig.ENABLED}
             />
 
             <Input
@@ -80,15 +84,9 @@ const Notifications = () => {
               name='TO'
               value={emailConfig.TO}
               onChange={handleEmailDataOnChange}
-              disabled={!enabled}
+              disabled={!emailConfig.ENABLED}
             />
           </div>
-          <Button
-            disabled={!isValid}
-            content='Add'
-            name='ENABLED'
-            onClick={event => handleEmailDataOnChange({ ...event, target: { name: 'ENABLED', value: true } })}
-          />
         </div>
       </div>
     </div>

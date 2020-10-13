@@ -1,0 +1,19 @@
+.start-button {
+  margin-top: 2em !important;
+  width: 15rem !important;
+  height: 3rem !important;
+
+  span {
+    position: relative;
+    bottom: 1em;
+  }
+
+  img {
+    width: 100px;
+    height: 46px;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+}

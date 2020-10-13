@@ -1,8 +1,10 @@
 import React from 'react';
 import ContentWrapper from '../../components/common/ContentWrapper';
 import EmptyPage from '../../components/common/EmptyPage';
+import Footer from '../../components/common/Footer';
 import Header from '../../components/common/Header';
 import PageWrapper from '../../components/common/PageWrapper';
+import StopButton from '../../components/StopButton';
 import { useApp } from '../../context/AppContext';
 import { useTransactionTable } from '../../hooks/useTxTable';
 
@@ -39,6 +41,7 @@ export default () => {
           </div>
         )}
       </ContentWrapper>
+      <Footer>{app.serverStarted && <StopButton />}</Footer>
     </PageWrapper>
   );
 };
