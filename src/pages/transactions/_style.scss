@@ -47,7 +47,7 @@
     height: 76px;
     display: grid;
     grid-template-columns: 1fr 100px;
-    grid-gap: 81px;
+    grid-gap: 41px;
 
     .transaction-info {
       display: flex;
@@ -60,6 +60,26 @@
         flex-flow: column;
         align-items: center;
         justify-content: center;
+      }
+
+      .output-info,
+      .input-info {
+        font-size: 17px;
+        min-width: 97px;
+      }
+
+      .txHash {
+        min-width: 97px;
+
+        i {
+          font-size: 9px;
+          margin-left: 6px;
+        }
+
+        span {
+          cursor: pointer;
+          font-size: 12px;
+        }
       }
 
       .txHash {
@@ -84,11 +104,12 @@
       align-items: center;
       justify-content: center;
       text-transform: capitalize;
+      font-size: 13px;
     }
 
     img {
-      width: 23px;
-      margin-bottom: 7px;
+      width: 17px;
+      margin-bottom: 9px;
     }
   }
 }
