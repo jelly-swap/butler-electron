@@ -60,6 +60,7 @@ class BalanceService {
                                 erc20Address[address] = address;
                                 if (!math_1.greaterThan(ethBalance, 0)) {
                                     logger_1.logError(`You need ETH in ${address} for the Ethereum network fees in order to  provide ${network}.`);
+                                    logger_1.logError(`Exiting...`);
                                     process.exit(-1);
                                 }
                             }
