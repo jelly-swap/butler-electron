@@ -42,7 +42,7 @@ class Exchange {
             }
             catch (err) {
                 logger_1.logError(`Could not place order in ${this.userConfig.EXCHANGE.NAME}.`);
-                logger_1.logError('PLACE_ORDER_ERROR', err);
+                logger_1.logError(`PLACE_ORDER_ERROR ${err}`);
                 return false;
             }
         });

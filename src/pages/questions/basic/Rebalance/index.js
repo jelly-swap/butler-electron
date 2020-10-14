@@ -72,6 +72,9 @@ const Rebalance = () => {
           text='API KEY'
           name='API_KEY'
           value={exchangeConfig.API_KEY}
+          errMessage={
+            exchangeConfig.NAME && !exchangeConfig.API_KEY ? `Please enter ${exchangeConfig.NAME} Api Key` : ''
+          }
           onChange={handleOnChange}
           disabled={!exchangeConfig.NAME}
         />
@@ -81,6 +84,9 @@ const Rebalance = () => {
           text='SECRET KEY'
           name='SECRET_KEY'
           value={exchangeConfig.SECRET_KEY}
+          errMessage={
+            exchangeConfig.NAME && !exchangeConfig.SECRET_KEY ? `Please enter ${exchangeConfig.NAME} Secret Key` : ''
+          }
           onChange={handleOnChange}
           disabled={!exchangeConfig.NAME}
         />

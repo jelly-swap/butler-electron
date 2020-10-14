@@ -113,20 +113,10 @@ ipcMain.on(BUTLER_EVENTS.STOP, event => {
     return;
   }
 
-  dialog
-    .showMessageBox(mainWindow, {
-      buttons: ['Yes', 'No', 'Cancel'],
-      message: 'Do you really want to stop Butler?',
-    })
-    .then(result => {
-      if (result.response === 0) {
-        butler.kill();
-        butler = null;
-        event.sender.send(BUTLER_EVENTS.STOPPED);
-      }
-    });
-
   event.preventDefault();
+  butler.kill();
+  butler = null;
+  event.sender.send(BUTLER_EVENTS.STOPPED);
 });
 
 ipcMain.on(BUTLER_EVENTS.SAVE, (event, file) => {

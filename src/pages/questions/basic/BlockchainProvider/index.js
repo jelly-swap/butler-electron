@@ -81,6 +81,7 @@ const BlockchainProvider = () => {
                   type='text'
                   name={provider}
                   onChange={handleProviderOnChange}
+                  errMessage={isValid ? '' : 'Please provide Infura url'}
                   value={blockchainProviders[provider]}
                   text={provider}
                 />

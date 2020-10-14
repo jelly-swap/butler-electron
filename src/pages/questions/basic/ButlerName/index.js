@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import QuestionTitle from '../../../../components/common/QuestionTitle';
 import Input from '../../../../components/common/Input';
-import JellyIcon from '../../../../components/common/JellyIcon';
 
 import { useButlerConfig } from '../../../../context/ConfigContext';
 
@@ -32,12 +31,12 @@ const ButlerName = () => {
     <div className='butler-name-wrapper'>
       <QuestionTitle title='Butler name' isValid={isValid} />
       <div className='name-wrapper'>
-        <Input type='text' value={config.NAME} onChange={handleOnChange} />
-        {!isValid && (
-          <JellyIcon className='butler-name-icon'>
-            <p>Butler Name is required</p>
-          </JellyIcon>
-        )}
+        <Input
+          type='text'
+          value={config.NAME}
+          onChange={handleOnChange}
+          errMessage={isValid ? '' : 'Please provide Butler name'}
+        />
       </div>
     </div>
   );

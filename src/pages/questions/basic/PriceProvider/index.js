@@ -82,6 +82,7 @@ const PriceProvider = () => {
             type='text'
             value={priceProvider.API_KEY}
             onChange={handleInputOnChange}
+            errMessage={priceProvider.API_KEY ? '' : `Please provide ${priceProvider.PROVIDER} API key`}
             name='API_KEY'
             text='API KEY'
           />
@@ -93,6 +94,7 @@ const PriceProvider = () => {
               type='text'
               value={priceProvider.SECRET_KEY}
               onChange={handleInputOnChange}
+              errMessage={priceProvider.SECRET_KEY ? '' : `Please provide ${priceProvider.PROVIDER} Secret Key`}
               name='SECRET_KEY'
               text='SECRET KEY'
             />
