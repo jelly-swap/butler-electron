@@ -44,7 +44,6 @@ export function Updater() {
           Axios.get(`https://${trackerUrl}/api/v1/swaps/address/${login}/expiration/1`, {
             headers: { 'Access-Control-Allow-Origin': '*' },
           }).then(result => {
-            console.log(result.data);
             update(result.data);
           });
         }
