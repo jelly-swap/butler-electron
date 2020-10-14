@@ -1,7 +1,9 @@
 import React, { createContext, useContext, useReducer, useCallback, useEffect } from 'react';
-import { BUTLER_EVENTS } from '../constants';
-import { receiveAllFromMain } from '../utils/electronAPI';
 import { useEventDispatch } from './EventContext';
+
+import { BUTLER_EVENTS } from '../constants';
+
+import { receiveAllFromMain, sendFromRenderer } from '../utils/electronAPI';
 
 const UPDATE = 'UPDATE';
 
@@ -42,6 +44,18 @@ export function Updater() {
     receiveAllFromMain(BUTLER_EVENTS.STOPPED, () => {
       dispatchEvent(BUTLER_EVENTS.STOPPED);
     });
+
+    receiveAllFromMain(BUTLER_EVENTS.DIED, () => {
+      dispatchEvent(BUTLER_EVENTS.DIED);
+    });
+
+    const livenessPoll = setInterval(() => {
+      sendFromRenderer(BUTLER_EVENTS.ALIVE);
+    }, 60000);
+
+    return () => {
+      clearInterval(livenessPoll);
+    };
   }, [update, dispatchEvent]);
 
   return null;

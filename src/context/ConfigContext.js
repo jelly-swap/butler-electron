@@ -13,7 +13,7 @@ function useConfigContext() {
 function reducer(state, { type, payload }) {
   switch (type) {
     case UPDATE: {
-      console.log({
+      console.log('STATE UPDATE', {
         ...state,
         ...payload,
       });

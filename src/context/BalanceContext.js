@@ -41,7 +41,6 @@ export function Updater() {
           Axios.get(`http://localhost:${config.PORT}/api/v1/balanceAll`, {
             headers: { 'Access-Control-Allow-Origin': '*' },
           }).then(result => {
-            console.log(result.data);
             update(result.data);
           });
         }

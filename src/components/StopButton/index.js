@@ -1,19 +1,20 @@
 import React, { useCallback } from 'react';
+import Button from '../common/Button';
+
 import { useHistory } from 'react-router-dom';
-import { BUTLER_EVENTS } from '../../constants';
 import { useEvent } from '../../context/EventContext';
 import { useApp } from '../../context/AppContext';
 import { usePassword } from '../../context/PasswordContext';
 import { sendFromRenderer } from '../../utils/electronAPI';
 
-import Button from '../common/Button';
+import { BUTLER_EVENTS } from '../../constants';
 
 import './_style.scss';
 
 export default () => {
   const history = useHistory();
   const [, updatePassword] = usePassword();
-  const [app, updateApp] = useApp();
+  const [, updateApp] = useApp();
 
   const handleEvent = useCallback(() => {
     updatePassword('');

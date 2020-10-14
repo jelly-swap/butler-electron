@@ -1,49 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { receiveFromMain, sendFromRenderer } from '../../utils/electronAPI';
-import { BUTLER_EVENTS } from '../../constants';
+import React, { useState } from 'react';
 
 import PageWrapper from '../../components/common/PageWrapper';
 import ContentWrapper from '../../components/common/ContentWrapper';
 import Input from '../../components/common/Input';
 import Header from '../../components/common/Header';
-import Button from '../../components/common/Button';
+import LoginButton from '../../components/LoginButton';
 
 import { useButlerConfig } from '../../context/ConfigContext';
-import { useHistory } from 'react-router-dom';
+
 import { usePassword } from '../../context/PasswordContext';
-import { decrypt } from '../../utils/crypto';
+import { useHistory } from 'react-router-dom';
+
+import { BUTLER_EVENTS, DEFAULT_CONFIG } from '../../constants';
+import { sendFromRenderer } from '../../utils/electronAPI';
 
 import './style.scss';
 
 export default () => {
   const history = useHistory();
+  const [, setConfig] = useButlerConfig();
   const [password, setPassword] = usePassword();
-  const [, updateConfig] = useButlerConfig();
-
-  const [isLoading, setLoading] = useState(true);
-  const [config, setConfig] = useState();
-  const [firstLogin, setFirstLogin] = useState(false);
   const [attempts, setAttempts] = useState(3);
   const [errorMessage, setErrorMessage] = useState(false);
-
-  useEffect(() => {
-    setPassword('');
-
-    sendFromRenderer(BUTLER_EVENTS.LOAD);
-
-    receiveFromMain(BUTLER_EVENTS.LOADED, (event, data) => {
-      if (!data.success && data.reason === 'FILE_NOT_FOUND') {
-        setFirstLogin(true);
-      }
-
-      if (data.success && data.config) {
-        setConfig(data.config);
-      }
-
-      setLoading(false);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handlePasswordOnChange = event => {
     event.persist();
@@ -56,24 +34,21 @@ export default () => {
     }
   };
 
-  const handleLogin = () => {
-    if (firstLogin) {
-      if (password.length >= 4) {
-        history.push('/home');
-      }
-    } else {
-      try {
-        const decryptedConfig = decryptSecrets(config, password);
-        updateConfig(decryptedConfig);
-        history.push('/home');
-      } catch (err) {
+  const handlePasswordSubmission = correctPassword => {
+    if (!correctPassword) {
+      if (attempts > 1) {
         setAttempts(oldValue => oldValue - 1);
         setErrorMessage(`You have ${attempts - 1} attempts to enter the correct password.`);
+      } else {
+        setErrorMessage(`Pick new password.`);
+        setConfig(DEFAULT_CONFIG);
+        sendFromRenderer(BUTLER_EVENTS.SAVE, DEFAULT_CONFIG);
+        history.push('/home');
       }
     }
   };
 
-  return !isLoading ? (
+  return (
     <PageWrapper>
       <Header />
       <ContentWrapper>
@@ -93,28 +68,8 @@ export default () => {
           errMessage={errorMessage}
           onChange={handlePasswordOnChange}
         />
-        <Button className='button' content='Login' color='green' onClick={handleLogin} />
+        <LoginButton onSubmitPassword={handlePasswordSubmission} />
       </ContentWrapper>
     </PageWrapper>
-  ) : null;
-};
-
-const decryptSecrets = (config, password) => {
-  const decryptedConfig = { ...config };
-
-  if (config.WALLETS) {
-    for (const asset in config.WALLETS) {
-      const secret = config.WALLETS[asset]?.SECRET;
-      if (secret) {
-        const result = decrypt(secret, password);
-        if (result.success) {
-          decryptedConfig.WALLETS[asset].SECRET = result.data;
-        } else {
-          throw new Error('WRONG_PASSWORD');
-        }
-      }
-    }
-  }
-
-  return decryptedConfig;
+  );
 };
