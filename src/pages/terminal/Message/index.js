@@ -1,7 +1,15 @@
 import React from 'react';
 
+import './_style.scss';
+
 const MESSAGE_TYPES = { error: '📕', data: '📗' };
 
-export default ({ level, message }) => {
-  return <div className='log'>{`${MESSAGE_TYPES[level]} ${message}`}</div>;
+export default ({ level, message, timestamp }) => {
+  return (
+    <div className='log'>
+      <span>{MESSAGE_TYPES[level]}</span>
+      <span className='message-timestamp'>{timestamp}</span>
+      {message}
+    </div>
+  );
 };

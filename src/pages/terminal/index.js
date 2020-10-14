@@ -1,17 +1,17 @@
 import React, { useEffect, useRef } from 'react';
 
 import Message from './Message';
-
-import { useLogger } from '../../context/LoggerContext';
-
-import './style.scss';
 import PageWrapper from '../../components/common/PageWrapper';
 import ContentWrapper from '../../components/common/ContentWrapper';
 import Header from '../../components/common/Header';
 import Footer from '../../components/common/Footer';
 import EmptyPage from '../../components/common/EmptyPage';
 import StopButton from '../../components/StopButton';
+
+import { useLogger } from '../../context/LoggerContext';
 import { useApp } from '../../context/AppContext';
+
+import './style.scss';
 
 export default () => {
   const [loggerData] = useLogger();
@@ -33,12 +33,12 @@ export default () => {
     <PageWrapper>
       <Header displayNav={true} />
       <ContentWrapper>
-        {!loggerData.length || !app.serverStarted ? (
+        {!loggerData.length ? (
           <EmptyPage />
         ) : (
           <div className='logs-wrapper'>
             {loggerData.map(log => (
-              <Message key={log.id} level={log.level} message={log.msg} />
+              <Message key={log.id} level={log.level} message={log.msg} timestamp={log.timestamp} />
             ))}
             <div ref={messagesEndRef} />
           </div>
