@@ -11,7 +11,7 @@ import { useButlerConfig } from '../../context/ConfigContext';
 import { usePassword } from '../../context/PasswordContext';
 import { useHistory } from 'react-router-dom';
 
-import { BUTLER_EVENTS, DEFAULT_CONFIG } from '../../constants';
+import { BUTLER_EVENTS, BUTLER_VERSION, DEFAULT_CONFIG } from '../../constants';
 import { sendFromRenderer } from '../../utils/electronAPI';
 
 import './style.scss';
@@ -53,7 +53,7 @@ export default () => {
       <Header />
       <ContentWrapper>
         <div className='title'>
-          <h1>Welcome to Butler</h1>
+          <h1>{`Welcome to Butler v${BUTLER_VERSION}`}</h1>
           <p>
             The password is used to encrypt all of your sensitive information. Your first entered password will be used
             in the future. If you do not enter the correct password 3 times in a row your settings will be wiped out and
