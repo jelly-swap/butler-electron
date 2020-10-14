@@ -7,6 +7,7 @@ import Header from '../../components/common/Header';
 import Footer from '../../components/common/Footer';
 import EmptyPage from '../../components/common/EmptyPage';
 import StopButton from '../../components/StopButton';
+import ClearLogsButton from '../../components/ClearLogsButton';
 
 import { useLogger } from '../../context/LoggerContext';
 import { useApp } from '../../context/AppContext';
@@ -44,7 +45,14 @@ export default () => {
           </div>
         )}
       </ContentWrapper>
-      <Footer>{app.serverStarted && <StopButton />}</Footer>
+      <Footer className='logs-footer'>
+        {app.serverStarted && (
+          <>
+            <StopButton />
+            <ClearLogsButton />
+          </>
+        )}
+      </Footer>
     </PageWrapper>
   );
 };

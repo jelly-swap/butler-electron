@@ -2,6 +2,6 @@ import React from 'react';
 
 import './_style.scss';
 
-export default ({ children }) => {
-  return <div className={`footer`}>{children}</div>;
+export default ({ children, className }) => {
+  return <div className={`footer ${className}`}>{children}</div>;
 };

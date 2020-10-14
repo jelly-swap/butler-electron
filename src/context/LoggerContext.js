@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { receiveAllFromMain } from '../utils/electronAPI';
 
 const UPDATE = 'UPDATE';
+const CLEAR = 'CLEAR';
 
 const LoggerContext = createContext();
 
@@ -15,6 +16,10 @@ function reducer(state, { type, payload }) {
   switch (type) {
     case UPDATE: {
       return [...state, { ...payload, id: uuidv4() }];
+    }
+
+    case CLEAR: {
+      return [];
     }
 
     default: {
@@ -42,11 +47,16 @@ export default function Provider({ children }) {
     dispatch({ type: UPDATE, payload: log });
   }, []);
 
+  const clear = useCallback(() => {
+    dispatch({ type: CLEAR });
+  }, []);
+
   return (
     <LoggerContext.Provider
       value={{
         state,
         update,
+        clear,
       }}
     >
       {children}
@@ -55,6 +65,6 @@ export default function Provider({ children }) {
 }
 
 export function useLogger() {
-  const { state, update } = useLoggerContext();
-  return [state, update];
+  const { state, update, clear } = useLoggerContext();
+  return [state, update, clear];
 }

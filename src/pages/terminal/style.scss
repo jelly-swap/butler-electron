@@ -5,6 +5,9 @@
   background-color: $bgColorDarker;
   width: 100% !important;
   height: 26.7em;
-  overflow-y: auto;
   padding: 1em 1em;
+}
+
+.logs-footer {
+  grid-template-columns: 1fr 1fr;
 }

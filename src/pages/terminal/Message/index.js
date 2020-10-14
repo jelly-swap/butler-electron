@@ -6,7 +6,7 @@ const MESSAGE_TYPES = { error: '📕', data: '📗' };
 
 export default ({ level, message, timestamp }) => {
   return (
-    <div className='log'>
+    <div className={`log ${level}`}>
       <span>{MESSAGE_TYPES[level]}</span>
       <span className='message-timestamp'>{timestamp}</span>
       {message}
