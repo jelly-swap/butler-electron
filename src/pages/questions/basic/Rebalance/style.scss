@@ -8,9 +8,14 @@
 
   .title-and-rebalance-wrapper {
     display: flex;
+    justify-content: space-between;
 
     .rebalance-checkbox-wrapper {
       margin-left: 12.4rem;
+      label {
+        cursor: pointer;
+        user-select: none;
+      }
     }
   }
 

@@ -1,18 +1,33 @@
 @import '../../../../css/constants.scss';
 
 .price-provider {
-  margin-top: 2rem;
+  margin-top: 1rem;
   height: 231px;
   border-bottom: 1px solid #c1c1c1;
   padding-right: 0.4em;
   .title-and-provider-wrapper {
     display: flex;
+    justify-content: space-between;
 
     .price-provider-wrapper {
       display: flex;
       justify-content: space-between;
       margin-left: 6.5rem;
       width: 250px;
+
+      & > div {
+        display: flex;
+        align-items: center;
+
+        label {
+          cursor: pointer;
+          user-select: none;
+        }
+
+        input {
+          margin-top: 0;
+        }
+      }
     }
   }
 
@@ -32,17 +47,17 @@
     }
 
     .inputHolder {
-      width: 330px;
+      width: 307px;
       height: 46px;
     }
   }
 
   .bottom-row {
-    margin-top: 2rem;
     display: flex;
     justify-content: space-between;
     position: relative;
     align-items: center;
+    top: 3.8em;
 
     button {
       background-color: $grass;
@@ -57,6 +72,7 @@
       justify-content: center;
       align-items: center;
       position: relative;
+      width: 436px;
 
       & > :first-child {
         width: 237px;
@@ -66,10 +82,12 @@
         color: $duskyBlue;
         cursor: pointer;
         box-shadow: 5px 5px 10px #c0c1c7, -5px -5px 10px #ffffff;
-        width: 67%;
+        width: 49%;
         padding: 1em;
         border-radius: 10px;
         user-select: none;
+        position: relative;
+        right: 1.4em;
       }
 
       .interval-menu {
