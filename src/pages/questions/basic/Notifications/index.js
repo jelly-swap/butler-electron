@@ -20,17 +20,23 @@ const Notifications = () => {
       target: { name, value },
     } = event;
 
-    updateConfig({ NOTIFICATIONS: { EMAIL: { ...emailConfig, [name]: value } } });
+    if (name === 'ENABLED' && value === false) {
+      updateConfig({ NOTIFICATIONS: { EMAIL: DEFAULT_CONFIG.NOTIFICATIONS.EMAIL } });
+    } else {
+      updateConfig({ NOTIFICATIONS: { EMAIL: { ...emailConfig, [name]: value } } });
+    }
   };
 
   useEffect(() => {
     if (emailConfig.ENABLED) {
       const valid =
         emailConfig.PASSWORD &&
-        new RegExp(REGEX_FOR_EMAIL).test(emailConfig.USERNAME) &&
-        new RegExp(REGEX_FOR_EMAIL).test(emailConfig.FROM) &&
-        new RegExp(REGEX_FOR_EMAIL).test(emailConfig.TO);
+        checkEmail(emailConfig.USERNAME) &&
+        checkEmail(emailConfig.FROM) &&
+        checkEmail(emailConfig.TO);
       setIsValid(valid);
+    } else {
+      setIsValid(true);
     }
   }, [emailConfig]);
 
@@ -56,6 +62,7 @@ const Notifications = () => {
               text='Username'
               name='USERNAME'
               value={emailConfig.USERNAME}
+              errMessage={emailConfig.ENABLED && !checkEmail(emailConfig.USERNAME) ? 'Invalid email address' : ''}
               onChange={handleEmailDataOnChange}
               disabled={!emailConfig.ENABLED}
             />
@@ -74,6 +81,7 @@ const Notifications = () => {
               text='From'
               name='FROM'
               value={emailConfig.FROM}
+              errMessage={emailConfig.ENABLED && !checkEmail(emailConfig.FROM) ? 'Invalid email address' : ''}
               onChange={handleEmailDataOnChange}
               disabled={!emailConfig.ENABLED}
             />
@@ -83,6 +91,7 @@ const Notifications = () => {
               text='To'
               name='TO'
               value={emailConfig.TO}
+              errMessage={emailConfig.ENABLED && !checkEmail(emailConfig.TO) ? 'Invalid email address' : ''}
               onChange={handleEmailDataOnChange}
               disabled={!emailConfig.ENABLED}
             />
@@ -94,3 +103,7 @@ const Notifications = () => {
 };
 
 export default Notifications;
+
+const checkEmail = email => {
+  return new RegExp(REGEX_FOR_EMAIL).test(email);
+};

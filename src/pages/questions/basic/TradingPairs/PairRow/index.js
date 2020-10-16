@@ -1,11 +1,11 @@
 import React from 'react';
 
 import PriceTooltip from '../PriceTooltip';
+import FeeTooltip from '../FeeTooltip';
 
 import { BASE_ASSETS, QUOTE_ASSETS } from '../../../../../constants';
 import Input from '../../../../../components/common/Input';
 import TokensList from '../../../../../components/common/TokenList';
-import FeeTooltip from '../FeeTooltip';
 
 const PairRow = ({
   id,
