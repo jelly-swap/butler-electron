@@ -33,21 +33,16 @@
 
   .price-provider-inputs-wrapper {
     margin-top: 2rem;
-    display: flex;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-gap: 6%;
 
     &.show-secret-key {
-      display: grid;
       grid-template-columns: 47% 47%;
-      grid-gap: 6%;
-
-      .inputHolder {
-        width: 100%;
-      }
     }
 
     .inputHolder {
-      width: 307px;
+      width: 100%;
       height: 46px;
     }
   }
