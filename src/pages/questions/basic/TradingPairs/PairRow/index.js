@@ -1,8 +1,11 @@
 import React from 'react';
 
+import PriceTooltip from '../PriceTooltip';
+
 import { BASE_ASSETS, QUOTE_ASSETS } from '../../../../../constants';
 import Input from '../../../../../components/common/Input';
 import TokensList from '../../../../../components/common/TokenList';
+import FeeTooltip from '../FeeTooltip';
 
 const PairRow = ({
   id,
@@ -39,11 +42,13 @@ const PairRow = ({
           <div className='fee-input'>
             <span className='label'>Fee:</span>
             <Input type='number' value={pair.fee} onChange={value => handleFeeOnChange(id, value)} text='0.0' />
+            <FeeTooltip />
           </div>
 
           <div className='price-input'>
             <span className='label'>Price:</span>
             <Input type='number' value={pair.price} onChange={value => handlePriceOnChange(id, value)} text='0.0' />
+            <PriceTooltip pair={pair} />
           </div>
 
           {numberOfRows > 1 && (
