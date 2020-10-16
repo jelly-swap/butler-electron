@@ -20,9 +20,9 @@ function App() {
 
   return (
     <HashRouter>
+      <img className='bg-bitcoin-image' src={BitcoinImage} alt='bitcoin' />
+      <img className='bg-ether-image' src={EtherImage} alt='ethereum' />
       <div className='App'>
-        <img className='bg-bitcoin-image' src={BitcoinImage} alt='bitcoin' />
-        <img className='bg-ether-image' src={EtherImage} alt='ethereum' />
         <Switch>
           <Route exact path='/' component={() => <Login />} />
           <Route exact path='/login' component={() => <Login />} />

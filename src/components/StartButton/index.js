@@ -54,7 +54,7 @@ const validateConfig = config => {
   if (!config.NAME) {
     swal({
       title: 'Wrong config',
-      text: 'Plese provide `Butler name`',
+      text: 'Please provide `Butler name`',
       icon: 'error',
       dangerMode: true,
     });
@@ -68,7 +68,7 @@ const validateConfig = config => {
     if (!address) {
       swal({
         title: 'Wrong config',
-        text: `Plese provide ${asset} address`,
+        text: `Please provide ${asset} address`,
         icon: 'error',
         dangerMode: true,
       });
@@ -78,7 +78,7 @@ const validateConfig = config => {
     if (!secret) {
       swal({
         title: 'Wrong config',
-        text: `Plese provide ${asset} secret`,
+        text: `Please provide ${asset} secret`,
         icon: 'error',
         dangerMode: true,
       });
@@ -95,7 +95,7 @@ const validateConfig = config => {
     if (!emailPassword || !username || !from || !to) {
       swal({
         title: 'Wrong config',
-        text: `Plese provide email details or disable it`,
+        text: `Please provide email details or disable it`,
         icon: 'error',
         dangerMode: true,
       });
@@ -110,7 +110,7 @@ const validateConfig = config => {
     if (!apiKey) {
       swal({
         title: 'Wrong config',
-        text: `Plese provide ${config.EXCHANGE?.NAME} Api Key`,
+        text: `Please provide ${config.EXCHANGE?.NAME} Api Key`,
         icon: 'error',
         dangerMode: true,
       });
@@ -120,7 +120,7 @@ const validateConfig = config => {
     if (!secretKey) {
       swal({
         title: 'Wrong config',
-        text: `Plese provide ${config.EXCHANGE?.NAME} Secret Key`,
+        text: `Please provide ${config.EXCHANGE?.NAME} Secret Key`,
         icon: 'error',
         dangerMode: true,
       });
@@ -131,7 +131,7 @@ const validateConfig = config => {
   if (!config.AGGREGATOR_URL) {
     swal({
       title: 'Wrong config',
-      text: `Plese provide Aggregator Url`,
+      text: `Please provide Aggregator Url`,
       icon: 'error',
       dangerMode: true,
     });
@@ -141,7 +141,7 @@ const validateConfig = config => {
   if (!config.TRACKER_URL) {
     swal({
       title: 'Wrong config',
-      text: `Plese provide Tracker Url`,
+      text: `Please provide Tracker Url`,
       icon: 'error',
       dangerMode: true,
     });
@@ -151,7 +151,7 @@ const validateConfig = config => {
   if (!config.SERVER?.PORT) {
     swal({
       title: 'Wrong config',
-      text: `Plese provide Server Port`,
+      text: `Please provide Server Port`,
       icon: 'error',
       dangerMode: true,
     });

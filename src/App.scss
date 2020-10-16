@@ -9,22 +9,22 @@
   margin: auto;
   position: relative;
   top: 20%;
+}
 
-  .bg-bitcoin-image {
-    position: absolute;
-    width: 143px;
-    height: 136px;
-    left: -272px;
-    top: 350px;
-  }
+.bg-bitcoin-image {
+  position: absolute;
+  width: 143px;
+  height: 136px;
+  right: calc(100vw - 250px);
+  top: calc(100vh - 70%);
+}
 
-  .bg-ether-image {
-    position: absolute;
-    width: 203;
-    height: 99px;
-    right: -272px;
-    top: 144px;
-  }
+.bg-ether-image {
+  position: absolute;
+  width: 200px;
+  height: 100px;
+  left: calc(100vw - 250px);
+  top: calc(100vh - 30%);
 }
 
 h3 {

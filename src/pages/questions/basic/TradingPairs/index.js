@@ -8,7 +8,7 @@ import { DEFAULT_CONFIG } from '../../../../constants';
 
 import './style.scss';
 
-const defaultPair = { name: 'ONE-ETH', provide: 'ETH', receive: 'ONE', fee: '', price: '' };
+const defaultPair = { name: 'BTC-ETH', provide: 'ETH', receive: 'BTC', fee: '', price: '' };
 
 const TradingPairs = () => {
   const [, updateConfig] = useButlerConfig();
@@ -32,7 +32,7 @@ const TradingPairs = () => {
     );
 
     setExistingPairs({ ...result.duplicates });
-    updateConfig({ PAIRS: { ...result.pairs } });
+    updateConfig({ PAIRS: fixPairsFee(result.pairs) });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pairs]);
 
@@ -102,15 +102,26 @@ const TradingPairs = () => {
 export default TradingPairs;
 
 const parsePairs = pairs => {
-  return Object.keys(pairs).reduce((result, pair) => {
-    const [receive, provide] = pair.split('-');
+  return Object.keys(pairs).reduce((result, pairName) => {
+    const pair = pairs[pairName];
+    const [receive, provide] = pairName.split('-');
     result.push({
       provide,
       receive,
-      fee: pair.FEE,
+      fee: pair.FEE * 100,
       price: pair.PRICE,
       name: `${receive}-${provide}`,
     });
     return result;
   }, []);
+};
+
+const fixPairsFee = pairs => {
+  const fixedPairs = { ...pairs };
+  for (const pair in pairs) {
+    const fee = pairs[pair].FEE / 100;
+    fixedPairs[pair].FEE = fee;
+  }
+
+  return fixedPairs;
 };

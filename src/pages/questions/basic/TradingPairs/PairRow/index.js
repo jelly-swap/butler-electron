@@ -48,7 +48,7 @@ const PairRow = ({
 
           {numberOfRows > 1 && (
             <span className='remove-row-btn' onClick={() => handleRemoval(id)}>
-              <i class='fas fa-minus-square'></i>
+              <i className='fas fa-minus-square'></i>
             </span>
           )}
         </div>
