@@ -5,7 +5,7 @@ export const sendFromRenderer = (type, payload) => {
 };
 
 export const receiveFromMain = (type, callback) => {
-  ipcRenderer.once(type, callback);
+  ipcRenderer.on(type, callback);
 };
 
 export const receiveAllFromMain = (type, callback) => {
