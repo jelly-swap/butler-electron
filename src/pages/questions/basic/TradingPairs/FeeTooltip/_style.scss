@@ -1,0 +1,25 @@
+@import '../../../../../css/constants.scss';
+
+.react-tooltip-lite {
+  background: #333;
+  color: white;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.tip-content {
+  width: 300px;
+
+  p {
+    width: 300px;
+  }
+}
+
+.tooltip {
+  margin-bottom: 25%;
+  cursor: pointer;
+
+  i {
+    color: $duskyBlue;
+  }
+}

@@ -1,0 +1,37 @@
+@import '../../../css/constants.scss';
+
+.button {
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 13px;
+  border: 0;
+  color: $white;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+  height: 32px;
+  letter-spacing: 0.7px;
+  -webkit-transition-duration: 0.4s;
+  /* Safari */
+  transition-duration: 0.4s;
+  box-shadow: 5px 5px 7px #e8e8e8, -5px -5px 7px #ffffff;
+
+  &:disabled {
+    box-shadow: unset;
+    background-color: darkgrey;
+    cursor: not-allowed;
+  }
+}
+
+.button.red {
+  background-color: $strawberry;
+}
+
+.button.green {
+  background-color: $grass;
+}
+
+.button.red:hover,
+.button.green:hover {
+  opacity: 0.8;
+}

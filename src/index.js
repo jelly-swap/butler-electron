@@ -1,17 +1,53 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.scss';
+
 import App from './App';
-import * as serviceWorker from './serviceWorker';
+
+import ConfigContextProvider from './context/ConfigContext';
+import PasswordContextProvider from './context/PasswordContext';
+import LoggerContextProvider, { Updater as LoggerUpdater } from './context/LoggerContext';
+import AppContextProvider, { Updater as AppUpdater } from './context/AppContext';
+import BalanceContextProvider, { Updater as BalanceUpdater } from './context/BalanceContext';
+import TransactionContextProvider, { Updater as TransactionUpdater } from './context/TransactionContext';
+import EventContextProvider from './context/EventContext';
+
+import './index.scss';
+
+function Updaters() {
+  return (
+    <>
+      <LoggerUpdater />
+      <AppUpdater />
+      <BalanceUpdater />
+      <TransactionUpdater />
+    </>
+  );
+}
+
+function ContextProviders({ children }) {
+  return (
+    <EventContextProvider>
+      <ConfigContextProvider>
+        <AppContextProvider>
+          <BalanceContextProvider>
+            <TransactionContextProvider>
+              <LoggerContextProvider>
+                <Updaters />
+                <PasswordContextProvider>{children}</PasswordContextProvider>
+              </LoggerContextProvider>
+            </TransactionContextProvider>
+          </BalanceContextProvider>
+        </AppContextProvider>
+      </ConfigContextProvider>
+    </EventContextProvider>
+  );
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ContextProviders>
+      <App />
+    </ContextProviders>
   </React.StrictMode>,
   document.getElementById('root'),
 );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();

@@ -1,0 +1,80 @@
+@import '../../../css/constants.scss';
+
+.inputHolder {
+  position: relative;
+
+  .input {
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+    width: 100%;
+    text-align: left;
+    font-family: Roboto;
+    font-weight: 500;
+    z-index: 7;
+    height: 46px;
+    border-radius: 13px;
+    border: none;
+    padding-left: 13px;
+    font-size: 14px;
+    line-height: 1.14;
+    padding-right: 2%;
+    background-color: inherit;
+
+    box-shadow: $notFocusedShadow;
+    color: $duskyBlue;
+
+    &:disabled {
+      box-shadow: unset;
+      background-color: darkgrey;
+      cursor: not-allowed;
+
+      &::placeholder {
+        color: white;
+      }
+    }
+
+    &::placeholder {
+      color: $duskyBlue;
+      opacity: 0.6;
+    }
+
+    &:focus {
+      box-shadow: $focusedShadow;
+    }
+
+    &.purple {
+      color: $duskyBlue;
+
+      &::placeholder {
+        color: $duskyBlue;
+      }
+    }
+
+    &.grey {
+      color: $brownGrey;
+
+      &::placeholder {
+        color: $brownGrey;
+      }
+    }
+  }
+
+  .errorInput {
+    width: 100%;
+    position: absolute;
+    top: 54px;
+    color: #fc3535;
+
+    span {
+      display: flex;
+      justify-content: flex-start;
+      font-size: 11px;
+    }
+  }
+
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}

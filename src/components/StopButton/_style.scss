@@ -1,0 +1,9 @@
+.stop-button {
+  margin-top: 2em !important;
+  width: 15rem !important;
+  height: 3rem !important;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}

@@ -1,0 +1,72 @@
+@import '../../css/constants.scss';
+
+.balance-of-wrapper {
+  @include roboto500;
+  background-color: $bgColorDarker;
+  height: 26.7em;
+  width: 100%;
+  padding: 1% 2.5%;
+
+  h2 {
+    font-weight: bold;
+    font-size: 25px;
+    color: $titleColor;
+  }
+
+  table {
+    width: 90%;
+    margin: auto;
+    border-spacing: 20px;
+    border-collapse: separate;
+    thead {
+      width: 100%;
+    }
+
+    tbody {
+      text-align: center;
+
+      tr {
+        height: 75px;
+        box-shadow: $notFocusedShadow;
+        border-radius: 13px;
+        margin: auto;
+        vertical-align: middle;
+        color: $duskyBlue;
+        font-weight: bold;
+
+        td {
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+
+  .network-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 20px;
+      margin-left: 10px;
+    }
+
+    span {
+      font-size: 13px;
+    }
+  }
+
+  .address-wrapper {
+    font-size: 13px;
+    cursor: pointer;
+
+    i {
+      font-size: 9px;
+      margin-left: 5px;
+    }
+  }
+
+  .amount-wrapper {
+    font-size: 17px;
+  }
+}

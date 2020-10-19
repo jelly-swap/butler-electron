@@ -1,6 +1,6 @@
 {
   "name": "butler-electron",
-  "version": "0.0.14",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "rescripts start",
@@ -76,6 +76,7 @@
     "react-table": "^7.5.0",
     "react-tooltip-lite": "^1.12.0",
     "sqlite3": "^5.0.0",
+    "sweetalert": "^2.1.2",
     "typeorm": "^0.2.24",
     "uuid": "^8.2.0",
     "winston": "^3.2.1",

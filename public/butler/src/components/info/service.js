@@ -46,11 +46,14 @@ class InfoService {
                 const result = yield axios_1.default.post(`${this.userConfig.AGGREGATOR_URL}/register`, info);
                 const { valid, message } = result === null || result === void 0 ? void 0 : result.data;
                 if (!valid) {
-                    logger_1.logError(`CANNOT_CONNECT_TO_NETWORK`, message);
+                    logger_1.logError(`CANNOT_CONNECT_TO_NETWORK ${message}`);
+                    if (message === 'DUPLICATE_NAME') {
+                        logger_1.logData(`If that is your Butler name and no one is using it at the moment, please stand still - Butler will reconnect.`);
+                    }
                 }
             }
             catch (err) {
-                logger_1.logError(`REGISTER_ERROR`, err);
+                logger_1.logError(`REGISTER_ERROR ${err}`);
             }
         });
     }
@@ -99,14 +102,14 @@ class InfoService {
                 const result = yield axios_1.default.post(`${this.userConfig.AGGREGATOR_URL}/update`, info);
                 const { valid, message } = result === null || result === void 0 ? void 0 : result.data;
                 if (!valid) {
-                    logger_1.logError(`CANNOT_CONNECT_TO_NETWORK`, message);
+                    logger_1.logError(`CANNOT_CONNECT_TO_NETWORK ${message}`);
                     if (message === 'NOT_REGISTERED') {
                         yield this.register();
                     }
                 }
             }
             catch (err) {
-                logger_1.logError(`I_AM_ALIVE_ERROR`, err);
+                logger_1.logError(`I_AM_ALIVE_ERROR ${err}`);
             }
         });
     }

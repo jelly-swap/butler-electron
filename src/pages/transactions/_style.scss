@@ -1,0 +1,112 @@
+@import '../../css/constants.scss';
+
+.transaction-wrapper {
+  background-color: $bgColorDarker;
+  height: 26.7em;
+  width: 100%;
+  padding: 1% 2.5%;
+
+  h2 {
+    font-weight: bold;
+    font-size: 25px;
+    color: $titleColor;
+  }
+
+  table {
+    width: 90%;
+    margin: auto;
+    border-spacing: 20px;
+    border-collapse: separate;
+    thead {
+      width: 100%;
+    }
+
+    tbody {
+      text-align: center;
+
+      tr {
+        height: 75px;
+        box-shadow: $notFocusedShadow;
+        border-radius: 13px;
+        margin: auto;
+        vertical-align: middle;
+        color: $duskyBlue;
+        font-weight: bold;
+
+        td {
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+
+  .network-wrapper {
+    height: 76px;
+    display: grid;
+    grid-template-columns: 1fr 100px;
+    grid-gap: 41px;
+
+    .transaction-info {
+      display: flex;
+      justify-content: space-around;
+
+      .input-info,
+      .output-info,
+      .txHash {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .output-info,
+      .input-info {
+        font-size: 17px;
+        min-width: 97px;
+      }
+
+      .txHash {
+        min-width: 97px;
+
+        i {
+          font-size: 9px;
+          margin-left: 6px;
+        }
+
+        span {
+          cursor: pointer;
+          font-size: 12px;
+        }
+      }
+
+      .txHash {
+        span {
+          font-size: 14px;
+          display: -webkit-inline-box;
+          color: grey;
+
+          p {
+            color: #a4a4a4;
+          }
+        }
+        img {
+          width: 17px;
+        }
+      }
+    }
+
+    .status {
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      justify-content: center;
+      text-transform: capitalize;
+      font-size: 13px;
+    }
+
+    img {
+      width: 17px;
+      margin-bottom: 9px;
+    }
+  }
+}

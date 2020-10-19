@@ -1,0 +1,46 @@
+@import '../../../../css/constants.scss';
+
+.rebalance-wrapper {
+  margin-top: 2rem;
+  height: 140px;
+  border-bottom: 1px solid #c1c1c1;
+  position: relative;
+
+  .title-and-rebalance-wrapper {
+    display: flex;
+    justify-content: space-between;
+
+    .rebalance-checkbox-wrapper {
+      margin-left: 12.4rem;
+      label {
+        cursor: pointer;
+        user-select: none;
+      }
+    }
+  }
+
+  .rebalance-input-wrapper {
+    display: grid;
+    grid-template-columns: 47% 47%;
+    grid-gap: 6%;
+    margin-top: 2rem;
+
+    .inputHolder {
+      width: 100%;
+      height: 46px;
+    }
+  }
+
+  .rebalance-message {
+    position: absolute;
+
+    top: -1em;
+    right: 0em;
+    .content-wrapper {
+      &:after {
+        top: 1.6em;
+        right: 14.6em;
+      }
+    }
+  }
+}

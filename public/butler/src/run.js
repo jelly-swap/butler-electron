@@ -28,31 +28,29 @@ const user_config_1 = __importDefault(require("../user-config"));
 const database_1 = __importDefault(require("./config/database"));
 const config_1 = __importDefault(require("./config"));
 const utils_2 = require("./blockchain/utils");
-exports.run = (config = user_config_1.default, combinedFile, errorFile) => {
-    logger_1.setLoggerConfig(combinedFile, errorFile);
-    new config_1.default().setUserConfig(config);
-    const dbConfig = database_1.default(Object.assign({ name: config.DATABASE.ACTIVE }, config.DATABASE[config.DATABASE.ACTIVE]));
-    validateAddresses(config)
-        .then((result) => {
-        if (result) {
-            typeorm_1.createConnection(dbConfig)
-                .then(() => __awaiter(void 0, void 0, void 0, function* () {
-                contracts_1.default();
-                yield utils_1.startTasks([new task_1.default(), new task_2.default(), new task_3.default()]);
-                yield server_1.default(config.SERVER.PORT);
-                yield handler_1.startHandlers();
-                yield tracker_1.default(config);
-            }))
-                .catch((error) => {
-                logger_1.logError(`${error}`);
-                logger_1.logDebug(`${error}`, JSON.stringify(error));
-            });
+exports.run = (config = user_config_1.default, combinedFile, errorFile) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        logger_1.setLoggerConfig(combinedFile, errorFile);
+        new config_1.default().setUserConfig(config);
+        const dbConfig = database_1.default(Object.assign({ name: config.DATABASE.ACTIVE }, config.DATABASE[config.DATABASE.ACTIVE]));
+        const isValid = yield validateAddresses(config);
+        if (isValid) {
+            yield typeorm_1.createConnection(dbConfig);
+            contracts_1.default();
+            yield utils_1.startTasks([new task_1.default(), new task_2.default(), new task_3.default()]);
+            yield server_1.default(config.SERVER.PORT);
+            yield handler_1.startHandlers();
+            yield tracker_1.default(config);
+            return true;
         }
-    })
-        .catch((error) => {
-        logger_1.logError(`Validate error: ${error}`);
-    });
-};
+        return false;
+    }
+    catch (error) {
+        logger_1.logError(`${error}`);
+        logger_1.logDebug(`${error}`, JSON.stringify(error));
+        return false;
+    }
+});
 const validateAddresses = (config) => __awaiter(void 0, void 0, void 0, function* () {
     logger_1.logData('Validating...');
     for (const network in config.WALLETS) {

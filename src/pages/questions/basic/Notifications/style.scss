@@ -1,0 +1,34 @@
+@import '../../../../css/constants.scss';
+
+.notifications-wrapper {
+  margin-top: 2rem;
+  height: 305px;
+  border-bottom: 1px solid #c1c1c1;
+
+  label {
+    cursor: pointer;
+  }
+
+  .email-info-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    .email-info-inputs {
+      display: grid;
+      grid-template-columns: 47% 47%;
+      grid-gap: 6%;
+
+      .inputHolder {
+        margin-top: 2rem;
+        width: 330px;
+        height: 46px;
+      }
+    }
+  }
+
+  .email-checkbox-wrapper {
+    text-align: left;
+    margin-top: 2rem;
+  }
+}

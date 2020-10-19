@@ -6,7 +6,11 @@ const combinedFile = process.argv[3];
 const errorFile = process.argv[4];
 // Electron fork
 if (config) {
-    run_1.run(JSON.parse(config), combinedFile, errorFile);
+    run_1.run(JSON.parse(config), combinedFile, errorFile).then((result) => {
+        if (result) {
+            process.send && process.send({ TYPE: 'SERVER', DATA: { msg: `SERVER_STARTED` } });
+        }
+    });
 }
 else {
     run_1.run();

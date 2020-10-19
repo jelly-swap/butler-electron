@@ -1,0 +1,105 @@
+@import '../../../../css/constants.scss';
+
+.wallets-wrapper {
+  .wallet-row {
+    display: flex;
+    align-items: center;
+    height: 107px;
+    margin-bottom: 10px;
+    box-shadow: $notFocusedShadow;
+    border-radius: $questionRadius;
+    padding: 0 15px;
+    margin-top: 30px;
+
+    &:focus-within {
+      box-shadow: $focusedShadow;
+    }
+
+    .wallet {
+      display: flex;
+      align-items: center;
+      margin-right: 40px;
+      width: 12%;
+      display: flex;
+      justify-content: space-evenly;
+
+      img {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .wallet-info-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+
+      .wallet-address,
+      .wallet-private-key {
+        width: 45%;
+        height: 64px;
+        input {
+          margin-bottom: 10px;
+          width: 80%;
+          box-shadow: none;
+          border-bottom: 1px solid #a9a9a9;
+          border-radius: 0;
+        }
+
+        i {
+          cursor: pointer;
+        }
+      }
+
+      .private-key-input {
+        margin-right: 29px;
+      }
+
+      .errorMsg {
+        top: 0;
+        bottom: 4%;
+        right: 10%;
+
+        &.address {
+          right: 17%;
+          text-align: left;
+          width: 325px;
+        }
+
+        &.secret {
+          right: 17%;
+          text-align: left;
+          width: 325px;
+        }
+      }
+
+      .fa-eye-container {
+        position: absolute;
+        right: 0;
+        top: 16px;
+        color: grey;
+      }
+    }
+  }
+
+  .wallet-address-span {
+    display: block;
+    font-size: 14px;
+    @include roboto500;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  label {
+    @include roboto500;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+  }
+}
+
+.address-input,
+.private-key-input {
+  width: 45%;
+}
