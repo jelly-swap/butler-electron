@@ -8,7 +8,7 @@ import { usePassword } from '../../context/PasswordContext';
 import { useEvent } from '../../context/EventContext';
 import { useHistory } from 'react-router-dom';
 
-import { BUTLER_EVENTS } from '../../constants';
+import { APP_EVENTS, BUTLER_EVENTS } from '../../constants';
 import { encrypt } from '../../utils/crypto';
 import { sendFromRenderer } from '../../utils/electronAPI';
 
@@ -25,12 +25,23 @@ export default () => {
     sendFromRenderer(BUTLER_EVENTS.START, config);
   }, [config]);
 
+  const handleServerData = useCallback(
+    async data => {
+      if (data.msg === 'SERVER_STARTED') {
+        const encryptedConfig = await encryptSecrets(config, password);
+        sendFromRenderer(BUTLER_EVENTS.SAVE, encryptedConfig);
+      }
+    },
+    [config, password],
+  );
+
   useEvent(BUTLER_EVENTS.DIED, handleEvent);
+
+  useEvent(APP_EVENTS.SERVER_DATA, handleServerData);
 
   const handleOnClick = () => {
     if (validateConfig(config)) {
       sendFromRenderer(BUTLER_EVENTS.START, config);
-      sendFromRenderer(BUTLER_EVENTS.SAVE, encryptSecrets(config, password));
       history.push('/terminal');
     }
   };
@@ -161,14 +172,14 @@ const validateConfig = config => {
   return true;
 };
 
-const encryptSecrets = (config, password) => {
+const encryptSecrets = async (config, password) => {
   const encryptedConfig = { ...config };
 
   if (config.WALLETS) {
     for (const asset in config.WALLETS) {
       const secret = config.WALLETS[asset].SECRET;
       if (secret) {
-        const result = encrypt(secret, password);
+        const result = await encrypt(secret, password);
         if (result) {
           encryptedConfig.WALLETS[asset].SECRET = result;
           encryptedConfig.WALLETS[asset].ENCRYPTED = true;
@@ -181,7 +192,7 @@ const encryptSecrets = (config, password) => {
 
   if (config.NOTIFICATIONS?.EMAIL?.ENABLED) {
     const emailPassword = config.NOTIFICATIONS.EMAIL.PASSWORD;
-    const result = encrypt(emailPassword, password);
+    const result = await encrypt(emailPassword, password);
     if (result) {
       encryptedConfig.NOTIFICATIONS.EMAIL.PASSWORD = result;
     } else {
@@ -190,7 +201,7 @@ const encryptSecrets = (config, password) => {
   }
   if (config.EXCHANGE?.API_KEY) {
     const exchangeApiKey = config.EXCHANGE.API_KEY;
-    const result = encrypt(exchangeApiKey, password);
+    const result = await encrypt(exchangeApiKey, password);
 
     if (result) {
       encryptedConfig.EXCHANGE.API_KEY = result;
@@ -201,7 +212,7 @@ const encryptSecrets = (config, password) => {
 
   if (config.EXCHANGE?.SECRET_KEY) {
     const exchangeSecretKey = config.EXCHANGE.SECRET_KEY;
-    const result = encrypt(exchangeSecretKey, password);
+    const result = await encrypt(exchangeSecretKey, password);
 
     if (result) {
       encryptedConfig.EXCHANGE.SECRET_KEY = result;

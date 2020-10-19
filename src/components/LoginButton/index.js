@@ -37,14 +37,14 @@ export default ({ onSubmitPassword }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (firstLogin) {
       if (password.length >= 4) {
         history.push('/home');
       }
     } else {
       try {
-        const decryptedConfig = decryptSecrets(config, password);
+        const decryptedConfig = await decryptSecrets(config, password);
         onSubmitPassword(true);
         setConfig(decryptedConfig);
         history.push('/home');
@@ -57,7 +57,7 @@ export default ({ onSubmitPassword }) => {
   return <Button className='button' content='Login' color='green' onClick={handleLogin} />;
 };
 
-const decryptSecrets = (config, password) => {
+const decryptSecrets = async (config, password) => {
   const decryptedConfig = { ...config };
 
   if (config.WALLETS) {
@@ -66,7 +66,7 @@ const decryptSecrets = (config, password) => {
       const encrypted = config.WALLETS[asset].ENCRYPTED;
 
       if (secret && encrypted) {
-        const result = decrypt(secret, password);
+        const result = await decrypt(secret, password);
         if (result.success && result.data) {
           decryptedConfig.WALLETS[asset].SECRET = result.data;
         } else {
@@ -78,7 +78,7 @@ const decryptSecrets = (config, password) => {
 
   if (config.NOTIFICATIONS?.EMAIL?.ENABLED) {
     const emailPassword = config.NOTIFICATIONS.EMAIL.PASSWORD;
-    const result = decrypt(emailPassword, password);
+    const result = await decrypt(emailPassword, password);
 
     if (result.success && result.data) {
       decryptedConfig.NOTIFICATIONS.EMAIL.PASSWORD = result.data;
@@ -87,7 +87,7 @@ const decryptSecrets = (config, password) => {
 
   if (config.EXCHANGE?.API_KEY) {
     const exchangeApiKey = config.EXCHANGE.API_KEY;
-    const result = decrypt(exchangeApiKey, password);
+    const result = await decrypt(exchangeApiKey, password);
 
     if (result.success && result.data) {
       decryptedConfig.EXCHANGE.API_KEY = result.data;
@@ -96,7 +96,7 @@ const decryptSecrets = (config, password) => {
 
   if (config.EXCHANGE?.SECRET_KEY) {
     const exchangeSecretKey = config.EXCHANGE.SECRET_KEY;
-    const result = decrypt(exchangeSecretKey, password);
+    const result = await decrypt(exchangeSecretKey, password);
 
     if (result.success && result.data) {
       decryptedConfig.EXCHANGE.SECRET_KEY = result.data;

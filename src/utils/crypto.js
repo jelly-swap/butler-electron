@@ -1,14 +1,23 @@
 import { AES, enc } from 'crypto-js';
 
 export const encrypt = (secret, password) => {
-  return AES.encrypt(secret, password).toString();
+  return new Promise((resolve, reject) => {
+    try {
+      const result = AES.encrypt(secret, password).toString();
+      resolve(result);
+    } catch (err) {
+      return reject(err);
+    }
+  });
 };
 
 export const decrypt = (secret, password) => {
-  try {
-    const bytes = AES.decrypt(secret, password);
-    return { success: true, data: bytes.toString(enc.Utf8) };
-  } catch (error) {
-    return { success: false };
-  }
+  return new Promise((resolve, reject) => {
+    try {
+      const bytes = AES.decrypt(secret, password);
+      return resolve({ success: true, data: bytes.toString(enc.Utf8) });
+    } catch (error) {
+      return reject({ success: false });
+    }
+  });
 };
