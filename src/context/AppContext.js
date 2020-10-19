@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useReducer, useCallback, useEffect } from 'react';
 import { useEventDispatch } from './EventContext';
 
-import { BUTLER_EVENTS } from '../constants';
+import { APP_EVENTS, BUTLER_EVENTS } from '../constants';
 
 import { receiveAllFromMain, sendFromRenderer } from '../utils/electronAPI';
 
@@ -38,6 +38,7 @@ export function Updater() {
 
   useEffect(() => {
     receiveAllFromMain('SERVER', (event, data) => {
+      dispatchEvent(APP_EVENTS.SERVER_DATA, data);
       update(data);
     });
 

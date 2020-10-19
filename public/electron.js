@@ -84,6 +84,11 @@ const BUTLER_EVENTS = {
 };
 
 ipcMain.on(BUTLER_EVENTS.START, (event, config) => {
+  if (butler) {
+    butler.kill();
+    butler = null;
+  }
+
   if (!butler) {
     const butlerPath = `${path.join(app.getAppPath(), 'build/butler/src/index.js')}`;
 
@@ -126,13 +131,6 @@ ipcMain.on(BUTLER_EVENTS.SAVE, (event, file) => {
     if (err) {
       log.info('Error writing config', err);
     }
-
-    fs.readFile(configPath, (err, file) => {
-      if (err) {
-        log.info('Error reading config', err);
-      }
-      event.sender.send(BUTLER_EVENTS.LOADED, JSON.parse(file));
-    });
   });
 
   event.preventDefault();

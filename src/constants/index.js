@@ -11,6 +11,10 @@ export const BUTLER_EVENTS = {
   DIED: 'butler-died',
 };
 
+export const APP_EVENTS = {
+  SERVER_DATA: 'SERVER_DATA',
+};
+
 export const PAIRS = {
   ETH: {
     BTC: 'BTC',
