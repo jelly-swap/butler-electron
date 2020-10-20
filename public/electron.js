@@ -151,8 +151,13 @@ ipcMain.on(BUTLER_EVENTS.LOAD, (event, defaultConfig) => {
     }
 
     if (file) {
-      const config = file.toString();
-      event.sender.send(BUTLER_EVENTS.LOADED, { success: true, config: JSON.parse(config) });
+      try {
+        const config = file.toString();
+        const parsed = JSON.parse(config);
+        event.sender.send(BUTLER_EVENTS.LOADED, { success: true, config: parsed });
+      } catch (err) {
+        log.info(`Error parsing config file: ${err}`);
+      }
     }
   });
 
