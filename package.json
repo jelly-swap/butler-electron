@@ -12,7 +12,8 @@
     "postinstall": "electron-builder install-app-deps",
     "preelectron-pack": "yarn build",
     "electron-pack": "electron-builder build -w",
-    "release": "electron-builder -mwl"
+    "release": "electron-builder -mwl",
+    "deploy": "yarn electron-pack && node deploy.js"
   },
   "main": "public/electron.js",
   "homepage": "./",
@@ -56,10 +57,12 @@
     "cors": "^2.8.5",
     "crypto-js": "^4.0.0",
     "cryptocompare": "^1.0.0",
+    "dotenv": "^8.2.0",
     "electron-is-dev": "1.2.0",
     "electron-log": "4.1.2",
     "electron-updater": "4.3.1",
     "express": "^4.17.1",
+    "firebase": "^7.24.0",
     "moment": "2.24.0",
     "mongodb": "^3.5.4",
     "node-binance-api": "^0.10.3",
@@ -80,7 +83,8 @@
     "typeorm": "^0.2.24",
     "uuid": "^8.2.0",
     "winston": "^3.2.1",
-    "winston-slack-webhook-transport": "^1.2.1"
+    "winston-slack-webhook-transport": "^1.2.1",
+    "xhr2": "^0.2.0"
   },
   "build": {
     "asar": false,
