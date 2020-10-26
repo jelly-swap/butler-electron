@@ -6,6 +6,7 @@ import { APP_EVENTS, BUTLER_EVENTS } from '../constants';
 import { receiveAllFromMain, sendFromRenderer } from '../utils/electronAPI';
 
 const UPDATE = 'UPDATE';
+const TOGGLE_SECRET = 'TOGGLE_SECRET';
 
 const AppContext = createContext();
 
@@ -26,7 +27,7 @@ function reducer(state, { type, payload }) {
       return updatedState;
     }
 
-    case APP_EVENTS.IS_VISIBLE_SECRET: {
+    case TOGGLE_SECRET: {
       const updatedState = { ...state };
       updatedState.isVisibleSecret = false;
 
@@ -74,7 +75,7 @@ export default function Provider({ children }) {
 
   useEffect(() => {
     setTimeout(() => {
-      dispatch({ type: APP_EVENTS.IS_VISIBLE_SECRET });
+      dispatch({ type: TOGGLE_SECRET });
     }, 300000);
   }, []);
 
