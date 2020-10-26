@@ -9,7 +9,7 @@ import { useEvent } from '../../context/EventContext';
 import { useHistory } from 'react-router-dom';
 
 import { APP_EVENTS, BUTLER_EVENTS } from '../../constants';
-import { encrypt } from '../../utils/crypto';
+import { decryptSecrets, encryptSecrets } from '../../utils';
 import { sendFromRenderer } from '../../utils/electronAPI';
 
 import CoinImage from '../../css/background-coins/Coins-button.svg';
@@ -21,9 +21,10 @@ export default () => {
   const [password] = usePassword();
   const [config] = useButlerConfig();
 
-  const handleEvent = useCallback(() => {
-    sendFromRenderer(BUTLER_EVENTS.START, config);
-  }, [config]);
+  const handleEvent = useCallback(async () => {
+    const decryptedConfig = await decryptSecrets(config, password);
+    sendFromRenderer(BUTLER_EVENTS.START, decryptedConfig);
+  }, [config, password]);
 
   const handleServerData = useCallback(
     async data => {
@@ -170,56 +171,4 @@ const validateConfig = config => {
   }
 
   return true;
-};
-
-const encryptSecrets = async (config, password) => {
-  const encryptedConfig = { ...config };
-
-  if (config.WALLETS) {
-    for (const asset in config.WALLETS) {
-      const secret = config.WALLETS[asset].SECRET;
-      if (secret) {
-        const result = await encrypt(secret, password);
-        if (result) {
-          encryptedConfig.WALLETS[asset].SECRET = result;
-          encryptedConfig.WALLETS[asset].ENCRYPTED = true;
-        } else {
-          throw new Error('ERROR_ENCRYPTING');
-        }
-      }
-    }
-  }
-
-  if (config.NOTIFICATIONS?.EMAIL?.ENABLED) {
-    const emailPassword = config.NOTIFICATIONS.EMAIL.PASSWORD;
-    const result = await encrypt(emailPassword, password);
-    if (result) {
-      encryptedConfig.NOTIFICATIONS.EMAIL.PASSWORD = result;
-    } else {
-      throw new Error('ERROR_ENCRYPTING');
-    }
-  }
-  if (config.EXCHANGE?.API_KEY) {
-    const exchangeApiKey = config.EXCHANGE.API_KEY;
-    const result = await encrypt(exchangeApiKey, password);
-
-    if (result) {
-      encryptedConfig.EXCHANGE.API_KEY = result;
-    } else {
-      throw new Error('ERROR_ENCRYPTING');
-    }
-  }
-
-  if (config.EXCHANGE?.SECRET_KEY) {
-    const exchangeSecretKey = config.EXCHANGE.SECRET_KEY;
-    const result = await encrypt(exchangeSecretKey, password);
-
-    if (result) {
-      encryptedConfig.EXCHANGE.SECRET_KEY = result;
-    } else {
-      throw new Error('ERROR_ENCRYPTING');
-    }
-  }
-
-  return encryptedConfig;
 };
