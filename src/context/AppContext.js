@@ -81,7 +81,7 @@ export default function Provider({ children }) {
   useEffect(() => {
     setTimeout(() => {
       dispatch({ type: TOGGLE_SECRET });
-    }, 300000);
+    }, 60000);
   }, []);
 
   const update = useCallback(payload => {
