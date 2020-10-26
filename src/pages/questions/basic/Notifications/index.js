@@ -51,6 +51,7 @@ const Notifications = () => {
             onChange={event => {
               handleEmailDataOnChange({ ...event, target: { name: 'ENABLED', value: !emailConfig.ENABLED } });
             }}
+            checked={emailConfig.ENABLED}
           />
           <label htmlFor='open-email-data'>Email</label>
         </div>
