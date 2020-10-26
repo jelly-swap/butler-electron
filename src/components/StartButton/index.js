@@ -8,7 +8,7 @@ import { usePassword } from '../../context/PasswordContext';
 import { useEvent } from '../../context/EventContext';
 import { useHistory } from 'react-router-dom';
 
-import { APP_EVENTS, BUTLER_EVENTS } from '../../constants';
+import { BUTLER_EVENTS } from '../../constants';
 import { decryptSecrets, encryptSecrets } from '../../utils';
 import { sendFromRenderer } from '../../utils/electronAPI';
 
@@ -26,23 +26,13 @@ export default () => {
     sendFromRenderer(BUTLER_EVENTS.START, decryptedConfig);
   }, [config, password]);
 
-  const handleServerData = useCallback(
-    async data => {
-      if (data.msg === 'SERVER_STARTED') {
-        const encryptedConfig = await encryptSecrets(config, password);
-        sendFromRenderer(BUTLER_EVENTS.SAVE, encryptedConfig);
-      }
-    },
-    [config, password],
-  );
-
   useEvent(BUTLER_EVENTS.DIED, handleEvent);
 
-  useEvent(APP_EVENTS.SERVER_DATA, handleServerData);
-
-  const handleOnClick = () => {
+  const handleOnClick = async () => {
     if (validateConfig(config)) {
       sendFromRenderer(BUTLER_EVENTS.START, config);
+      const encryptedConfig = await encryptSecrets(config, password);
+      sendFromRenderer(BUTLER_EVENTS.SAVE, encryptedConfig);
       history.push('/terminal');
     }
   };

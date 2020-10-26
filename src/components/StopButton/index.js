@@ -18,7 +18,7 @@ export default () => {
   const history = useHistory();
   const [, updateLogger] = useLogger();
   const [, updatePassword] = usePassword();
-  const [, updateApp] = useApp();
+  const [app, updateApp] = useApp();
 
   const handleEvent = useCallback(() => {
     updatePassword('');
@@ -46,6 +46,10 @@ export default () => {
       }
     });
   };
+
+  if (!app.fileSaved) {
+    return null;
+  }
 
   return <Button color='red' className='stop-button' content={<span>Stop Butler</span>} onClick={handleOnClick} />;
 };

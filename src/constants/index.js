@@ -5,6 +5,7 @@ export const BUTLER_EVENTS = {
   STOP: 'stop-butler',
   STOPPED: 'butler-killed',
   SAVE: 'save-config',
+  SAVED: 'config-saved',
   LOAD: 'load-config',
   LOADED: 'config-loaded',
   ALIVE: 'butler-alive',

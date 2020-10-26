@@ -54,46 +54,49 @@ export const getAmount = (amount, network) => {
 export const decryptSecrets = async (config, password) => {
   const decryptedConfig = { ...config };
 
-  if (config.WALLETS) {
-    for (const asset in config.WALLETS) {
-      const secret = config.WALLETS[asset].SECRET;
-      const encrypted = config.WALLETS[asset].ENCRYPTED;
+  if (config.ENCRYPTED) {
+    decryptedConfig.ENCRYPTED = false;
 
-      if (secret && encrypted) {
-        const result = await decrypt(secret, password);
-        if (result.success && result.data) {
-          decryptedConfig.WALLETS[asset].SECRET = result.data;
-        } else {
-          throw new Error('WRONG_PASSWORD');
+    if (config.WALLETS) {
+      for (const asset in config.WALLETS) {
+        const secret = config.WALLETS[asset].SECRET;
+
+        if (secret) {
+          const result = await decrypt(secret, password);
+          if (result.success && result.data) {
+            decryptedConfig.WALLETS[asset].SECRET = result.data;
+          } else {
+            throw new Error('WRONG_PASSWORD');
+          }
         }
       }
     }
-  }
 
-  if (config.NOTIFICATIONS?.EMAIL?.ENABLED) {
-    const emailPassword = config.NOTIFICATIONS.EMAIL.PASSWORD;
-    const result = await decrypt(emailPassword, password);
+    if (config.NOTIFICATIONS?.EMAIL?.ENABLED) {
+      const emailPassword = config.NOTIFICATIONS.EMAIL.PASSWORD;
+      const result = await decrypt(emailPassword, password);
 
-    if (result.success && result.data) {
-      decryptedConfig.NOTIFICATIONS.EMAIL.PASSWORD = result.data;
+      if (result.success && result.data) {
+        decryptedConfig.NOTIFICATIONS.EMAIL.PASSWORD = result.data;
+      }
     }
-  }
 
-  if (config.EXCHANGE?.API_KEY) {
-    const exchangeApiKey = config.EXCHANGE.API_KEY;
-    const result = await decrypt(exchangeApiKey, password);
+    if (config.EXCHANGE?.API_KEY) {
+      const exchangeApiKey = config.EXCHANGE.API_KEY;
+      const result = await decrypt(exchangeApiKey, password);
 
-    if (result.success && result.data) {
-      decryptedConfig.EXCHANGE.API_KEY = result.data;
+      if (result.success && result.data) {
+        decryptedConfig.EXCHANGE.API_KEY = result.data;
+      }
     }
-  }
 
-  if (config.EXCHANGE?.SECRET_KEY) {
-    const exchangeSecretKey = config.EXCHANGE.SECRET_KEY;
-    const result = await decrypt(exchangeSecretKey, password);
+    if (config.EXCHANGE?.SECRET_KEY) {
+      const exchangeSecretKey = config.EXCHANGE.SECRET_KEY;
+      const result = await decrypt(exchangeSecretKey, password);
 
-    if (result.success && result.data) {
-      decryptedConfig.EXCHANGE.SECRET_KEY = result.data;
+      if (result.success && result.data) {
+        decryptedConfig.EXCHANGE.SECRET_KEY = result.data;
+      }
     }
   }
 
@@ -103,49 +106,52 @@ export const decryptSecrets = async (config, password) => {
 export const encryptSecrets = async (config, password) => {
   const encryptedConfig = { ...config };
 
-  if (config.WALLETS) {
-    for (const asset in config.WALLETS) {
-      const secret = config.WALLETS[asset].SECRET;
-      if (secret) {
-        const result = await encrypt(secret, password);
-        if (result) {
-          encryptedConfig.WALLETS[asset].SECRET = result;
-          encryptedConfig.WALLETS[asset].ENCRYPTED = true;
-        } else {
-          throw new Error('ERROR_ENCRYPTING');
+  if (!config.ENCRYPTED) {
+    encryptedConfig.ENCRYPTED = true;
+
+    if (config.WALLETS) {
+      for (const asset in config.WALLETS) {
+        const secret = config.WALLETS[asset].SECRET;
+        if (secret) {
+          const result = await encrypt(secret, password);
+          if (result) {
+            encryptedConfig.WALLETS[asset].SECRET = result;
+          } else {
+            throw new Error('ERROR_ENCRYPTING');
+          }
         }
       }
     }
-  }
 
-  if (config.NOTIFICATIONS?.EMAIL?.ENABLED) {
-    const emailPassword = config.NOTIFICATIONS.EMAIL.PASSWORD;
-    const result = await encrypt(emailPassword, password);
-    if (result) {
-      encryptedConfig.NOTIFICATIONS.EMAIL.PASSWORD = result;
-    } else {
-      throw new Error('ERROR_ENCRYPTING');
+    if (config.NOTIFICATIONS?.EMAIL?.ENABLED) {
+      const emailPassword = config.NOTIFICATIONS.EMAIL.PASSWORD;
+      const result = await encrypt(emailPassword, password);
+      if (result) {
+        encryptedConfig.NOTIFICATIONS.EMAIL.PASSWORD = result;
+      } else {
+        throw new Error('ERROR_ENCRYPTING');
+      }
     }
-  }
-  if (config.EXCHANGE?.API_KEY) {
-    const exchangeApiKey = config.EXCHANGE.API_KEY;
-    const result = await encrypt(exchangeApiKey, password);
+    if (config.EXCHANGE?.API_KEY) {
+      const exchangeApiKey = config.EXCHANGE.API_KEY;
+      const result = await encrypt(exchangeApiKey, password);
 
-    if (result) {
-      encryptedConfig.EXCHANGE.API_KEY = result;
-    } else {
-      throw new Error('ERROR_ENCRYPTING');
+      if (result) {
+        encryptedConfig.EXCHANGE.API_KEY = result;
+      } else {
+        throw new Error('ERROR_ENCRYPTING');
+      }
     }
-  }
 
-  if (config.EXCHANGE?.SECRET_KEY) {
-    const exchangeSecretKey = config.EXCHANGE.SECRET_KEY;
-    const result = await encrypt(exchangeSecretKey, password);
+    if (config.EXCHANGE?.SECRET_KEY) {
+      const exchangeSecretKey = config.EXCHANGE.SECRET_KEY;
+      const result = await encrypt(exchangeSecretKey, password);
 
-    if (result) {
-      encryptedConfig.EXCHANGE.SECRET_KEY = result;
-    } else {
-      throw new Error('ERROR_ENCRYPTING');
+      if (result) {
+        encryptedConfig.EXCHANGE.SECRET_KEY = result;
+      } else {
+        throw new Error('ERROR_ENCRYPTING');
+      }
     }
   }
 

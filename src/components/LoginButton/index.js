@@ -15,6 +15,7 @@ import './_style.scss';
 
 export default ({ onSubmitPassword }) => {
   const history = useHistory();
+  const [display, setDisplay] = useState(false);
   const [config, setConfig] = useButlerConfig();
   const [password, setPassword] = usePassword();
 
@@ -33,6 +34,8 @@ export default ({ onSubmitPassword }) => {
       if (data.success && data.config) {
         setConfig(data.config);
       }
+
+      setDisplay(true);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -53,6 +56,10 @@ export default ({ onSubmitPassword }) => {
       }
     }
   };
+
+  if (!display) {
+    return null;
+  }
 
   return <Button className='button' content='Login' color='green' onClick={handleLogin} />;
 };
