@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const ethereum_1 = require("@jelly-swap/ethereum");
 const config_1 = __importDefault(require("../../config"));
+const supportedNetworks_1 = __importDefault(require("../../config/supportedNetworks"));
 const utils_1 = require("../../utils");
 exports.default = () => {
     var _a;
@@ -16,6 +17,8 @@ exports.default = () => {
         return Object.assign(Object.assign({}, config), { receiverAddress: address, PRIVATE_KEY: secret });
     }
     else {
-        throw new Error('Ethereum ADDRESS and SECRET are missing.');
+        if (supportedNetworks_1.default()['ETH']) {
+            throw new Error(`Ethereum ADDRESS and SECRET are missing.`);
+        }
     }
 };

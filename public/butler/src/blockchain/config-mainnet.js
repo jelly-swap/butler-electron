@@ -41,5 +41,5 @@ const getErc20Configs = (supportedNetworks) => {
 };
 exports.default = () => {
     const supportedNetworks = supportedNetworks_1.default();
-    return Object.assign({ BTC: supportedNetworks['BTC'] && config_1.default(), ETH: supportedNetworks['ETH'] && config_2.default(), AE: supportedNetworks['AE'] && config_3.default(), ONE: supportedNetworks['ONE'] && config_5.default(), MATIC: supportedNetworks['MATIC'] && config_6.default(), AVAX: supportedNetworks['AVAX'] && config_7.default(), BNB: supportedNetworks['BNB'] && config_8.default() }, getErc20Configs(supportedNetworks));
+    return Object.assign({ BTC: supportedNetworks['BTC'] && config_1.default(), ETH: config_2.default(), AE: supportedNetworks['AE'] && config_3.default(), ONE: supportedNetworks['ONE'] && config_5.default(), MATIC: supportedNetworks['MATIC'] && config_6.default(), AVAX: supportedNetworks['AVAX'] && config_7.default(), BNB: supportedNetworks['BNB'] && config_8.default() }, getErc20Configs(supportedNetworks));
 };

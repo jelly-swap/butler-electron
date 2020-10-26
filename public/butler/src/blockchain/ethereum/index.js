@@ -14,13 +14,22 @@ const providers_1 = require("@jelly-swap/ethereum/dist/src/providers");
 const math_1 = require("../../utils/math");
 class EthereumContract extends ethereum_1.Contract {
     constructor(config) {
-        const _wallet = new providers_1.WalletProvider(config.PRIVATE_KEY, config.providerUrl);
-        super(_wallet, config);
-        this.wallet = _wallet;
+        if (config.PRIVATE_KEY) {
+            const _wallet = new providers_1.WalletProvider(config.PRIVATE_KEY, config.providerUrl);
+            super(_wallet, config);
+            this.wallet = _wallet;
+        }
+        else {
+            const _wallet = new providers_1.JsonRpcProvider(config.providerUrl);
+            super(_wallet, config);
+            this.wallet = _wallet;
+        }
     }
     signMessage(message) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.wallet.signMessage(message);
+            if (this.wallet instanceof providers_1.WalletProvider) {
+                return yield this.wallet.signMessage(message);
+            }
         });
     }
     userWithdraw(swap, secret) {

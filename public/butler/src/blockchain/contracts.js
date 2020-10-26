@@ -27,7 +27,7 @@ const getErc20Contracts = (config) => {
 const getContracts = () => {
     if (!Contracts) {
         const Config = config_1.default();
-        const AllContracts = Object.assign(Object.assign({}, getErc20Contracts(Config)), { ETH: Config.ETH && new ethereum_1.default(Config.ETH), BTC: Config.BTC && new bitcoin_1.default(Config.BTC), AE: Config.AE && new aeternity_1.default(Config.AE), ONE: Config.ONE && new harmony_1.default(Config.ONE), MATIC: Config.MATIC && new matic_1.default(Config.MATIC), AVAX: Config.AVAX && new avalanche_1.default(Config.AVAX), BNB: Config.BNB && new binance_1.default(Config.BNB) });
+        const AllContracts = Object.assign(Object.assign({}, getErc20Contracts(Config)), { ETH: new ethereum_1.default(Config.ETH), BTC: Config.BTC && new bitcoin_1.default(Config.BTC), AE: Config.AE && new aeternity_1.default(Config.AE), ONE: Config.ONE && new harmony_1.default(Config.ONE), MATIC: Config.MATIC && new matic_1.default(Config.MATIC), AVAX: Config.AVAX && new avalanche_1.default(Config.AVAX), BNB: Config.BNB && new binance_1.default(Config.BNB) });
         Contracts = Object.entries(AllContracts).reduce((a, [k, v]) => (v === undefined ? a : Object.assign(Object.assign({}, a), { [k]: v })), {});
     }
     return Contracts;
