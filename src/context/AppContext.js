@@ -6,6 +6,7 @@ import { APP_EVENTS, BUTLER_EVENTS } from '../constants';
 import { receiveAllFromMain, sendFromRenderer } from '../utils/electronAPI';
 
 const UPDATE = 'UPDATE';
+const TOGGLE_SECRET = 'TOGGLE_SECRET';
 
 const AppContext = createContext();
 
@@ -22,6 +23,13 @@ function reducer(state, { type, payload }) {
       } else if (payload.msg === 'SERVER_STOPPED') {
         updatedState.serverStarted = false;
       }
+
+      return updatedState;
+    }
+
+    case TOGGLE_SECRET: {
+      const updatedState = { ...state };
+      updatedState.isVisibleSecret = false;
 
       return updatedState;
     }
@@ -63,7 +71,13 @@ export function Updater() {
 }
 
 export default function Provider({ children }) {
-  const [state, dispatch] = useReducer(reducer, { serverStarted: false });
+  const [state, dispatch] = useReducer(reducer, { serverStarted: false, isVisibleSecret: true });
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch({ type: TOGGLE_SECRET });
+    }, 300000);
+  }, []);
 
   const update = useCallback(payload => {
     dispatch({ type: UPDATE, payload });
