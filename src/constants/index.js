@@ -13,6 +13,7 @@ export const BUTLER_EVENTS = {
 
 export const APP_EVENTS = {
   SERVER_DATA: 'SERVER_DATA',
+  IS_VISIBLE_SECRET: 'IS_VISIBLE_SECRET',
 };
 
 export const PAIRS = {

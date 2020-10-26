@@ -26,6 +26,13 @@ function reducer(state, { type, payload }) {
       return updatedState;
     }
 
+    case APP_EVENTS.IS_VISIBLE_SECRET: {
+      const updatedState = { ...state };
+      updatedState.isVisibleSecret = false;
+
+      return updatedState;
+    }
+
     default: {
       throw Error(`Unexpected action type in AppContext reducer: '${type}'.`);
     }
@@ -63,7 +70,13 @@ export function Updater() {
 }
 
 export default function Provider({ children }) {
-  const [state, dispatch] = useReducer(reducer, { serverStarted: false });
+  const [state, dispatch] = useReducer(reducer, { serverStarted: false, isVisibleSecret: true });
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch({ type: APP_EVENTS.IS_VISIBLE_SECRET });
+    }, 300000);
+  }, []);
 
   const update = useCallback(payload => {
     dispatch({ type: UPDATE, payload });
