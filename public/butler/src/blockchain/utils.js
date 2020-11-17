@@ -31,7 +31,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PK_MATCH_ADDRESS = exports.aeAddressMatch = exports.oneAddressMatch = exports.btcAddressMatch = exports.ethAddressMatch = exports.sleep = exports.compareAddress = void 0;
+exports.PK_MATCH_ADDRESS = exports.algoAddressMatch = exports.aeAddressMatch = exports.oneAddressMatch = exports.btcAddressMatch = exports.ethAddressMatch = exports.sleep = exports.compareAddress = void 0;
 const utils_1 = require("@jelly-swap/utils");
 const adapters_1 = __importDefault(require("./adapters"));
 // Ethereum
@@ -45,6 +45,8 @@ const nacl = __importStar(require("tweetnacl"));
 // Harmony
 const providers_1 = require("@jelly-swap/harmony/dist/src/providers");
 const config_1 = require("./erc20/config");
+// Algorand
+const algosdk_1 = __importDefault(require("algosdk"));
 exports.compareAddress = (a1, a2) => {
     return a1.toLowerCase() === a2.toLowerCase();
 };
@@ -74,10 +76,19 @@ exports.aeAddressMatch = (privateKey, address) => __awaiter(void 0, void 0, void
     const publicBuffer = Buffer.from(keys.publicKey);
     return `ak_${aepp_sdk_1.Crypto.encodeBase58Check(publicBuffer)}` === address;
 });
+exports.algoAddressMatch = (mnemonic, address) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const keyPair = algosdk_1.default.mnemonicToSecretKey(mnemonic);
+        return exports.compareAddress(keyPair.addr, address);
+    }
+    catch (err) {
+        return false;
+    }
+});
 const getErc20Matcher = () => {
     return Object.keys(config_1.SECONDARY_NETWORKS).reduce((object, token) => {
         object[token] = exports.ethAddressMatch;
         return object;
     }, {});
 };
-exports.PK_MATCH_ADDRESS = Object.assign(Object.assign({}, getErc20Matcher()), { ETH: exports.ethAddressMatch, BTC: exports.btcAddressMatch, AE: exports.aeAddressMatch, ONE: exports.oneAddressMatch, MATIC: exports.ethAddressMatch, AVAX: exports.ethAddressMatch, BNB: exports.ethAddressMatch });
+exports.PK_MATCH_ADDRESS = Object.assign(Object.assign({}, getErc20Matcher()), { ETH: exports.ethAddressMatch, BTC: exports.btcAddressMatch, ALGO: exports.algoAddressMatch, AE: exports.aeAddressMatch, ONE: exports.oneAddressMatch, MATIC: exports.ethAddressMatch, AVAX: exports.ethAddressMatch, BNB: exports.ethAddressMatch });

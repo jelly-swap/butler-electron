@@ -105,7 +105,6 @@ ipcMain.on(BUTLER_EVENTS.START, (event, config) => {
     butler.on('message', msg => {
       if (event && event.sender && event.sender.send) {
         const channel = msg.TYPE || 'DATA';
-        console.log(channel, msg.DATA);
         event.sender.send(channel, msg.DATA);
       }
     });

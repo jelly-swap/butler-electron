@@ -23,23 +23,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const config_1 = __importDefault(require("./bitcoin/config"));
-const config_2 = __importDefault(require("./ethereum/config"));
-const config_3 = __importDefault(require("./aeternity/config"));
-const config_4 = __importStar(require("./erc20/config"));
-const config_5 = __importDefault(require("./harmony/config"));
-const config_6 = __importDefault(require("./matic/config"));
-const config_7 = __importDefault(require("./avalanche/config"));
-const config_8 = __importDefault(require("./binance/config"));
+const config_2 = __importDefault(require("./algorand/config"));
+const config_3 = __importDefault(require("./ethereum/config"));
+const config_4 = __importDefault(require("./aeternity/config"));
+const config_5 = __importStar(require("./erc20/config"));
+const config_6 = __importDefault(require("./harmony/config"));
+const config_7 = __importDefault(require("./matic/config"));
+const config_8 = __importDefault(require("./avalanche/config"));
+const config_9 = __importDefault(require("./binance/config"));
 const supportedNetworks_1 = __importDefault(require("../config/supportedNetworks"));
 const getErc20Configs = (supportedNetworks) => {
-    return Object.keys(config_4.SECONDARY_NETWORKS).reduce((object, token) => {
+    return Object.keys(config_5.SECONDARY_NETWORKS).reduce((object, token) => {
         if (supportedNetworks[token]) {
-            object[token] = config_4.default(token);
+            object[token] = config_5.default(token);
         }
         return object;
     }, {});
 };
 exports.default = () => {
     const supportedNetworks = supportedNetworks_1.default();
-    return Object.assign({ BTC: supportedNetworks['BTC'] && config_1.default(), ETH: config_2.default(), AE: supportedNetworks['AE'] && config_3.default(), ONE: supportedNetworks['ONE'] && config_5.default(), MATIC: supportedNetworks['MATIC'] && config_6.default(), AVAX: supportedNetworks['AVAX'] && config_7.default(), BNB: supportedNetworks['BNB'] && config_8.default() }, getErc20Configs(supportedNetworks));
+    return Object.assign({ BTC: supportedNetworks['BTC'] && config_1.default(), ALGO: supportedNetworks['ALGO'] && config_2.default(), ETH: config_3.default(), AE: supportedNetworks['AE'] && config_4.default(), ONE: supportedNetworks['ONE'] && config_6.default(), MATIC: supportedNetworks['MATIC'] && config_7.default(), AVAX: supportedNetworks['AVAX'] && config_8.default(), BNB: supportedNetworks['BNB'] && config_9.default() }, getErc20Configs(supportedNetworks));
 };

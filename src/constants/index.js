@@ -19,6 +19,7 @@ export const APP_EVENTS = {
 export const PAIRS = {
   ETH: {
     BTC: 'BTC',
+    ALGO: 'ALGO',
     BNB: 'BNB',
     DAI: 'DAI',
     AE: 'AE',
@@ -29,6 +30,7 @@ export const PAIRS = {
   },
   BTC: {
     ETH: 'ETH',
+    ALGO: 'ALGO',
     BNB: 'BNB',
     DAI: 'DAI',
     TBTC: 'TBTC',
@@ -50,6 +52,7 @@ export const PAIRS = {
   },
   DAI: {
     BTC: 'BTC',
+    ALGO: 'ALGO',
     ETH: 'ETH',
     AVAX: 'AVAX',
   },
@@ -63,17 +66,28 @@ export const PAIRS = {
   },
   USDC: {
     BTC: 'BTC',
+    ALGO: 'ALGO',
     ETH: 'ETH',
   },
   WBTC: {
     BTC: 'BTC',
+    ALGO: 'ALGO',
   },
   TBTC: {
     BTC: 'BTC',
+    ALGO: 'ALGO',
   },
   BNB: {
     BTC: 'BTC',
     ETH: 'ETH',
+  },
+  ALGO: {
+    BTC: 'BTC',
+    ETH: 'ETH',
+    USDC: 'USDC',
+    WBTC: 'WBTC',
+    DAI: 'DAI',
+    TBTC: 'TBTC',
   },
 };
 

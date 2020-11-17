@@ -31,7 +31,7 @@ class SwapRepository {
     create(swap) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield this.swapRepository.save(new model_1.SwapModel(swap.id, swap.outputSwapId, swap.hashLock, swap.transactionHash, swap.sender, swap.receiver, swap.refundAddress, swap.outputAddress, swap.inputAmount, swap.outputAmount, swap.expiration, swap.network, swap.outputNetwork));
+                yield this.swapRepository.save(new model_1.SwapModel(swap.id, swap.outputSwapId, swap.hashLock, swap.transactionHash, swap.sender, swap.receiver, swap.refundAddress, swap.outputAddress, swap.inputAmount, swap.outputAmount, swap.expiration, swap.network, swap.outputNetwork, swap.expireBlock));
             }
             catch (error) {
                 logger_1.logDebug(`SWAP_REPOSITORY_ERROR`, error);

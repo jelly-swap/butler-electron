@@ -13,12 +13,11 @@ exports.default = () => {
     const address = utils_1.safeAccess(userConfig, ['WALLETS', 'ETH', 'ADDRESS']);
     const secret = utils_1.safeAccess(userConfig, ['WALLETS', 'ETH', 'SECRET']);
     const config = Object.assign(Object.assign({}, ethereum_1.Config(7200)), { providerUrl: ((_a = userConfig.BLOCKCHAIN_PROVIDER) === null || _a === void 0 ? void 0 : _a.INFURA) || 'https://mainnet.infura.io/v3/ee13a282868d4e7cb7d9a9543958631d', contractAddress: '0x471B080EffB2bc6fb33c8c6FE6ce1AB46F9f522b', explorer: 'https://etherscan.io/tx/', REFUND_PERIOD: 10, VALID_EXPIRATION: 72000, gasMultiplier: 1 });
-    if (address && secret) {
-        return Object.assign(Object.assign({}, config), { receiverAddress: address, PRIVATE_KEY: secret });
-    }
-    else {
+    if (!(address && secret)) {
         if (supportedNetworks_1.default()['ETH']) {
             throw new Error(`Ethereum ADDRESS and SECRET are missing.`);
         }
+        return Object.assign(Object.assign({}, config), { receiverAddress: address, PRIVATE_KEY: secret });
     }
+    return Object.assign(Object.assign({}, config), { receiverAddress: address, PRIVATE_KEY: secret });
 };

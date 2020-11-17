@@ -68,7 +68,7 @@ const WalletsSetup = () => {
                   type='text'
                   text='Address'
                   value={ADDRESS}
-                  errMessage={validateAddress(walletName, ADDRESS) && `Enter valid ${walletName} address`}
+                  errMessage={!validateAddress(walletName, ADDRESS) && `Enter valid ${walletName} address`}
                   onChange={event => handleAddressOnChange(walletName, event)}
                 />
                 <Input

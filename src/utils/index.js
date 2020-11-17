@@ -1,3 +1,4 @@
+import algosdk from 'algosdk';
 import BigNumber from 'big.js';
 import { ASSETS_MAP } from '../constants/assets';
 import { decrypt, encrypt } from './crypto';
@@ -24,22 +25,18 @@ const ADDRESSES_LENGTH = {
   },
 };
 
-export const getNetworkRegex = network => {
+export const validateAddress = (network, address) => {
   switch (network) {
     case 'BTC':
-      return `^bc1[a-zA-HJ-NP-Z0-9]{${ADDRESSES_LENGTH.BTC.MAX}}$`;
+      return RegExp(`^bc1[a-zA-HJ-NP-Z0-9]{${ADDRESSES_LENGTH.BTC.MAX}}$`).test(address);
+    case 'ALGO':
+      return algosdk.isValidAddress(address);
     case 'AE':
-      return `^ak_[a-zA-Z0-9]{${ADDRESSES_LENGTH.AE.MIN},${ADDRESSES_LENGTH.AE.MAX}}$`;
+      return RegExp(`^ak_[a-zA-Z0-9]{${ADDRESSES_LENGTH.AE.MIN},${ADDRESSES_LENGTH.AE.MAX}}$`).test(address);
     case 'ONE':
-      return `^one1[a-zA-HJ-NP-Z0-9]`;
+      return RegExp(`^one1[a-zA-HJ-NP-Z0-9]`).test(address);
     default:
-      return `^0x[0-9a-fA-F]{${ADDRESSES_LENGTH.ETH.MAX}}$`;
-  }
-};
-
-export const validateAddress = (asset, address) => {
-  if (!new RegExp(getNetworkRegex(asset)).test(address)) {
-    return true;
+      return RegExp(`^0x[0-9a-fA-F]{${ADDRESSES_LENGTH.ETH.MAX}}$`).test(address);
   }
 };
 
@@ -52,14 +49,14 @@ export const getAmount = (amount, network) => {
 };
 
 export const decryptSecrets = async (config, password) => {
-  const decryptedConfig = { ...config };
+  const decryptedConfig = JSON.parse(JSON.stringify(config));
 
-  if (config.ENCRYPTED) {
+  if (decryptedConfig.ENCRYPTED) {
     decryptedConfig.ENCRYPTED = false;
 
-    if (config.WALLETS) {
-      for (const asset in config.WALLETS) {
-        const secret = config.WALLETS[asset].SECRET;
+    if (decryptedConfig.WALLETS) {
+      for (const asset in decryptedConfig.WALLETS) {
+        const secret = decryptedConfig.WALLETS[asset].SECRET;
 
         if (secret) {
           const result = await decrypt(secret, password);
@@ -72,8 +69,8 @@ export const decryptSecrets = async (config, password) => {
       }
     }
 
-    if (config.NOTIFICATIONS?.EMAIL?.ENABLED) {
-      const emailPassword = config.NOTIFICATIONS.EMAIL.PASSWORD;
+    if (decryptedConfig.NOTIFICATIONS?.EMAIL?.ENABLED) {
+      const emailPassword = decryptedConfig.NOTIFICATIONS.EMAIL.PASSWORD;
       const result = await decrypt(emailPassword, password);
 
       if (result.success && result.data) {
@@ -81,8 +78,8 @@ export const decryptSecrets = async (config, password) => {
       }
     }
 
-    if (config.EXCHANGE?.API_KEY) {
-      const exchangeApiKey = config.EXCHANGE.API_KEY;
+    if (decryptedConfig.EXCHANGE?.API_KEY) {
+      const exchangeApiKey = decryptedConfig.EXCHANGE.API_KEY;
       const result = await decrypt(exchangeApiKey, password);
 
       if (result.success && result.data) {
@@ -90,8 +87,8 @@ export const decryptSecrets = async (config, password) => {
       }
     }
 
-    if (config.EXCHANGE?.SECRET_KEY) {
-      const exchangeSecretKey = config.EXCHANGE.SECRET_KEY;
+    if (decryptedConfig.EXCHANGE?.SECRET_KEY) {
+      const exchangeSecretKey = decryptedConfig.EXCHANGE.SECRET_KEY;
       const result = await decrypt(exchangeSecretKey, password);
 
       if (result.success && result.data) {
@@ -104,14 +101,14 @@ export const decryptSecrets = async (config, password) => {
 };
 
 export const encryptSecrets = async (config, password) => {
-  const encryptedConfig = { ...config };
+  const encryptedConfig = JSON.parse(JSON.stringify(config));
 
-  if (!config.ENCRYPTED) {
+  if (!encryptedConfig.ENCRYPTED) {
     encryptedConfig.ENCRYPTED = true;
 
-    if (config.WALLETS) {
-      for (const asset in config.WALLETS) {
-        const secret = config.WALLETS[asset].SECRET;
+    if (encryptedConfig.WALLETS) {
+      for (const asset in encryptedConfig.WALLETS) {
+        const secret = encryptedConfig.WALLETS[asset].SECRET;
         if (secret) {
           const result = await encrypt(secret, password);
           if (result) {
@@ -123,8 +120,8 @@ export const encryptSecrets = async (config, password) => {
       }
     }
 
-    if (config.NOTIFICATIONS?.EMAIL?.ENABLED) {
-      const emailPassword = config.NOTIFICATIONS.EMAIL.PASSWORD;
+    if (encryptedConfig.NOTIFICATIONS?.EMAIL?.ENABLED) {
+      const emailPassword = encryptedConfig.NOTIFICATIONS.EMAIL.PASSWORD;
       const result = await encrypt(emailPassword, password);
       if (result) {
         encryptedConfig.NOTIFICATIONS.EMAIL.PASSWORD = result;
@@ -132,8 +129,8 @@ export const encryptSecrets = async (config, password) => {
         throw new Error('ERROR_ENCRYPTING');
       }
     }
-    if (config.EXCHANGE?.API_KEY) {
-      const exchangeApiKey = config.EXCHANGE.API_KEY;
+    if (encryptedConfig.EXCHANGE?.API_KEY) {
+      const exchangeApiKey = encryptedConfig.EXCHANGE.API_KEY;
       const result = await encrypt(exchangeApiKey, password);
 
       if (result) {
@@ -143,8 +140,8 @@ export const encryptSecrets = async (config, password) => {
       }
     }
 
-    if (config.EXCHANGE?.SECRET_KEY) {
-      const exchangeSecretKey = config.EXCHANGE.SECRET_KEY;
+    if (encryptedConfig.EXCHANGE?.SECRET_KEY) {
+      const exchangeSecretKey = encryptedConfig.EXCHANGE.SECRET_KEY;
       const result = await encrypt(exchangeSecretKey, password);
 
       if (result) {

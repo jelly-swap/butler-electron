@@ -45,7 +45,7 @@ class SwapHandler {
                     const inputAdapter = this.adapters[inputSwap.network];
                     const outputAdapter = this.adapters[inputSwap.outputNetwork];
                     const contract = this.contracts[inputSwap.outputNetwork];
-                    const outputSwap = outputAdapter.createSwapFromInput(Object.assign(Object.assign({}, inputSwap), { outputAmount: this.getLatestOutputAmount(inputSwap) }));
+                    const outputSwap = yield outputAdapter.createSwapFromInput(Object.assign(Object.assign({}, inputSwap), { outputAmount: this.getLatestOutputAmount(inputSwap) }));
                     const validOutputSwap = yield validator_1.isOutputSwapValid(outputSwap, inputSwap.outputAmount);
                     const validInputSwap = yield validator_1.isInputSwapValid(inputSwap);
                     if (validOutputSwap && validInputSwap) {
