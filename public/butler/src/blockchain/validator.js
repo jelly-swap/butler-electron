@@ -103,16 +103,15 @@ exports.isInputSwapValid = (swap) => __awaiter(void 0, void 0, void 0, function*
     return true;
 });
 exports.isOutputSwapValid = (swap, takerDesiredAmount) => __awaiter(void 0, void 0, void 0, function* () {
-    const userConfig = new config_2.default().getUserConfig();
     const blockchainConfig = config_3.default();
     const inputNetworkValidation = utils_1.safeAccess(blockchainConfig, [swap.network]);
     const outputNetworkValidation = utils_1.safeAccess(blockchainConfig, [swap.outputNetwork]);
     if (!inputNetworkValidation) {
-        logger_1.logDebug(`INPUT_CHAIN_VALIDATION_FAILED`, swap);
+        logger_1.logDebug(`OUTPUT_SWAP_INPUT_CHAIN_VALIDATION_FAILED`, swap);
         return false;
     }
     if (!outputNetworkValidation) {
-        logger_1.logDebug(`OUTPUT_CHAIN_VALIDATION_FAILED`, swap);
+        logger_1.logDebug(`OUTPUT_SWAP_OUTPUT_CHAIN_VALIDATION_FAILED`, swap);
         return false;
     }
     if (utils_2.compareAddress(swap.sender, swap.receiver)) {

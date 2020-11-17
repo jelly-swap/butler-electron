@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SwapModel = void 0;
 class SwapModel {
-    constructor(id, outputSwapId, hashLock, transactionHash, sender, receiver, refundAddress, outputAddress, inputAmount, outputAmount, expiration, network, outputNetwork) {
+    constructor(id, outputSwapId, hashLock, transactionHash, sender, receiver, refundAddress, outputAddress, inputAmount, outputAmount, expiration, network, outputNetwork, expireBlock) {
         this.id = id;
         this.outputSwapId = outputSwapId;
         this.hashLock = hashLock;
@@ -16,6 +16,7 @@ class SwapModel {
         this.expiration = expiration;
         this.network = network;
         this.outputNetwork = outputNetwork;
+        this.expireBlock = expireBlock;
         this.id = id;
         this.outputSwapId = outputSwapId;
         this.hashLock = hashLock;
@@ -29,6 +30,7 @@ class SwapModel {
         this.expiration = expiration;
         this.network = network;
         this.outputNetwork = outputNetwork;
+        this.expireBlock = expireBlock;
     }
 }
 exports.SwapModel = SwapModel;

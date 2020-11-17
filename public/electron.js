@@ -77,6 +77,7 @@ const BUTLER_EVENTS = {
   STOP: 'stop-butler',
   STOPPED: 'butler-killed',
   SAVE: 'save-config',
+  SAVED: 'config-saved',
   LOAD: 'load-config',
   LOADED: 'config-loaded',
   ALIVE: 'butler-alive',
@@ -104,7 +105,6 @@ ipcMain.on(BUTLER_EVENTS.START, (event, config) => {
     butler.on('message', msg => {
       if (event && event.sender && event.sender.send) {
         const channel = msg.TYPE || 'DATA';
-        console.log(channel, msg.DATA);
         event.sender.send(channel, msg.DATA);
       }
     });
@@ -130,10 +130,11 @@ ipcMain.on(BUTLER_EVENTS.SAVE, (event, file) => {
   fs.writeFile(configPath, JSON.stringify(file), err => {
     if (err) {
       log.info('Error writing config', err);
+      return;
     }
-  });
 
-  event.preventDefault();
+    event.sender.send(BUTLER_EVENTS.SAVED);
+  });
 });
 
 ipcMain.on(BUTLER_EVENTS.LOAD, (event, defaultConfig) => {

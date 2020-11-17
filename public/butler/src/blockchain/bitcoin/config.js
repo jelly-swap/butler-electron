@@ -11,7 +11,7 @@ exports.default = () => {
     const userConfig = new config_1.default().getUserConfig();
     const address = utils_1.safeAccess(userConfig, ['WALLETS', 'BTC', 'ADDRESS']);
     const secret = utils_1.safeAccess(userConfig, ['WALLETS', 'BTC', 'SECRET']);
-    const config = Object.assign(Object.assign({}, bitcoin_1.Config(14400)), { providerUrl: 'https://spacejelly.network/btc/api/v1/btc/', apiProviderUrl: 'https://spacejelly.network/btc/api/v1/btc/', explorer: 'https://blockstream.info/tx/', REFUND_PERIOD: 10, REFUND_BLOCKS: 500, VALID_EXPIRATION: 72000, NETWORK: btc_utils_1.Networks.bitcoin });
+    const config = Object.assign(Object.assign({}, bitcoin_1.Config(14400)), { providerUrl: 'https://spacejelly.network/btc/api/v1/btc/', apiProviderUrl: 'https://spacejelly.network/btc/api/v1/btc/', explorer: 'https://blockstream.info/tx/', REFUND_PERIOD: 10, VALID_EXPIRATION: 72000, NETWORK: btc_utils_1.Networks.bitcoin });
     if (address && secret) {
         return Object.assign(Object.assign({}, config), { receiverAddress: address, REFUND: address, SEED: secret });
     }

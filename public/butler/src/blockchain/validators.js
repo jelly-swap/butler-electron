@@ -20,6 +20,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const BitcoinValidator = __importStar(require("./bitcoin/validator"));
+const AlgorandValidator = __importStar(require("./algorand/validator"));
 const EthereumValidator = __importStar(require("./ethereum/validator"));
 const AeternityValidator = __importStar(require("./aeternity/validator"));
 const Erc20Validator = __importStar(require("./erc20/validator"));
@@ -34,4 +35,4 @@ const getErc20Validators = () => {
         return object;
     }, {});
 };
-exports.default = Object.assign({ BTC: BitcoinValidator, ETH: EthereumValidator, AE: AeternityValidator, ONE: HarmonyValidator, MATIC: MaticValidator, AVAX: AvalancheValidator, BNB: BinanceValidator }, getErc20Validators());
+exports.default = Object.assign({ BTC: BitcoinValidator, ALGO: AlgorandValidator, ETH: EthereumValidator, AE: AeternityValidator, ONE: HarmonyValidator, MATIC: MaticValidator, AVAX: AvalancheValidator, BNB: BinanceValidator }, getErc20Validators());

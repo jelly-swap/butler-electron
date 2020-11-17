@@ -7,6 +7,7 @@ exports.getNetworkContracts = void 0;
 const config_1 = __importDefault(require("./config"));
 const config_2 = require("./erc20/config");
 const bitcoin_1 = __importDefault(require("./bitcoin"));
+const algorand_1 = __importDefault(require("./algorand"));
 const ethereum_1 = __importDefault(require("./ethereum"));
 const aeternity_1 = __importDefault(require("./aeternity"));
 const erc20_1 = __importDefault(require("./erc20"));
@@ -27,7 +28,7 @@ const getErc20Contracts = (config) => {
 const getContracts = () => {
     if (!Contracts) {
         const Config = config_1.default();
-        const AllContracts = Object.assign(Object.assign({}, getErc20Contracts(Config)), { ETH: Config.ETH && new ethereum_1.default(Config.ETH), BTC: Config.BTC && new bitcoin_1.default(Config.BTC), AE: Config.AE && new aeternity_1.default(Config.AE), ONE: Config.ONE && new harmony_1.default(Config.ONE), MATIC: Config.MATIC && new matic_1.default(Config.MATIC), AVAX: Config.AVAX && new avalanche_1.default(Config.AVAX), BNB: Config.BNB && new binance_1.default(Config.BNB) });
+        const AllContracts = Object.assign(Object.assign({}, getErc20Contracts(Config)), { ETH: new ethereum_1.default(Config.ETH), BTC: Config.BTC && new bitcoin_1.default(Config.BTC), ALGO: Config.ALGO && new algorand_1.default(Config.ALGO), AE: Config.AE && new aeternity_1.default(Config.AE), ONE: Config.ONE && new harmony_1.default(Config.ONE), MATIC: Config.MATIC && new matic_1.default(Config.MATIC), AVAX: Config.AVAX && new avalanche_1.default(Config.AVAX), BNB: Config.BNB && new binance_1.default(Config.BNB) });
         Contracts = Object.entries(AllContracts).reduce((a, [k, v]) => (v === undefined ? a : Object.assign(Object.assign({}, a), { [k]: v })), {});
     }
     return Contracts;

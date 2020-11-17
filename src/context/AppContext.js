@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useReducer, useCallback, useEffect } from 'react';
 import { useEventDispatch } from './EventContext';
 
-import { APP_EVENTS, BUTLER_EVENTS } from '../constants';
+import { BUTLER_EVENTS } from '../constants';
 
 import { receiveAllFromMain, sendFromRenderer } from '../utils/electronAPI';
 
 const UPDATE = 'UPDATE';
+const TOGGLE_SECRET = 'TOGGLE_SECRET';
 
 const AppContext = createContext();
 
@@ -21,8 +22,17 @@ function reducer(state, { type, payload }) {
         updatedState.serverStarted = true;
       } else if (payload.msg === 'SERVER_STOPPED') {
         updatedState.serverStarted = false;
+        updatedState.fileSaved = false;
+      } else if (payload.msg === 'FILE_SAVED') {
+        updatedState.fileSaved = true;
       }
 
+      return updatedState;
+    }
+
+    case TOGGLE_SECRET: {
+      const updatedState = { ...state };
+      updatedState.isVisibleSecret = false;
       return updatedState;
     }
 
@@ -38,12 +48,15 @@ export function Updater() {
 
   useEffect(() => {
     receiveAllFromMain('SERVER', (event, data) => {
-      dispatchEvent(APP_EVENTS.SERVER_DATA, data);
       update(data);
     });
 
     receiveAllFromMain(BUTLER_EVENTS.STOPPED, () => {
       dispatchEvent(BUTLER_EVENTS.STOPPED);
+    });
+
+    receiveAllFromMain(BUTLER_EVENTS.SAVED, () => {
+      update({ msg: 'FILE_SAVED' });
     });
 
     receiveAllFromMain(BUTLER_EVENTS.DIED, () => {
@@ -63,7 +76,13 @@ export function Updater() {
 }
 
 export default function Provider({ children }) {
-  const [state, dispatch] = useReducer(reducer, { serverStarted: false });
+  const [state, dispatch] = useReducer(reducer, { serverStarted: false, isVisibleSecret: true });
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch({ type: TOGGLE_SECRET });
+    }, 60000);
+  }, []);
 
   const update = useCallback(payload => {
     dispatch({ type: UPDATE, payload });

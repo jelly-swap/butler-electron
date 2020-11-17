@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 let Swap = class Swap {
-    constructor(id, outputSwapId, hashLock, transactionHash, sender, receiver, refundAddress, outputAddress, inputAmount, outputAmount, expiration, network, outputNetwork) {
+    constructor(id, outputSwapId, hashLock, transactionHash, sender, receiver, refundAddress, outputAddress, inputAmount, outputAmount, expiration, network, outputNetwork, expireBlock) {
         this.id = id;
         this.outputSwapId = outputSwapId;
         this.hashLock = hashLock;
@@ -25,6 +25,7 @@ let Swap = class Swap {
         this.expiration = expiration;
         this.network = network;
         this.outputNetwork = outputNetwork;
+        this.expireBlock = expireBlock;
     }
 };
 __decorate([
@@ -77,6 +78,10 @@ __decorate([
     __metadata("design:type", Number)
 ], Swap.prototype, "expiration", void 0);
 __decorate([
+    typeorm_1.Column({ nullable: true }),
+    __metadata("design:type", Number)
+], Swap.prototype, "expireBlock", void 0);
+__decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
 ], Swap.prototype, "network", void 0);
@@ -90,6 +95,6 @@ __decorate([
 ], Swap.prototype, "createdAt", void 0);
 Swap = __decorate([
     typeorm_1.Entity('swap'),
-    __metadata("design:paramtypes", [String, String, String, String, String, String, String, String, Number, Number, Number, String, String])
+    __metadata("design:paramtypes", [String, String, String, String, String, String, String, String, Number, Number, Number, String, String, Number])
 ], Swap);
 exports.default = Swap;
