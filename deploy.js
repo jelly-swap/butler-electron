@@ -60,7 +60,11 @@ async function deployToFirebase(filesName, filesData) {
     // Save download urls in butlerUrls collection (firestore)
     await Promise.all(
       downloadUrls.map((downloadUrl, idx) =>
-        app.firestore().collection('butlerUrls').doc(getDocName(filesName[idx])).set({ downloadUrl }),
+        app
+          .firestore()
+          .collection('butlerUrls')
+          .doc(getDocName(filesName[idx]))
+          .set({ [getDocName(filesName[idx])]: downloadUrl }),
       ),
     );
 
