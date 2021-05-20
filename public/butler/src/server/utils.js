@@ -11,18 +11,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.applyRoutes = exports.applyMiddleware = exports.startTasks = void 0;
 const logger_1 = require("../logger");
-exports.startTasks = (tasks) => __awaiter(void 0, void 0, void 0, function* () {
+const startTasks = (tasks) => __awaiter(void 0, void 0, void 0, function* () {
     for (const t of tasks) {
         logger_1.logData(`Starting ${t.name}`);
         yield t.start();
     }
 });
-exports.applyMiddleware = (middlewareWrappers, router) => {
+exports.startTasks = startTasks;
+const applyMiddleware = (middlewareWrappers, router) => {
     for (const wrapper of middlewareWrappers) {
         wrapper(router);
     }
 };
-exports.applyRoutes = (routes, router) => {
+exports.applyMiddleware = applyMiddleware;
+const applyRoutes = (routes, router) => {
     routes.forEach((route) => {
         const { method, controller, action } = route;
         router[method](route.route, (req, res, next) => {
@@ -36,3 +38,4 @@ exports.applyRoutes = (routes, router) => {
         });
     });
 };
+exports.applyRoutes = applyRoutes;

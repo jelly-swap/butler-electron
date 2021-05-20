@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.fetchWithdraws = exports.fetchExpiredSwaps = exports.fetchSwaps = void 0;
 const axios_1 = __importDefault(require("axios"));
 const logger_1 = require("../logger");
-exports.fetchSwaps = (url, login, expiration = 1) => __awaiter(void 0, void 0, void 0, function* () {
+const fetchSwaps = (url, login, expiration = 1) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (login) {
             const res = yield axios_1.default.get(`https://${url}/api/v1/swaps/receiver/${login}/expiration/${expiration}`);
@@ -31,7 +31,8 @@ exports.fetchSwaps = (url, login, expiration = 1) => __awaiter(void 0, void 0, v
         return [];
     }
 });
-exports.fetchExpiredSwaps = (url, login, status = 4) => __awaiter(void 0, void 0, void 0, function* () {
+exports.fetchSwaps = fetchSwaps;
+const fetchExpiredSwaps = (url, login, status = 4) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (login) {
             const res = yield axios_1.default.get(`https://${url}/api/v1/swaps/sender/${login}/status/${status}`);
@@ -47,7 +48,8 @@ exports.fetchExpiredSwaps = (url, login, status = 4) => __awaiter(void 0, void 0
         return [];
     }
 });
-exports.fetchWithdraws = (url, login, expiration = 1) => __awaiter(void 0, void 0, void 0, function* () {
+exports.fetchExpiredSwaps = fetchExpiredSwaps;
+const fetchWithdraws = (url, login, expiration = 1) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (login) {
             const res = yield axios_1.default.get(`https://${url}/api/v1/withdraws/sender/${login}/expiration/${expiration}`);
@@ -63,3 +65,4 @@ exports.fetchWithdraws = (url, login, expiration = 1) => __awaiter(void 0, void 
         return [];
     }
 });
+exports.fetchWithdraws = fetchWithdraws;

@@ -27,6 +27,7 @@ export const PAIRS = {
     USDC: 'USDC',
     ONE: 'ONE',
     AVAX: 'AVAX',
+    XDC: 'XDC'
   },
   BTC: {
     ETH: 'ETH',
@@ -40,6 +41,7 @@ export const PAIRS = {
     WBTC: 'WBTC',
     ONE: 'ONE',
     AE: 'AE',
+    XDC: 'XDC'
   },
   ONE: {
     BTC: 'BTC',
@@ -78,6 +80,10 @@ export const PAIRS = {
     ALGO: 'ALGO',
   },
   BNB: {
+    BTC: 'BTC',
+    ETH: 'ETH',
+  },
+  XDC: {
     BTC: 'BTC',
     ETH: 'ETH',
   },

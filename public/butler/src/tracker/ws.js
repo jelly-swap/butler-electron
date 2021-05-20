@@ -8,7 +8,7 @@ const ws_1 = __importDefault(require("ws"));
 const emitter_1 = __importDefault(require("../emitter"));
 const logger_1 = require("../logger");
 let ws = null;
-exports.subscribe = (url) => {
+const subscribe = (url) => {
     if (!ws) {
         ws = new ws_1.default(`wss://${url}/subscribe`);
         ws.onopen = () => {
@@ -30,3 +30,4 @@ exports.subscribe = (url) => {
         };
     }
 };
+exports.subscribe = subscribe;

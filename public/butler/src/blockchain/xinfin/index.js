@@ -13,7 +13,7 @@ const avalanche_1 = require("@jelly-swap/avalanche");
 const providers_1 = require("@jelly-swap/avalanche/dist/src/providers");
 const math_1 = require("../../utils/math");
 const DEFAULT_OPTIONS = { gasPrice: '0x6D6E2EDC00', gasLimit: 350000 };
-class BinanceContract extends avalanche_1.Contract {
+class XinfinContract extends avalanche_1.Contract {
     constructor(config) {
         const _wallet = new providers_1.WalletProvider(config.PRIVATE_KEY, config);
         super(_wallet, config);
@@ -64,4 +64,4 @@ class BinanceContract extends avalanche_1.Contract {
         });
     }
 }
-exports.default = BinanceContract;
+exports.default = XinfinContract;

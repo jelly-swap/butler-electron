@@ -14,7 +14,7 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
 };
@@ -28,6 +28,7 @@ const HarmonyValidator = __importStar(require("./harmony/validator"));
 const MaticValidator = __importStar(require("./matic/validator"));
 const AvalancheValidator = __importStar(require("./avalanche/validator"));
 const BinanceValidator = __importStar(require("./binance/validator"));
+const XinfinValidator = __importStar(require("./xinfin/validator"));
 const config_1 = require("./erc20/config");
 const getErc20Validators = () => {
     return Object.keys(config_1.SECONDARY_NETWORKS).reduce((object, token) => {
@@ -35,4 +36,4 @@ const getErc20Validators = () => {
         return object;
     }, {});
 };
-exports.default = Object.assign({ BTC: BitcoinValidator, ALGO: AlgorandValidator, ETH: EthereumValidator, AE: AeternityValidator, ONE: HarmonyValidator, MATIC: MaticValidator, AVAX: AvalancheValidator, BNB: BinanceValidator }, getErc20Validators());
+exports.default = Object.assign({ BTC: BitcoinValidator, ALGO: AlgorandValidator, ETH: EthereumValidator, AE: AeternityValidator, ONE: HarmonyValidator, MATIC: MaticValidator, AVAX: AvalancheValidator, BNB: BinanceValidator, XDC: XinfinValidator }, getErc20Validators());

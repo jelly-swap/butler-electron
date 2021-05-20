@@ -14,7 +14,7 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
 };
@@ -31,6 +31,7 @@ const config_6 = __importDefault(require("./harmony/config"));
 const config_7 = __importDefault(require("./matic/config"));
 const config_8 = __importDefault(require("./avalanche/config"));
 const config_9 = __importDefault(require("./binance/config"));
+const config_10 = __importDefault(require("./xinfin/config"));
 const supportedNetworks_1 = __importDefault(require("../config/supportedNetworks"));
 const getErc20Configs = (supportedNetworks) => {
     return Object.keys(config_5.SECONDARY_NETWORKS).reduce((object, token) => {
@@ -42,5 +43,5 @@ const getErc20Configs = (supportedNetworks) => {
 };
 exports.default = () => {
     const supportedNetworks = supportedNetworks_1.default();
-    return Object.assign({ BTC: supportedNetworks['BTC'] && config_1.default(), ALGO: supportedNetworks['ALGO'] && config_2.default(), ETH: config_3.default(), AE: supportedNetworks['AE'] && config_4.default(), ONE: supportedNetworks['ONE'] && config_6.default(), MATIC: supportedNetworks['MATIC'] && config_7.default(), AVAX: supportedNetworks['AVAX'] && config_8.default(), BNB: supportedNetworks['BNB'] && config_9.default() }, getErc20Configs(supportedNetworks));
+    return Object.assign({ BTC: supportedNetworks['BTC'] && config_1.default(), ALGO: supportedNetworks['ALGO'] && config_2.default(), ETH: config_3.default(), AE: supportedNetworks['AE'] && config_4.default(), ONE: supportedNetworks['ONE'] && config_6.default(), MATIC: supportedNetworks['MATIC'] && config_7.default(), AVAX: supportedNetworks['AVAX'] && config_8.default(), BNB: supportedNetworks['BNB'] && config_9.default(), XDC: supportedNetworks['XDC'] && config_10.default() }, getErc20Configs(supportedNetworks));
 };

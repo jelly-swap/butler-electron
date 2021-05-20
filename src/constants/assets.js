@@ -88,6 +88,14 @@ export const ASSETS_MAP = {
     addressExplorer: 'https://algoexplorer.io/address/',
   },
 
+  XDC: {
+    name: 'Xinfin',
+    symbol: 'XDC',
+    decimals: 18,
+    txExplorer: 'https://explorer.xinfin.network/tx/',
+    addressExplorer: 'https://explorer.xinfin.network/addr/',
+  },
+
   TBTC: {
     name: 'tBTC',
     symbol: 'TBTC',
