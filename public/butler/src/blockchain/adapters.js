@@ -25,7 +25,7 @@ const getErc20Adapters = (config) => {
 exports.default = () => {
     if (!Adapters) {
         const Config = config_1.default();
-        const AllAdapters = Object.assign(Object.assign({}, getErc20Adapters(Config)), { ETH: new ethereum_1.Adapter(Config.ETH), BTC: Config.BTC && new bitcoin_1.Adapter(Config.BTC), ALGO: Config.ALGO && new algorand_1.Adapter(Config.ALGO), AE: Config.AE && new aeternity_1.Adapter(Config.AE), ONE: Config.ONE && new harmony_1.Adapter(Config.ONE), MATIC: Config.MATIC && new matic_1.Adapter(Config.MATIC), AVAX: Config.AVAX && new avalanche_1.Adapter(Config.AVAX), BNB: Config.BNB && new avalanche_1.Adapter(Config.BNB) });
+        const AllAdapters = Object.assign(Object.assign({}, getErc20Adapters(Config)), { ETH: new ethereum_1.Adapter(Config.ETH), BTC: Config.BTC && new bitcoin_1.Adapter(Config.BTC), ALGO: Config.ALGO && new algorand_1.Adapter(Config.ALGO), AE: Config.AE && new aeternity_1.Adapter(Config.AE), ONE: Config.ONE && new harmony_1.Adapter(Config.ONE), MATIC: Config.MATIC && new matic_1.Adapter(Config.MATIC), AVAX: Config.AVAX && new avalanche_1.Adapter(Config.AVAX), BNB: Config.BNB && new avalanche_1.Adapter(Config.BNB), XDC: Config.XDC && new avalanche_1.Adapter(Config.XDC) });
         Adapters = Object.entries(AllAdapters).reduce((a, [k, v]) => (v === undefined ? a : Object.assign(Object.assign({}, a), { [k]: v })), {});
     }
     return Adapters;

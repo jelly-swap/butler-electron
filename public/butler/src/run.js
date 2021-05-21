@@ -28,7 +28,7 @@ const user_config_1 = __importDefault(require("../user-config"));
 const database_1 = __importDefault(require("./config/database"));
 const config_1 = __importDefault(require("./config"));
 const utils_2 = require("./blockchain/utils");
-exports.run = (config = user_config_1.default, combinedFile, errorFile) => __awaiter(void 0, void 0, void 0, function* () {
+const run = (config = user_config_1.default, combinedFile, errorFile) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         logger_1.setLoggerConfig(combinedFile, errorFile);
         new config_1.default().setUserConfig(config);
@@ -51,6 +51,7 @@ exports.run = (config = user_config_1.default, combinedFile, errorFile) => __awa
         return false;
     }
 });
+exports.run = run;
 const validateAddresses = (config) => __awaiter(void 0, void 0, void 0, function* () {
     logger_1.logData('Validating...');
     for (const network in config.WALLETS) {

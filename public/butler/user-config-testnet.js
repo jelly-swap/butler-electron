@@ -98,6 +98,8 @@ exports.default = {
             URL: 'mongodb://db:27017/butler',
             AUTH: 'admin',
             MONGO_PASSWORD: process.env.MONGO_PASSWORD,
+            //Manual setup
+            //URL: 'mongodb://localhost:27017/butler',
         },
         SQLITE: {
             database: 'butler.sqlite',

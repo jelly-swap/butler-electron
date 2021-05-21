@@ -17,7 +17,7 @@ const swap_1 = __importDefault(require("./swap"));
 const withdraw_1 = __importDefault(require("./withdraw"));
 const emitter_1 = __importDefault(require("../../emitter"));
 const refund_1 = __importDefault(require("./refund"));
-exports.startHandlers = () => __awaiter(void 0, void 0, void 0, function* () {
+const startHandlers = () => __awaiter(void 0, void 0, void 0, function* () {
     const emitter = new emitter_1.default();
     const swapHandler = new swap_1.default();
     const withdrawHandler = new withdraw_1.default();
@@ -30,3 +30,4 @@ exports.startHandlers = () => __awaiter(void 0, void 0, void 0, function* () {
         yield refundHandler.processRefunds(expiredSwaps);
     }));
 });
+exports.startHandlers = startHandlers;

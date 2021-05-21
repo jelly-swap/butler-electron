@@ -4,7 +4,7 @@ exports.logData = exports.logDebug = exports.logError = exports.logWarn = export
 const winston_1 = require("winston");
 const config_1 = require("./config");
 let logger;
-exports.setLoggerConfig = (combinedFile, errorFile) => {
+const setLoggerConfig = (combinedFile, errorFile) => {
     logger = winston_1.createLogger({
         exitOnError: false,
         levels: config_1.Config.levels,
@@ -22,11 +22,17 @@ exports.setLoggerConfig = (combinedFile, errorFile) => {
         ],
     });
 };
-exports.logInfo = (msg, data) => log('info', msg, data);
-exports.logWarn = (msg, data) => log('warn', msg, data);
-exports.logError = (msg, data) => log('error', msg, data);
-exports.logDebug = (msg, data) => log('debug', msg, data);
-exports.logData = (msg, data) => log('data', msg, data);
+exports.setLoggerConfig = setLoggerConfig;
+const logInfo = (msg, data) => log('info', msg, data);
+exports.logInfo = logInfo;
+const logWarn = (msg, data) => log('warn', msg, data);
+exports.logWarn = logWarn;
+const logError = (msg, data) => log('error', msg, data);
+exports.logError = logError;
+const logDebug = (msg, data) => log('debug', msg, data);
+exports.logDebug = logDebug;
+const logData = (msg, data) => log('data', msg, data);
+exports.logData = logData;
 const FORWARD_LOG_LEVEL = ['error', 'data'];
 const log = (level, msg, data) => {
     if (data) {

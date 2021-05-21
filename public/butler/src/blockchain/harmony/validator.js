@@ -10,10 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateWithdraw = exports.validateNewContract = void 0;
-exports.validateNewContract = (__swap) => __awaiter(void 0, void 0, void 0, function* () {
+const validateNewContract = (__swap) => __awaiter(void 0, void 0, void 0, function* () {
     return true;
 });
-exports.validateWithdraw = (__withdraw) => __awaiter(void 0, void 0, void 0, function* () {
+exports.validateNewContract = validateNewContract;
+const validateWithdraw = (__withdraw) => __awaiter(void 0, void 0, void 0, function* () {
     //If the withdraw event is triggered the withdraw is valid, No validation logic is needed
     return true;
 });
+exports.validateWithdraw = validateWithdraw;

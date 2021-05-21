@@ -15,6 +15,7 @@ const harmony_1 = __importDefault(require("./harmony"));
 const matic_1 = __importDefault(require("./matic"));
 const avalanche_1 = __importDefault(require("./avalanche"));
 const binance_1 = __importDefault(require("./binance"));
+const xinfin_1 = __importDefault(require("./xinfin"));
 let Contracts;
 let NetworkContracts;
 const getErc20Contracts = (config) => {
@@ -28,12 +29,12 @@ const getErc20Contracts = (config) => {
 const getContracts = () => {
     if (!Contracts) {
         const Config = config_1.default();
-        const AllContracts = Object.assign(Object.assign({}, getErc20Contracts(Config)), { ETH: new ethereum_1.default(Config.ETH), BTC: Config.BTC && new bitcoin_1.default(Config.BTC), ALGO: Config.ALGO && new algorand_1.default(Config.ALGO), AE: Config.AE && new aeternity_1.default(Config.AE), ONE: Config.ONE && new harmony_1.default(Config.ONE), MATIC: Config.MATIC && new matic_1.default(Config.MATIC), AVAX: Config.AVAX && new avalanche_1.default(Config.AVAX), BNB: Config.BNB && new binance_1.default(Config.BNB) });
+        const AllContracts = Object.assign(Object.assign({}, getErc20Contracts(Config)), { ETH: new ethereum_1.default(Config.ETH), BTC: Config.BTC && new bitcoin_1.default(Config.BTC), ALGO: Config.ALGO && new algorand_1.default(Config.ALGO), AE: Config.AE && new aeternity_1.default(Config.AE), ONE: Config.ONE && new harmony_1.default(Config.ONE), MATIC: Config.MATIC && new matic_1.default(Config.MATIC), AVAX: Config.AVAX && new avalanche_1.default(Config.AVAX), BNB: Config.BNB && new binance_1.default(Config.BNB), XDC: Config.XDC && new xinfin_1.default(Config.XDC) });
         Contracts = Object.entries(AllContracts).reduce((a, [k, v]) => (v === undefined ? a : Object.assign(Object.assign({}, a), { [k]: v })), {});
     }
     return Contracts;
 };
-exports.getNetworkContracts = () => {
+const getNetworkContracts = () => {
     if (!NetworkContracts) {
         NetworkContracts = Object.entries(Contracts).reduce((a, [k, v]) => {
             if (config_2.SECONDARY_NETWORKS[k]) {
@@ -47,4 +48,5 @@ exports.getNetworkContracts = () => {
     }
     return NetworkContracts;
 };
+exports.getNetworkContracts = getNetworkContracts;
 exports.default = getContracts;
