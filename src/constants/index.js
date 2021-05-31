@@ -82,10 +82,12 @@ export const PAIRS = {
   BNB: {
     BTC: 'BTC',
     ETH: 'ETH',
+    XDC: 'XDC',
   },
   XDC: {
     BTC: 'BTC',
     ETH: 'ETH',
+    BNB: 'BNB',
   },
   ALGO: {
     BTC: 'BTC',
